@@ -2,19 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.2.0.4</Version>
+    <Version>0.3.0</Version>
     <Authors>zmjack</Authors>
     <Company>dawnx.net</Company>
     <Description>Linq extension makes linq more smarter.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/zmjack/Dawnx</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/zmjack/NLinq</PackageProjectUrl>
     <Copyright>Copyright © dawnx.net 2018-2019</Copyright>
     <PackageIconUrl />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/zmjack/NLinq</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DawnxLite" Version="1.30.0" />
+    <PackageReference Include="DawnxLite" Version="1.31.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.1.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />

@@ -25,4 +25,8 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NLinq\NLinq.csproj" />
+  </ItemGroup>
+
 </Project>
