@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using Xunit;
 
@@ -37,7 +38,6 @@ namespace NLinq.Test
 
                 tx.Commit();
             }
-
         }
 
     }
