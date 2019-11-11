@@ -27,6 +27,9 @@ namespace NLinq.Test
         public DbSet<SimpleModel> SimpleModels { get; set; }
         public DbSet<CPKeyModel> CompositeKeyModels { get; set; }
         public DbSet<FreeModel> FreeModels { get; set; }
+        public DbSet<EntityTrackModel1> EntityTrackModel1s { get; set; }
+        public DbSet<EntityTrackModel2> EntityTrackModel2s { get; set; }
+        public DbSet<EntityTrackModel3> EntityTrackModel3s { get; set; }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
