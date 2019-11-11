@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NLinq.Strategies;
+using NStandard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace NLinq
 
             var predicate = ensureConditions.Select(x => Expression.Lambda<Func<TEntity, bool>>(
                 Expression.Equal(
-                    (x.Expression.RebindParameter(x.Expression.Parameters[0], parameter).Body as UnaryExpression).Operand,
+                    x.Expression.RebindParameter(x.Expression.Parameters[0], parameter).Body.For(body => (body as UnaryExpression)?.Operand ?? body),
                     Expression.Constant(x.ExpectedValue)),
                 parameter)).LambdaJoin(Expression.AndAlso);
 
@@ -28,7 +29,7 @@ namespace NLinq
                 var item = new TEntity();
                 foreach (var pair in ensureConditions)
                 {
-                    var propName = ((pair.Expression.Body as UnaryExpression).Operand as MemberExpression).Member.Name;
+                    var propName = (pair.Expression.Body.For(body => (body as UnaryExpression)?.Operand ?? body) as MemberExpression).Member.Name;
                     var prop = typeof(TEntity).GetProperty(propName);
                     prop.SetValue(item, pair.ExpectedValue);
                 }
