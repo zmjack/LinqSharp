@@ -34,7 +34,9 @@ namespace NLinq
             }
             else
             {
-                EntityEntries = ChangeTracker.Entries().Where(x => UpdateEntityList.Contains(x.Entity)).ToArray();
+                EntityEntries = ChangeTracker.Entries()
+                    .Where(x => !EntityEntries.Contains(x.Entity))
+                    .Where(x => UpdateEntityList.Contains(x.Entity)).ToArray();
                 UpdateEntityList = new HashSet<object>();
             }
 
