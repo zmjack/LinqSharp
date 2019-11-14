@@ -12,12 +12,14 @@ namespace NLinq
         public EntityEntry[] EntityEntries;
         private readonly ChangeTracker ChangeTracker;
         private HashSet<object> UpdateEntityList;
+        private HashSet<object> HasUpdatedEntityList;
 
         public EntityTracker(ChangeTracker changeTracker, EntityEntry[] defaultEntityEntries)
         {
             ChangeTracker = changeTracker;
             DefaultEntityEntries = defaultEntityEntries;
             UpdateEntityList = new HashSet<object>();
+            HasUpdatedEntityList = new HashSet<object>();
         }
 
         public void Update(object entity)
@@ -34,8 +36,11 @@ namespace NLinq
             }
             else
             {
+                foreach (var entry in EntityEntries)
+                    HasUpdatedEntityList.Add(entry.Entity);
+
                 EntityEntries = ChangeTracker.Entries()
-                    .Where(x => !EntityEntries.Contains(x.Entity))
+                    .Where(x => !HasUpdatedEntityList.Contains(x.Entity))
                     .Where(x => UpdateEntityList.Contains(x.Entity)).ToArray();
                 UpdateEntityList = new HashSet<object>();
             }
