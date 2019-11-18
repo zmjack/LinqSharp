@@ -24,25 +24,22 @@ namespace NLinq.Test
         {
         }
 
-        public void OnDeleting(ApplicationDbContext context, EntityTracker tracker)
+        public void OnDeleting(ApplicationDbContext context)
         {
             var super = context.EntityTrackModel2s.Find(Super);
             super.GroupQuantity -= Quantity;
-            tracker.Update(super);
         }
 
-        public void OnInserting(ApplicationDbContext context, EntityTracker tracker)
+        public void OnInserting(ApplicationDbContext context)
         {
             var super = context.EntityTrackModel2s.Find(Super);
             super.GroupQuantity += Quantity;
-            tracker.Update(super);
         }
 
-        public void OnUpdating(ApplicationDbContext context, EntityTracker tracker, EntityTrackModel3 origin)
+        public void OnUpdating(ApplicationDbContext context, EntityTrackModel3 origin)
         {
             var super = context.EntityTrackModel2s.Find(Super);
             super.GroupQuantity += Quantity - origin.Quantity;
-            tracker.Update(super);
         }
 
     }

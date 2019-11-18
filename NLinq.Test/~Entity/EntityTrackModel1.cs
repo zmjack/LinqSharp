@@ -20,15 +20,15 @@ namespace NLinq.Test
         {
         }
 
-        public void OnDeleting(ApplicationDbContext context, EntityTracker tracker)
+        public void OnDeleting(ApplicationDbContext context)
         {
         }
 
-        public void OnInserting(ApplicationDbContext context, EntityTracker tracker)
+        public void OnInserting(ApplicationDbContext context)
         {
         }
 
-        public void OnUpdating(ApplicationDbContext context, EntityTracker tracker, EntityTrackModel1 origin)
+        public void OnUpdating(ApplicationDbContext context, EntityTrackModel1 origin)
         {
         }
 

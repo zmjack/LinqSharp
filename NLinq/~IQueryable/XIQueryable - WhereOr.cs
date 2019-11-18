@@ -8,6 +8,7 @@ namespace NLinq
 {
     public static partial class XIQueryable
     {
+        [Obsolete("This method maybe will be removed. Use Begin instead.")]
         public static IQueryable<TSource> WhereOr<TSource>(this IQueryable<TSource> @this, params Expression<Func<TSource, bool>>[] predicates)
         {
             var parameter = predicates[0].Parameters[0];
@@ -16,6 +17,7 @@ namespace NLinq
                 .LambdaJoin(Expression.OrElse));
         }
 
+        [Obsolete("This method maybe will be removed.")]
         public static IQueryable<TSource> WhereOrEx<TSource, TAnonymous>(this IQueryable<TSource> @this, IEnumerable<TAnonymous> anonymousArray)
         {
             var parameter = Expression.Parameter(typeof(TSource));
