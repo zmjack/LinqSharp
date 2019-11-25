@@ -9,14 +9,14 @@ namespace NLinq
 {
     public static partial class XIQueryable
     {
-        public static WhereExpressionBuilder<TSource> Begin<TSource>(this IQueryable<TSource> @this)
+        public static QueryableWhereExpressionBuilder<TSource> Begin<TSource>(this IQueryable<TSource> @this)
         {
-            return new WhereExpressionBuilder<TSource>(@this);
+            return new QueryableWhereExpressionBuilder<TSource>(@this);
         }
 
-        public static WhereExpressionBuilder<TSource> Begin<TSource>(this IQueryable<TSource> @this, Expression<Func<TSource, bool>> predicate)
+        public static QueryableWhereExpressionBuilder<TSource> Begin<TSource>(this IQueryable<TSource> @this, Expression<Func<TSource, bool>> predicate)
         {
-            return new WhereExpressionBuilder<TSource>(@this, predicate);
+            return new QueryableWhereExpressionBuilder<TSource>(@this, predicate);
         }
 
     }

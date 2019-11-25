@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,20 +27,32 @@ namespace NLinq.Test
 
         public void OnDeleting(ApplicationDbContext context)
         {
-            var super = context.EntityTrackModel2s.Find(Super);
+            var super = context.EntityTrackModel2s
+                .Include(x => x.SuperLink)
+                .First(x => x.Id == Super);
+
             super.GroupQuantity -= Quantity;
+            super.SuperLink.TotalQuantity -= Quantity;
         }
 
         public void OnInserting(ApplicationDbContext context)
         {
-            var super = context.EntityTrackModel2s.Find(Super);
+            var super = context.EntityTrackModel2s
+                .Include(x => x.SuperLink)
+                .First(x => x.Id == Super);
+
             super.GroupQuantity += Quantity;
+            super.SuperLink.TotalQuantity += Quantity;
         }
 
         public void OnUpdating(ApplicationDbContext context, EntityTrackModel3 origin)
         {
-            var super = context.EntityTrackModel2s.Find(Super);
+            var super = context.EntityTrackModel2s
+                .Include(x => x.SuperLink)
+                .First(x => x.Id == Super);
+
             super.GroupQuantity += Quantity - origin.Quantity;
+            super.SuperLink.TotalQuantity += Quantity - origin.Quantity;
         }
 
     }

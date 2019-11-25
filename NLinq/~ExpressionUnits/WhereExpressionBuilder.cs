@@ -9,18 +9,15 @@ namespace NLinq
 {
     public class WhereExpressionBuilder<TSource>
     {
-        public IQueryable<TSource> Queryable { get; set; }
         public ParameterExpression Parameter { get; set; }
         public Expression<Func<TSource, bool>> Expression { get; set; }
 
-        public WhereExpressionBuilder(IQueryable<TSource> queryable)
+        public WhereExpressionBuilder()
         {
-            Queryable = queryable;
         }
 
-        public WhereExpressionBuilder(IQueryable<TSource> queryable, Expression<Func<TSource, bool>> predicate)
+        public WhereExpressionBuilder(Expression<Func<TSource, bool>> predicate)
         {
-            Queryable = queryable;
             Parameter = predicate.Parameters[0];
             Expression = predicate;
         }
@@ -80,8 +77,6 @@ namespace NLinq
             var builer = new DynamicExpressionBuilder<TSource>().Then(x => build(x));
             return Or(builer.Lambda);
         }
-
-        public IQueryable<TSource> End() => Queryable.Where(Expression);
 
     }
 }
