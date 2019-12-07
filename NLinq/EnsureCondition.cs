@@ -15,5 +15,15 @@ namespace NLinq
             Expression = expression;
             ExpectedValue = expectedValue;
         }
+
+        public EnsureCondition(string propName, object expectedValue)
+        {
+            var x = System.Linq.Expressions.Expression.Parameter(typeof(TEntity));
+            var body = System.Linq.Expressions.Expression.Property(x, "propName");
+
+            Expression = System.Linq.Expressions.Expression.Lambda<Func<TEntity, object>>(body, x);
+            ExpectedValue = expectedValue;
+        }
+
     }
 }

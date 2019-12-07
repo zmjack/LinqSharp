@@ -1,4 +1,5 @@
-﻿using Dawnx.Ranges;
+﻿using Dawnx;
+using Dawnx.Ranges;
 using Dawnx.Utilities;
 using NStandard;
 using System;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 
-namespace Dawnx.Data
+namespace NLinq
 {
     /// <summary>
     /// Easy to use and secure SQL Executor
