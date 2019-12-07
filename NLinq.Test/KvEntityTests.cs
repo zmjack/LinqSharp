@@ -55,6 +55,7 @@ namespace NLinq.Test
                 using (var context = new ApplicationDbContext())
                 {
                     var appRegistry = context.AppRegistriesAgent["zmjack"];
+                    appRegistry.Enable = true;
                     appRegistry.Name = "zmjack";
                     appRegistry.Age = 29;
 
@@ -67,6 +68,7 @@ namespace NLinq.Test
                     zmjack.Name = "zmjack";
                     zmjack.Age = 29;
 
+                    Assert.True(zmjack.Enable);
                     Assert.Equal("zmjack", zmjack.Name);
                     Assert.Equal(29, zmjack.Age);
                     Assert.Null(zmjack.Address);

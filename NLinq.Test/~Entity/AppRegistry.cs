@@ -14,6 +14,8 @@ namespace NLinq.Test
         public virtual string NickName { get; set; } = "haha";
 
         public virtual string Address { get; set; }
+
+        public virtual bool Enable { get; set; }
     }
 
 }
