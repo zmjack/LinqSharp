@@ -2,11 +2,13 @@
 using NStandard;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
 namespace NLinq
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class KvEntityAccessorProxy<TRegistry> : IInterceptor
        where TRegistry : KvEntityAccessor
     {
@@ -40,7 +42,17 @@ namespace NLinq
                         proxyProperty = proxy.GetType().GetProperty(property);
 
                         if (store != null)
-                            invocation.ReturnValue = ConvertEx.ChangeType(store.Value, proxyProperty.PropertyType);
+                        {
+                            try
+                            {
+                                var ret = ConvertEx.ChangeType(store.Value, proxyProperty.PropertyType);
+                                invocation.ReturnValue = ret;
+                            }
+                            catch
+                            {
+                                invocation.ReturnValue = proxyProperty.PropertyType.CreateDefaultInstance();
+                            }
+                        }
                         else invocation.Proceed();
                         break;
 
