@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <Version>0.4.2</Version>
+    <Version>0.5.0</Version>
     <Authors>zmjack</Authors>
     <Company>dawnx.net</Company>
     <Description>Linq extension makes linq more smarter.</Description>
@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.6" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="NStandard" Version="0.0.1" />
+    <PackageReference Include="NStandard" Version="0.0.7.1" />
   </ItemGroup>
 
   <ItemGroup>

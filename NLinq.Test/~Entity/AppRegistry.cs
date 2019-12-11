@@ -11,6 +11,8 @@ namespace NLinq.Test
 
         public virtual int Age { get; set; }
 
+        public virtual DateTime? Birthday { get; set; }
+
         public virtual string NickName { get; set; } = "haha";
 
         public virtual string Address { get; set; }

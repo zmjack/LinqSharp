@@ -58,6 +58,7 @@ namespace NLinq.Test
                     appRegistry.Enable = true;
                     appRegistry.Name = "zmjack";
                     appRegistry.Age = 29;
+                    appRegistry.Birthday = new DateTime(1991, 1, 1);
 
                     context.SaveChanges();
                 }
@@ -65,12 +66,10 @@ namespace NLinq.Test
                 using (var context = new ApplicationDbContext())
                 {
                     var zmjack = context.AppRegistriesAgent["zmjack"];
-                    zmjack.Name = "zmjack";
-                    zmjack.Age = 29;
-
                     Assert.True(zmjack.Enable);
                     Assert.Equal("zmjack", zmjack.Name);
                     Assert.Equal(29, zmjack.Age);
+                    Assert.Equal(new DateTime(1991, 1, 1), zmjack.Birthday);
                     Assert.Null(zmjack.Address);
                 }
             }

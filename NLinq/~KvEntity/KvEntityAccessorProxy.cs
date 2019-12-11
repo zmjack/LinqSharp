@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using NStandard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace NLinq
                         proxyProperty = proxy.GetType().GetProperty(property);
 
                         if (store != null)
-                            invocation.ReturnValue = Convert.ChangeType(store.Value, proxyProperty.PropertyType);
+                            invocation.ReturnValue = ConvertEx.ChangeType(store.Value, proxyProperty.PropertyType);
                         else invocation.Proceed();
                         break;
 
