@@ -1,4 +1,5 @@
 using NStandard;
+using System;
 using Xunit;
 
 namespace NLinq.Test
@@ -34,6 +35,7 @@ namespace NLinq.Test
             public string Class { get; set; }
             public string Name { get; set; }
             public string Comment { get; set; }
+            public DateTime? RegisterDate { get; set; }
         }
 
         [Fact]
@@ -43,14 +45,20 @@ namespace NLinq.Test
             {
                 Class = "123",
                 Name = "aaa",
+                Comment = "comment",
             };
-            var entity2 = new MyEntity();
+            var entity2 = new MyEntity
+            {
+                RegisterDate = DateTime.Now,
+            };
             entity2.Accept(entity1, m => new { m.Class });
             entity2.Accept(entity1, m => m.Comment);
+            entity2.Accept(entity1, m => m.RegisterDate);
 
             Assert.Equal(entity2.Class, entity1.Class);
             Assert.Equal(entity2.Comment, entity1.Comment);
             Assert.NotEqual(entity2.Name, entity1.Name);
+            Assert.Null(entity2.RegisterDate);
         }
 
         [Fact]

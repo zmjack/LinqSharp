@@ -55,7 +55,7 @@ namespace NLinq
                             nameof(TrackLastWriteTimeAttribute)
                         }));
                 }))
-                .Where(x => x.PropertyType.FullName.In(BasicTypeUtility.FullNames) || x.PropertyType.IsValueType);
+                .Where(x => x.PropertyType.IsBasic(true) || x.PropertyType.IsValueType);
 
             // Copy values
             foreach (var prop in props)
@@ -125,7 +125,7 @@ namespace NLinq
                             nameof(TrackLastWriteTimeAttribute)
                         }));
                 }))
-                .Where(x => x.PropertyType.FullName.In(BasicTypeUtility.FullNames) || x.PropertyType.IsValueType);
+                .Where(x => x.PropertyType.IsBasic() || x.PropertyType.IsValueType);
 
             props = props.Where(x => !propNames.Contains(x.Name));
 
