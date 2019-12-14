@@ -27,12 +27,12 @@ namespace NLinq
                 {
                     case string name when name.StartsWith("set_"):
                         property = invocation.Method.Name.Substring(4);
-                        value = invocation.Arguments[0].ToString();
+                        value = invocation.Arguments[0]?.ToString();
                         store = proxy.GetColumnStores().FirstOrDefault(x => x.Key == property);
                         proxyProperty = proxy.GetType().GetProperty(property);
 
                         if (store != null)
-                            store.Value = value?.ToString();
+                            store.Value = value;
                         else throw new KeyNotFoundException();
                         break;
 
