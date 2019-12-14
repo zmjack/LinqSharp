@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NLinq._KvEntity
+namespace NLinq
 {
     public abstract class KvEntityAgent<TKvEntityAccessor>
         where TKvEntityAccessor : KvEntityAccessor, new()
     {
-        public static KvEntityAgent<TKvEntityAccessor> Create<TDbContext, TKvEntity>(TDbContext context, Func<TDbContext, DbSet<TKvEntity>> getEntities)
+        public static KvEntityAgent<TDbContext, TKvEntityAccessor, TKvEntity> Create<TDbContext, TKvEntity>(TDbContext context, Func<TDbContext, DbSet<TKvEntity>> getEntities)
             where TDbContext : DbContext
             where TKvEntity : KvEntity, new()
         {

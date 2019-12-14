@@ -23,7 +23,7 @@ namespace NLinq.Test
         }
 
         public DbSet<AppRegistry> AppRegistries { get; set; }
-        public KvEntityAgent<ApplicationDbContext, AppRegistryAccessor, AppRegistry> AppRegistriesAgent => KvEntityAgent<AppRegistryAccessor>.Create(this, x => x.AppRegistries);
+        public KvEntityAgent<AppRegistryAccessor> AppRegistriesAgent => KvEntityAgent<AppRegistryAccessor>.Create(this, x => x.AppRegistries);
 
         public DbSet<TrackModel> TrackModels { get; set; }
         public DbSet<EntityMonitorModel> EntityMonitorModels { get; set; }
