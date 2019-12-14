@@ -32,7 +32,7 @@ namespace NLinq
                         proxyProperty = proxy.GetType().GetProperty(property);
 
                         if (store != null)
-                            store.Value = value.ToString();
+                            store.Value = value?.ToString();
                         else throw new KeyNotFoundException();
                         break;
 
