@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SimpleData;
+using Northwnd;
 using System;
 using System.Linq;
 using Xunit;
@@ -9,13 +9,12 @@ namespace NLinq.Test
     public class ToSqlTests
     {
         private readonly DbContextOptions MySqlOptions = new DbContextOptionsBuilder().UseMySql("Server=127.0.0.1").Options;
-        private readonly DbContextOptions SqliteOptions = SimpleSources.NorthwndOptions;
 
         [Fact]
         public void Test()
         {
             string sql;
-            using (var sqlite = new NorthwndContext(SqliteOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 sql = sqlite.Employees
                     .WhereSearch("Tofu", e => new
@@ -30,7 +29,7 @@ namespace NLinq.Test
         [Fact]
         public void WhereBeforeTest()
         {
-            using (var sqlite = new NorthwndContext(SqliteOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Employees
                     .WhereBefore(x => x.BirthDate, new DateTime(1960, 5, 31), true);
@@ -45,7 +44,7 @@ namespace NLinq.Test
         [Fact]
         public void WhereBetweenTest()
         {
-            using (var sqlite = new NorthwndContext(SqliteOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Employees
                     .WhereBetween(x => x.BirthDate, new DateTime(1960, 5, 1), new DateTime(1960, 5, 31));
@@ -58,7 +57,7 @@ namespace NLinq.Test
         [Fact]
         public void WhereMinTest()
         {
-            using (var sqlite = new NorthwndContext(SqliteOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Products.WhereMin(x => x.UnitPrice);
 
@@ -70,7 +69,7 @@ namespace NLinq.Test
         [Fact]
         public void WhereMaxTest()
         {
-            using (var sqlite = new NorthwndContext(SqliteOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Products.WhereMax(x => x.UnitPrice);
 
@@ -82,7 +81,7 @@ namespace NLinq.Test
         [Fact]
         public void WhereTest()
         {
-            using (var sqlite = new NorthwndContext(SqliteOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Employees
                     .WhereAfter(
@@ -100,7 +99,7 @@ namespace NLinq.Test
         [Fact]
         public void TryDeleteTest()
         {
-            using (var sqlite = new NorthwndContext(SqliteOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Employees.TryDelete(x => x.Country == "China");
                 var sql = query.ToSql();
@@ -119,7 +118,7 @@ namespace NLinq.Test
             //  3   Northern
             //  4   Southern
 
-            using (var sqlite = new NorthwndContext(SimpleSources.NorthwndOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var originResult = sqlite.Regions;
                 var orderedResult =
@@ -139,7 +138,7 @@ namespace NLinq.Test
             //  3   Northern
             //  4   Southern
 
-            using (var sqlite = new NorthwndContext(SimpleSources.NorthwndOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var originResult = sqlite.Regions;
                 var orderedResult =
@@ -153,7 +152,7 @@ namespace NLinq.Test
         [Fact]
         public void Test1()
         {
-            using (var sqlite = new NorthwndContext(SqliteOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Employees
                     .WhereSearch("London", e => new
@@ -172,7 +171,7 @@ namespace NLinq.Test
             var now = DateTime.Now.AddDays(-1).AddHours(-2);
 
             using (var mysql = new NorthwndContext(MySqlOptions))
-            using (var sqlite = new NorthwndContext(SqliteOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var employees_WhoSelled_AllKindsOfTofu = sqlite.Employees
                     .WhereSearch("Tofu", e => new

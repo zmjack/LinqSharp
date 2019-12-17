@@ -23,8 +23,8 @@ namespace NLinq.Test
                 var description = "Center";
                 var now = DateTime.Now;
 
-                mysql.Sql($"insert into region (RegionID, RegionDescription) values ({regionId}, {description});");
-                mysql.Sql($"delete from region where regionId={regionId}");
+                mysql.Sql($"insert into regions (RegionID, RegionDescription) values ({regionId}, {description});");
+                mysql.Sql($"delete from regions where regionId={regionId}");
             }
         }
 

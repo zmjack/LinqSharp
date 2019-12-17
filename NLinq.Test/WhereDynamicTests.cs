@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Northwnd;
 using NStandard;
-using SimpleData;
-using SimpleData.Northwnd;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +13,10 @@ namespace NLinq.Test
 {
     public class DynamicTests
     {
-        private readonly DbContextOptions SqliteOptions = SimpleSources.NorthwndOptions;
-
         [Fact]
         public void Test1()
         {
-            using (var sqlite = new NorthwndContext(SqliteOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Categories
                     .WhereDynamic(x => x.Property(nameof(Category.CategoryName)).Invoke(BuiltInMethod.StringContains, "Con"));
@@ -49,7 +46,7 @@ WHERE instr(""c"".""CategoryName"", 'Con') > 0;
             };
 
             string sql;
-            using (var sqlite = new NorthwndContext(SqliteOptions))
+            using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Categories
                     .Begin().Then(builder =>

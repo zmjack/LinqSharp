@@ -1,4 +1,4 @@
-﻿using SimpleData.Northwnd;
+﻿using Northwnd;
 using System;
 using System.Linq.Expressions;
 using Xunit;

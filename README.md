@@ -1,28 +1,42 @@
-## NLinq
+# NLinq
 
 This library provides some extension functions to generate SQL.
 
-### How to try it?
+The Entity Framework provides some basic query extensions, but use it to develop business applications is not simple enough.
 
-Firstly, you should install the **SimpleData** package through **Nuget**.
+So, we provide more query extensions to help developers to solve their business problems.
 
-The **SimpleData** package provides a simple database of **Sqlite** and code first definitions of **Northwnd**.
+
+
+## How to try it?
+
+Firstly, you should install the **Northwnd** package through **Nuget**.
+
+The **Northwnd** package provides a simple database of **Sqlite** and code first definitions of **Northwnd**.
 
 ```powershell
-install-package SimpleData
+install-package Northwnd
 ```
 
 And, you can use this simple database to test your own queries. Just like this:
 
 ```C#
-using (var sqlite = new NorthwndContext(SimpleSources.NorthwndOptions))
+using (var sqlite = NorthwndContext.UseSqliteResource())
 {
     var query = sqlite.Employees.Where(x => x.City == "London");
     var sql = query.ToSql();
 }
 ```
 
-If you want to get the generated SQL string, you can use **ToSql()**. This method is defined in **Dawnx**. The above query is:
+Use **NorthwndContext.UseSqliteResource()** method will use the default sqlite file:
+
+> **%userprofile%/.nuget/northwnd/{version}/content/@Resources/Northwnd/northwnd.db**
+
+
+
+### [Method] ToSql
+
+If you want to get the generated SQL string, you can use **ToSql()**. For example, The above query is:
 
 ```sqlite
 SELECT "x"."EmployeeID", "x"."Address", "x"."BirthDate", "x"."City", "x"."Country", "x"."Extension", "x"."FirstName", "x"."HireDate", "x"."HomePhone", "x"."LastName", "x"."Notes", "x"."Photo", "x"."PhotoPath", "x"."PostalCode", "x"."Region", "x"."ReportsTo", "x"."Title", "x"."TitleOfCourtesy"
@@ -32,23 +46,9 @@ WHERE "x"."City" = 'London';
 
 
 
-### Use simple database (Northwnd)
+## Extension Simples
 
-The Entity Framework provides some basic query extensions, but use it to develop business applications is not simple enough. So, we provide more query extensions to help developers to solve their business problems.
-
-First of all, "**DbContext sqlite**" is defined as:
-
-```C#
-var sqlite = new NorthwndContext(SqliteOptions);
-```
-
-The source of database is "**%userprofile%/.nuget/simpledata/{version}/source/northwnd.db**".
-
-
-
-### Extension Simples
-
-- **WhereSearch**
+### WhereSearch
 
   Queries records which is contains the specified string in one or any fields.
 
@@ -66,7 +66,7 @@ The source of database is "**%userprofile%/.nuget/simpledata/{version}/source/no
   WHERE instr("x"."FirstName", 'Steven') > 0;
   ```
 
-  ----
+----
 
   And, if you want to query ***An*** in the field ***FirstName*** or ***LastName*** (table ***employees***):
 
@@ -82,7 +82,7 @@ The source of database is "**%userprofile%/.nuget/simpledata/{version}/source/no
   WHERE (instr("x"."FirstName", 'An') > 0) OR (instr("x"."LastName", 'An') > 0);
   ```
 
-  ----
+----
 
   As you see, this method supports some abilities to search single string in more than one field.
 
@@ -103,7 +103,7 @@ The source of database is "**%userprofile%/.nuget/simpledata/{version}/source/no
       WHERE (instr("o"."CustomerID", 'QUICK') > 0) AND ("x"."EmployeeID" = "o"."EmployeeID"));
   ```
 
-  ----
+----
 
   In addition, we may also need to use some other special queries. For example, if you want to search for another string in many fields.
 
@@ -122,7 +122,7 @@ The source of database is "**%userprofile%/.nuget/simpledata/{version}/source/no
   WHERE ((instr("x"."ProductName", 'Tofu') > 0) OR (instr("x"."QuantityPerUnit", 'Tofu') > 0)) AND ((instr("x"."ProductName", 'pkg') > 0) OR (instr("x"."QuantityPerUnit", 'pkg') > 0));
   ```
 
-- **WhereMatch**
+### WhereMatch
   Different from **WhereSearch**, this statement will perform an exact match:
 
   ```mssql
@@ -141,7 +141,7 @@ The source of database is "**%userprofile%/.nuget/simpledata/{version}/source/no
   	OR `x`.`Last_Name` = 'Bill'
   ```
 
-- **WhereBetween**
+### WhereBetween
   Queries records which is start at a specified time and end at another time.
 
   Note: Support type **Nullable\<DateTime\>**: If member expression's result is null, then the main expression's result is false. Here is the simple:
@@ -163,17 +163,17 @@ The source of database is "**%userprofile%/.nuget/simpledata/{version}/source/no
   END = 1;
   ```
 
-- **WhereBefore**
+### WhereBefore
 
-- **WhereAfter**
+### WhereAfter
 
-- **WhereMax**
+### WhereMax
   Selects the entire record with the largest value for a field.
 
-- **WhereMin**
+### WhereMin
   Selects the entire record with the smallest value for a field.
 
-- **OrderByCase**
+### OrderByCase
   Queries records and order the result by a specified sequence.
 
   ```c#
@@ -200,10 +200,10 @@ The source of database is "**%userprofile%/.nuget/simpledata/{version}/source/no
   END;
   ```
 
-- **OrderByCaseDescending**
+### OrderByCaseDescending
   Same as **OrderByCase**, but use descending order.
 
-- **ThenByCase**
+### ThenByCase
 
   ```c#
   sqlite.Regions
@@ -242,10 +242,10 @@ The source of database is "**%userprofile%/.nuget/simpledata/{version}/source/no
   END;
   ```
 
-- **ThenByCaseDescending**
+### ThenByCaseDescending
   Same as **ThenByCase**, but use descending order.
 
-- **WhereOr**
+### WhereOr
 
   ```C#
   sqlite.Employees.WhereOr(sqlite.Employees
@@ -273,7 +273,7 @@ The source of database is "**%userprofile%/.nuget/simpledata/{version}/source/no
   WHERE (((("e"."TitleOfCourtesy" = 'Dr.') AND ("e"."BirthDate" = '1952-02-19 00:00:00')) OR (("e"."TitleOfCourtesy" = 'Mr.') AND ("e"."BirthDate" = '1963-07-02 00:00:00'))) OR (("e"."TitleOfCourtesy" = 'Mrs.') AND ("e"."BirthDate" = '1937-09-19 00:00:00'))) OR (("e"."TitleOfCourtesy" = 'Ms.') AND ("e"."BirthDate" = '1966-01-27 00:00:00'));
   ```
 
-- **TryUpdate**
+### TryUpdate
 
   ```C#
   sqlite.Orders
@@ -291,7 +291,7 @@ The source of database is "**%userprofile%/.nuget/simpledata/{version}/source/no
 
   **Next feature**: to support set a value which is calculated by the specified entity ***x***.
 
-- **TryDelete**
+### TryDelete
 
   ```C#
   sqlite.Orders
