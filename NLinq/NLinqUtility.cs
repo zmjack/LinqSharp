@@ -128,7 +128,7 @@ namespace NLinq
 
                     var origin = Activator.CreateInstance(entry.Entity.GetType());
                     foreach (var originValue in entry.OriginalValues.Properties)
-                        origin.SetPropertyValue(originValue.Name, entry.OriginalValues[originValue.Name]);
+                        origin.GetReflector().Property(originValue.Name).Value = entry.OriginalValues[originValue.Name];
 
                     switch (entry.State)
                     {
