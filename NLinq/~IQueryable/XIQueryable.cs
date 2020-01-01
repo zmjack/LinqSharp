@@ -62,7 +62,7 @@ namespace NLinq
         {
             if (@this is EntityQueryable<TEntity>)
             {
-                var queryCompiler = @this.Provider.GetReflector().DeclaredField<QueryCompiler>("_queryCompiler").Value;
+                var queryCompiler = @this.Provider.GetReflector<EntityQueryProvider>().DeclaredField<QueryCompiler>("_queryCompiler").Value;
                 var queryCompilerReflector = queryCompiler.GetReflector();
                 var dependencies = queryCompilerReflector
                     .DeclaredProperty<Database>("Database")
