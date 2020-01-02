@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Northwnd;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace NLinq.Test
 {
-    public partial class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : NorthwndContext
     {
         public ApplicationDbContext()
             : base(new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql("server=127.0.0.1;database=nlinqtest").Options)
@@ -15,6 +16,8 @@ namespace NLinq.Test
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            UseNorthwndPrefix(modelBuilder, "@Northwnd.");
+
             NLinqUtility.ApplyProviderFunctions(this, modelBuilder);
             NLinqUtility.ApplyUdFunctions(this, modelBuilder);
             NLinqUtility.ApplyAnnotations(this, modelBuilder, NLinqAnnotation.All);

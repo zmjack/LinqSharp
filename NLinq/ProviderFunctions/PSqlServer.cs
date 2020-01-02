@@ -5,7 +5,7 @@ namespace NLinq.ProviderFunctions
 {
     public static class PSqlServer
     {
-        [DbFunction]
+        [DbFunction("RAND")]
         public static double Rand() => throw new NotSupportedException();
 
     }

@@ -4,6 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NLinq.Test
 {
+    [Flags]
+    public enum EState
+    {
+        Default = 0,
+        StateA = 1,
+        StateB = 2,
+        StateC = 4,
+    }
+
     public class FreeModel : IEntity<FreeModel>
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,6 +21,8 @@ namespace NLinq.Test
         public string Name { get; set; }
 
         public int Age { get; set; }
+
+        public EState State { get; set; }
 
     }
 }

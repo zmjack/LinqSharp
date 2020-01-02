@@ -17,7 +17,6 @@ namespace NLinq.Test
                 var result = query.First();
                 var sql = query.ToSql();
 
-
                 //var s = mysql.Suppliers.DistinctBy(x => x.Address).ToArray();
             }
         }

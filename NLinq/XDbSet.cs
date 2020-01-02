@@ -13,7 +13,8 @@ namespace NLinq
             where TEntity : class
         {
             var provider = (@this as IInfrastructure<IServiceProvider>).Instance;
-            return (provider.GetService(typeof(ICurrentDbContext)) as ICurrentDbContext).Context;
+            var context = (provider.GetService(typeof(ICurrentDbContext)) as ICurrentDbContext).Context;
+            return context;
         }
 
         public static UpdateWrapper<TEntity> TryUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> expression)

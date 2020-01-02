@@ -5,7 +5,7 @@ namespace NLinq.ProviderFunctions
 {
     public static class PJet
     {
-        [DbFunction]
+        [DbFunction("RND")]
         public static double Rnd() => throw new NotSupportedException();
 
     }

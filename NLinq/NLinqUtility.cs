@@ -24,13 +24,40 @@ namespace NLinq
 
         public static void ApplyProviderFunctions(DbContext context, ModelBuilder modelBuilder)
         {
-            //TODO: To support more providers.
             var providerName = context.GetProviderName();
 
             switch (providerName)
             {
+                case DatabaseProviderName.Cosmos: goto default;
+                case DatabaseProviderName.Firebird: goto default;
+                case DatabaseProviderName.IBM: goto default;
+                case DatabaseProviderName.OpenEdge: goto default;
+
+                case DatabaseProviderName.Jet:
+                    modelBuilder.HasDbFunction(typeof(PJet).GetMethod(nameof(PJet.Rnd)));
+                    break;
+
+                case DatabaseProviderName.MyCat:
                 case DatabaseProviderName.MySql:
                     modelBuilder.HasDbFunction(typeof(PMySql).GetMethod(nameof(PMySql.Rand)));
+                    break;
+
+                case DatabaseProviderName.Oracle:
+                    modelBuilder.HasDbFunction(typeof(POracle).GetMethod(nameof(POracle.Random)));
+                    break;
+
+                case DatabaseProviderName.PostgreSQL:
+                    modelBuilder.HasDbFunction(typeof(PPostgreSQL).GetMethod(nameof(PPostgreSQL.Random)));
+                    break;
+
+                case DatabaseProviderName.Sqlite:
+                    modelBuilder.HasDbFunction(typeof(PSqlite).GetMethod(nameof(PSqlite.Random)));
+                    break;
+
+                case DatabaseProviderName.SqlServer:
+                case DatabaseProviderName.SqlServerCompact35:
+                case DatabaseProviderName.SqlServerCompact40:
+                    modelBuilder.HasDbFunction(typeof(PSqlServer).GetMethod(nameof(PSqlServer.Rand)));
                     break;
 
                 default: throw new NotSupportedException();
