@@ -7,8 +7,10 @@ namespace NLinq.Test
 {
     public class ApplicationDbContext : NorthwndContext
     {
+        public const string CONNECT_STRING = "server=127.0.0.1;database=nlinqtest";
+
         public ApplicationDbContext()
-            : base(new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql("server=127.0.0.1;database=nlinqtest").Options)
+            : base(new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(CONNECT_STRING).Options)
         {
         }
 

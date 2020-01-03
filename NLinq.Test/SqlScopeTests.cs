@@ -1,7 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NLinq.Test
@@ -10,7 +8,7 @@ namespace NLinq.Test
     {
         private class MySqlScope : SqlScope<MySqlConnection, MySqlCommand, MySqlParameter>
         {
-            public MySqlScope() : this(new MySqlConnection("server=127.0.0.1;database=northwnd")) { }
+            public MySqlScope() : this(new MySqlConnection(ApplicationDbContext.CONNECT_STRING)) { }
             public MySqlScope(MySqlConnection model) : base(model) { }
         }
 

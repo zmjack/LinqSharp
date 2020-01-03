@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Northwnd" Version="0.1.2.1" />
+    <PackageReference Include="Northwnd" Version="0.1.2.2" />
   </ItemGroup>
 
   <ItemGroup>

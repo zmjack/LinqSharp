@@ -9,8 +9,8 @@ using NLinq.Test;
 namespace NLinq.Test.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200102122937_202001022029")]
-    partial class _202001022029
+    [Migration("20200102125513_202001022055")]
+    partial class _202001022055
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -181,7 +181,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasKey("CategoryID");
 
-                    b.ToTable("Northwnd.Categories");
+                    b.ToTable("@Northwnd.Categories");
                 });
 
             modelBuilder.Entity("Northwnd.Customer", b =>
@@ -223,7 +223,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasKey("CustomerID");
 
-                    b.ToTable("Northwnd.Customers");
+                    b.ToTable("@Northwnd.Customers");
                 });
 
             modelBuilder.Entity("Northwnd.CustomerCustomerDemo", b =>
@@ -238,7 +238,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.ToTable("CustomerCustomerDemos");
+                    b.ToTable("@Northwnd.CustomerCustomerDemos");
                 });
 
             modelBuilder.Entity("Northwnd.CustomerDemographic", b =>
@@ -251,7 +251,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasKey("CustomerTypeID");
 
-                    b.ToTable("Northwnd.CustomerDemographics");
+                    b.ToTable("@Northwnd.CustomerDemographics");
                 });
 
             modelBuilder.Entity("Northwnd.Employee", b =>
@@ -311,7 +311,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasIndex("ReportsTo");
 
-                    b.ToTable("Northwnd.Employees");
+                    b.ToTable("@Northwnd.Employees");
                 });
 
             modelBuilder.Entity("Northwnd.EmployeeTerritory", b =>
@@ -325,7 +325,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasIndex("TerritoryID");
 
-                    b.ToTable("EmployeeTerritories");
+                    b.ToTable("@Northwnd.EmployeeTerritories");
                 });
 
             modelBuilder.Entity("Northwnd.Order", b =>
@@ -374,7 +374,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasIndex("ShipVia");
 
-                    b.ToTable("Northwnd.Orders");
+                    b.ToTable("@Northwnd.Orders");
                 });
 
             modelBuilder.Entity("Northwnd.OrderDetail", b =>
@@ -393,7 +393,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("Northwnd.OrderDetails");
+                    b.ToTable("@Northwnd.OrderDetails");
                 });
 
             modelBuilder.Entity("Northwnd.Product", b =>
@@ -428,7 +428,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasIndex("SupplierID");
 
-                    b.ToTable("Northwnd.Products");
+                    b.ToTable("@Northwnd.Products");
                 });
 
             modelBuilder.Entity("Northwnd.Region", b =>
@@ -441,7 +441,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasKey("RegionID");
 
-                    b.ToTable("Northwnd.Regions");
+                    b.ToTable("@Northwnd.Regions");
                 });
 
             modelBuilder.Entity("Northwnd.Shipper", b =>
@@ -458,7 +458,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasKey("ShipperID");
 
-                    b.ToTable("Northwnd.Shippers");
+                    b.ToTable("@Northwnd.Shippers");
                 });
 
             modelBuilder.Entity("Northwnd.Supplier", b =>
@@ -501,7 +501,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasKey("SupplierID");
 
-                    b.ToTable("Northwnd.Suppliers");
+                    b.ToTable("@Northwnd.Suppliers");
                 });
 
             modelBuilder.Entity("Northwnd.Territory", b =>
@@ -520,7 +520,7 @@ namespace NLinq.Test.Migrations
 
                     b.HasIndex("RegionID");
 
-                    b.ToTable("Northwnd.Territories");
+                    b.ToTable("@Northwnd.Territories");
                 });
 
             modelBuilder.Entity("NLinq.Test.EntityTrackModel2", b =>

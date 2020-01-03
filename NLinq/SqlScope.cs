@@ -1,7 +1,4 @@
-﻿using Dawnx;
-using Dawnx.Ranges;
-using Dawnx.Utilities;
-using NStandard;
+﻿using NStandard;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -48,7 +45,7 @@ namespace NLinq
             while (reader.Read())
             {
                 var dict = new Dictionary<string, object>();
-                foreach (var i in IntegerRange.Create(reader.FieldCount))
+                foreach (var i in new int[reader.FieldCount].Let(i => i))
                     dict[reader.GetName(i)] = reader.GetValue(i);
 
                 yield return dict;
@@ -61,7 +58,7 @@ namespace NLinq
             var values = formattableSql.GetArguments();
             var sql = formattableSql.Format;
 
-            var range = IntegerRange.Create(formattableSql.ArgumentCount);
+            var range = new int[formattableSql.ArgumentCount].Let(i => i);
             foreach (var i in range)
                 sql = sql.Replace($"{{{i}}}", $"@p{i}");
 
@@ -79,23 +76,23 @@ namespace NLinq
                     x.Value = values[i];
                     x.DbType = XObject.For(values[i], value =>
                     {
-                        switch (value.GetType().FullName)
+                        switch (value.GetType())
                         {
-                            case BasicTypeUtility.@bool: return DbType.Boolean;
-                            case BasicTypeUtility.@byte: return DbType.Byte;
-                            case BasicTypeUtility.@sbyte: return DbType.SByte;
-                            case BasicTypeUtility.@char: return DbType.Byte;
-                            case BasicTypeUtility.@short: return DbType.Int16;
-                            case BasicTypeUtility.@ushort: return DbType.UInt16;
-                            case BasicTypeUtility.@int: return DbType.Int32;
-                            case BasicTypeUtility.@uint: return DbType.UInt32;
-                            case BasicTypeUtility.@long: return DbType.Int64;
-                            case BasicTypeUtility.@ulong: return DbType.UInt64;
-                            case BasicTypeUtility.@float: return DbType.Single;
-                            case BasicTypeUtility.@double: return DbType.Double;
-                            case BasicTypeUtility.@string: return DbType.String;
-                            case BasicTypeUtility.@decimal: return DbType.Decimal;
-                            case BasicTypeUtility.DateTime: return DbType.DateTime;
+                            case Type type when type == typeof(bool): return DbType.Boolean;
+                            case Type type when type == typeof(byte): return DbType.Byte;
+                            case Type type when type == typeof(sbyte): return DbType.SByte;
+                            case Type type when type == typeof(char): return DbType.Byte;
+                            case Type type when type == typeof(short): return DbType.Int16;
+                            case Type type when type == typeof(ushort): return DbType.UInt16;
+                            case Type type when type == typeof(int): return DbType.Int32;
+                            case Type type when type == typeof(uint): return DbType.UInt32;
+                            case Type type when type == typeof(long): return DbType.Int64;
+                            case Type type when type == typeof(ulong): return DbType.UInt64;
+                            case Type type when type == typeof(float): return DbType.Single;
+                            case Type type when type == typeof(double): return DbType.Double;
+                            case Type type when type == typeof(string): return DbType.String;
+                            case Type type when type == typeof(decimal): return DbType.Decimal;
+                            case Type type when type == typeof(DateTime): return DbType.DateTime;
                             default: return DbType.Object;
                         }
                     });

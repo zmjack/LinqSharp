@@ -1,5 +1,4 @@
-﻿using Dawnx.Definition;
-using NLinq.ProviderFunctions;
+﻿using NLinq.ProviderFunctions;
 using System;
 using System.Linq;
 

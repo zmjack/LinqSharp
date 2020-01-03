@@ -1,10 +1,9 @@
-﻿using Dawnx.Definition;
-using System;
+﻿using System;
 
 namespace NLinq
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public class UdFunctionAttribute : Attribute
+    public sealed class UdFunctionAttribute : Attribute
     {
         public DatabaseProviderName ProviderName { get; set; }
         public string Name { get; set; }

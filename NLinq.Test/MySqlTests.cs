@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Northwnd;
-using System.Linq;
+﻿using System.Linq;
 using Xunit;
 
 namespace NLinq.Test
@@ -10,8 +8,7 @@ namespace NLinq.Test
         [Fact]
         public void Test1()
         {
-            using (var mysql = new NorthwndContext(
-                new DbContextOptionsBuilder().UseMySql("server=127.0.0.1;database=northwnd").Options))
+            using (var mysql = new ApplicationDbContext())
             {
                 var query = mysql.Categories.Where(x => x.CategoryName == "Beverages");
                 var result = query.First();

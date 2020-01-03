@@ -1,9 +1,7 @@
-﻿using Dawnx.Definition;
-using Microsoft.EntityFrameworkCore.Query;
+﻿using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 using NStandard;
-using Remotion.Linq;
 using Remotion.Linq.Parsing.Structure;
 using System;
 using System.Linq;
@@ -90,7 +88,7 @@ namespace NLinq
 
                         case QueryCompilerVersion.Version_2_0:
                             var nodeTypeProvider = queryCompilerReflector.DeclaredProperty<INodeTypeProvider>("NodeTypeProvider").Value;
-                            var parser = queryCompilerReflector.Invoke("CreateQueryParser", nodeTypeProvider) as QueryParser;
+                            var parser = queryCompilerReflector.Method("CreateQueryParser").Invoke(nodeTypeProvider) as QueryParser;
                             return parser.GetParsedQuery(@this.Expression);
 
                         default: throw new NotSupportedException();

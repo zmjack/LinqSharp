@@ -1,5 +1,4 @@
-﻿using Dawnx.Utilities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using NStandard;
 using System;
 using System.Collections.Generic;
@@ -81,7 +80,7 @@ namespace NLinq
         public static TEntity Accept<TEntity>(this TEntity @this, TEntity model, Expression<Func<TEntity, object>> includes_MemberOrNewExp)
             where TEntity : class, IEntity
         {
-            var props = ExpressionUtility.GetProperties(includes_MemberOrNewExp);
+            var props = ExpressionEx.GetProperties(includes_MemberOrNewExp);
 
             // Copy values
             foreach (var prop in props)
@@ -109,7 +108,7 @@ namespace NLinq
         public static TEntity AcceptBut<TEntity>(this TEntity @this, TEntity model, Expression<Func<TEntity, object>> excludes_MemberOrNewExp)
             where TEntity : class, IEntity
         {
-            var propNames = ExpressionUtility.GetPropertyNames(excludes_MemberOrNewExp);
+            var propNames = ExpressionEx.GetPropertyNames(excludes_MemberOrNewExp);
 
             // Filter
             var type = typeof(TEntity);
@@ -181,7 +180,7 @@ namespace NLinq
         public static Dictionary<string, string> ToDisplayDictionary<TEntity>(this IEntity<TEntity> @this, Expression<Func<TEntity, object>> includes_MemberOrNewExpression)
             where TEntity : class, IEntity<TEntity>, new()
         {
-            var propNames = ExpressionUtility.GetPropertyNames(includes_MemberOrNewExpression);
+            var propNames = ExpressionEx.GetPropertyNames(includes_MemberOrNewExpression);
             return ToDisplayDictionary(@this as IEntity, propNames);
         }
 

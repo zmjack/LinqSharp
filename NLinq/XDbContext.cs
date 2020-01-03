@@ -1,5 +1,4 @@
-﻿using Dawnx.Definition;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace NLinq
 {

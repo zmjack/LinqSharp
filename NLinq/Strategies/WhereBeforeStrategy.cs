@@ -1,5 +1,4 @@
-﻿using Dawnx.Ranges;
-using NStandard;
+﻿using NStandard;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -91,7 +90,7 @@ namespace NLinq.Strategies
 
             Expression GetFilledExpression(Expression bodyExp, int padLength)
             {
-                return new IntegerRange(0, padLength - 1).Aggregate(null as Expression, (_acc, i) =>
+                return new int[padLength - 1].Let(i => i).Aggregate(null as Expression, (_acc, i) =>
                 {
                     var stringBody = Expression.Convert(bodyExp, typeof(string));
                     return

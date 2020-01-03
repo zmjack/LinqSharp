@@ -1,5 +1,4 @@
-﻿using Dawnx.Utilities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using NStandard;
 using System;
 using System.Collections.Generic;
@@ -29,7 +28,7 @@ namespace NLinq
                 var body = (expression.Body as MemberExpression).Member;
                 string setValue;
 
-                if (BasicTypeUtility.IsNumberType(value))
+                if (value.GetType().IsNumberType())
                     setValue = value.ToString();
                 else setValue = $"'{value.ToString()}'";
 

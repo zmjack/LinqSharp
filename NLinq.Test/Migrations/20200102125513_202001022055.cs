@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace NLinq.Test.Migrations
 {
-    public partial class _202001022029 : Migration
+    public partial class _202001022055 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,7 @@ namespace NLinq.Test.Migrations
                 defaultValue: 0);
 
             migrationBuilder.CreateTable(
-                name: "Northwnd.Categories",
+                name: "@Northwnd.Categories",
                 columns: table => new
                 {
                     CategoryID = table.Column<int>(nullable: false)
@@ -26,11 +26,11 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Northwnd.Categories", x => x.CategoryID);
+                    table.PrimaryKey("PK_@Northwnd.Categories", x => x.CategoryID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Northwnd.CustomerDemographics",
+                name: "@Northwnd.CustomerDemographics",
                 columns: table => new
                 {
                     CustomerTypeID = table.Column<string>(maxLength: 10, nullable: false),
@@ -38,11 +38,11 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Northwnd.CustomerDemographics", x => x.CustomerTypeID);
+                    table.PrimaryKey("PK_@Northwnd.CustomerDemographics", x => x.CustomerTypeID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Northwnd.Customers",
+                name: "@Northwnd.Customers",
                 columns: table => new
                 {
                     CustomerID = table.Column<string>(maxLength: 5, nullable: false),
@@ -59,11 +59,11 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Northwnd.Customers", x => x.CustomerID);
+                    table.PrimaryKey("PK_@Northwnd.Customers", x => x.CustomerID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Northwnd.Employees",
+                name: "@Northwnd.Employees",
                 columns: table => new
                 {
                     EmployeeID = table.Column<int>(nullable: false)
@@ -88,17 +88,17 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Northwnd.Employees", x => x.EmployeeID);
+                    table.PrimaryKey("PK_@Northwnd.Employees", x => x.EmployeeID);
                     table.ForeignKey(
-                        name: "FK_Northwnd.Employees_Northwnd.Employees_ReportsTo",
+                        name: "FK_@Northwnd.Employees_@Northwnd.Employees_ReportsTo",
                         column: x => x.ReportsTo,
-                        principalTable: "Northwnd.Employees",
+                        principalTable: "@Northwnd.Employees",
                         principalColumn: "EmployeeID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Northwnd.Regions",
+                name: "@Northwnd.Regions",
                 columns: table => new
                 {
                     RegionID = table.Column<int>(nullable: false),
@@ -106,11 +106,11 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Northwnd.Regions", x => x.RegionID);
+                    table.PrimaryKey("PK_@Northwnd.Regions", x => x.RegionID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Northwnd.Shippers",
+                name: "@Northwnd.Shippers",
                 columns: table => new
                 {
                     ShipperID = table.Column<int>(nullable: false)
@@ -120,11 +120,11 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Northwnd.Shippers", x => x.ShipperID);
+                    table.PrimaryKey("PK_@Northwnd.Shippers", x => x.ShipperID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Northwnd.Suppliers",
+                name: "@Northwnd.Suppliers",
                 columns: table => new
                 {
                     SupplierID = table.Column<int>(nullable: false)
@@ -143,11 +143,11 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Northwnd.Suppliers", x => x.SupplierID);
+                    table.PrimaryKey("PK_@Northwnd.Suppliers", x => x.SupplierID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomerCustomerDemos",
+                name: "@Northwnd.CustomerCustomerDemos",
                 columns: table => new
                 {
                     CustomerID = table.Column<string>(maxLength: 5, nullable: false),
@@ -155,23 +155,23 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomerCustomerDemos", x => new { x.CustomerTypeID, x.CustomerID });
+                    table.PrimaryKey("PK_@Northwnd.CustomerCustomerDemos", x => new { x.CustomerTypeID, x.CustomerID });
                     table.ForeignKey(
-                        name: "FK_CustomerCustomerDemos_Northwnd.Customers_CustomerID",
+                        name: "FK_@Northwnd.CustomerCustomerDemos_@Northwnd.Customers_Customer~",
                         column: x => x.CustomerID,
-                        principalTable: "Northwnd.Customers",
+                        principalTable: "@Northwnd.Customers",
                         principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CustomerCustomerDemos_Northwnd.CustomerDemographics_Customer~",
+                        name: "FK_@Northwnd.CustomerCustomerDemos_@Northwnd.CustomerDemographi~",
                         column: x => x.CustomerTypeID,
-                        principalTable: "Northwnd.CustomerDemographics",
+                        principalTable: "@Northwnd.CustomerDemographics",
                         principalColumn: "CustomerTypeID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Northwnd.Territories",
+                name: "@Northwnd.Territories",
                 columns: table => new
                 {
                     TerritoryID = table.Column<string>(maxLength: 20, nullable: false),
@@ -180,17 +180,17 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Northwnd.Territories", x => x.TerritoryID);
+                    table.PrimaryKey("PK_@Northwnd.Territories", x => x.TerritoryID);
                     table.ForeignKey(
-                        name: "FK_Northwnd.Territories_Northwnd.Regions_RegionID",
+                        name: "FK_@Northwnd.Territories_@Northwnd.Regions_RegionID",
                         column: x => x.RegionID,
-                        principalTable: "Northwnd.Regions",
+                        principalTable: "@Northwnd.Regions",
                         principalColumn: "RegionID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Northwnd.Orders",
+                name: "@Northwnd.Orders",
                 columns: table => new
                 {
                     OrderID = table.Column<int>(nullable: false)
@@ -211,29 +211,29 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Northwnd.Orders", x => x.OrderID);
+                    table.PrimaryKey("PK_@Northwnd.Orders", x => x.OrderID);
                     table.ForeignKey(
-                        name: "FK_Northwnd.Orders_Northwnd.Customers_CustomerID",
+                        name: "FK_@Northwnd.Orders_@Northwnd.Customers_CustomerID",
                         column: x => x.CustomerID,
-                        principalTable: "Northwnd.Customers",
+                        principalTable: "@Northwnd.Customers",
                         principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Northwnd.Orders_Northwnd.Employees_EmployeeID",
+                        name: "FK_@Northwnd.Orders_@Northwnd.Employees_EmployeeID",
                         column: x => x.EmployeeID,
-                        principalTable: "Northwnd.Employees",
+                        principalTable: "@Northwnd.Employees",
                         principalColumn: "EmployeeID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Northwnd.Orders_Northwnd.Shippers_ShipVia",
+                        name: "FK_@Northwnd.Orders_@Northwnd.Shippers_ShipVia",
                         column: x => x.ShipVia,
-                        principalTable: "Northwnd.Shippers",
+                        principalTable: "@Northwnd.Shippers",
                         principalColumn: "ShipperID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Northwnd.Products",
+                name: "@Northwnd.Products",
                 columns: table => new
                 {
                     ProductID = table.Column<int>(nullable: false)
@@ -250,23 +250,23 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Northwnd.Products", x => x.ProductID);
+                    table.PrimaryKey("PK_@Northwnd.Products", x => x.ProductID);
                     table.ForeignKey(
-                        name: "FK_Northwnd.Products_Northwnd.Categories_CategoryID",
+                        name: "FK_@Northwnd.Products_@Northwnd.Categories_CategoryID",
                         column: x => x.CategoryID,
-                        principalTable: "Northwnd.Categories",
+                        principalTable: "@Northwnd.Categories",
                         principalColumn: "CategoryID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Northwnd.Products_Northwnd.Suppliers_SupplierID",
+                        name: "FK_@Northwnd.Products_@Northwnd.Suppliers_SupplierID",
                         column: x => x.SupplierID,
-                        principalTable: "Northwnd.Suppliers",
+                        principalTable: "@Northwnd.Suppliers",
                         principalColumn: "SupplierID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeeTerritories",
+                name: "@Northwnd.EmployeeTerritories",
                 columns: table => new
                 {
                     EmployeeID = table.Column<int>(nullable: false),
@@ -274,23 +274,23 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeTerritories", x => new { x.EmployeeID, x.TerritoryID });
+                    table.PrimaryKey("PK_@Northwnd.EmployeeTerritories", x => new { x.EmployeeID, x.TerritoryID });
                     table.ForeignKey(
-                        name: "FK_EmployeeTerritories_Northwnd.Employees_EmployeeID",
+                        name: "FK_@Northwnd.EmployeeTerritories_@Northwnd.Employees_EmployeeID",
                         column: x => x.EmployeeID,
-                        principalTable: "Northwnd.Employees",
+                        principalTable: "@Northwnd.Employees",
                         principalColumn: "EmployeeID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EmployeeTerritories_Northwnd.Territories_TerritoryID",
+                        name: "FK_@Northwnd.EmployeeTerritories_@Northwnd.Territories_Territor~",
                         column: x => x.TerritoryID,
-                        principalTable: "Northwnd.Territories",
+                        principalTable: "@Northwnd.Territories",
                         principalColumn: "TerritoryID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Northwnd.OrderDetails",
+                name: "@Northwnd.OrderDetails",
                 columns: table => new
                 {
                     OrderID = table.Column<int>(nullable: false),
@@ -301,112 +301,112 @@ namespace NLinq.Test.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Northwnd.OrderDetails", x => new { x.OrderID, x.ProductID });
+                    table.PrimaryKey("PK_@Northwnd.OrderDetails", x => new { x.OrderID, x.ProductID });
                     table.ForeignKey(
-                        name: "FK_Northwnd.OrderDetails_Northwnd.Orders_OrderID",
+                        name: "FK_@Northwnd.OrderDetails_@Northwnd.Orders_OrderID",
                         column: x => x.OrderID,
-                        principalTable: "Northwnd.Orders",
+                        principalTable: "@Northwnd.Orders",
                         principalColumn: "OrderID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Northwnd.OrderDetails_Northwnd.Products_ProductID",
+                        name: "FK_@Northwnd.OrderDetails_@Northwnd.Products_ProductID",
                         column: x => x.ProductID,
-                        principalTable: "Northwnd.Products",
+                        principalTable: "@Northwnd.Products",
                         principalColumn: "ProductID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerCustomerDemos_CustomerID",
-                table: "CustomerCustomerDemos",
+                name: "IX_@Northwnd.CustomerCustomerDemos_CustomerID",
+                table: "@Northwnd.CustomerCustomerDemos",
                 column: "CustomerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeTerritories_TerritoryID",
-                table: "EmployeeTerritories",
-                column: "TerritoryID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Northwnd.Employees_ReportsTo",
-                table: "Northwnd.Employees",
+                name: "IX_@Northwnd.Employees_ReportsTo",
+                table: "@Northwnd.Employees",
                 column: "ReportsTo");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Northwnd.OrderDetails_ProductID",
-                table: "Northwnd.OrderDetails",
+                name: "IX_@Northwnd.EmployeeTerritories_TerritoryID",
+                table: "@Northwnd.EmployeeTerritories",
+                column: "TerritoryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_@Northwnd.OrderDetails_ProductID",
+                table: "@Northwnd.OrderDetails",
                 column: "ProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Northwnd.Orders_CustomerID",
-                table: "Northwnd.Orders",
+                name: "IX_@Northwnd.Orders_CustomerID",
+                table: "@Northwnd.Orders",
                 column: "CustomerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Northwnd.Orders_EmployeeID",
-                table: "Northwnd.Orders",
+                name: "IX_@Northwnd.Orders_EmployeeID",
+                table: "@Northwnd.Orders",
                 column: "EmployeeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Northwnd.Orders_ShipVia",
-                table: "Northwnd.Orders",
+                name: "IX_@Northwnd.Orders_ShipVia",
+                table: "@Northwnd.Orders",
                 column: "ShipVia");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Northwnd.Products_CategoryID",
-                table: "Northwnd.Products",
+                name: "IX_@Northwnd.Products_CategoryID",
+                table: "@Northwnd.Products",
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Northwnd.Products_SupplierID",
-                table: "Northwnd.Products",
+                name: "IX_@Northwnd.Products_SupplierID",
+                table: "@Northwnd.Products",
                 column: "SupplierID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Northwnd.Territories_RegionID",
-                table: "Northwnd.Territories",
+                name: "IX_@Northwnd.Territories_RegionID",
+                table: "@Northwnd.Territories",
                 column: "RegionID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CustomerCustomerDemos");
+                name: "@Northwnd.CustomerCustomerDemos");
 
             migrationBuilder.DropTable(
-                name: "EmployeeTerritories");
+                name: "@Northwnd.EmployeeTerritories");
 
             migrationBuilder.DropTable(
-                name: "Northwnd.OrderDetails");
+                name: "@Northwnd.OrderDetails");
 
             migrationBuilder.DropTable(
-                name: "Northwnd.CustomerDemographics");
+                name: "@Northwnd.CustomerDemographics");
 
             migrationBuilder.DropTable(
-                name: "Northwnd.Territories");
+                name: "@Northwnd.Territories");
 
             migrationBuilder.DropTable(
-                name: "Northwnd.Orders");
+                name: "@Northwnd.Orders");
 
             migrationBuilder.DropTable(
-                name: "Northwnd.Products");
+                name: "@Northwnd.Products");
 
             migrationBuilder.DropTable(
-                name: "Northwnd.Regions");
+                name: "@Northwnd.Regions");
 
             migrationBuilder.DropTable(
-                name: "Northwnd.Customers");
+                name: "@Northwnd.Customers");
 
             migrationBuilder.DropTable(
-                name: "Northwnd.Employees");
+                name: "@Northwnd.Employees");
 
             migrationBuilder.DropTable(
-                name: "Northwnd.Shippers");
+                name: "@Northwnd.Shippers");
 
             migrationBuilder.DropTable(
-                name: "Northwnd.Categories");
+                name: "@Northwnd.Categories");
 
             migrationBuilder.DropTable(
-                name: "Northwnd.Suppliers");
+                name: "@Northwnd.Suppliers");
 
             migrationBuilder.DropColumn(
                 name: "State",
