@@ -1,4 +1,4 @@
-﻿using NLinq.Test;
+﻿using LinqSharp.Test;
 using Northwnd;
 using System;
 

@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NLinq.Test\NLinq.Test.csproj" />
+    <ProjectReference Include="..\LinqSharp.Test\LinqSharp.Test.csproj" />
   </ItemGroup>
 
 </Project>
