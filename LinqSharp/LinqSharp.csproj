@@ -3,18 +3,29 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <Version>0.7.0</Version>
+    <Version>0.0.1</Version>
     <Authors>zmjack</Authors>
     <Company>dawnx.net</Company>
-    <Description>Linq extension makes linq more smarter.</Description>
+    <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/zmjack/NLinq</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
     <Copyright>Copyright © dawnx.net 2018-2019</Copyright>
     <PackageIconUrl />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <RepositoryUrl>https://github.com/zmjack/NLinq</RepositoryUrl>
+    <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageTags>Linq</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="icon.png" />
+    <None Remove="icon.png" />
+    <None Include="icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.0" />
@@ -28,6 +39,10 @@
 
   <ItemGroup>
     <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

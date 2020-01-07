@@ -1,4 +1,4 @@
-# NLinq
+# LinqSharp
 
 This library provides some extension functions to generate SQL.
 

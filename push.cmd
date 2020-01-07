@@ -1,2 +1,2 @@
-nuget push "NLinq/bin/Release/NLinq.0.7.0.nupkg" -source nuget.org
+nuget push "LinqSharp/bin/Release/LinqSharp.0.0.1.nupkg" -source nuget.org
 pause

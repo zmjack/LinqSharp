@@ -20,9 +20,9 @@ namespace LinqSharp.Test
         {
             UseNorthwndPrefix(modelBuilder, "@Northwnd.");
 
-            LinqSharp.ApplyProviderFunctions(this, modelBuilder);
-            LinqSharp.ApplyUdFunctions(this, modelBuilder);
-            LinqSharp.ApplyAnnotations(this, modelBuilder, LinqSharpAnnotation.All);
+            LinqSharpSetting.ApplyProviderFunctions(this, modelBuilder);
+            LinqSharpSetting.ApplyUdFunctions(this, modelBuilder);
+            LinqSharpSetting.ApplyAnnotations(this, modelBuilder, LinqSharpAnnotation.All);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -41,13 +41,13 @@ namespace LinqSharp.Test
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            LinqSharp.IntelliTrack(this, acceptAllChangesOnSuccess);
+            LinqSharpSetting.IntelliTrack(this, acceptAllChangesOnSuccess);
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
-            LinqSharp.IntelliTrack(this, acceptAllChangesOnSuccess);
+            LinqSharpSetting.IntelliTrack(this, acceptAllChangesOnSuccess);
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }

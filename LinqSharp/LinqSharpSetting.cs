@@ -14,7 +14,7 @@ using System.Reflection;
 
 namespace LinqSharp
 {
-    public static partial class LinqSharp
+    public static partial class LinqSharpSetting
     {
         public static ValueConverter<TModel, TProvider> BuildConverter<TModel, TProvider>(IProvider<TModel, TProvider> field)
         {
@@ -256,7 +256,7 @@ namespace LinqSharp
                     var hasConversionMethod = typeof(PropertyBuilder).GetMethod(nameof(PropertyBuilder.HasConversion), new[] { typeof(ValueConverter) });
 
                     dynamic provider = Activator.CreateInstance(attr.ProviderType);
-                    hasConversionMethod.Invoke(propertyBuilder, new object[] { LinqSharp.BuildConverter(provider) });
+                    hasConversionMethod.Invoke(propertyBuilder, new object[] { LinqSharpSetting.BuildConverter(provider) });
                 }
             }
         }
