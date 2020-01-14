@@ -20,7 +20,7 @@ namespace LinqSharp
             Expression = predicate;
         }
 
-        public IQueryable<TSource> End() => Queryable.Where(Expression);
+        public IQueryable<TSource> Build() => Queryable.Where(Expression);
 
     }
 }

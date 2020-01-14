@@ -21,7 +21,7 @@ namespace LinqSharp
             Expression = predicate;
         }
 
-        public IEnumerable<TSource> End() => Enumerable.Where(Expression.Compile());
+        public IEnumerable<TSource> Build() => Enumerable.Where(Expression.Compile());
 
     }
 }

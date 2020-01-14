@@ -18,10 +18,12 @@ install-package Northwnd
 
 您可以使用如下代码进行简单的查询尝试，同时可以使用 **ToSql** 方法来输出生成的 **SQL** 语句：
 
+<iframe width="100%" height="475" src="https://dotnetfiddle.net/Widget/X55y12" frameborder="0"></iframe>
+
 ```C#
 using (var sqlite = NorthwndContext.UseSqliteResource())
 {
-    var query = sqlite.Shippers.Where(x => x.City == "London");
+    var query = sqlite.Shippers.Where(x => x.CompanyName == "Speedy Express");
     var sql = query.ToSql();
     // the sql is
     /*
@@ -250,6 +252,10 @@ END;
 
 
 
+### 
+
+
+
 ### WhereOr
 
   ```C#
@@ -310,4 +316,6 @@ END;
       FROM "Order Details" AS "y"
       WHERE ("y"."Discount" >= 0.02) AND ("Orders"."OrderID" = "y"."OrderID"));
   ```
+
+
 

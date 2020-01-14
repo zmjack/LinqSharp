@@ -21,8 +21,8 @@ namespace LinqSharp.Test
                 var description = "Center";
                 var now = DateTime.Now;
 
-                mysql.Sql($"insert into regions (RegionID, RegionDescription) values ({regionId}, {description});");
-                mysql.Sql($"delete from regions where regionId={regionId}");
+                mysql.Sql($"insert into `@Northwnd.regions` (RegionID, RegionDescription) values ({regionId}, {description});");
+                mysql.Sql($"delete from `@Northwnd.regions` where regionId={regionId}");
             }
         }
 

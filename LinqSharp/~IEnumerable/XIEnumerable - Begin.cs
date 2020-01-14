@@ -6,14 +6,24 @@ namespace LinqSharp
 {
     public static partial class XIEnumerable
     {
-        public static EnumerableWhereExpressionBuilder<TSource> Begin<TSource>(this IEnumerable<TSource> @this)
+        public static IEnumerable<TSource> WhereDynamic<TSource>(this IEnumerable<TSource> @this, Action<EnumerableWhereExpressionBuilder<TSource>> buildExpression)
         {
-            return new EnumerableWhereExpressionBuilder<TSource>(@this);
+            var builder = new EnumerableWhereExpressionBuilder<TSource>(@this);
+            buildExpression(builder);
+            return builder.Build();
         }
 
-        public static EnumerableWhereExpressionBuilder<TSource> Begin<TSource>(this IEnumerable<TSource> @this, Expression<Func<TSource, bool>> predicate)
+        public static IEnumerable<TSource> WhereDynamic<TSource>(this IEnumerable<TSource> @this, Expression<Func<TSource, bool>> predicate)
         {
-            return new EnumerableWhereExpressionBuilder<TSource>(@this, predicate);
+            var builder = new EnumerableWhereExpressionBuilder<TSource>(@this, predicate);
+            return builder.Build();
+        }
+
+        public static IEnumerable<TSource> WhereDynamic<TSource>(this IEnumerable<TSource> @this, Expression<Func<TSource, bool>> predicate, Action<EnumerableWhereExpressionBuilder<TSource>> buildExpression)
+        {
+            var builder = new EnumerableWhereExpressionBuilder<TSource>(@this, predicate);
+            buildExpression(builder);
+            return builder.Build();
         }
 
     }

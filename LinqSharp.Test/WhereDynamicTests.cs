@@ -31,7 +31,7 @@ WHERE instr(""c"".""CategoryName"", 'Con') > 0;
             {
                 new { link = "", prop = nameof(Category.CategoryName), method = "contains", value = "Con" },
                 new { link = "or", prop = nameof(Category.Description), method = "equals", value = "Cheeses" },
-                new { link = "or", prop = nameof(Category.Description), method = "contains", value = "fish" },
+                new { link = "and", prop = nameof(Category.Description), method = "contains", value = "fish" },
             };
             MethodInfo parseMethod(string method) => method switch
             {
@@ -44,7 +44,7 @@ WHERE instr(""c"".""CategoryName"", 'Con') > 0;
             using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Categories
-                    .Begin().Then(builder =>
+                    .WhereDynamic(builder =>
                     {
                         foreach (var search in in_searches)
                         {
@@ -56,12 +56,12 @@ WHERE instr(""c"".""CategoryName"", 'Con') > 0;
                                 case "and": builder.AndDynamic(predicate); break;
                             }
                         }
-                    }).End();
+                    });
                 sql = query.ToSql();
 
                 Assert.Equal(@"SELECT ""c"".""CategoryID"", ""c"".""CategoryName"", ""c"".""Description"", ""c"".""Picture""
 FROM ""Categories"" AS ""c""
-WHERE ((instr(""c"".""CategoryName"", 'Con') > 0) OR (""c"".""Description"" = 'Cheeses')) OR (instr(""c"".""Description"", 'fish') > 0);
+WHERE ((instr(""c"".""CategoryName"", 'Con') > 0) OR (""c"".""Description"" = 'Cheeses')) AND (instr(""c"".""Description"", 'fish') > 0);
 ", sql);
             }
         }

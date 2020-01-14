@@ -11,9 +11,9 @@ namespace LinqSharp.Test
             {
                 var query = mysql.FreeModels.Random(2);
                 var sql = query.ToSql();
-                var expectedSql = @"SELECT `x`.`Id`, `x`.`Age`, `x`.`Name`
+                var expectedSql = @"SELECT `x`.`Id`, `x`.`Age`, `x`.`Name`, `x`.`State`
 FROM `FreeModels` AS `x`
-ORDER BY Rand()
+ORDER BY RAND()
 LIMIT 2;
 ";
                 Assert.Equal(expectedSql, sql);
