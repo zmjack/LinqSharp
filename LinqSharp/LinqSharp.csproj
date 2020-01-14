@@ -19,8 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="icon.png" />
-    <None Remove="icon.png" />
     <None Include="icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
