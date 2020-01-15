@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LinqSharp
 {
@@ -38,6 +39,27 @@ namespace LinqSharp
             return command.ExecuteNonQuery();
         }
 
+        public int Sql(string sql, TDbParameter[] parameters)
+        {
+            var command = SqlCommand(sql, parameters);
+            return command.ExecuteNonQuery();
+        }
+
+        public IEnumerable<Dictionary<string, object>> SqlQuery(string sql, TDbParameter[] parameters)
+        {
+            var command = SqlCommand(sql, parameters);
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                var dict = new Dictionary<string, object>();
+                foreach (var i in new int[reader.FieldCount].Let(i => i))
+                    dict[reader.GetName(i)] = reader.GetValue(i);
+
+                yield return dict;
+            }
+            reader.Close();
+        }
+
         public IEnumerable<Dictionary<string, object>> SqlQuery(FormattableString formattableSql)
         {
             var command = SqlCommand(formattableSql);
@@ -53,52 +75,66 @@ namespace LinqSharp
             reader.Close();
         }
 
+        [SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "<Pending>")]
+        public TDbCommand SqlCommand(string sql, TDbParameter[] parameters)
+        {
+            var cmd = new TDbCommand
+            {
+                CommandText = sql,
+                Connection = Connection,
+            };
+
+            if (parameters != null)
+            {
+                for (int i = 0; i < parameters.Length; i++)
+                    cmd.Parameters.Add(parameters[i]);
+            }
+
+            return cmd;
+        }
+
+        [SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "<Pending>")]
         protected TDbCommand SqlCommand(FormattableString formattableSql)
         {
-            var values = formattableSql.GetArguments();
+            var args = formattableSql.GetArguments();
             var sql = formattableSql.Format;
-
-            var range = new int[formattableSql.ArgumentCount].Let(i => i);
-            foreach (var i in range)
-                sql = sql.Replace($"{{{i}}}", $"@p{i}");
-
-            var command = new TDbCommand().Then(_ =>
+            var cmd = new TDbCommand
             {
-                _.CommandText = sql;
-                _.Connection = Connection;
-            });
+                CommandText = sql.NFor((_sql, i) => _sql.Replace($"{{{i}}}", $"@p{i}"), formattableSql.ArgumentCount),
+                Connection = Connection,
+            };
 
-            foreach (var i in range)
+            for (int i = 0; i < formattableSql.ArgumentCount; i++)
             {
-                command.Parameters.Add(new TDbParameter().Then(x =>
+                cmd.Parameters.Add(new TDbParameter().Then(x =>
                 {
                     x.ParameterName = $"@p{i}";
-                    x.Value = values[i];
-                    x.DbType = XObject.For(values[i], value =>
+                    x.Value = args[i];
+                    x.DbType = args[i].For(value =>
                     {
-                        switch (value.GetType())
+                        return (value.GetType()) switch
                         {
-                            case Type type when type == typeof(bool): return DbType.Boolean;
-                            case Type type when type == typeof(byte): return DbType.Byte;
-                            case Type type when type == typeof(sbyte): return DbType.SByte;
-                            case Type type when type == typeof(char): return DbType.Byte;
-                            case Type type when type == typeof(short): return DbType.Int16;
-                            case Type type when type == typeof(ushort): return DbType.UInt16;
-                            case Type type when type == typeof(int): return DbType.Int32;
-                            case Type type when type == typeof(uint): return DbType.UInt32;
-                            case Type type when type == typeof(long): return DbType.Int64;
-                            case Type type when type == typeof(ulong): return DbType.UInt64;
-                            case Type type when type == typeof(float): return DbType.Single;
-                            case Type type when type == typeof(double): return DbType.Double;
-                            case Type type when type == typeof(string): return DbType.String;
-                            case Type type when type == typeof(decimal): return DbType.Decimal;
-                            case Type type when type == typeof(DateTime): return DbType.DateTime;
-                            default: return DbType.Object;
-                        }
+                            Type type when type == typeof(bool) => DbType.Boolean,
+                            Type type when type == typeof(byte) => DbType.Byte,
+                            Type type when type == typeof(sbyte) => DbType.SByte,
+                            Type type when type == typeof(char) => DbType.Byte,
+                            Type type when type == typeof(short) => DbType.Int16,
+                            Type type when type == typeof(ushort) => DbType.UInt16,
+                            Type type when type == typeof(int) => DbType.Int32,
+                            Type type when type == typeof(uint) => DbType.UInt32,
+                            Type type when type == typeof(long) => DbType.Int64,
+                            Type type when type == typeof(ulong) => DbType.UInt64,
+                            Type type when type == typeof(float) => DbType.Single,
+                            Type type when type == typeof(double) => DbType.Double,
+                            Type type when type == typeof(string) => DbType.String,
+                            Type type when type == typeof(decimal) => DbType.Decimal,
+                            Type type when type == typeof(DateTime) => DbType.DateTime,
+                            _ => DbType.Object,
+                        };
                     });
                 }));
             }
-            return command;
+            return cmd;
         }
 
     }
