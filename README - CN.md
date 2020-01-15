@@ -1,6 +1,28 @@
 # LinqSharp
 
-LinqSharp 是一个更智能 Linq 扩展库。它允许您编写更简单的代码来生成复杂查询。
+**LinqSharp** 是一个更智能 **Linq** 扩展库，它允许您编写更简单的代码来生成复杂查询、进行数据检查、自定义存储 逻辑等常用功能。
+
+
+
+**LinqSharp** 按不同应用场景可以为 **Entity Frameowk** 提供如下方面的增强：
+
+- 查询扩展（增强 SQL 生成、增强内存查询）
+- 数据检查设计模式（方便进行数据一致性检查）
+- 数据库生成辅助工具（复合主键、字段索引）
+- 数据库自定义函数映射（增强 SQL 生成，例如 RAND 函数）
+- 自定义存储扩展（数据格式调整、复杂数据存储、加密储存等）
+- 列式存储代理（全局注册信息）
+
+
+
+**支持的 Entity Framework 版本：**
+
+- Entity Framework Core 2.0+
+
+ **未来支持的 Entity Framework 版本：**
+
+- Entity Framework Core 3.0+
+  Entity Framework Core 3.0 基于 NETStandard2.1 构建且部分内部 API 已发生变化，因此暂未支持。
 
 
 
@@ -19,7 +41,6 @@ install-package Northwnd
 您可以使用如下代码进行简单的查询尝试，同时可以使用 **ToSql** 方法来输出生成的 **SQL** 语句：
 
 <iframe width="100%" height="475" src="https://dotnetfiddle.net/Widget/X55y12" frameborder="0"></iframe>
-
 ```C#
 using (var sqlite = NorthwndContext.UseSqliteResource())
 {
@@ -46,7 +67,7 @@ WHERE "x"."CompanyName" = 'Speedy Express';
 
 
 
-## 示例
+## 查询扩展
 
 ### WhereSearch
 
@@ -252,9 +273,7 @@ END;
 
 
 
-### 
-
-
+## 过期内容（待删除或改进）
 
 ### WhereOr
 

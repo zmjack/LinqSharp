@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinqSharp.Test
+namespace LinqSharp.Data.Test
 {
     public class AppRegistry : KvEntity { }
     public class AppRegistryAccessor : KvEntityAccessor<AppRegistryAccessor, AppRegistry>

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LinqSharp.Test
+namespace LinqSharp.Data.Test
 {
     [Flags]
     public enum EState

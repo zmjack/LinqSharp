@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using LinqSharp.Data.Test;
+using System.Linq;
 using Xunit;
 
 namespace LinqSharp.Test

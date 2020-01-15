@@ -3,11 +3,11 @@ using Northwnd;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LinqSharp.Test
+namespace LinqSharp.Data.Test
 {
     public class ApplicationDbContext : NorthwndContext
     {
-        public const string CONNECT_STRING = "server=127.0.0.1;database=nlinqtest";
+        public const string CONNECT_STRING = "server=127.0.0.1;database=linqsharp";
 
         public ApplicationDbContext()
             : base(new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(CONNECT_STRING).Options)
@@ -20,9 +20,9 @@ namespace LinqSharp.Test
         {
             UseNorthwndPrefix(modelBuilder, "@Northwnd.");
 
-            LinqSharpSetting.ApplyProviderFunctions(this, modelBuilder);
-            LinqSharpSetting.ApplyUdFunctions(this, modelBuilder);
-            LinqSharpSetting.ApplyAnnotations(this, modelBuilder, LinqSharpAnnotation.All);
+            LinqSharpEx.ApplyProviderFunctions(this, modelBuilder);
+            LinqSharpEx.ApplyUdFunctions(this, modelBuilder);
+            LinqSharpEx.ApplyAnnotations(this, modelBuilder, LinqSharpAnnotation.All);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -38,16 +38,17 @@ namespace LinqSharp.Test
         public DbSet<EntityTrackModel1> EntityTrackModel1s { get; set; }
         public DbSet<EntityTrackModel2> EntityTrackModel2s { get; set; }
         public DbSet<EntityTrackModel3> EntityTrackModel3s { get; set; }
+        public DbSet<ProviderTestModel> ProviderTestModels { get; set; }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            LinqSharpSetting.IntelliTrack(this, acceptAllChangesOnSuccess);
+            LinqSharpEx.IntelliTrack(this, acceptAllChangesOnSuccess);
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
-            LinqSharpSetting.IntelliTrack(this, acceptAllChangesOnSuccess);
+            LinqSharpEx.IntelliTrack(this, acceptAllChangesOnSuccess);
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }

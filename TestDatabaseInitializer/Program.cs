@@ -1,4 +1,5 @@
-﻿using LinqSharp.Test;
+﻿using LinqSharp.Data.Test;
+using LinqSharp.Test;
 using Northwnd;
 using System;
 

@@ -14,7 +14,7 @@ using System.Reflection;
 
 namespace LinqSharp
 {
-    public static partial class LinqSharpSetting
+    public static partial class LinqSharpEx
     {
         public static ValueConverter<TModel, TProvider> BuildConverter<TModel, TProvider>(IProvider<TModel, TProvider> field)
         {
@@ -126,8 +126,7 @@ namespace LinqSharp
                 }
 
                 // Resolve Monitors
-                var entityMonitor = entity as IEntityMonitor;
-                if (entityMonitor != null)
+                if (entity is IEntityMonitor)
                 {
                     var paramType = typeof(EntityMonitorInvokerParameter<>).MakeGenericType(entityType);
                     var param = Activator.CreateInstance(paramType) as IEntityMonitorInvokerParameter;
@@ -256,7 +255,7 @@ namespace LinqSharp
                     var hasConversionMethod = typeof(PropertyBuilder).GetMethod(nameof(PropertyBuilder.HasConversion), new[] { typeof(ValueConverter) });
 
                     dynamic provider = Activator.CreateInstance(attr.ProviderType);
-                    hasConversionMethod.Invoke(propertyBuilder, new object[] { LinqSharpSetting.BuildConverter(provider) });
+                    hasConversionMethod.Invoke(propertyBuilder, new object[] { LinqSharpEx.BuildConverter(provider) });
                 }
             }
         }

@@ -2,11 +2,13 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace LinqSharp
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XDbSet
     {
         public static DbContext GetDbContext<TEntity>(this DbSet<TEntity> @this)

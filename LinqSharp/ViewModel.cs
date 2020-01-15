@@ -16,7 +16,7 @@ namespace LinqSharp
             if (exp is null)
                 throw new NotSupportedException("This argument 'expression' must be MemberExpression.");
 
-            return DataAnnotationUtility.GetDisplayName(exp.Member);
+            return DataAnnotationEx.GetDisplayName(exp.Member);
         }
 
         public static string DisplayShortName<TRet>(Expression<Func<TModel, TRet>> expression)

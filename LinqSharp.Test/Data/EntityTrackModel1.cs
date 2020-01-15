@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace LinqSharp.Test
+namespace LinqSharp.Data.Test
 {
     public class EntityTrackModel1 : IEntityTracker<ApplicationDbContext, EntityTrackModel1>
     {

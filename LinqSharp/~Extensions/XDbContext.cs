@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 namespace LinqSharp
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XDbContext
     {
         public static DatabaseProviderName GetProviderName(this DbContext @this)

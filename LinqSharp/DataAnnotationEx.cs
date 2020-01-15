@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace LinqSharp
 {
-    public static class DataAnnotationUtility
+    public static class DataAnnotationEx
     {
         public static string GetDisplayName(MemberInfo memberInfo, bool inherit = true)
         {

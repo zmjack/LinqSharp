@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace LinqSharp.Test
+namespace LinqSharp.Data.Test
 {
     public class EntityTrackModel3 : IEntityTracker<ApplicationDbContext, EntityTrackModel3>
     {

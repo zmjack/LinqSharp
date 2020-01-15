@@ -141,7 +141,7 @@ namespace LinqSharp
             => @this.GetType().GetProperty(propName).GetValue(@this);
 
         public static string Display(this IEntity @this, LambdaExpression expression, string defaultReturn = "")
-            => DataAnnotationUtility.GetDisplayString(@this, expression, defaultReturn);
+            => DataAnnotationEx.GetDisplayString(@this, expression, defaultReturn);
 
         public static Dictionary<string, string> ToDisplayDictionary(this IEntity @this)
         {
@@ -172,7 +172,7 @@ namespace LinqSharp
             // Copy Values
             var ret = new Dictionary<string, string>();
             foreach (var prop in props)
-                ret.Add(prop.Name, DataAnnotationUtility.GetDisplayString(@this, prop.Name));
+                ret.Add(prop.Name, DataAnnotationEx.GetDisplayString(@this, prop.Name));
 
             return ret;
         }
@@ -200,7 +200,7 @@ namespace LinqSharp
 
         public static string Display<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression, string defaultReturn = "")
             where TEntity : class, IEntity<TEntity>, new()
-            => DataAnnotationUtility.GetDisplayString(@this, expression, defaultReturn);
+            => DataAnnotationEx.GetDisplayString(@this, expression, defaultReturn);
 
     }
 

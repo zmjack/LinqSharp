@@ -38,7 +38,7 @@ namespace LinqSharp
                     .Select(x => new EntityMonitorChangeValue
                     {
                         FieldName = x.Metadata.Name,
-                        FieldDisplayName = DataAnnotationUtility.GetDisplayName(x.Metadata.PropertyInfo),
+                        FieldDisplayName = DataAnnotationEx.GetDisplayName(x.Metadata.PropertyInfo),
                         OldValue = JsonConvert.SerializeObject(x.OriginalValue),
                         Value = JsonConvert.SerializeObject(x.CurrentValue),
                     }));

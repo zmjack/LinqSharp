@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using LinqSharp.Test;
+using LinqSharp.Data.Test;
 
 namespace LinqSharp.Test.Migrations
 {
