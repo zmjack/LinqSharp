@@ -1,4 +1,5 @@
 ﻿using LinqSharp.Data.Test;
+using System.Linq;
 using Xunit;
 
 namespace LinqSharp.Test
@@ -10,6 +11,20 @@ namespace LinqSharp.Test
         {
             using (var mysql = new ApplicationDbContext())
             {
+                var emplyeeList = new[]
+                {
+                    new
+                    {
+                        FirstName = "Robert",
+                        LastName = "King",
+                    },
+                    new
+                    {
+                        FirstName = "Michael",
+                        LastName = "Suyama",
+                    },
+                };
+                var a = mysql.Employees.Where(x => emplyeeList.Contains(new { x.FirstName, x.LastName })).ToSql();
             }
         }
     }
