@@ -14,7 +14,7 @@ namespace LinqSharp.Test
             using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Categories
-                    .WhereDynamic(x => x.Property(nameof(Category.CategoryName)).Invoke(BuiltInMethod.StringContains, "Con"));
+                    .WhereDynamic(x => x.SetDynamic(x => x.Property(nameof(Category.CategoryName)).Invoke(BuiltInMethod.StringContains, "Con")));
                 var sql = query.ToSql();
 
                 Assert.Equal(@"SELECT ""c"".""CategoryID"", ""c"".""CategoryName"", ""c"".""Description"", ""c"".""Picture""

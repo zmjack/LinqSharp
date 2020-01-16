@@ -13,13 +13,6 @@ namespace LinqSharp
             Queryable = queryable;
         }
 
-        public QueryableWhereExpressionBuilder(IQueryable<TSource> queryable, Expression<Func<TSource, bool>> predicate)
-        {
-            Queryable = queryable;
-            Parameter = predicate.Parameters[0];
-            Expression = predicate;
-        }
-
         public IQueryable<TSource> Build() => Queryable.Where(Expression);
 
     }

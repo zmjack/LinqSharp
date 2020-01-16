@@ -13,12 +13,6 @@ namespace LinqSharp
         {
         }
 
-        public WhereExpressionBuilder(Expression<Func<TSource, bool>> predicate)
-        {
-            Parameter = predicate.Parameters[0];
-            Expression = predicate;
-        }
-
         public WhereExpressionBuilder<TSource> Set(Expression<Func<TSource, bool>> predicate)
         {
             if (Expression == null)

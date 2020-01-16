@@ -14,13 +14,6 @@ namespace LinqSharp
             Enumerable = enumerable;
         }
 
-        public EnumerableWhereExpressionBuilder(IEnumerable<TSource> enumerable, Expression<Func<TSource, bool>> predicate)
-        {
-            Enumerable = enumerable;
-            Parameter = predicate.Parameters[0];
-            Expression = predicate;
-        }
-
         public IEnumerable<TSource> Build() => Enumerable.Where(Expression.Compile());
 
     }
