@@ -1,8 +1,11 @@
 # LinqSharp
 
-**LinqSharp** 是一个更智能 **Linq** 扩展库，它允许您编写更简单的代码来生成复杂查询、进行数据检查、自定义存储 逻辑等常用功能。
+**LinqSharp** 是很智能的 **Linq** 扩展库，它允许您编写更简单的代码来生成复杂查询、进行数据检查、自定义存储 逻辑等常用功能。
 
+- [English Readme](https://github.com/zmjack/LinqSharp/blob/master/README.md)
+- [中文自述](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
 
+<br/>
 
 **LinqSharp** 按不同应用场景可以为 **Entity Frameowk** 提供如下方面的增强：
 
