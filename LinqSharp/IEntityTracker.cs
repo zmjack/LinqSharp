@@ -3,11 +3,11 @@ using System;
 
 namespace LinqSharp
 {
-    public class DefEntityTracker : IEntityTracker<DbContext, DefEntityTracker>
+    public class EntityTrackerClass : IEntityTracker<DbContext, EntityTrackerClass>
     {
         public void OnCompleting(DbContext context, EntityState state) => throw new NotImplementedException();
         public void OnInserting(DbContext context) => throw new NotImplementedException();
-        public void OnUpdating(DbContext context, DefEntityTracker origin) => throw new NotImplementedException();
+        public void OnUpdating(DbContext context, EntityTrackerClass origin) => throw new NotImplementedException();
         public void OnDeleting(DbContext context) => throw new NotImplementedException();
     }
 

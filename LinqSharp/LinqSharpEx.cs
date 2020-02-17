@@ -147,9 +147,9 @@ namespace LinqSharp
                 {
                     //TODO: Use TypeReflectionCacheContainer to optimize it in the futrue.
                     var trackerType = typeof(IEntityTracker<,>).MakeGenericType(context.GetType(), entityType);
-                    var onInsertingMethod = trackerType.GetMethod(nameof(DefEntityTracker.OnInserting));
-                    var onUpdatingMethod = trackerType.GetMethod(nameof(DefEntityTracker.OnUpdating));
-                    var onDeletingMethod = trackerType.GetMethod(nameof(DefEntityTracker.OnDeleting));
+                    var onInsertingMethod = trackerType.GetMethod(nameof(EntityTrackerClass.OnInserting));
+                    var onUpdatingMethod = trackerType.GetMethod(nameof(EntityTrackerClass.OnUpdating));
+                    var onDeletingMethod = trackerType.GetMethod(nameof(EntityTrackerClass.OnDeleting));
 
                     var origin = Activator.CreateInstance(entry.Entity.GetType());
                     foreach (var originValue in entry.OriginalValues.Properties)
@@ -180,7 +180,7 @@ namespace LinqSharp
                 var entity = entry.Entity;
                 var entityType = entity.GetType();
                 var trackerType = typeof(IEntityTracker<,>).MakeGenericType(context.GetType(), entityType);
-                var onCompletingMethod = trackerType.GetMethod(nameof(DefEntityTracker.OnCompleting));
+                var onCompletingMethod = trackerType.GetMethod(nameof(EntityTrackerClass.OnCompleting));
                 onCompletingMethod.Invoke(entity, new object[] { context, entry.State });
             }
         }

@@ -49,7 +49,7 @@ namespace LinqSharp
                             }
                             catch
                             {
-                                invocation.ReturnValue = proxyProperty.PropertyType.CreateDefaultInstance();
+                                invocation.ReturnValue = proxyProperty.PropertyType.CreateDefault();
                             }
                         }
                         else invocation.Proceed();

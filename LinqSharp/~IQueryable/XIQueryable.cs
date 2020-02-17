@@ -88,7 +88,7 @@ namespace LinqSharp
 
                         case QueryCompilerVersion.Version_2_0:
                             var nodeTypeProvider = queryCompilerReflector.DeclaredProperty<INodeTypeProvider>("NodeTypeProvider").Value;
-                            var parser = queryCompilerReflector.Method("CreateQueryParser").Invoke(nodeTypeProvider) as QueryParser;
+                            var parser = queryCompilerReflector.Method("CreateQueryParser").Call(nodeTypeProvider) as QueryParser;
                             return parser.GetParsedQuery(@this.Expression);
 
                         default: throw new NotSupportedException();
