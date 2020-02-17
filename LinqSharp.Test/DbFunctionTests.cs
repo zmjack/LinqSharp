@@ -8,7 +8,7 @@ namespace LinqSharp.Test
         [Fact]
         public void RandomTest()
         {
-            using (var mysql = new ApplicationDbContext())
+            using (var mysql = ApplicationDbContext.UseDefault())
             {
                 var query = mysql.FreeModels.Random(2);
                 var sql = query.ToSql();

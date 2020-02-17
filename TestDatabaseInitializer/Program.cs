@@ -1,5 +1,4 @@
 ﻿using LinqSharp.Data.Test;
-using LinqSharp.Test;
 using Northwnd;
 using System;
 
@@ -10,7 +9,7 @@ namespace TestDatabaseCreator
         static void Main(string[] args)
         {
             using (var sqlite = NorthwndContext.UseSqliteResource())
-            using (var mysql = new ApplicationDbContext())
+            using (var mysql = ApplicationDbContext.UseDefault())
             {
                 sqlite.WriteTo(mysql);
             }

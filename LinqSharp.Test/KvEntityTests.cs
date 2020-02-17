@@ -52,7 +52,7 @@ namespace LinqSharp.Test
             [Fact]
             public void Test1()
             {
-                using (var context = new ApplicationDbContext())
+                using (var context = ApplicationDbContext.UseDefault())
                 {
                     var appRegistry = context.AppRegistriesAgent["zmjack"];
                     appRegistry.Enable = true;
@@ -63,7 +63,7 @@ namespace LinqSharp.Test
                     context.SaveChanges();
                 }
 
-                using (var context = new ApplicationDbContext())
+                using (var context = ApplicationDbContext.UseDefault())
                 {
                     var zmjack = context.AppRegistriesAgent["zmjack"];
                     Assert.True(zmjack.Enable);

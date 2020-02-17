@@ -1,9 +1,7 @@
 ﻿using NStandard;
 using NStandard.Flows;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace LinqSharp.Data.Test
 {

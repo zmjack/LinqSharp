@@ -8,7 +8,7 @@ namespace LinqSharp.Test
         [Fact]
         public void Test1()
         {
-            using (var context = new ApplicationDbContext())
+            using (var context = ApplicationDbContext.UseDefault())
             using (var tx = context.Database.BeginTransaction())
             {
                 var create = context.EntityTrackModel1s.EnsureFirst(context, new[]

@@ -1,16 +1,15 @@
-﻿using LinqSharp.Data.Test;
-using MySql.Data.MySqlClient;
+﻿using SqlPlus.Data.Test;
 using System;
 using Xunit;
 
-namespace LinqSharp.Test
+namespace SqlPlus.Test
 {
     public class SqlScopeTests
     {
         [Fact]
         public void Test1()
         {
-            using (var mysql = new ApplicationDbScope())
+            using (var mysql = ApplicationDbScope.UseDefault())
             {
                 var regionId = 5;
                 var description = "Center";

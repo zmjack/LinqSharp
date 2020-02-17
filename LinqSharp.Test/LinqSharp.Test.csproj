@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\SqlPlus.Test\Data\ApplicationDbScope.cs" Link="Data\ApplicationDbScope.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.6" />
@@ -26,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LinqSharp\LinqSharp.csproj" />
+    <ProjectReference Include="..\SqlPlus\SqlPlus.csproj" />
   </ItemGroup>
 
 </Project>

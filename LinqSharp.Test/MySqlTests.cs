@@ -1,5 +1,4 @@
 ﻿using LinqSharp.Data.Test;
-using System.Linq;
 using Xunit;
 
 namespace LinqSharp.Test
@@ -9,12 +8,8 @@ namespace LinqSharp.Test
         [Fact]
         public void Test1()
         {
-            using (var mysql = new ApplicationDbContext())
+            using (var mysql = ApplicationDbContext.UseDefault())
             {
-                var query = mysql.Categories.Where(x => x.CategoryName == "Beverages");
-                var result = query.First();
-                var sql = query.ToSql();
-
                 //var s = mysql.Suppliers.DistinctBy(x => x.Address).ToArray();
             }
         }

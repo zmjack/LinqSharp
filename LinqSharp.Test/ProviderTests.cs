@@ -1,8 +1,6 @@
 ﻿using LinqSharp.Data.Test;
-using System;
-using System.Collections.Generic;
+using SqlPlus.Data.Test;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace LinqSharp.Test
@@ -12,8 +10,8 @@ namespace LinqSharp.Test
         [Fact]
         public void Test1()
         {
-            using (var db = new ApplicationDbScope())
-            using (var context = new ApplicationDbContext())
+            using (var db = ApplicationDbScope.UseDefault())
+            using (var context = ApplicationDbContext.UseDefault())
             {
                 var item = new ProviderTestModel { Password = "0416" };
 

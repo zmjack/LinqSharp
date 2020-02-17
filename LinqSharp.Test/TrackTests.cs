@@ -10,7 +10,7 @@ namespace LinqSharp.Test
         [Fact]
         public void Test1()
         {
-            using (var context = new ApplicationDbContext())
+            using (var context = ApplicationDbContext.UseDefault())
             {
                 var origin = new TrackModel
                 {
@@ -47,7 +47,7 @@ namespace LinqSharp.Test
         [Fact]
         public void Test2()
         {
-            using (var context = new ApplicationDbContext())
+            using (var context = ApplicationDbContext.UseDefault())
             {
                 var model = new SimpleModel
                 {
@@ -59,14 +59,14 @@ namespace LinqSharp.Test
             }
 
             Guid id;
-            using (var context = new ApplicationDbContext())
+            using (var context = ApplicationDbContext.UseDefault())
             {
                 var result = context.SimpleModels.First();
                 id = result.Id;
                 Assert.Equal(18, result.Age);
             }
 
-            using (var context = new ApplicationDbContext())
+            using (var context = ApplicationDbContext.UseDefault())
             {
                 var item = new SimpleModel
                 {
@@ -78,14 +78,14 @@ namespace LinqSharp.Test
                 context.SaveChanges();
             }
 
-            using (var context = new ApplicationDbContext())
+            using (var context = ApplicationDbContext.UseDefault())
             {
                 var result = context.SimpleModels.First();
                 Assert.Equal(27, result.Age);
             }
 
 
-            using (var context = new ApplicationDbContext())
+            using (var context = ApplicationDbContext.UseDefault())
             {
                 var result = context.SimpleModels;
                 context.RemoveRange(result);

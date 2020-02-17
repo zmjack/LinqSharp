@@ -1,7 +1,5 @@
-﻿using NStandard;
-using System;
+﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace LinqSharp
 {

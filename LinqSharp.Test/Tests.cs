@@ -9,7 +9,7 @@ namespace LinqSharp.Test
         [Fact]
         public void Test1()
         {
-            using (var mysql = new ApplicationDbContext())
+            using (var mysql = ApplicationDbContext.UseDefault())
             {
                 var emplyeeList = new[]
                 {

@@ -9,9 +9,10 @@ namespace LinqSharp.Data.Test
     {
         public const string CONNECT_STRING = "server=127.0.0.1;database=linqsharp";
 
-        public ApplicationDbContext()
-            : base(new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(CONNECT_STRING).Options)
+        public static ApplicationDbContext UseDefault()
         {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(CONNECT_STRING).Options;
+            return new ApplicationDbContext(options);
         }
 
         public ApplicationDbContext(DbContextOptions options) : base(options) { }

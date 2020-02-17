@@ -1,10 +1,10 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
+﻿using LinqSharp.ProviderFunctions;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using LinqSharp.ProviderFunctions;
 using NStandard;
 using System;
 using System.Collections.Generic;
