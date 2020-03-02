@@ -1,4 +1,6 @@
 ﻿using LinqSharp.Data.Test;
+using NStandard;
+using System.Linq;
 using Xunit;
 
 namespace LinqSharp.Test
@@ -6,7 +8,7 @@ namespace LinqSharp.Test
     public class EnsureTests
     {
         [Fact]
-        public void Test1()
+        public void EnsureFirstTest()
         {
             using (var context = ApplicationDbContext.UseDefault())
             using (var trans = context.Database.BeginTransaction())
@@ -28,17 +30,17 @@ namespace LinqSharp.Test
         }
 
         [Fact]
-        public void Test2()
+        public void EnsureManyTest1()
         {
             using (var context = ApplicationDbContext.UseDefault())
             using (var trans = context.Database.BeginTransaction())
             {
-                var create1 = context.EntityTrackModel1s.EnsureFirst(new EnsureCondition<EntityTrackModel1>
+                var created1 = context.EntityTrackModel1s.EnsureFirst(new EnsureCondition<EntityTrackModel1>
                 {
                     [x => x.TotalQuantity] = 1,
                 });
 
-                var create2 = context.EntityTrackModel1s.EnsureMany(new[]
+                var created2 = context.EntityTrackModel1s.EnsureMany(new[]
                 {
                     new EnsureCondition<EntityTrackModel1>
                     {
@@ -49,7 +51,7 @@ namespace LinqSharp.Test
                         [x => x.TotalQuantity] = 2,
                     },
                 });
-                Assert.Equal(create1, create2[0]);
+                Assert.Equal(created1, created2[0]);
 
                 var found = context.EntityTrackModel1s.EnsureMany(new[]
                 {
@@ -62,7 +64,25 @@ namespace LinqSharp.Test
                         [x => x.TotalQuantity] = 2,
                     },
                 });
-                Assert.Equal(create2, found);
+                Assert.Equal(created2, found);
+
+                trans.Rollback();
+            }
+        }
+
+        [Fact]
+        public void EnsureManyTest2()
+        {
+            using (var context = ApplicationDbContext.UseDefault())
+            using (var trans = context.Database.BeginTransaction())
+            {
+                var conditions = new int[1000].Let(i => i).Select(i => new EnsureCondition<EntityTrackModel1>
+                {
+                    [x => x.TotalQuantity] = i,
+                }).ToArray();
+
+                var created = context.EntityTrackModel1s.EnsureMany(conditions);
+                Assert.Equal(1000, created.Length);
 
                 trans.Rollback();
             }
