@@ -33,7 +33,12 @@ namespace LinqSharp.Test
             using (var context = ApplicationDbContext.UseDefault())
             using (var trans = context.Database.BeginTransaction())
             {
-                var create = context.EntityTrackModel1s.EnsureMany(new[]
+                var create1 = context.EntityTrackModel1s.EnsureFirst(new EnsureCondition<EntityTrackModel1>
+                {
+                    [x => x.TotalQuantity] = 1,
+                });
+
+                var create2 = context.EntityTrackModel1s.EnsureMany(new[]
                 {
                     new EnsureCondition<EntityTrackModel1>
                     {
@@ -44,6 +49,7 @@ namespace LinqSharp.Test
                         [x => x.TotalQuantity] = 2,
                     },
                 });
+                Assert.Equal(create1, create2[0]);
 
                 var found = context.EntityTrackModel1s.EnsureMany(new[]
                 {
@@ -56,8 +62,8 @@ namespace LinqSharp.Test
                         [x => x.TotalQuantity] = 2,
                     },
                 });
+                Assert.Equal(create2, found);
 
-                Assert.Equal(create, found);
                 trans.Rollback();
             }
         }
