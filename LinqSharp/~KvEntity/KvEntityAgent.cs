@@ -8,11 +8,10 @@ namespace LinqSharp
     public abstract class KvEntityAgent<TKvEntityAccessor>
         where TKvEntityAccessor : KvEntityAccessor, new()
     {
-        public static KvEntityAgent<TDbContext, TKvEntityAccessor, TKvEntity> Create<TDbContext, TKvEntity>(TDbContext context, Func<TDbContext, DbSet<TKvEntity>> getEntities)
-            where TDbContext : DbContext
+        public static KvEntityAgent<TKvEntityAccessor, TKvEntity> Create<TKvEntity>(DbSet<TKvEntity> dbSet)
             where TKvEntity : KvEntity, new()
         {
-            return new KvEntityAgent<TDbContext, TKvEntityAccessor, TKvEntity>(context, getEntities);
+            return new KvEntityAgent<TKvEntityAccessor, TKvEntity>(dbSet);
         }
 
         public abstract void EnsureItem(string item);
@@ -20,35 +19,30 @@ namespace LinqSharp
         public TKvEntityAccessor this[string item] => Get(item);
     }
 
-    public class KvEntityAgent<TDbContext, TKvEntityAccessor, TKvEntity> : KvEntityAgent<TKvEntityAccessor>
-        where TDbContext : DbContext
+    public class KvEntityAgent<TKvEntityAccessor, TKvEntity> : KvEntityAgent<TKvEntityAccessor>
         where TKvEntityAccessor : KvEntityAccessor, new()
         where TKvEntity : KvEntity, new()
     {
-        private TDbContext DbContext;
-        public Func<TDbContext, IQueryable<TKvEntity>> GetEntities;
+        public DbSet<TKvEntity> DbSet;
 
-        public KvEntityAgent(TDbContext context, Func<TDbContext, IQueryable<TKvEntity>> getEntities)
+        public KvEntityAgent(DbSet<TKvEntity> dbSet)
         {
-            DbContext = context;
-            GetEntities = getEntities;
+            DbSet = dbSet;
         }
 
         public override void EnsureItem(string item)
         {
             var ensureItems = typeof(TKvEntityAccessor).GetProperties()
                 .Where(x => x.GetMethod.IsVirtual)
-                .Select(x => new[]
+                .Select(x => new EnsureCondition<TKvEntity>
                 {
-                    new EnsureCondition<TKvEntity>(c => c.Item, item),
-                    new EnsureCondition<TKvEntity>(c => c.Key, x.Name),
-                })
-                .ToArray();
+                    [c => c.Item] = item,
+                    [c => c.Key] = x.Name,
+                }).ToArray();
 
-            var queryable = GetEntities(DbContext);
             foreach (var ensureItem in ensureItems)
             {
-                queryable.EnsureFirst(DbContext, ensureItem);
+                DbSet.EnsureFirst(ensureItem);
             }
         }
 
@@ -60,7 +54,7 @@ namespace LinqSharp
             var registryProxy = Activator.CreateInstance(typeof(KvEntityAccessorProxy<TKvEntityAccessor>));
 
             var proxy = new ProxyGenerator().CreateClassProxyWithTarget(registry, registryProxy as IInterceptor);
-            proxy.Load(GetEntities(DbContext), item);
+            proxy.Load(DbSet, item);
             return proxy;
         }
 

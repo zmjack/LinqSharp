@@ -1,5 +1,4 @@
 ﻿using LinqSharp.Data.Test;
-using SqlPlus.Data.Test;
 using System.Linq;
 using Xunit;
 

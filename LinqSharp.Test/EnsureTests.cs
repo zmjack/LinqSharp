@@ -9,22 +9,58 @@ namespace LinqSharp.Test
         public void Test1()
         {
             using (var context = ApplicationDbContext.UseDefault())
-            using (var tx = context.Database.BeginTransaction())
+            using (var trans = context.Database.BeginTransaction())
             {
-                var create = context.EntityTrackModel1s.EnsureFirst(context, new[]
+                var create = context.EntityTrackModel1s.EnsureFirst(new EnsureCondition<EntityTrackModel1>
                 {
-                    new EnsureCondition<EntityTrackModel1>(x => x.TotalQuantity, 1),
+                    [x => x.TotalQuantity] = 1,
                 });
 
-                var found = context.EntityTrackModel1s.EnsureFirst(context, new[]
+                var found = context.EntityTrackModel1s.EnsureFirst(new EnsureCondition<EntityTrackModel1>
                 {
-                    new EnsureCondition<EntityTrackModel1>(x => x.TotalQuantity, 1),
+                    [x => x.TotalQuantity] = 1,
                 });
 
                 Assert.Equal(create, found);
 
-                tx.Rollback();
+                trans.Rollback();
             }
         }
+
+        [Fact]
+        public void Test2()
+        {
+            using (var context = ApplicationDbContext.UseDefault())
+            using (var trans = context.Database.BeginTransaction())
+            {
+                var create = context.EntityTrackModel1s.EnsureMany(new[]
+                {
+                    new EnsureCondition<EntityTrackModel1>
+                    {
+                        [x => x.TotalQuantity] = 1,
+                    },
+                    new EnsureCondition<EntityTrackModel1>
+                    {
+                        [x => x.TotalQuantity] = 2,
+                    },
+                });
+
+                var found = context.EntityTrackModel1s.EnsureMany(new[]
+                {
+                    new EnsureCondition<EntityTrackModel1>
+                    {
+                        [x => x.TotalQuantity] = 1,
+                    },
+                    new EnsureCondition<EntityTrackModel1>
+                    {
+                        [x => x.TotalQuantity] = 2,
+                    },
+                });
+
+                Assert.Equal(create, found);
+                trans.Rollback();
+            }
+        }
+
     }
 }
