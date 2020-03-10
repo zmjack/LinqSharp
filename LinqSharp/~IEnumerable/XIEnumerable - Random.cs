@@ -11,11 +11,11 @@ namespace LinqSharp
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="this"></param>
-        /// <param name="count"></param>
+        /// <param name="takeCount"></param>
         /// <returns></returns>
-        public static IEnumerable<TSource> Random<TSource>(this IEnumerable<TSource> @this, int count)
+        public static IEnumerable<TSource> Random<TSource>(this IEnumerable<TSource> @this, int takeCount)
         {
-            return @this.OrderBy(x => Guid.NewGuid()).Take(count);
+            return @this.OrderBy(x => Guid.NewGuid()).Take(takeCount);
         }
 
     }

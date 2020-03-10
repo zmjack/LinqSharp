@@ -12,9 +12,9 @@ namespace LinqSharp
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="this"></param>
-        /// <param name="count"></param>
+        /// <param name="takeCount"></param>
         /// <returns></returns>
-        public static IQueryable<TSource> Random<TSource>(this IQueryable<TSource> @this, int count)
+        public static IQueryable<TSource> Random<TSource>(this IQueryable<TSource> @this, int takeCount)
             where TSource : class
         {
             var providerName = GetProviderName(@this);
@@ -24,16 +24,16 @@ namespace LinqSharp
                 case DatabaseProviderName.Cosmos: goto default;
                 case DatabaseProviderName.Firebird: goto default;
                 case DatabaseProviderName.IBM: goto default;
-                case DatabaseProviderName.Jet: return @this.OrderBy(x => PJet.Rnd()).Take(count);
+                case DatabaseProviderName.Jet: return @this.OrderBy(x => PJet.Rnd()).Take(takeCount);
                 case DatabaseProviderName.MyCat:
-                case DatabaseProviderName.MySql: return @this.OrderBy(x => PMySql.Rand()).Take(count);
+                case DatabaseProviderName.MySql: return @this.OrderBy(x => PMySql.Rand()).Take(takeCount);
                 case DatabaseProviderName.OpenEdge: goto default;
-                case DatabaseProviderName.Oracle: return @this.OrderBy(x => POracle.Random()).Take(count);
-                case DatabaseProviderName.PostgreSQL: return @this.OrderBy(x => PPostgreSQL.Random()).Take(count);
-                case DatabaseProviderName.Sqlite: return @this.OrderBy(x => PSqlite.Random()).Take(count);
+                case DatabaseProviderName.Oracle: return @this.OrderBy(x => POracle.Random()).Take(takeCount);
+                case DatabaseProviderName.PostgreSQL: return @this.OrderBy(x => PPostgreSQL.Random()).Take(takeCount);
+                case DatabaseProviderName.Sqlite: return @this.OrderBy(x => PSqlite.Random()).Take(takeCount);
                 case DatabaseProviderName.SqlServer:
                 case DatabaseProviderName.SqlServerCompact35:
-                case DatabaseProviderName.SqlServerCompact40: return @this.OrderBy(x => PSqlServer.Rand()).Take(count);
+                case DatabaseProviderName.SqlServerCompact40: return @this.OrderBy(x => PSqlServer.Rand()).Take(takeCount);
 
                 case DatabaseProviderName.Unknown:
                 default:
