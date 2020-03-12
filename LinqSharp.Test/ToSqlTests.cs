@@ -17,7 +17,7 @@ namespace LinqSharp.Test
             using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 sql = sqlite.Employees
-                    .WhereSearch("Tofu", e => new
+                    .WhereSearch(new[] { "Tofu", "123" }, e => new
                     {
                         ProductName = e.Orders
                             .SelectMany(o => o.Order_Details)
@@ -49,6 +49,10 @@ namespace LinqSharp.Test
                 var query = sqlite.Employees
                     .WhereBetween(x => x.BirthDate, new DateTime(1960, 5, 1), new DateTime(1960, 5, 31));
 
+                var query1 = sqlite.Employees
+                    .Where(x => Convert.ToDateTime("1960-05-01") <= x.BirthDate && x.BirthDate <= new DateTime(1960, 5, 31));
+                var sql1 = query1.ToSql();
+
                 var result = query.ToArray();
                 Assert.Single(result);
             }
@@ -60,9 +64,9 @@ namespace LinqSharp.Test
             using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Products.WhereMin(x => x.UnitPrice);
-
-                var result = query.ToArray();
-                Assert.Single(result);
+                var records = query.ToArray();
+                Assert.Single(records);
+                Assert.Equal(33, records[0].ProductID);
             }
         }
 
@@ -72,9 +76,9 @@ namespace LinqSharp.Test
             using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Products.WhereMax(x => x.UnitPrice);
-
-                var result = query.ToArray();
-                Assert.Single(result);
+                var records = query.ToArray();
+                Assert.Single(records);
+                Assert.Equal(38, records[0].ProductID);
             }
         }
 

@@ -13,7 +13,7 @@ namespace LinqSharp.Test
             using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 var query = sqlite.Categories
-                    .WhereDynamic(x => x.SetDynamic(x => x.Property(nameof(Category.CategoryName)).Invoke(BuiltInMethod.StringContains, "Con")));
+                    .WhereDynamic(x => x.SetDynamic(x => x.Property(nameof(Category.CategoryName)).Invoke(MethodUnit.StringContains, "Con")));
                 var sql = query.ToSql();
 
                 Assert.Equal(@"SELECT ""c"".""CategoryID"", ""c"".""CategoryName"", ""c"".""Description"", ""c"".""Picture""
@@ -34,8 +34,8 @@ WHERE instr(""c"".""CategoryName"", 'Con') > 0;
             };
             MethodInfo parseMethod(string method) => method switch
             {
-                "equals" => BuiltInMethod.StringEquals,
-                "contains" => BuiltInMethod.StringContains,
+                "equals" => MethodUnit.StringEquals,
+                "contains" => MethodUnit.StringContains,
                 _ => throw new NotSupportedException(),
             };
 
