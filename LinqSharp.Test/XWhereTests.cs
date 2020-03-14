@@ -1,4 +1,5 @@
 ﻿using Northwnd;
+using NStandard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,31 +34,60 @@ namespace LinqSharp.Test
                         h.Where(x => x.TitleOfCourtesy == "Ms." && x.BirthDate.Value.Year == 1963));
                 });
 
-                Assert.Equal(2, query1.Count());
-                Assert.Equal(2, query2.Count());
-                Assert.Equal(2, query3.Count());
+                Assert.Equal(new[] { 3, 5 }, query1.Select(x => x.EmployeeID));
+                Assert.Equal(new[] { 3, 5 }, query2.Select(x => x.EmployeeID));
+                Assert.Equal(new[] { 3, 5 }, query3.Select(x => x.EmployeeID));
+            }
+        }
+
+        private class SearchModel
+        {
+            public string PropName;
+            public string Method;
+            public string Value;
+        }
+
+        private class SearchEvaluator<TSource> : Evaluator<string, WhereExp<TSource>>
+        {
+            public WhereHelper<TSource> WhereHelper;
+
+            public SearchEvaluator(WhereHelper<TSource> helper)
+            {
+                WhereHelper = helper;
+            }
+
+            public override Func<WhereExp<TSource>, WhereExp<TSource>, WhereExp<TSource>> GetOpFunction(string op)
+            {
+                return op switch
+                {
+                    "|" => (left, right) => left | right,
+                    "&" => (left, right) => left & right,
+                    _ => throw new NotImplementedException(),
+                };
+            }
+
+            public override int GetOpLevel(string op)
+            {
+                return op switch
+                {
+                    "&" => 1,
+                    "|" => 2,
+                    _ => throw new NotImplementedException(),
+                };
             }
         }
 
         [Fact]
         public void Test2()
         {
-            var searches = new[]
-            {
-                new { prop = nameof(Category.CategoryName), method = "contains", value = "Con" },
-                new { prop = nameof(Category.Description), method = "equals", value = "Cheeses" },
-                new { prop = nameof(Category.Description), method = "contains", value = "fish" },
-            };
-            var ops = new[] { "|", "&" };
-
             using (var sqlite = NorthwndContext.UseSqliteResource())
             {
-                sqlite.Categories.XWhere(h =>
+                var query1 = sqlite.Categories.XWhere(h =>
                 {
                     return h.Where(x => x.CategoryName.Contains("Con")) | h.Where(x => x.Description == "Cheeses") & h.Where(x => x.Description.Contains("fish"));
                 });
 
-                sqlite.Categories.XWhere(h =>
+                var query2 = sqlite.Categories.XWhere(h =>
                 {
                     return
                         h.Or(
@@ -67,15 +97,31 @@ namespace LinqSharp.Test
                                 h.Where(x => x.Description.Contains("fish"))));
                 });
 
-                sqlite.Categories.XWhere(h =>
+                var searches = new[]
                 {
-                    return
-                        h.Or(
-                            h.WhereDynamic(b => b.Property("CategoryName").Invoke(MethodUnit.StringContains, "Con")),
-                            h.And(
-                                h.WhereDynamic(b => b.Property("Description").Invoke(MethodUnit.StringEquals, "Cheeses")),
-                                h.WhereDynamic(b => b.Property("Description").Invoke(MethodUnit.StringContains, "fish"))));
+                    new SearchModel { PropName = nameof(Category.CategoryName), Method = "contains", Value = "Con" },
+                    new SearchModel { PropName = nameof(Category.Description), Method = "equals", Value = "Cheeses" },
+                    new SearchModel { PropName = nameof(Category.Description), Method = "contains", Value = "fish" },
+                };
+                var operators = new[] { "", "|", "&" };
+                var query3 = sqlite.Categories.XWhere(h =>
+                {
+                    var operands = searches.Select(x =>
+                    {
+                        var method = x.Method switch
+                        {
+                            "contains" => MethodUnit.StringContains,
+                            "equals" => MethodUnit.StringEquals,
+                            _ => throw new NotSupportedException(),
+                        };
+                        return h.WhereDynamic(b => b.Property(x.PropName).Invoke(method, x.Value));
+                    });
+                    return new SearchEvaluator<Category>(h).Eval(operators, operands);
                 });
+
+                Assert.Equal(new[] { 2, 3 }, query1.Select(x => x.CategoryID));
+                Assert.Equal(new[] { 2, 3 }, query2.Select(x => x.CategoryID));
+                Assert.Equal(new[] { 2, 3 }, query3.Select(x => x.CategoryID));
             }
         }
 

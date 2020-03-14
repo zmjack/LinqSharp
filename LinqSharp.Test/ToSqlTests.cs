@@ -17,7 +17,7 @@ namespace LinqSharp.Test
             using (var sqlite = NorthwndContext.UseSqliteResource())
             {
                 sql = sqlite.Employees
-                    .WhereSearch(new[] { "Tofu", "123" }, e => new
+                    .WhereSearch("Tofu", e => new
                     {
                         ProductName = e.Orders
                             .SelectMany(o => o.Order_Details)

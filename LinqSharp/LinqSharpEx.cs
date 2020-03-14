@@ -262,13 +262,13 @@ namespace LinqSharp
 
         private static void ResolveTrackAttributes(EntityEntry entry, PropertyInfo[] properties)
         {
-            var props_TrackCreationTime = properties.Where(x => x.IsMarkedAs<TrackCreationTimeAttribute>());
-            var props_TrackLastWrite = properties.Where(x => x.IsMarkedAs<TrackLastWriteTimeAttribute>());
-            var props_TrackLower = properties.Where(x => x.IsMarkedAs<TrackLowerAttribute>());
-            var props_TrackUpper = properties.Where(x => x.IsMarkedAs<TrackUpperAttribute>());
-            var props_TrackTrim = properties.Where(x => x.IsMarkedAs<TrackTrimAttribute>());
-            var props_TrackCondensed = properties.Where(x => x.IsMarkedAs<TrackCondensedAttribute>());
-            var props_Track = properties.Where(x => x.IsMarkedAs<TrackAttribute>());
+            var props_TrackCreationTime = properties.Where(x => x.HasAttribute<TrackCreationTimeAttribute>());
+            var props_TrackLastWrite = properties.Where(x => x.HasAttribute<TrackLastWriteTimeAttribute>());
+            var props_TrackLower = properties.Where(x => x.HasAttribute<TrackLowerAttribute>());
+            var props_TrackUpper = properties.Where(x => x.HasAttribute<TrackUpperAttribute>());
+            var props_TrackTrim = properties.Where(x => x.HasAttribute<TrackTrimAttribute>());
+            var props_TrackCondensed = properties.Where(x => x.HasAttribute<TrackCondensedAttribute>());
+            var props_Track = properties.Where(x => x.HasAttribute<TrackAttribute>());
 
             var now = DateTime.Now;
             switch (entry.State)
