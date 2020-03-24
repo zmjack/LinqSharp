@@ -1,6 +1,4 @@
 ﻿using LinqSharp.ProviderFunctions;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -268,7 +266,6 @@ namespace LinqSharp
             var props_TrackUpper = properties.Where(x => x.HasAttribute<TrackUpperAttribute>());
             var props_TrackTrim = properties.Where(x => x.HasAttribute<TrackTrimAttribute>());
             var props_TrackCondensed = properties.Where(x => x.HasAttribute<TrackCondensedAttribute>());
-            var props_Track = properties.Where(x => x.HasAttribute<TrackAttribute>());
 
             var now = DateTime.Now;
             switch (entry.State)
@@ -280,7 +277,6 @@ namespace LinqSharp
                     SetPropertiesValue(props_TrackUpper, entry, v => (v as string)?.ToUpper());
                     SetPropertiesValue(props_TrackTrim, entry, v => (v as string)?.Trim());
                     SetPropertiesValue(props_TrackCondensed, entry, v => ((v as string) ?? "").Unique());
-                    SetPropertiesValueForTrack(props_Track, entry);
                     break;
 
                 case EntityState.Modified:
@@ -289,7 +285,6 @@ namespace LinqSharp
                     SetPropertiesValue(props_TrackUpper, entry, v => (v as string)?.ToUpper());
                     SetPropertiesValue(props_TrackTrim, entry, v => (v as string)?.Trim());
                     SetPropertiesValue(props_TrackCondensed, entry, v => (v as string)?.Unique());
-                    SetPropertiesValueForTrack(props_Track, entry);
                     break;
             }
         }
@@ -303,37 +298,6 @@ namespace LinqSharp
                 prop.SetValue(entry.Entity, evalMethod(oldValue));
             }
         }
-
-        private static void SetPropertiesValueForTrack(IEnumerable<PropertyInfo> properties, EntityEntry entry)
-        {
-            foreach (var prop in properties)
-            {
-                var trackAttr = prop.GetCustomAttribute<TrackAttribute>();
-
-                var type = trackAttr.Type;
-                var csharp = trackAttr.CSharp;
-                var entity = entry.Entity;
-                var entityType = entity.GetType()
-                    .For(self => self.Module.FullyQualifiedName != "<In Memory Module>" ? self : self.BaseType);
-
-                Script shell;
-                if (type != null)
-                {
-                    var references = new[] { type.Assembly.FullName };
-
-                    //If the invoked method is 'Method<T>(this T @this),
-                    //  the correct pattern is '@this.Method'
-                    shell = CSharpScript.Create($"using static {type.Namespace}.{type.Name};",
-                        ScriptOptions.Default.AddReferences(references), entityType)
-                        .ContinueWith(csharp);
-                }
-                else shell = CSharpScript.Create(csharp, ScriptOptions.Default, entityType);
-
-                var scriptState = shell.RunAsync(entity).Result;
-                prop.SetValue(entity, scriptState.ReturnValue);
-            }
-        }
-
 
     }
 }

@@ -27,8 +27,5 @@ namespace LinqSharp.Data.Test
 
         [TrackCondensed]
         public string ForCondensed { get; set; }
-
-        [Track(typeof(RegexUtility), nameof(RegexUtility.IPRange) + "(" + nameof(ForTrim) + ")")]
-        public string Automatic { get; set; }
     }
 }

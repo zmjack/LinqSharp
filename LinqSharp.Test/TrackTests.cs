@@ -27,7 +27,6 @@ namespace LinqSharp.Test
                 Assert.Equal("dawnx", model.ForLower);
                 Assert.Equal("DAWNX", model.ForUpper);
                 Assert.Equal("Welcome to Dawnx", model.ForCondensed);
-                Assert.Equal(@"127\.0\.0\.(?:[1-2]\d(?<!2[6-9])\d(?<!25[6-9])|\d\d|[0-9])", model.Automatic);
 
                 model = context.TrackModels.First();
                 model.Accept(origin, x => new { x.ForTrim, x.ForLower, x.ForUpper, x.ForCondensed });
