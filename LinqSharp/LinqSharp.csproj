@@ -10,10 +10,10 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
     <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
-    <PackageIconUrl />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageId>LinqSharp</PackageId>
     <PackageTags>Linq</PackageTags>
     <PackageIcon>LinqSharp.png</PackageIcon>
   </PropertyGroup>
