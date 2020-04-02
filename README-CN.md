@@ -45,7 +45,6 @@ install-package Northwnd
 
 您可以使用如下代码进行简单的查询尝试，同时可以使用 **ToSql** 方法来输出生成的 **SQL** 语句：
 
-<iframe width="100%" height="475" src="https://dotnetfiddle.net/Widget/X55y12" frameborder="0"></iframe>
 ```C#
 using (var sqlite = NorthwndContext.UseSqliteResource())
 {
@@ -59,6 +58,9 @@ SELECT "x"."ShipperID", "x"."CompanyName", "x"."Phone"
 FROM "Shippers" AS "x"
 WHERE "x"."CompanyName" = 'Speedy Express';
 ```
+
+<iframe width="100%" height="475" src="https://dotnetfiddle.net/Widget/X55y12" frameborder="0"></iframe>
+
 
 **NorthwndContext.UseSqliteResource()** 方法会使用默认 **Sqlite** 数据源：
 

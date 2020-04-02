@@ -65,6 +65,10 @@ FROM "Shippers" AS "x"
 WHERE "x"."CompanyName" = 'Speedy Express';
 ```
 
+<iframe width="100%" height="475" src="https://dotnetfiddle.net/Widget/X55y12" frameborder="0"></iframe>
+
+
+
 Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite file:
 
 > **%userprofile%/.nuget/northwnd/{version}/content/@Resources/Northwnd/northwnd.db**
