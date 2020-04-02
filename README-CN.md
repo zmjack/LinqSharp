@@ -10,13 +10,12 @@
 **LinqSharp** 按不同应用场景可以为 **Entity Frameowk** 提供如下方面的增强：
 
 - 查询扩展（增强 SQL 生成、增强内存查询）
-- 动态 Linq（AND/OR 组装，多值 Contains）
-- 数据检查设计模式（方便进行数据一致性检查）
+- 动态 Linq
+- 数据检查模式（方便进行数据一致性检查）
 - 数据库生成辅助工具（复合主键、字段索引）
 - 数据库自定义函数映射（增强 SQL 生成，例如 RAND 函数）
 - 自定义存储扩展（数据格式调整、复杂数据存储、加密储存等）
 - 列式存储代理（全局注册信息）
-- 更加容易编写的 SQL 参数化查询（SQL 参数化）
 
 
 
@@ -24,16 +23,17 @@
 
 - Entity Framework Core 2.0+
 
- **未来支持的 Entity Framework 版本：**
+ **受限支持的 Entity Framework 版本：**
 
-- Entity Framework Core 3.0+
-  Entity Framework Core 3.0 基于 NETStandard2.1 构建且部分内部 API 已发生变化，因此暂未支持。
+- Entity Framework Core 3.0+：部分内部 API 发生变化，尚未全部支持。
 
 
 
 ## 如何使用？
 
-为了便于说明，以下示例将使用 **Northwnd** 库作为数据源来展示其用法。您可以通过 **Nuget** 安装 **Northwnd**。
+示例将使用 **Northwnd** 库作为数据源来展示其用法。
+
+您可以通过 **Nuget** 安装 **Northwnd**：
 
 ```powershell
 install-package Northwnd
@@ -51,17 +51,11 @@ using (var sqlite = NorthwndContext.UseSqliteResource())
 {
     var query = sqlite.Shippers.Where(x => x.CompanyName == "Speedy Express");
     var sql = query.ToSql();
-    // the sql is
-    /*
-    SELECT "x"."ShipperID", "x"."CompanyName", "x"."Phone"
-	FROM "Shippers" AS "x"
-	WHERE "x"."CompanyName" = 'Speedy Express';
-	*/
 }
 ```
 
 ```sqlite
-SELECT *
+SELECT "x"."ShipperID", "x"."CompanyName", "x"."Phone"
 FROM "Shippers" AS "x"
 WHERE "x"."CompanyName" = 'Speedy Express';
 ```

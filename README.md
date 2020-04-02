@@ -1,48 +1,73 @@
 # LinqSharp
 
-This library provides some extension functions to generate SQL.
+**LinqSharp** is a smart **Linq** extension library that allows you to write simpler code to generate complex queries, perform data checks, customize storage logic, and more commonly used functions.
 
-The Entity Framework provides some basic query extensions, but use it to develop business applications is not simple enough.
+- [English Readme](https://github.com/zmjack/LinqSharp/blob/master/README.md)
+- [中文自述](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
 
-So, we provide more query extensions to help developers to solve their business problems.
+<br/>
+
+**LinqSharp** provides the following enhancements to **Entity Frameowk** according to different application scenarios:
+
+- Query expansion (enhanced SQL generation, enhanced memory query)
+
+- Dynamic Linq
+
+- Data checking pattern (to facilitate data consistency checking)
+
+- Auxiliary tools for database generation (compound primary key, field index)
+
+- Database custom function mapping (enhanced SQL generation, such as RAND functions)
+
+- Custom storage extension (data format adjustment, complex data storage, encrypted storage, etc.)
+
+- Column storage agent (global registration information)
+
+
+
+**Supported version of Entity Framework:** 
+
+- Entity Framework Core 2.0+
+
+**Restricted supported version of Entity Framework: **
+
+- Entity Framework Core 3.0+ : some internal API changes, not fully supported.
 
 
 
 ## How to try it?
 
-Firstly, you should install the **Northwnd** package through **Nuget**.
+The example USES the **Northwnd** library as a data source to demonstrate its use.
 
-The **Northwnd** package provides a simple database of **Sqlite** and code first definitions of **Northwnd**.
+You can install **Northwnd** through **Nuget**：
 
 ```powershell
 install-package Northwnd
 ```
 
-And, you can use this simple database to test your own queries. Just like this:
+![](https://raw.githubusercontent.com/zmjack/Northwnd/master/Northwnd/%40Resources/Northwnd/Northwnd.png)
+
+**Northwnd** provides code-first **Northwnd** database definitions and **Sqlite** data sources.
+
+You can make a simple query attempt using the following code, and you can output the generated **SQL** statements using the **ToSql** method:
 
 ```C#
 using (var sqlite = NorthwndContext.UseSqliteResource())
 {
-    var query = sqlite.Employees.Where(x => x.City == "London");
+    var query = sqlite.Shippers.Where(x => x.CompanyName == "Speedy Express");
     var sql = query.ToSql();
 }
 ```
 
-Use **NorthwndContext.UseSqliteResource()** method will use the default sqlite file:
+```sqlite
+SELECT "x"."ShipperID", "x"."CompanyName", "x"."Phone"
+FROM "Shippers" AS "x"
+WHERE "x"."CompanyName" = 'Speedy Express';
+```
+
+Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite file:
 
 > **%userprofile%/.nuget/northwnd/{version}/content/@Resources/Northwnd/northwnd.db**
-
-
-
-### [Method] ToSql
-
-If you want to get the generated SQL string, you can use **ToSql()**. For example, The above query is:
-
-```sqlite
-SELECT "x"."EmployeeID", "x"."Address", "x"."BirthDate", "x"."City", "x"."Country", "x"."Extension", "x"."FirstName", "x"."HireDate", "x"."HomePhone", "x"."LastName", "x"."Notes", "x"."Photo", "x"."PhotoPath", "x"."PostalCode", "x"."Region", "x"."ReportsTo", "x"."Title", "x"."TitleOfCourtesy"
-FROM "Employees" AS "x"
-WHERE "x"."City" = 'London';
-```
 
 
 
