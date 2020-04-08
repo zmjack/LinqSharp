@@ -16,6 +16,7 @@
     <PackageId>LinqSharp</PackageId>
     <PackageTags>Linq</PackageTags>
     <PackageIcon>LinqSharp.png</PackageIcon>
+    <RootNamespace>LinqSharp</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

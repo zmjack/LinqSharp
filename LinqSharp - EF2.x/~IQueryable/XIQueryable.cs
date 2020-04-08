@@ -5,7 +5,6 @@ using NStandard;
 using Remotion.Linq.Parsing.Structure;
 using System;
 using System.Linq;
-using System.Reflection;
 
 namespace LinqSharp
 {

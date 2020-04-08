@@ -13,16 +13,17 @@ namespace LinqSharp.Test
         [Fact]
         public void Test()
         {
-            string sql;
             using (var sqlite = NorthwndContext.UseSqliteResource())
             {
-                sql = sqlite.Employees
+                var query = sqlite.Employees
                     .WhereSearch("Tofu", e => new
                     {
                         ProductName = e.Orders
                             .SelectMany(o => o.Order_Details)
                             .Select(x => x.Product.ProductName)
-                    }).ToSql();
+                    });
+                var sql = query.ToSql();
+                var result = query.ToArray();
             }
         }
 
