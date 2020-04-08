@@ -11,9 +11,10 @@ namespace LinqSharp
 {
     public static partial class XIQueryable
     {
+        //TODO: Updates: if the EF library updates the relevant internal API 
         private enum QueryCompilerVersion
         {
-            Unknown, Version_2_0, Version_2_1
+            Unknown, Version_2_0, Version_2_1, Version_3_0
         }
 
         private static QueryCompilerVersion _queryCompilerVersion = QueryCompilerVersion.Unknown;
@@ -82,6 +83,9 @@ namespace LinqSharp
                                 goto case QueryCompilerVersion.Version_2_0;
                             }
                             else throw new NotSupportedException("Can not get QueryModel.");
+
+                        case QueryCompilerVersion.Version_3_0:
+                            throw new NotSupportedException();
 
                         case QueryCompilerVersion.Version_2_1:
                             return queryCompilerReflector.DeclaredField<QueryModelGenerator>("_queryModelGenerator").Value.ParseQuery(@this.Expression);
