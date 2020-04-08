@@ -1,5 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
-using SqlPlus;
+using SQLib;
 
 namespace LinqSharp.Data.Test
 {
