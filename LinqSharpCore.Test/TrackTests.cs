@@ -38,8 +38,6 @@ namespace LinqSharp.Test
 
                 context.TrackModels.Remove(model);
                 context.SaveChanges();
-
-                Assert.False(context.EntityMonitorModels.Any());
             }
         }
 

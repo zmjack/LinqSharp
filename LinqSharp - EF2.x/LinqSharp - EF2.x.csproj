@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <Version>3.0.0-preview</Version>
+    <Version>2.0.0-preview</Version>
     <Authors>zmjack</Authors>
     <Company>dawnx.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
@@ -16,16 +16,13 @@
     <PackageId>LinqSharp</PackageId>
     <PackageTags>Linq</PackageTags>
     <PackageIcon>LinqSharp.png</PackageIcon>
-    <RootNamespace>LinqSharp</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" Condition="'$(TargetFramework)'=='netstandard2.0'" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.0" Condition="'$(TargetFramework)'=='netstandard2.0'" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" Condition="'$(TargetFramework)'=='netstandard2.1'" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.0.0" Condition="'$(TargetFramework)'=='netstandard2.1'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.6" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NStandard" Version="0.3.15" />
   </ItemGroup>
@@ -40,7 +37,7 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  
+
   <Import Project="..\LinqSharpCore\LinqSharpCore.projitems" Label="Shared" />
 
 </Project>

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>f02da5e9-7da3-4154-b301-9bd32632b0ed</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>LinqSharpCore.Test</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BulkInsertTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationDbContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationDbScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\AppRegistry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\CPKeyModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\EntityMonitorModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\EntityTrackModel1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\EntityTrackModel2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\EntityTrackModel3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\FreeModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ProviderTestModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\SimpleModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\TrackModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DbFunctionTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EnsureTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EntityTrackerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GroupByCountTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KvEntityTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20190912080758_201909120607.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20190912080758_201909120607.Designer.cs">
+      <DependentUpon>20190912080758_201909120607.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20190927094652_201909271739.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20190927094652_201909271739.Designer.cs">
+      <DependentUpon>20190927094652_201909271739.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20191111103011_201911111828.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20191111103011_201911111828.Designer.cs">
+      <DependentUpon>20191111103011_201911111828.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20191207131658_201912072116.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20191207131658_201912072116.Designer.cs">
+      <DependentUpon>20191207131658_201912072116.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20200102125513_202001022055.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20200102125513_202001022055.Designer.cs">
+      <DependentUpon>20200102125513_202001022055.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20200115082737_202001151613.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20200115082737_202001151613.Designer.cs">
+      <DependentUpon>20200115082737_202001151613.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Migrations\ApplicationDbContextModelSnapshot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MonitorTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MySqlTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PagedEnumerableTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProviderTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToSqlTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TrackTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WhereDynamicTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XExpressionTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XIEnumerableTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XWhereTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~extern\RegexUtility.cs" />
+  </ItemGroup>
+</Project>
