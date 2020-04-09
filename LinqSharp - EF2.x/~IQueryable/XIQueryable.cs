@@ -20,6 +20,7 @@ namespace LinqSharp
         {
             if (@this is EntityQueryable<TEntity> query)
             {
+                if (EFVersion.AtLeast(3, 0)) throw EFVersion.NotSupportedException;
                 if (EFVersion.AtLeast(2, 1))
                 {
                     var queryCompiler = @this.Provider.GetReflector<EntityQueryProvider>().DeclaredField<QueryCompiler>("_queryCompiler").Value;

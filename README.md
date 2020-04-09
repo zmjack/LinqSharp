@@ -68,7 +68,6 @@ WHERE "x"."CompanyName" = 'Speedy Express';
 <iframe width="100%" height="475" src="https://dotnetfiddle.net/Widget/X55y12" frameborder="0"></iframe>
 
 
-
 Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite file:
 
 > **%userprofile%/.nuget/northwnd/{version}/content/@Resources/Northwnd/northwnd.db**
@@ -273,65 +272,4 @@ Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite fil
 
 ### ThenByCaseDescending
   Same as **ThenByCase**, but use descending order.
-
-### WhereOr
-
-  ```C#
-  sqlite.Employees.WhereOr(sqlite.Employees
-  	.GroupBy(x => x.TitleOfCourtesy)
-  	.Select(g => new
-  	{
-  		TitleOfCourtesy = g.Key,
-  		BirthDate = g.Max(x => x.BirthDate),
-  	}));
-  ```
-
-  This invoke will generated two SQL string, the first is:
-
-  ```sqlite
-  SELECT "x"."TitleOfCourtesy", MAX("x"."BirthDate") AS "BirthDate"
-  FROM "Employees" AS "x"
-  GROUP BY "x"."TitleOfCourtesy";
-  ```
-
-  the follow SQL will use all the field of the first result as it's where condition. So, the follow SQL string is:
-
-  ```sqlite
-  SELECT "e"."EmployeeID", "e"."Address", "e"."BirthDate", "e"."City", "e"."Country", "e"."Extension", "e"."FirstName", "e"."HireDate", "e"."HomePhone", "e"."LastName", "e"."Notes", "e"."Photo", "e"."PhotoPath", "e"."PostalCode", "e"."Region", "e"."ReportsTo", "e"."Title", "e"."TitleOfCourtesy"
-  FROM "Employees" AS "e"
-  WHERE (((("e"."TitleOfCourtesy" = 'Dr.') AND ("e"."BirthDate" = '1952-02-19 00:00:00')) OR (("e"."TitleOfCourtesy" = 'Mr.') AND ("e"."BirthDate" = '1963-07-02 00:00:00'))) OR (("e"."TitleOfCourtesy" = 'Mrs.') AND ("e"."BirthDate" = '1937-09-19 00:00:00'))) OR (("e"."TitleOfCourtesy" = 'Ms.') AND ("e"."BirthDate" = '1966-01-27 00:00:00'));
-  ```
-
-### TryUpdate
-
-  ```C#
-  sqlite.Orders
-  	.TryUpdate(x => x.Order_Details.Any(y => y.Discount >= 0.02))
-      .Set(x => x.ShipCity, "Reims")
-      .Save();
-  ```
-
-  ```sqlite
-  UPDATE "Orders" SET "ShipCity"='Reims' WHERE EXISTS (
-      SELECT 1
-      FROM "Order Details" AS "y"
-      WHERE ("y"."Discount" >= 0.02) AND ("Orders"."OrderID" = "y"."OrderID"));
-  ```
-
-  **Next feature**: to support set a value which is calculated by the specified entity ***x***.
-
-### TryDelete
-
-  ```C#
-  sqlite.Orders
-  	.TryDelete(x => x.Order_Details.Any(y => y.Discount >= 0.02))
-      .Save();
-  ```
-
-  ```sqlite
-  DELETE FROM "Orders" WHERE EXISTS (
-      SELECT 1
-      FROM "Order Details" AS "y"
-      WHERE ("y"."Discount" >= 0.02) AND ("Orders"."OrderID" = "y"."OrderID"));
-  ```
 
