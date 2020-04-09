@@ -30,7 +30,7 @@ namespace LinqSharp
 
                 if (value.GetType().IsNumberType())
                     setValue = value.ToString();
-                else setValue = $"'{value.ToString()}'";
+                else setValue = $"'{value}'";
 
                 FieldChanges.Add(body.GetCustomAttribute<ColumnAttribute>()?.Name ?? body.Name, setValue);
             }
@@ -45,7 +45,7 @@ namespace LinqSharp
             var set = FieldChanges.Select(x =>
             {
                 var key = $"{WhereWrapper.ReferenceTagA}{x.Key}{WhereWrapper.ReferenceTagB}";
-                return $"{key}={x.Value.ToString()}";
+                return $"{key}={x.Value}";
             }).Join(",");
             return $"UPDATE {WhereWrapper.TableName} SET {set} WHERE {WhereWrapper.WhereString}";
         }

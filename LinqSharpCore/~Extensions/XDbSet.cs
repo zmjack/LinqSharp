@@ -19,17 +19,19 @@ namespace LinqSharp
             return context;
         }
 
-        public static UpdateWrapper<TEntity> TryUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> expression)
-            where TEntity : class
-            => new UpdateWrapper<TEntity>(new WhereWrapper<TEntity>(@this, expression));
+        [Obsolete("The API is part of the experimental feature and may be modified or removed in the future.")]
+        public static UpdateWrapper<TEntity> TryUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> expression) where TEntity : class
+        {
+            return new UpdateWrapper<TEntity>(new WhereWrapper<TEntity>(@this, expression));
+        }
 
-        public static DeleteWrapper<TEntity> TryDelete<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> expression)
-            where TEntity : class
-            => new DeleteWrapper<TEntity>(new WhereWrapper<TEntity>(@this, expression));
+        [Obsolete("The API is part of the experimental feature and may be modified or removed in the future.")]
+        public static DeleteWrapper<TEntity> TryDelete<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> expression) where TEntity : class
+        {
+            return new DeleteWrapper<TEntity>(new WhereWrapper<TEntity>(@this, expression));
+        }
 
-        public static string ToSql<TEntity>(this DbSet<TEntity> @this)
-            where TEntity : class
-            => XIQueryable.ToSql(@this.Where(x => true));
+        public static string ToSql<TEntity>(this DbSet<TEntity> @this) where TEntity : class => XIQueryable.ToSql(@this.Where(x => true));
 
     }
 }
