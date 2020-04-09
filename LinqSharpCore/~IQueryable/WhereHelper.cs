@@ -73,7 +73,7 @@ namespace LinqSharp
             return new WhereExp<TSource>(builder.Lambda);
         }
 
-        public WhereExp<TSource> WhereMinExp<TResult>(Expression<Func<TSource, TResult>> selector)
+        public WhereExp<TSource> WhereMin<TResult>(Expression<Func<TSource, TResult>> selector)
         {
             if (Sources.Any())
             {
@@ -84,7 +84,7 @@ namespace LinqSharp
             }
             else return new WhereExp<TSource>(x => false);
         }
-        public WhereExp<TSource> WhereMaxExp<TResult>(Expression<Func<TSource, TResult>> selector)
+        public WhereExp<TSource> WhereMax<TResult>(Expression<Func<TSource, TResult>> selector)
         {
             if (Sources.Any())
             {
@@ -96,12 +96,12 @@ namespace LinqSharp
             else return new WhereExp<TSource>(x => false);
         }
 
-        public WhereExp<TSource> WhereSearchExp(string searchString, Expression<Func<TSource, object>> searchMembers)
+        public WhereExp<TSource> WhereSearch(string searchString, Expression<Func<TSource, object>> searchMembers)
         {
             var strategy = new WhereSearchStrategy<TSource>(searchString, searchMembers);
             return new WhereExp<TSource>(strategy.StrategyExpression);
         }
-        public WhereExp<TSource> WhereMatchExp(string searchString, Expression<Func<TSource, object>> searchMembers)
+        public WhereExp<TSource> WhereMatch(string searchString, Expression<Func<TSource, object>> searchMembers)
         {
             var strategy = new WhereMatchStrategy<TSource>(searchString, searchMembers);
             return new WhereExp<TSource>(strategy.StrategyExpression);

@@ -9,26 +9,26 @@
 
 **LinqSharp** 按不同应用场景可以为 **Entity Frameowk** 提供如下方面的增强：
 
-- 查询扩展（增强 SQL 生成、增强内存查询）
-- 动态 Linq
-- 数据检查模式（方便进行数据一致性检查）
-- 数据库生成辅助工具（复合主键、字段索引）
-- 数据库自定义函数映射（增强 SQL 生成，例如 RAND 函数）
-- 自定义存储扩展（数据格式调整、复杂数据存储、加密储存等）
-- 列式存储代理（全局注册信息）
+- <font color="limegreen">[README]</font> 查询扩展（增强 SQL 生成、增强内存查询）
+- <font color="limegreen">[README]</font> 动态 LINQ
+- <font color="orange">[暂无文档]</font> 数据检查模式（方便进行数据一致性检查）
+- <font color="orange">[暂无文档]</font> 数据库生成辅助工具（复合主键、字段索引）
+- <font color="orange">[暂无文档]</font> 数据库自定义函数映射（增强 SQL 生成，例如 RAND 函数）
+- <font color="orange">[暂无文档]</font> 自定义存储扩展（数据格式调整、复杂数据存储、加密储存等）
+- <font color="orange">[暂无文档]</font> 列式存储代理（全局注册信息）
 
-
+<br/>
 
 **支持的 Entity Framework 版本：**
 
+- Entity Framework Core 3.1
 - Entity Framework Core 2.0+
 
  **受限支持的 Entity Framework 版本：**
 
-- Entity Framework Core 3.1：已支持。
 - Entity Framework Core 3.0：1 项失败。
 
-
+<br/>
 
 ## 如何使用？
 
@@ -61,12 +61,11 @@ WHERE "x"."CompanyName" = 'Speedy Express';
 ```
 
 <iframe width="100%" height="475" src="https://dotnetfiddle.net/Widget/X55y12" frameborder="0"></iframe>
-
 **NorthwndContext.UseSqliteResource()** 方法会使用默认 **Sqlite** 数据源：
 
 > **%userprofile%/.nuget/northwnd/{version}/content/@Resources/Northwnd/northwnd.db**
 
-
+<br/>
 
 ## 查询扩展
 
@@ -149,9 +148,7 @@ WHERE
 ((instr("x"."ProductName", 'pkg') > 0) OR (instr("x"."QuantityPerUnit", 'pkg') > 0));
 ```
 
-----
-
-
+<br/>
 
 ### WhereMatch
 
@@ -173,9 +170,7 @@ FROM "Employees" AS "x"
 WHERE "x"."FirstName" = 'Steven';
 ```
 
-----
-
-
+<br/>
 
 ### WhereBetween / WhereBefore / WhereAfter
 
@@ -207,7 +202,7 @@ WHERE CASE
 END = 1;
   ```
 
-
+<br/>
 
 ### WhereMax / WhereMin
 
@@ -231,9 +226,7 @@ FROM "Employees" AS "x"
 WHERE "x"."BirthDate" = '1937-09-19 00:00:00';
 ```
 
----
-
-
+<br/>
 
 ### OrderByCase / OrderByCaseDescending
 
@@ -270,7 +263,124 @@ ORDER BY CASE
 END;
   ```
 
+<br/>
+
+## 动态 LINQ
+
+通常情况下，静态 LINQ 已经可以适应多数的查询情景。
+
+看一下更复杂的查询场景。
+
+1. 设计查询逻辑，接受输入一组数据，每个数据包含 (**TitleOfCourtesy**，***Year***)；
+2. 查询 **Employees** 表中 **TitleOfCourtesy** 和 **BirthDate.Year** 匹配输入数据的记录。
+
+假设输入数据：
+
+```c#
+new[] { ("Mr.", 1955), ("Ms.", 1963) };
+```
+
+很容易写出静态 LINQ 调用：
+
+```c#
+var query = mysql.Employees.Where(x =>
+    (x.TitleOfCourtesy == "Mr." && x.BirthDate.Value.Year == 1955)
+    || (x.TitleOfCourtesy == "Ms." && x.BirthDate.Value.Year == 1963));
+```
+但是，输入数据并不是定量的，所以我们需要把它们按指定逻辑连起来。
+
+我们提供了 **XWhere** 方法来帮助你完成语句连接。
+
+<br/>
+
+### XWhere
+
+动态构建查询树，解决动态参数查询场景。示例为 MySQL。
+
 ---
 
+1. 按本节给出的查询场景，先定义输入数据：
 
+```c#
+var searches = new[] { ("Mr.", 1955), ("Ms.", 1963) };
+```
+
+2. 在 **XWhere** 函数中将 **searches** 的每个单元转换成表达式单元 **parts**，并使用 **Or** 方法连接：
+
+```c#
+var query = mysql.Employees.XWhere(h =>
+{
+    var parts = searches
+        .Select(s => 
+                h.Where(x => x.TitleOfCourtesy == s.Item1 
+                          && x.BirthDate.Value.Year == s.Item2))
+        .ToArray();
+    return h.Or(parts);
+});
+```
+
+**h.Or** 方法还提供更简单的重截：
+
+```c#
+var query = mysql.Employees.XWhere(h =>
+{
+    return h.Or(searches, s => 
+        x => x.TitleOfCourtesy == s.Item1 && x.BirthDate.Value.Year == s.Item2);
+});
+```
+
+3. 生成表达式查询（示例）
+
+```c#
+// 示例等效于 Where 语法
+mysql.Employees.Where(x =>
+	(x.TitleOfCourtesy == "Mr." && x.BirthDate.Value.Year == 1955)
+	|| (x.TitleOfCourtesy == "Ms." && x.BirthDate.Value.Year == 1963));
+```
+
+```mysql
+SELECT *
+FROM `@Northwnd.Employees` AS `x`
+WHERE 
+((`x`.`TitleOfCourtesy` = 'Mr.') AND (EXTRACT(year FROM `x`.`BirthDate`) = 1955)) 
+OR 
+((`x`.`TitleOfCourtesy` = 'Ms.') AND (EXTRACT(year FROM `x`.`BirthDate`) = 1963));
+```
+
+---
+
+**XWhere** 同样支持手动连接不同的表达式单元。
+
+使用运算符：
+
+```c#
+var query = mysql.Employees.XWhere(h =>
+{
+    return h.Where(x => x.TitleOfCourtesy == "Mr." && x.BirthDate.Value.Year == 1955)
+         | h.Where(x => x.TitleOfCourtesy == "Ms." && x.BirthDate.Value.Year == 1963);
+});
+```
+或使用函数：
+
+```c#
+var query = mysql.Employees.XWhere(h =>
+{
+    return h.Or(
+        h.Where(x => x.TitleOfCourtesy == "Mr." && x.BirthDate.Value.Year == 1955),
+        h.Where(x => x.TitleOfCourtesy == "Ms." && x.BirthDate.Value.Year == 1963));
+});
+```
+
+或者混合使用：
+
+```c#
+var query = mysql.Employees.XWhere(h =>
+{
+    return h.Or(
+        h.Where(x => x.TitleOfCourtesy == "Mr." && x.BirthDate.Value.Year == 1955),
+        h.Where(x => x.TitleOfCourtesy == "Ms." && x.BirthDate.Value.Year == 1963)
+    ) & h.WhereSearch("Manager", x => x.Title);
+});
+```
+<br/>
 

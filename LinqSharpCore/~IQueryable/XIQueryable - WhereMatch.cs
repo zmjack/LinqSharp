@@ -11,7 +11,7 @@ namespace LinqSharp
             string searchString,
             Expression<Func<TEntity, object>> searchMembers)
         {
-            return @this.XWhere(h => h.WhereMatchExp(searchString, searchMembers));
+            return @this.XWhere(h => h.WhereMatch(searchString, searchMembers));
         }
 
         [Obsolete("This function may cause performance problems.")]

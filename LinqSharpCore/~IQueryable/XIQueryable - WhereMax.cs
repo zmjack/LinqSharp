@@ -8,7 +8,7 @@ namespace LinqSharp
     {
         public static IQueryable<TSource> WhereMax<TSource, TResult>(this IQueryable<TSource> sources, Expression<Func<TSource, TResult>> selector)
         {
-            return sources.XWhere(h => h.WhereMaxExp(selector));
+            return sources.XWhere(h => h.WhereMax(selector));
         }
 
     }

@@ -9,19 +9,19 @@
 
 **LinqSharp** provides the following enhancements to **Entity Frameowk** according to different application scenarios:
 
-- Query expansion (enhanced SQL generation, enhanced memory query)
+- <font color="limegreen">[README]</font> Query expansion (enhanced SQL generation, enhanced memory query)
 
-- Dynamic Linq
+- <font color="limegreen">[README]</font> Dynamic Linq
 
-- Data checking pattern (to facilitate data consistency checking)
+- <font color="orange">[Undocumented]</font> Data checking pattern (to facilitate data consistency checking)
 
-- Auxiliary tools for database generation (compound primary key, field index)
+- <font color="orange">[Undocumented]</font> Auxiliary tools for database generation (compound primary key, field index)
 
-- Database custom function mapping (enhanced SQL generation, such as RAND functions)
+- <font color="orange">[Undocumented]</font> Database custom function mapping (enhanced SQL generation, such as RAND functions)
 
-- Custom storage extension (data format adjustment, complex data storage, encrypted storage, etc.)
+- <font color="orange">[Undocumented]</font> Custom storage extension (data format adjustment, complex data storage, encrypted storage, etc.)
 
-- Column storage agent (global registration information)
+- <font color="orange">[Undocumented]</font> Column storage agent (global registration information)
 
 
 
@@ -66,7 +66,6 @@ WHERE "x"."CompanyName" = 'Speedy Express';
 ```
 
 <iframe width="100%" height="475" src="https://dotnetfiddle.net/Widget/X55y12" frameborder="0"></iframe>
-
 
 Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite file:
 

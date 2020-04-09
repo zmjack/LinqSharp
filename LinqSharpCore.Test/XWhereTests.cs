@@ -14,9 +14,10 @@ namespace LinqSharp.Test
         {
             using (var mysql = ApplicationDbContext.UseMySql())
             {
+                var searches = new[] { ("Mr.", 1955), ("Ms.", 1963) };
+
                 var query1 = mysql.Employees.XWhere(h =>
                 {
-                    var searches = new[] { ("Mr.", 1955), ("Ms.", 1963) };
                     return h.Or(searches, s => x => x.TitleOfCourtesy == s.Item1 && x.BirthDate.Value.Year == s.Item2);
                 });
 
@@ -28,9 +29,18 @@ namespace LinqSharp.Test
 
                 var query3 = mysql.Employees.XWhere(h =>
                 {
-                    return h.Or(
-                        h.Where(x => x.TitleOfCourtesy == "Mr." && x.BirthDate.Value.Year == 1955),
-                        h.Where(x => x.TitleOfCourtesy == "Ms." && x.BirthDate.Value.Year == 1963));
+                    return
+                        h.Or(
+                            h.Where(x => x.TitleOfCourtesy == "Mr." && x.BirthDate.Value.Year == 1955),
+                            h.Where(x => x.TitleOfCourtesy == "Ms." && x.BirthDate.Value.Year == 1963));
+                });
+
+                var query4 = mysql.Employees.XWhere(h =>
+                {
+                    var parts = searches
+                        .Select(s => h.Where(x => x.TitleOfCourtesy == s.Item1 && x.BirthDate.Value.Year == s.Item2))
+                        .ToArray();
+                    return h.Or(parts);
                 });
 
                 Assert.Equal(new[] { 3, 5 }, query1.Select(x => x.EmployeeID));

@@ -8,7 +8,7 @@ namespace LinqSharp
     {
         public static IQueryable<TSource> WhereMin<TSource, TResult>(this IQueryable<TSource> sources, Expression<Func<TSource, TResult>> selector)
         {
-            return sources.XWhere(h => h.WhereMinExp(selector));
+            return sources.XWhere(h => h.WhereMin(selector));
         }
 
     }

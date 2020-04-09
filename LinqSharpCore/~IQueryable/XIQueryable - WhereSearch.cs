@@ -9,7 +9,7 @@ namespace LinqSharp
     {
         public static IQueryable<TEntity> WhereSearch<TEntity>(this IQueryable<TEntity> @this, string searchString, Expression<Func<TEntity, object>> searchMembers)
         {
-            return @this.XWhere(h => h.WhereSearchExp(searchString, searchMembers));
+            return @this.XWhere(h => h.WhereSearch(searchString, searchMembers));
         }
 
         [Obsolete("This function may cause performance problems.")]
