@@ -1,4 +1,5 @@
-﻿using Northwnd;
+﻿using LinqSharp.Data.Test;
+using Northwnd;
 using NStandard;
 using System;
 using System.Linq;
@@ -11,21 +12,21 @@ namespace LinqSharp.Test
         [Fact]
         public void Test1()
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query1 = sqlite.Employees.XWhere(h =>
+                var query1 = mysql.Employees.XWhere(h =>
                 {
                     var searches = new[] { ("Mr.", 1955), ("Ms.", 1963) };
                     return h.Or(searches, s => x => x.TitleOfCourtesy == s.Item1 && x.BirthDate.Value.Year == s.Item2);
                 });
 
-                var query2 = sqlite.Employees.XWhere(h =>
+                var query2 = mysql.Employees.XWhere(h =>
                 {
                     return h.Where(x => x.TitleOfCourtesy == "Mr." && x.BirthDate.Value.Year == 1955)
                          | h.Where(x => x.TitleOfCourtesy == "Ms." && x.BirthDate.Value.Year == 1963);
                 });
 
-                var query3 = sqlite.Employees.XWhere(h =>
+                var query3 = mysql.Employees.XWhere(h =>
                 {
                     return h.Or(
                         h.Where(x => x.TitleOfCourtesy == "Mr." && x.BirthDate.Value.Year == 1955),
@@ -78,14 +79,14 @@ namespace LinqSharp.Test
         [Fact]
         public void Test2()
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query1 = sqlite.Categories.XWhere(h =>
+                var query1 = mysql.Categories.XWhere(h =>
                 {
                     return h.Where(x => x.CategoryName.Contains("Con")) | h.Where(x => x.Description == "Cheeses") & h.Where(x => x.Description.Contains("fish"));
                 });
 
-                var query2 = sqlite.Categories.XWhere(h =>
+                var query2 = mysql.Categories.XWhere(h =>
                 {
                     return
                         h.Or(
@@ -102,7 +103,7 @@ namespace LinqSharp.Test
                     new SearchModel { PropName = nameof(Category.Description), Method = "contains", Value = "fish" },
                 };
                 var operators = new[] { "", "|", "&" };
-                var query3 = sqlite.Categories.XWhere(h =>
+                var query3 = mysql.Categories.XWhere(h =>
                 {
                     var operands = searches.Select(x =>
                     {

@@ -1,15 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using NStandard;
-using System;
 using System.Linq;
 
 namespace LinqSharp
 {
     public static partial class XIQueryable
     {
-        private static readonly Version EFVersion = typeof(EntityQueryable<>).Assembly.GetName().Version;
-
         /// <summary>
         /// Gets the provider name of database.
         /// </summary>
@@ -19,27 +16,38 @@ namespace LinqSharp
         public static DatabaseProviderName GetProviderName<TEntity>(this IQueryable<TEntity> @this)
             where TEntity : class
         {
-            var executionStrategyFactoryName = @this.Provider.GetReflector()
+            var queryFactoryReflector = @this.Provider.GetReflector()
                 .DeclaredField<QueryCompiler>("_queryCompiler")
-                .DeclaredField<RelationalQueryContextFactory>("_queryContextFactory")
-                .DeclaredProperty("ExecutionStrategyFactory").Value.ToString();
-            switch (executionStrategyFactoryName)
+                .DeclaredField<RelationalQueryContextFactory>("_queryContextFactory");
+            string factoryName;
+
+            if (EFVersion.AtLeast(3, 0))
             {
-                case string name when name.Contains(DatabaseProviderName.Cosmos.ToString()): return DatabaseProviderName.Cosmos;
-                case string name when name.Contains(DatabaseProviderName.Firebird.ToString()): return DatabaseProviderName.Firebird;
-                case string name when name.Contains(DatabaseProviderName.IBM.ToString()): return DatabaseProviderName.IBM;
-                case string name when name.Contains(DatabaseProviderName.Jet.ToString()): return DatabaseProviderName.Jet;
-                case string name when name.Contains(DatabaseProviderName.MyCat.ToString()): return DatabaseProviderName.MyCat;
-                case string name when name.Contains(DatabaseProviderName.MySql.ToString()): return DatabaseProviderName.MySql;
-                case string name when name.Contains(DatabaseProviderName.OpenEdge.ToString()): return DatabaseProviderName.OpenEdge;
-                case string name when name.Contains(DatabaseProviderName.Oracle.ToString()): return DatabaseProviderName.Oracle;
-                case string name when name.Contains(DatabaseProviderName.PostgreSQL.ToString()): return DatabaseProviderName.PostgreSQL;
-                case string name when name.Contains(DatabaseProviderName.Sqlite.ToString()): return DatabaseProviderName.Sqlite;
-                case string name when name.Contains(DatabaseProviderName.SqlServer.ToString()): return DatabaseProviderName.SqlServer;
-                case string name when name.Contains(DatabaseProviderName.SqlServerCompact35.ToString()): return DatabaseProviderName.SqlServerCompact35;
-                case string name when name.Contains(DatabaseProviderName.SqlServerCompact40.ToString()): return DatabaseProviderName.SqlServerCompact40;
-                default: return DatabaseProviderName.Unknown;
+                factoryName = queryFactoryReflector.DeclaredField("_relationalDependencies").DeclaredProperty("ExecutionStrategyFactory").Value.ToString();
             }
+            else if (EFVersion.AtLeast(2, 0))
+            {
+                factoryName = queryFactoryReflector.DeclaredProperty("ExecutionStrategyFactory").Value.ToString();
+            }
+            else throw EFVersion.NotSupportedException;
+
+            return factoryName switch
+            {
+                string name when name.Contains(DatabaseProviderName.Cosmos.ToString()) => DatabaseProviderName.Cosmos,
+                string name when name.Contains(DatabaseProviderName.Firebird.ToString()) => DatabaseProviderName.Firebird,
+                string name when name.Contains(DatabaseProviderName.IBM.ToString()) => DatabaseProviderName.IBM,
+                string name when name.Contains(DatabaseProviderName.Jet.ToString()) => DatabaseProviderName.Jet,
+                string name when name.Contains(DatabaseProviderName.MyCat.ToString()) => DatabaseProviderName.MyCat,
+                string name when name.Contains(DatabaseProviderName.MySql.ToString()) => DatabaseProviderName.MySql,
+                string name when name.Contains(DatabaseProviderName.OpenEdge.ToString()) => DatabaseProviderName.OpenEdge,
+                string name when name.Contains(DatabaseProviderName.Oracle.ToString()) => DatabaseProviderName.Oracle,
+                string name when name.Contains(DatabaseProviderName.PostgreSQL.ToString()) => DatabaseProviderName.PostgreSQL,
+                string name when name.Contains(DatabaseProviderName.Sqlite.ToString()) => DatabaseProviderName.Sqlite,
+                string name when name.Contains(DatabaseProviderName.SqlServer.ToString()) => DatabaseProviderName.SqlServer,
+                string name when name.Contains(DatabaseProviderName.SqlServerCompact35.ToString()) => DatabaseProviderName.SqlServerCompact35,
+                string name when name.Contains(DatabaseProviderName.SqlServerCompact40.ToString()) => DatabaseProviderName.SqlServerCompact40,
+                _ => DatabaseProviderName.Unknown,
+            };
         }
 
     }

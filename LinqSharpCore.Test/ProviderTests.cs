@@ -10,7 +10,7 @@ namespace LinqSharp.Test
         public void Test1()
         {
             using (var db = ApplicationDbScope.UseDefault())
-            using (var context = ApplicationDbContext.UseDefault())
+            using (var context = ApplicationDbContext.UseMySql())
             {
                 var item = new ProviderTestModel { Password = "0416" };
 

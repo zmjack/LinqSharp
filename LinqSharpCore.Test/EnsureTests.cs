@@ -10,7 +10,7 @@ namespace LinqSharp.Test
         [Fact]
         public void EnsureFirstTest()
         {
-            using (var context = ApplicationDbContext.UseDefault())
+            using (var context = ApplicationDbContext.UseMySql())
             using (var trans = context.Database.BeginTransaction())
             {
                 var create = context.EntityTrackModel1s.EnsureFirst(new EnsureCondition<EntityTrackModel1>
@@ -32,7 +32,7 @@ namespace LinqSharp.Test
         [Fact]
         public void EnsureManyTest1()
         {
-            using (var context = ApplicationDbContext.UseDefault())
+            using (var context = ApplicationDbContext.UseMySql())
             using (var trans = context.Database.BeginTransaction())
             {
                 var created1 = context.EntityTrackModel1s.EnsureFirst(new EnsureCondition<EntityTrackModel1>
@@ -73,7 +73,7 @@ namespace LinqSharp.Test
         [Fact]
         public void EnsureManyTest2()
         {
-            using (var context = ApplicationDbContext.UseDefault())
+            using (var context = ApplicationDbContext.UseMySql())
             using (var trans = context.Database.BeginTransaction())
             {
                 var conditions = new int[1000].Let(i => i).Select(i => new EnsureCondition<EntityTrackModel1>

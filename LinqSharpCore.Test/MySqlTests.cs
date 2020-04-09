@@ -8,7 +8,7 @@ namespace LinqSharp.Test
         [Fact]
         public void Test1()
         {
-            using (var mysql = ApplicationDbContext.UseDefault())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
                 //var s = mysql.Suppliers.DistinctBy(x => x.Address).ToArray();
             }

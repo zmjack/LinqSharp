@@ -9,7 +9,7 @@ namespace TestDatabaseCreator
         static void Main(string[] args)
         {
             using (var sqlite = NorthwndContext.UseSqliteResource())
-            using (var mysql = ApplicationDbContext.UseDefault())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
                 sqlite.WriteTo(mysql);
             }

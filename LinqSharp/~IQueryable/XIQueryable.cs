@@ -20,33 +20,34 @@ namespace LinqSharp
         {
             if (@this is EntityQueryable<TEntity> query)
             {
-                if (EFVersion >= new Version(3, 1))
+                if (EFVersion.AtLeast(3, 1))
                 {
                     var reflector_enumerator = query.Provider.Execute<IEnumerable<TEntity>>(query.Expression).GetEnumerator().GetReflector();
                     var reflector_cmdCache = reflector_enumerator.DeclaredField("_relationalCommandCache");
 
-                    var selectExpression = reflector_cmdCache.DeclaredField<SelectExpression>("_selectExpression").Value;
                     var factory = reflector_cmdCache.DeclaredField<IQuerySqlGeneratorFactory>("_querySqlGeneratorFactory").Value;
                     var sqlGenerator = factory.Create();
-                    var command = sqlGenerator.GetCommand(selectExpression);
 
-                    var sql = $"{command.CommandText};";
+                    var selectExpression = reflector_cmdCache.DeclaredField<SelectExpression>("_selectExpression").Value;
+                    var command = sqlGenerator.GetCommand(selectExpression);
+                    var sql = $"{command.CommandText};{Environment.NewLine}";
+
                     return sql;
                 }
-                else if (EFVersion >= new Version(3, 0))
+                else if (EFVersion.AtLeast(3, 0))
                 {
                     var reflector_enumerator = query.Provider.Execute<IEnumerable<TEntity>>(query.Expression).GetEnumerator().GetReflector();
 
-                    var selectExpression = reflector_enumerator.DeclaredField<SelectExpression>("_selectExpression").Value;
                     var factory = reflector_enumerator.DeclaredField<IQuerySqlGeneratorFactory>("_querySqlGeneratorFactory").Value;
                     var sqlGenerator = factory.Create();
 
+                    var selectExpression = reflector_enumerator.DeclaredField<SelectExpression>("_selectExpression").Value;
                     var command = sqlGenerator.GetCommand(selectExpression);
-                    var sql = $"{command.CommandText};";
+                    var sql = $"{command.CommandText};{Environment.NewLine}";
 
                     return sql;
                 }
-                else throw new NotSupportedException($"The version({EFVersion}) of EntityFramework is not supported.");
+                else throw EFVersion.NotSupportedException;
             }
             else throw new ArgumentException($"Need to convert {@this.GetType().FullName} to {typeof(EntityQueryable<TEntity>).FullName} to use this method.");
         }

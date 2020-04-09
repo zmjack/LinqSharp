@@ -6,13 +6,14 @@
     <SharedGUID>7c303c8c-7081-4686-9320-2c52f159531e</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>LinqSharpCore</Import_RootNamespace>
+    <Import_RootNamespace>LinqSharp</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)DataAnnotationEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DatabaseProviderName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureConditionUnit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExpressionEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExpressionRebindVisitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntity.cs" />

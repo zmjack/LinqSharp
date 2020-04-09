@@ -1,4 +1,5 @@
-﻿using Northwnd;
+﻿using LinqSharp.Data.Test;
+using Northwnd;
 using NStandard;
 using System.Linq;
 using Xunit;
@@ -10,8 +11,8 @@ namespace LinqSharp.Test
         [Fact]
         public void Test1()
         {
-            using var sqlite = NorthwndContext.UseSqliteResource();
-            var regions = sqlite.Regions.ToArray();
+            using var mysql = ApplicationDbContext.UseMySql();
+            var regions = mysql.Regions.ToArray();
 
             regions.GroupByCount(2).ToArray().Then(groups =>
             {

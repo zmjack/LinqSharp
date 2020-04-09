@@ -42,7 +42,7 @@ namespace LinqSharp.Test
                 monitorLogs.Add(new MonitorLog().Parse(param));
             });
 
-            using (var context = ApplicationDbContext.UseDefault())
+            using (var context = ApplicationDbContext.UseMySql())
             {
                 context.Add(new EntityMonitorModel
                 {

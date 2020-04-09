@@ -1,5 +1,7 @@
-﻿using Northwnd;
+﻿using LinqSharp.Data.Test;
+using Northwnd;
 using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using Xunit;
 
@@ -10,16 +12,12 @@ namespace LinqSharp.Test
         [Fact]
         public void Test1()
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = sqlite.Categories
+                var query = mysql.Categories
                     .WhereDynamic(x => x.SetDynamic(x => x.Property(nameof(Category.CategoryName)).Invoke(MethodUnit.StringContains, "Con")));
-                var sql = query.ToSql();
 
-                Assert.Equal(@"SELECT ""c"".""CategoryID"", ""c"".""CategoryName"", ""c"".""Description"", ""c"".""Picture""
-FROM ""Categories"" AS ""c""
-WHERE instr(""c"".""CategoryName"", 'Con') > 0;
-", sql);
+                Assert.Equal(@"Param_0 => Param_0.CategoryName.Contains(""Con"")", Utility.GetExpString(query));
             }
         }
 
@@ -32,17 +30,16 @@ WHERE instr(""c"".""CategoryName"", 'Con') > 0;
                 new { link = "or", prop = nameof(Category.Description), method = "equals", value = "Cheeses" },
                 new { link = "and", prop = nameof(Category.Description), method = "contains", value = "fish" },
             };
-            MethodInfo parseMethod(string method) => method switch
+            static MethodInfo parseMethod(string method) => method switch
             {
                 "equals" => MethodUnit.StringEquals,
                 "contains" => MethodUnit.StringContains,
                 _ => throw new NotSupportedException(),
             };
 
-            string sql;
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = sqlite.Categories
+                var query = mysql.Categories
                     .WhereDynamic(builder =>
                     {
                         foreach (var search in in_searches)
@@ -56,12 +53,8 @@ WHERE instr(""c"".""CategoryName"", 'Con') > 0;
                             }
                         }
                     });
-                sql = query.ToSql();
-
-                Assert.Equal(@"SELECT ""c"".""CategoryID"", ""c"".""CategoryName"", ""c"".""Description"", ""c"".""Picture""
-FROM ""Categories"" AS ""c""
-WHERE ((instr(""c"".""CategoryName"", 'Con') > 0) OR (""c"".""Description"" = 'Cheeses')) AND (instr(""c"".""Description"", 'fish') > 0);
-", sql);
+                var exp = Utility.GetExpString(query);
+                Assert.Equal("Param_0 => ((Param_0.CategoryName.Contains(\"Con\") OrElse Param_0.Description.Equals(\"Cheeses\")) AndAlso Param_0.Description.Contains(\"fish\"))", exp);
             }
         }
 

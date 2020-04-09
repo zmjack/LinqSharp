@@ -20,7 +20,7 @@ namespace LinqSharp
         {
             if (@this is EntityQueryable<TEntity> query)
             {
-                if (EFVersion >= new Version(2, 1))
+                if (EFVersion.AtLeast(2, 1))
                 {
                     var queryCompiler = @this.Provider.GetReflector<EntityQueryProvider>().DeclaredField<QueryCompiler>("_queryCompiler").Value;
                     var queryCompilerReflector = queryCompiler.GetReflector();
@@ -34,7 +34,7 @@ namespace LinqSharp
                     var sql = modelVisitor.Queries.Select(x => $"{x.ToString().TrimEnd(';')};{Environment.NewLine}").Join("");
                     return sql;
                 }
-                else if (EFVersion >= new Version(2, 0))
+                else if (EFVersion.AtLeast(2, 0))
                 {
                     var queryCompiler = @this.Provider.GetReflector<EntityQueryProvider>().DeclaredField<QueryCompiler>("_queryCompiler").Value;
                     var queryCompilerReflector = queryCompiler.GetReflector();
@@ -50,7 +50,7 @@ namespace LinqSharp
                     var sql = modelVisitor.Queries.Select(x => $"{x.ToString().TrimEnd(';')};{Environment.NewLine}").Join("");
                     return sql;
                 }
-                else throw new NotSupportedException($"The version({EFVersion}) of EntityFramework is not supported.");
+                else throw EFVersion.NotSupportedException;
             }
             else throw new ArgumentException($"Need to convert {@this.GetType().FullName} to {typeof(EntityQueryable<TEntity>).FullName} to use this method.");
         }

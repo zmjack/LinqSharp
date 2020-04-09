@@ -8,7 +8,7 @@ namespace LinqSharp.Test
         [Fact]
         public void Test1()
         {
-            using (var context = ApplicationDbContext.UseDefault())
+            using (var context = ApplicationDbContext.UseMySql())
             using (var tx = context.Database.BeginTransaction())
             {
                 var model1 = new EntityTrackModel1();

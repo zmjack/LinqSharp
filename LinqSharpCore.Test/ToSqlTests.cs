@@ -1,3 +1,4 @@
+using LinqSharp.Data.Test;
 using Microsoft.EntityFrameworkCore;
 using Northwnd;
 using System;
@@ -8,14 +9,12 @@ namespace LinqSharp.Test
 {
     public class ToSqlTests
     {
-        private readonly DbContextOptions MySqlOptions = new DbContextOptionsBuilder().UseMySql("Server=127.0.0.1").Options;
-
         [Fact]
         public void Test()
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = sqlite.Employees
+                var query = mysql.Employees
                     .WhereSearch("Tofu", e => new
                     {
                         ProductName = e.Orders
@@ -30,9 +29,9 @@ namespace LinqSharp.Test
         [Fact]
         public void WhereBeforeTest()
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = sqlite.Employees
+                var query = mysql.Employees
                     .WhereBefore(x => x.BirthDate, new DateTime(1960, 5, 31), true);
 
                 var sql = query.ToSql();
@@ -45,12 +44,12 @@ namespace LinqSharp.Test
         [Fact]
         public void WhereBetweenTest()
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = sqlite.Employees
+                var query = mysql.Employees
                     .WhereBetween(x => x.BirthDate, new DateTime(1960, 5, 1), new DateTime(1960, 5, 31));
 
-                var query1 = sqlite.Employees
+                var query1 = mysql.Employees
                     .Where(x => Convert.ToDateTime("1960-05-01") <= x.BirthDate && x.BirthDate <= new DateTime(1960, 5, 31));
                 var sql1 = query1.ToSql();
 
@@ -62,9 +61,9 @@ namespace LinqSharp.Test
         [Fact]
         public void WhereMinTest()
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = sqlite.Products.WhereMin(x => x.UnitPrice);
+                var query = mysql.Products.WhereMin(x => x.UnitPrice);
                 var records = query.ToArray();
                 Assert.Single(records);
                 Assert.Equal(33, records[0].ProductID);
@@ -74,9 +73,9 @@ namespace LinqSharp.Test
         [Fact]
         public void WhereMaxTest()
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = sqlite.Products.WhereMax(x => x.UnitPrice);
+                var query = mysql.Products.WhereMax(x => x.UnitPrice);
                 var records = query.ToArray();
                 Assert.Single(records);
                 Assert.Equal(38, records[0].ProductID);
@@ -86,9 +85,9 @@ namespace LinqSharp.Test
         [Fact]
         public void WhereTest()
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = sqlite.Employees
+                var query = mysql.Employees
                     .WhereAfter(
                         yearExp: x => x.Country,
                         monthExp: x => x.EmployeeID,
@@ -104,9 +103,9 @@ namespace LinqSharp.Test
         [Fact]
         public void TryDeleteTest()
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = sqlite.Employees.TryDelete(x => x.Country == "China");
+                var query = mysql.Employees.TryDelete(x => x.Country == "China");
                 var sql = query.ToSql();
 
                 //var result = query.ToArray();
@@ -123,11 +122,11 @@ namespace LinqSharp.Test
             //  3   Northern
             //  4   Southern
 
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var originResult = sqlite.Regions;
+                var originResult = mysql.Regions;
                 var orderedResult =
-                    sqlite.Regions.OrderByCase(x => x.RegionDescription, new[] { "Northern", "Eastern", "Western", "Southern" });
+                    mysql.Regions.OrderByCase(x => x.RegionDescription, new[] { "Northern", "Eastern", "Western", "Southern" });
 
                 Assert.Equal(new[] { 1, 2, 3, 4 }, originResult.Select(x => x.RegionID));
                 Assert.Equal(new[] { 3, 1, 2, 4 }, orderedResult.Select(x => x.RegionID));
@@ -143,11 +142,11 @@ namespace LinqSharp.Test
             //  3   Northern
             //  4   Southern
 
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var originResult = sqlite.Regions;
+                var originResult = mysql.Regions;
                 var orderedResult =
-                    sqlite.Regions.OrderByCase(x => x.RegionID, new[] { 3, 1, 2, 4 });
+                    mysql.Regions.OrderByCase(x => x.RegionID, new[] { 3, 1, 2, 4 });
 
                 Assert.Equal(new[] { 1, 2, 3, 4 }, originResult.Select(x => x.RegionID));
                 Assert.Equal(new[] { 3, 1, 2, 4 }, orderedResult.Select(x => x.RegionID));
@@ -157,9 +156,9 @@ namespace LinqSharp.Test
         [Fact]
         public void Test1()
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = sqlite.Employees
+                var query = mysql.Employees
                     .WhereSearch("London", e => new
                     {
                         ProductName = e.Orders
@@ -175,10 +174,9 @@ namespace LinqSharp.Test
 
             var now = DateTime.Now.AddDays(-1).AddHours(-2);
 
-            using (var mysql = new NorthwndContext(MySqlOptions))
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var employees_WhoSelled_AllKindsOfTofu = sqlite.Employees
+                var employees_WhoSelled_AllKindsOfTofu = mysql.Employees
                     .WhereSearch("Tofu", e => new
                     {
                         ProductName = e.Orders
@@ -187,7 +185,7 @@ namespace LinqSharp.Test
                     });
                 var sql1 = employees_WhoSelled_AllKindsOfTofu.ToSql();
 
-                var employees_WhoSelled_Tofu = sqlite.Employees
+                var employees_WhoSelled_Tofu = mysql.Employees
                      .WhereMatch("Tofu", e => new
                      {
                          ProductName = e.Orders
@@ -196,7 +194,7 @@ namespace LinqSharp.Test
                      });
                 var sql2 = employees_WhoSelled_Tofu.ToSql();
 
-                var employees_WhoSelled_LongLifeTofu = sqlite.Employees
+                var employees_WhoSelled_LongLifeTofu = mysql.Employees
                      .WhereMatch("Longlife Tofu", e => new
                      {
                          ProductName = e.Orders
