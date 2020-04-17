@@ -120,7 +120,7 @@ namespace LinqSharp
                 if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
                 {
                     var props = entityType.GetProperties().Where(x => x.CanWrite).ToArray();
-                    ResolveTrackAttributes(entry, props);
+                    ResolveAutoAttributes(entry, props);
                 }
 
                 // Resolve Monitors
@@ -258,39 +258,32 @@ namespace LinqSharp
             }
         }
 
-        private static void ResolveTrackAttributes(EntityEntry entry, PropertyInfo[] properties)
+        private static void ResolveAutoAttributes(EntityEntry entry, PropertyInfo[] properties)
         {
-            var props_TrackCreationTime = properties.Where(x => x.HasAttribute<AutoCreationTimeAttribute>());
-            var props_TrackLastWrite = properties.Where(x => x.HasAttribute<AutoLastWriteTimeAttribute>());
-            var props_TrackLower = properties.Where(x => x.HasAttribute<AutoLowerAttribute>());
-            var props_TrackUpper = properties.Where(x => x.HasAttribute<AutoUpperAttribute>());
-            var props_TrackTrim = properties.Where(x => x.HasAttribute<AutoTrimAttribute>());
-            var props_TrackCondensed = properties.Where(x => x.HasAttribute<AutoCondensedAttribute>());
+            var props_AutoCreationTime = properties.Where(x => x.HasAttribute<AutoCreationTimeAttribute>());
+            var props_AutoLastWrite = properties.Where(x => x.HasAttribute<AutoLastWriteTimeAttribute>());
+            var props_AutoLower = properties.Where(x => x.HasAttribute<AutoLowerAttribute>());
+            var props_AutoUpper = properties.Where(x => x.HasAttribute<AutoUpperAttribute>());
+            var props_AutoTrim = properties.Where(x => x.HasAttribute<AutoTrimAttribute>());
+            var props_AutoCondensed = properties.Where(x => x.HasAttribute<AutoCondensedAttribute>());
 
             var now = DateTime.Now;
-            switch (entry.State)
+            if (entry.State == EntityState.Added)
             {
-                case EntityState.Added:
-                    SetPropertiesValue(props_TrackCreationTime, entry, v => now);
-                    SetPropertiesValue(props_TrackLastWrite, entry, v => now);
-                    SetPropertiesValue(props_TrackLower, entry, v => (v as string)?.ToLower());
-                    SetPropertiesValue(props_TrackUpper, entry, v => (v as string)?.ToUpper());
-                    SetPropertiesValue(props_TrackTrim, entry, v => (v as string)?.Trim());
-                    SetPropertiesValue(props_TrackCondensed, entry, v => ((v as string) ?? "").Unique());
-                    break;
+                SetPropertiesValue(props_AutoCreationTime, entry, v => now);
+            }
 
-                case EntityState.Modified:
-                    SetPropertiesValue(props_TrackLastWrite, entry, v => now);
-                    SetPropertiesValue(props_TrackLower, entry, v => (v as string)?.ToLower());
-                    SetPropertiesValue(props_TrackUpper, entry, v => (v as string)?.ToUpper());
-                    SetPropertiesValue(props_TrackTrim, entry, v => (v as string)?.Trim());
-                    SetPropertiesValue(props_TrackCondensed, entry, v => (v as string)?.Unique());
-                    break;
+            if (new[] { EntityState.Added, EntityState.Modified }.Contains(entry.State))
+            {
+                SetPropertiesValue(props_AutoLastWrite, entry, v => now);
+                SetPropertiesValue(props_AutoLower, entry, v => (v as string)?.ToLower());
+                SetPropertiesValue(props_AutoUpper, entry, v => (v as string)?.ToUpper());
+                SetPropertiesValue(props_AutoTrim, entry, v => (v as string)?.Trim());
+                SetPropertiesValue(props_AutoCondensed, entry, v => ((v as string) ?? "").Unique());
             }
         }
 
-        private static void SetPropertiesValue(IEnumerable<PropertyInfo> properties, EntityEntry entry,
-            Func<object, object> evalMethod)
+        private static void SetPropertiesValue(IEnumerable<PropertyInfo> properties, EntityEntry entry, Func<object, object> evalMethod)
         {
             foreach (var prop in properties)
             {

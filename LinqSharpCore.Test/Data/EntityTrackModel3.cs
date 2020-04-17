@@ -25,6 +25,7 @@ namespace LinqSharp.Data.Test
         {
             context.EntityMonitorModels.Add(new EntityMonitorModel
             {
+                CreationTime = DateTime.Now,
                 TypeName = typeof(EntityTrackModel3).Name,
                 Key = new[] { Id.ToString() },
                 Event = state switch

@@ -10,7 +10,6 @@ namespace LinqSharp.Test
         public void Test1()
         {
             using (var context = ApplicationDbContext.UseMySql())
-            using (var tx = context.Database.BeginTransaction())
             {
                 var model1 = new EntityTrackModel1();
                 context.EntityTrackModel1s.Add(model1);
@@ -46,8 +45,6 @@ namespace LinqSharp.Test
 
                 context.Remove(model1);
                 context.SaveChanges();
-
-                tx.Commit();
             }
         }
 

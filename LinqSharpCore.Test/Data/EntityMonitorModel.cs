@@ -11,7 +11,6 @@ namespace LinqSharp.Data.Test
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [AutoCreationTime]
         public DateTime CreationTime { get; set; }
 
         public string Event { get; set; }
