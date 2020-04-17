@@ -15,43 +15,6 @@ namespace LinqSharp
             Sources = sources;
         }
 
-        private Expression<Func<TSource, bool>> ParsePredicate<T>(Expression<Func<TSource, T, bool>> exp)
-        {
-            //static Expression parse(Expression _exp, Type inputType)
-            //{
-            //    if (_exp is BinaryExpression binExp)
-            //    {
-            //        var left = parse(binExp.Left, inputType);
-            //        var right = parse(binExp.Right, inputType);
-            //        return _exp.NodeType switch
-            //        {
-            //            ExpressionType.AndAlso => Expression.AndAlso(left, right),
-            //            ExpressionType.OrElse => Expression.OrElse(left, right),
-            //            ExpressionType.Equal => Expression.Equal(left, right),
-            //            _ => throw new NotSupportedException(),
-            //        };
-            //    }
-            //    else if (_exp is MemberExpression memExp)
-            //    {
-            //        if (memExp.Expression.Type == inputType)
-            //        {
-            //            Expression.Lambda <>
-            //            throw new NotSupportedException();
-            //        }
-            //        else return memExp;
-            //    }
-            //    else throw new NotSupportedException();
-            //}
-
-            //parse(exp.Body, exp.Parameters[1].Type);
-            throw new NotSupportedException();
-
-            //if (exp.Body is BinaryExpression binExp)
-            //{
-            //    binExp.
-            //}
-        }
-
         public WhereExp<TSource> And(params WhereExp<TSource>[] whereExps) => whereExps.Aggregate((x, y) => x & y);
         public WhereExp<TSource> And<T>(IEnumerable<T> enumerable, Expression<Func<TSource, bool>> exp)
         {

@@ -17,9 +17,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharpCore", "LinqSharpC
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharpCore.Test", "LinqSharpCore.Test\LinqSharpCore.Test.shproj", "{F02DA5E9-7DA3-4154-B301-9BD32632B0ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqSharp", "LinqSharp\LinqSharp.csproj", "{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqSharp.Test", "LinqSharp.Test\LinqSharp.Test.csproj", "{3591C076-F056-4D2C-BA92-95B532DBE67F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.Test", "LinqSharp.Test\LinqSharp.Test.csproj", "{3591C076-F056-4D2C-BA92-95B532DBE67F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp - EF2.x", "LinqSharp - EF2.x\LinqSharp - EF2.x.csproj", "{6A17C06D-09B8-48B1-B323-F0ED2E8A15E7}"
 EndProject
@@ -27,10 +25,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.Test - EF3.0", "L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.Test - EF2.x", "LinqSharp.Test - EF2.x\LinqSharp.Test - EF2.x.csproj", "{8A767E5B-2BE5-402B-95CB-8F8F2A12EB59}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-orm", "dotnet-orm\dotnet-orm.csproj", "{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp", "LinqSharp\LinqSharp.csproj", "{6596A5A0-6148-4DA8-BAAD-5FA47533C264}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		LinqSharpCore\LinqSharpCore.projitems*{2108bc2a-9e33-4ade-ba24-acb9c665e35c}*SharedItemsImports = 5
 		LinqSharpCore.Test\LinqSharpCore.Test.projitems*{3591c076-f056-4d2c-ba92-95b532dbe67f}*SharedItemsImports = 5
+		LinqSharpCore\LinqSharpCore.projitems*{6596a5a0-6148-4da8-baad-5fa47533c264}*SharedItemsImports = 5
 		LinqSharpCore\LinqSharpCore.projitems*{6a17c06d-09b8-48b1-b323-f0ed2e8a15e7}*SharedItemsImports = 5
 		LinqSharpCore\LinqSharpCore.projitems*{7c303c8c-7081-4686-9320-2c52f159531e}*SharedItemsImports = 13
 		LinqSharpCore.Test\LinqSharpCore.Test.projitems*{8a767e5b-2be5-402b-95cb-8f8f2a12eb59}*SharedItemsImports = 5
@@ -58,18 +60,6 @@ Global
 		{AA889C03-A55E-42E9-8034-36C205AB1444}.Release|x64.Build.0 = Release|Any CPU
 		{AA889C03-A55E-42E9-8034-36C205AB1444}.Release|x86.ActiveCfg = Release|Any CPU
 		{AA889C03-A55E-42E9-8034-36C205AB1444}.Release|x86.Build.0 = Release|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Debug|x64.Build.0 = Debug|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Debug|x86.Build.0 = Debug|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Release|x64.ActiveCfg = Release|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Release|x64.Build.0 = Release|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Release|x86.ActiveCfg = Release|Any CPU
-		{2108BC2A-9E33-4ADE-BA24-ACB9C665E35C}.Release|x86.Build.0 = Release|Any CPU
 		{3591C076-F056-4D2C-BA92-95B532DBE67F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3591C076-F056-4D2C-BA92-95B532DBE67F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3591C076-F056-4D2C-BA92-95B532DBE67F}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -118,6 +108,30 @@ Global
 		{8A767E5B-2BE5-402B-95CB-8F8F2A12EB59}.Release|x64.Build.0 = Release|Any CPU
 		{8A767E5B-2BE5-402B-95CB-8F8F2A12EB59}.Release|x86.ActiveCfg = Release|Any CPU
 		{8A767E5B-2BE5-402B-95CB-8F8F2A12EB59}.Release|x86.Build.0 = Release|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Debug|x64.Build.0 = Debug|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Debug|x86.Build.0 = Debug|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Release|x64.ActiveCfg = Release|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Release|x64.Build.0 = Release|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Release|x86.ActiveCfg = Release|Any CPU
+		{169DD0CA-A26D-4EBE-AF62-E2CF944764D6}.Release|x86.Build.0 = Release|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Debug|x64.Build.0 = Debug|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Debug|x86.Build.0 = Debug|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Release|x64.ActiveCfg = Release|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Release|x64.Build.0 = Release|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Release|x86.ActiveCfg = Release|Any CPU
+		{6596A5A0-6148-4DA8-BAAD-5FA47533C264}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

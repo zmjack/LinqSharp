@@ -70,7 +70,7 @@ namespace LinqSharp
                 }
                 else
                 {
-                    if (value.GetType().BaseType.FullName == "System.Enum")
+                    if (value.GetType().IsEnum)
                         return GetDisplayName(value.GetType().GetFields().First(x => x.Name == value.ToString()));
                     else return value.ToString();
                 }

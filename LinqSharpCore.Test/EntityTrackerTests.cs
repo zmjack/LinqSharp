@@ -1,4 +1,5 @@
 ﻿using LinqSharp.Data.Test;
+using System.Linq;
 using Xunit;
 
 namespace LinqSharp.Test
@@ -29,6 +30,19 @@ namespace LinqSharp.Test
 
                 Assert.Equal(30, model1.TotalQuantity);
                 Assert.Equal(30, model2.GroupQuantity);
+
+                var m3 = context.EntityTrackModel3s.Where(x => x.Quantity == 10).First();
+                m3.Quantity = 50;
+                context.SaveChanges();
+
+                Assert.Equal(70, model1.TotalQuantity);
+                Assert.Equal(70, model2.GroupQuantity);
+
+                context.EntityTrackModel3s.Remove(m3);
+                context.SaveChanges();
+
+                Assert.Equal(20, model1.TotalQuantity);
+                Assert.Equal(20, model2.GroupQuantity);
 
                 context.Remove(model1);
                 context.SaveChanges();

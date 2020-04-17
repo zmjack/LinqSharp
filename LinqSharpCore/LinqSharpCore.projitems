@@ -9,6 +9,9 @@
     <Import_RootNamespace>LinqSharp</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\JsonProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RowChangeInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FieldChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAnnotationEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DatabaseProviderName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureCondition.cs" />
@@ -41,13 +44,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\CPKeyAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\IndexAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\NotAcceptableAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\PendingDeleteAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ProviderAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\TrackCondensedAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\TrackCreationTimeAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\TrackLastWriteTimeAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\TrackLowerAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\TrackTrimAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\TrackUpperAttribute.cs" />
+    <Compile Include="..\LinqSharpCore\~Annotations\AutoCondensedAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoCreationTimeAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoLastWriteTimeAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoLowerAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoTrimAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoUpperAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\UdFunctionAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XIQueryable - EnsureFirst.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XIQueryable - EnsureMany.cs" />

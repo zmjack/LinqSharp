@@ -3,5 +3,5 @@
 namespace LinqSharp
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class TrackLastWriteTimeAttribute : Attribute { }
+    public class AutoUpperAttribute : Attribute { }
 }

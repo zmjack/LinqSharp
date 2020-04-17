@@ -124,16 +124,16 @@ namespace LinqSharp
                 }
 
                 // Resolve Monitors
-                if (entity is IEntityMonitor)
-                {
-                    var paramType = typeof(EntityMonitorInvokerParameter<>).MakeGenericType(entityType);
-                    var param = Activator.CreateInstance(paramType) as IEntityMonitorInvokerParameter;
-                    param.State = entry.State;
-                    param.Entity = entity;
-                    param.PropertyEntries = entry.Properties;
+                //if (entity is IEntityMonitor)
+                //{
+                //    var paramType = typeof(EntityMonitorInvokerParameter<>).MakeGenericType(entityType);
+                //    var param = Activator.CreateInstance(paramType) as IEntityMonitorInvokerParameter;
+                //    param.State = entry.State;
+                //    param.Entity = entity;
+                //    param.PropertyEntries = entry.Properties;
 
-                    EntityMonitor.GetMonitor(entityType.FullName)?.DynamicInvoke(param);
-                }
+                //    EntityMonitor.GetMonitor(entityType.FullName)?.DynamicInvoke(param);
+                //}
             }
 
             // Resolve EntityTracker
@@ -155,9 +155,9 @@ namespace LinqSharp
 
                     switch (entry.State)
                     {
-                        case EntityState.Added: onInsertingMethod.Invoke(entity, new object[] { context }); break;
-                        case EntityState.Modified: onUpdatingMethod.Invoke(entity, new object[] { context, origin }); break;
-                        case EntityState.Deleted: onDeletingMethod.Invoke(entity, new object[] { context }); break;
+                        case EntityState.Added: onInsertingMethod.Invoke(entity, new object[] { context, entry.Properties }); break;
+                        case EntityState.Modified: onUpdatingMethod.Invoke(entity, new object[] { context, origin, entry.Properties }); break;
+                        case EntityState.Deleted: onDeletingMethod.Invoke(entity, new object[] { context, entry.Properties }); break;
                     }
                 }
             }
@@ -179,7 +179,7 @@ namespace LinqSharp
                 var entityType = entity.GetType();
                 var trackerType = typeof(IEntityTracker<,>).MakeGenericType(context.GetType(), entityType);
                 var onCompletingMethod = trackerType.GetMethod(nameof(EntityTrackerClass.OnCompleting));
-                onCompletingMethod.Invoke(entity, new object[] { context, entry.State });
+                onCompletingMethod.Invoke(entity, new object[] { context, entry.State, entry.Properties });
             }
         }
 
@@ -206,7 +206,7 @@ namespace LinqSharp
                     var indexBuilder = hasIndexMethod.Invoke(entityTypeBuilder, new object[] { propertyNames }) as IndexBuilder;
                     if (unique) indexBuilder.IsUnique();
 
-                    // Because of some unknown BUG in the EntityFramework, creating an index causes the first normal index to be dropped, which is defined with ForeignKeyAttribute.
+                    // Because of some unknown BUG in EntityFramework, creating an index causes the first normal index to be dropped, which is defined with ForeignKeyAttribute.
                     // (The problem was found in EntityFrameworkCore 2.2.6)
                     //TODO: Here is the temporary solution
                     if (isForeignKey)
@@ -260,12 +260,12 @@ namespace LinqSharp
 
         private static void ResolveTrackAttributes(EntityEntry entry, PropertyInfo[] properties)
         {
-            var props_TrackCreationTime = properties.Where(x => x.HasAttribute<TrackCreationTimeAttribute>());
-            var props_TrackLastWrite = properties.Where(x => x.HasAttribute<TrackLastWriteTimeAttribute>());
-            var props_TrackLower = properties.Where(x => x.HasAttribute<TrackLowerAttribute>());
-            var props_TrackUpper = properties.Where(x => x.HasAttribute<TrackUpperAttribute>());
-            var props_TrackTrim = properties.Where(x => x.HasAttribute<TrackTrimAttribute>());
-            var props_TrackCondensed = properties.Where(x => x.HasAttribute<TrackCondensedAttribute>());
+            var props_TrackCreationTime = properties.Where(x => x.HasAttribute<AutoCreationTimeAttribute>());
+            var props_TrackLastWrite = properties.Where(x => x.HasAttribute<AutoLastWriteTimeAttribute>());
+            var props_TrackLower = properties.Where(x => x.HasAttribute<AutoLowerAttribute>());
+            var props_TrackUpper = properties.Where(x => x.HasAttribute<AutoUpperAttribute>());
+            var props_TrackTrim = properties.Where(x => x.HasAttribute<AutoTrimAttribute>());
+            var props_TrackCondensed = properties.Where(x => x.HasAttribute<AutoCondensedAttribute>());
 
             var now = DateTime.Now;
             switch (entry.State)

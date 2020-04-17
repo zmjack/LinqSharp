@@ -3,5 +3,5 @@
 namespace LinqSharp
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class TrackTrimAttribute : Attribute { }
+    public class AutoCondensedAttribute : Attribute { }
 }

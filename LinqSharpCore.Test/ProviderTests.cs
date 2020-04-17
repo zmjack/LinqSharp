@@ -12,16 +12,30 @@ namespace LinqSharp.Test
             using (var db = ApplicationDbScope.UseDefault())
             using (var context = ApplicationDbContext.UseMySql())
             {
-                var item = new ProviderTestModel { Password = "0416" };
+                var item = new ProviderTestModel
+                {
+                    Password = "0416",
+                    FreeModel = new FreeModel
+                    {
+                        Name = "Jack",
+                        Age = 29,
+                        State = EState.Default,
+                    }
+                };
 
                 context.ProviderTestModels.Add(item);
                 context.SaveChanges();
 
                 var storePassword = db.SqlQuery($"SELECT Password FROM ProviderTestModels;").ToArray().First()["Password"];
                 Assert.Equal("MDQxNg==", storePassword);
+                var storeFreeModel = db.SqlQuery($"SELECT FreeModel FROM ProviderTestModels;").ToArray().First()["FreeModel"];
+                Assert.Equal(@"{""Id"":""00000000-0000-0000-0000-000000000000"",""Name"":""Jack"",""Age"":29,""State"":0}", storeFreeModel);
 
-                var ormPassword = context.ProviderTestModels.First().Password;
-                Assert.Equal("0416", ormPassword);
+                var record = context.ProviderTestModels.First();
+                Assert.Equal("0416", record.Password);
+                Assert.Equal("Jack", record.FreeModel.Name);
+                Assert.Equal(29, record.FreeModel.Age);
+                Assert.Equal(EState.Default, record.FreeModel.State);
 
                 context.ProviderTestModels.Remove(item);
                 context.SaveChanges();

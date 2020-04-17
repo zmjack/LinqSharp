@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="Northwnd" Version="2.0.0" />
-    <PackageReference Include="NStandard" Version="0.3.15" />
+    <PackageReference Include="NStandard" Version="0.3.19" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
     <PackageReference Include="SQLib" Version="0.3.0" />
     <PackageReference Include="xunit" Version="2.4.1" />

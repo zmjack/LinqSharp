@@ -50,8 +50,8 @@ namespace LinqSharp
                         || attrs.Any(attr => attr.GetType().Name.In(new[]
                         {
                             nameof(KeyAttribute),
-                            nameof(TrackCreationTimeAttribute),
-                            nameof(TrackLastWriteTimeAttribute)
+                            nameof(AutoCreationTimeAttribute),
+                            nameof(AutoLastWriteTimeAttribute)
                         }));
                 }))
                 .Where(x => x.PropertyType.IsBasicType(true) || x.PropertyType.IsValueType);
@@ -120,8 +120,8 @@ namespace LinqSharp
                         || attrs.Any(attr => attr.GetType().Name.In(new[]
                         {
                             nameof(KeyAttribute),
-                            nameof(TrackCreationTimeAttribute),
-                            nameof(TrackLastWriteTimeAttribute)
+                            nameof(AutoCreationTimeAttribute),
+                            nameof(AutoLastWriteTimeAttribute)
                         }));
                 }))
                 .Where(x => x.PropertyType.IsBasicType() || x.PropertyType.IsValueType);

@@ -1,7 +1,7 @@
-﻿namespace LinqSharp
-{
-    public interface IEntityMonitor
-    {
-    }
+﻿//namespace LinqSharp
+//{
+//    public interface IEntityMonitor
+//    {
+//    }
 
-}
+//}

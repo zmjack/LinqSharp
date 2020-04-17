@@ -3,5 +3,5 @@
 namespace LinqSharp
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class TrackLowerAttribute : Attribute { }
+    public class AutoLowerAttribute : Attribute { }
 }

@@ -3,5 +3,5 @@
 namespace LinqSharp
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class TrackUpperAttribute : Attribute { }
+    public class AutoCreationTimeAttribute : Attribute { }
 }

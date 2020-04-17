@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -19,11 +21,24 @@ namespace LinqSharp.Data.Test
 
         public EntityTrackModel2 SuperLink { get; set; }
 
-        public void OnCompleting(ApplicationDbContext context, EntityState state)
+        public void OnCompleting(ApplicationDbContext context, EntityState state, IEnumerable<PropertyEntry> entries)
         {
+            context.EntityMonitorModels.Add(new EntityMonitorModel
+            {
+                TypeName = typeof(EntityTrackModel3).Name,
+                Key = new[] { Id.ToString() },
+                Event = state switch
+                {
+                    EntityState.Added => nameof(EntityState.Added),
+                    EntityState.Modified => nameof(EntityState.Modified),
+                    EntityState.Deleted => nameof(EntityState.Deleted),
+                    _ => "",
+                },
+                ChangeValues = new RowChangeInfo(entries),
+            });
         }
 
-        public void OnDeleting(ApplicationDbContext context)
+        public void OnDeleting(ApplicationDbContext context, IEnumerable<PropertyEntry> entries)
         {
             var super = context.EntityTrackModel2s
                 .Include(x => x.SuperLink)
@@ -33,7 +48,7 @@ namespace LinqSharp.Data.Test
             super.SuperLink.TotalQuantity -= Quantity;
         }
 
-        public void OnInserting(ApplicationDbContext context)
+        public void OnInserting(ApplicationDbContext context, IEnumerable<PropertyEntry> entries)
         {
             var super = context.EntityTrackModel2s
                 .Include(x => x.SuperLink)
@@ -43,7 +58,7 @@ namespace LinqSharp.Data.Test
             super.SuperLink.TotalQuantity += Quantity;
         }
 
-        public void OnUpdating(ApplicationDbContext context, EntityTrackModel3 origin)
+        public void OnUpdating(ApplicationDbContext context, EntityTrackModel3 origin, IEnumerable<PropertyEntry> entries)
         {
             var super = context.EntityTrackModel2s
                 .Include(x => x.SuperLink)

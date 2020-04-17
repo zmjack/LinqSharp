@@ -28,31 +28,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)GroupByCountTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KvEntityTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20190912080758_201909120607.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20190912080758_201909120607.Designer.cs">
-      <DependentUpon>20190912080758_201909120607.cs</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20190927094652_201909271739.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20190927094652_201909271739.Designer.cs">
-      <DependentUpon>20190927094652_201909271739.cs</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20191111103011_201911111828.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20191111103011_201911111828.Designer.cs">
-      <DependentUpon>20191111103011_201911111828.cs</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20191207131658_201912072116.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20191207131658_201912072116.Designer.cs">
-      <DependentUpon>20191207131658_201912072116.cs</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20200102125513_202001022055.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20200102125513_202001022055.Designer.cs">
-      <DependentUpon>20200102125513_202001022055.cs</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20200115082737_202001151613.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\20200115082737_202001151613.Designer.cs">
-      <DependentUpon>20200115082737_202001151613.cs</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MonitorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MySqlTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PagedEnumerableTests.cs" />

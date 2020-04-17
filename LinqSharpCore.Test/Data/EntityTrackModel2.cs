@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,21 +22,21 @@ namespace LinqSharp.Data.Test
 
         public virtual ICollection<EntityTrackModel3> EntityTrackModel3s { get; set; }
 
-        public void OnCompleting(ApplicationDbContext context, EntityState state)
+        public void OnCompleting(ApplicationDbContext context, EntityState state, IEnumerable<PropertyEntry> entries)
         {
         }
 
-        public void OnDeleting(ApplicationDbContext context)
+        public void OnDeleting(ApplicationDbContext context, IEnumerable<PropertyEntry> entries)
         {
             var super = context.EntityTrackModel1s.Find(Super);
             super.TotalQuantity -= GroupQuantity;
         }
 
-        public void OnInserting(ApplicationDbContext context)
+        public void OnInserting(ApplicationDbContext context, IEnumerable<PropertyEntry> entries)
         {
         }
 
-        public void OnUpdating(ApplicationDbContext context, EntityTrackModel2 origin)
+        public void OnUpdating(ApplicationDbContext context, EntityTrackModel2 origin, IEnumerable<PropertyEntry> entries)
         {
             var super = context.EntityTrackModel1s.Find(Super);
             super.TotalQuantity += GroupQuantity - origin.GroupQuantity;

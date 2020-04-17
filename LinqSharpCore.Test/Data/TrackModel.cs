@@ -9,22 +9,22 @@ namespace LinqSharp.Data.Test
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [TrackCreationTime]
+        [AutoCreationTime]
         public DateTime CreationTime { get; set; }
 
-        [TrackLastWriteTime]
+        [AutoLastWriteTime]
         public DateTime LastWriteTime { get; set; }
 
-        [TrackTrim]
+        [AutoTrim]
         public string ForTrim { get; set; }
 
-        [TrackUpper]
+        [AutoUpper]
         public string ForUpper { get; set; }
 
-        [TrackLower]
+        [AutoLower]
         public string ForLower { get; set; }
 
-        [TrackCondensed]
+        [AutoCondensed]
         public string ForCondensed { get; set; }
     }
 }

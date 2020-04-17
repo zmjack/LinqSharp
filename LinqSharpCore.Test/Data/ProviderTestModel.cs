@@ -1,4 +1,5 @@
-﻿using NStandard;
+﻿using LinqSharp.Providers;
+using NStandard;
 using NStandard.Flows;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +14,10 @@ namespace LinqSharp.Data.Test
         [StringLength(127)]
         [Provider(typeof(PasswordProvider))]
         public string Password { get; set; }
+
+        [StringLength(127)]
+        [Provider(typeof(JsonProvider<FreeModel>))]
+        public FreeModel FreeModel { get; set; }
 
         public class PasswordProvider : IProvider<string, string>
         {

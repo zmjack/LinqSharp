@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyName>dotnet-orm</AssemblyName>
+    <Company>linqsharp.net</Company>
+    <Authors>zmjack</Authors>
+    <Owners>zmjack</Owners>
+    <Description>LinqSharp cli tools.</Description>
+    <PackageId>dotnet-orm</PackageId>
+    <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
+    <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
+    <PackageIconUrl></PackageIconUrl>
+    <Version>0.0.1-alpha5</Version>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageType>DotnetCliTool</PackageType>
+    <PackAsTool>true</PackAsTool>
+    <PackageIcon>LinqSharp.png</PackageIcon>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <RootNamespace>LinqSharp.Cli</RootNamespace>
+    <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>7.3</LangVersion>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DocumentationFile>dotnet-orm.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>default</LangVersion>
+    <DocumentationFile></DocumentationFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetCli" Version="0.0.6" />
+    <PackageReference Include="Ink" Version="0.1.1" />
+    <PackageReference Include="NStandard" Version="0.3.19" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\LinqSharp.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LinqSharp\LinqSharp.csproj" />
+  </ItemGroup>
+
+</Project>
