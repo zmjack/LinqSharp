@@ -41,10 +41,10 @@ namespace LinqSharp.Cli
                         {
                             if (type.IsEnum)
                             {
-                                var values = type.GetFields().Where(x => x.Name != "value__").Select(field => new
+                                var values = type.GetFields().Where(x => x.Name != "value__").Select(x => new
                                 {
-                                    Name = DataAnnotationEx.GetDisplayName(field),
-                                    LongValue = Convert.ChangeType(Enum.Parse(type, field.Name), typeof(long)),
+                                    Name = DataAnnotationEx.GetDisplayName(x),
+                                    LongValue = Convert.ChangeType(Enum.Parse(type, x.Name), typeof(long)),
                                 });
                                 var note = values.Select(value => $"{value.LongValue}={value.Name}").Join(" ");
                                 return note;
