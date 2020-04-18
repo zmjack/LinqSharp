@@ -22,8 +22,8 @@ namespace LinqSharp.Cli
 Usage: dotnet orm (ds|DbStructure) [Options]
 
 Options:
-  {"-o|--out",20}{"\t"}Specify the output directory path. (default: Typings)
-  {"-b|--bom",20}{"\t"}Set BOM of utf-8 for output files.
+  {"-o|--out",-20}{"\t"}Specify the output directory path. (default: Typings)
+  {"-b|--bom",-20}{"\t"}Set BOM of utf-8 for output files.
 ");
         }
 
@@ -37,7 +37,7 @@ Options:
             }
 
             var outFolder = conArgs["-o"] ?? conArgs["--out"] ?? ".";
-            var setBOM = conArgs.Properties.ContainsKey("-b") || conArgs.Properties.ContainsKey("-bom");
+            var setBOM = conArgs.Properties.ContainsKey("-b") || conArgs.Properties.ContainsKey("--bom");
 
             GenerateTypeScript(outFolder, setBOM);
         }
@@ -54,11 +54,11 @@ Options:
             var types = assembly.GetTypesWhichExtends<DbContext>(true);
             foreach (var type in types)
             {
-                var outFile = $"{Path.GetFullPath($"{outFolder}/{type.Name}.csv")}";
+                var outFile = $"{Path.GetFullPath($"{outFolder}/{type.Name}.html")}";
 
                 var builder = new DbStructureBuilder();
                 builder.Cache(type);
-                var csvContent = builder.GetCsv();
+                var csvContent = builder.GetHtml();
                 var bytes = setBOM
                     ? new byte[] { 0xef, 0xbb, 0xbf }.Concat(csvContent.Bytes(Encoding.UTF8)).ToArray()
                     : csvContent.Bytes(Encoding.UTF8).ToArray();
