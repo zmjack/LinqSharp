@@ -66,10 +66,10 @@ namespace LinqSharp.Cli
             var sb = new StringBuilder();
             sb.AppendLine("<html>");
             sb.AppendLine("<body>");
-            void appendLine(string[] cols)
+            void appendLine(string[] cols, string tag = "td")
             {
                 sb.AppendLine("<tr>");
-                sb.AppendLine(cols.Select(x => $"<td>{x}</td>").Join(""));
+                sb.AppendLine(cols.Select(x => $"<{tag}>{x}</{tag}>").Join(""));
                 sb.AppendLine("</tr>");
             }
 
@@ -79,17 +79,17 @@ namespace LinqSharp.Cli
                 sb.AppendLine(@"<col width=""10%"">".Repeat(7));
 
                 appendLine(new[] { table.Name, table.DisplayName.For(name => name == table.Name ? "" : name) });
-                appendLine(new[] { "Field", "Display", "Runtime Type", "Max Length", "Index", "Required", "Reference", "Note" });
+                appendLine(new[] { "Field", "Display", "Runtime Type", "Max Length", "Index", "Required", "Reference", "Note" }, "th");
 
                 foreach (var field in table.TableFields)
                 {
                     appendLine(new[]
                     {
                         field.Name,
-                        field.DisplayName,
-                        field.RuntimeType.GetSimplifiedName(),
+                        field.DisplayName.Flow(StringFlow.HtmlEncode),
+                        field.RuntimeType.GetSimplifiedName().Flow(StringFlow.HtmlEncode),
                         field.MaxLength?.ToString(),
-                        field.Index,
+                        field.Index.Flow(StringFlow.HtmlEncode),
                         field.Required ? "Required" : "",
                         field.ReferenceType?.For(type => DbTables[type].Name),
                         field.RuntimeType.For(type=>
