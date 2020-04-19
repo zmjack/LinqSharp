@@ -64,7 +64,11 @@ namespace LinqSharp.Cli
         public string GetHtml()
         {
             var sb = new StringBuilder();
+            sb.AppendLine("<!DOCTYPE html>");
             sb.AppendLine("<html>");
+            sb.AppendLine("<head>");
+            sb.AppendLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" />");
+            sb.AppendLine("</head>");
             sb.AppendLine("<body>");
             void appendLine(string[] cols, string tag = "td")
             {
@@ -143,7 +147,7 @@ namespace LinqSharp.Cli
                     RuntimeType = type.PropertyType,
                     Index = type.HasAttribute<KeyAttribute>() ? "Key"
                         : type.HasAttribute<CPKeyAttribute>() ? "CPKey"
-                        : type.GetCustomAttribute<IndexAttribute>()?.For(x => $"{x.Group} ({x.Type})") ?? "",
+                        : type.GetCustomAttribute<IndexAttribute>()?.For(x => $"{x.Type} {x.Group?.For(g => $"({g})")}") ?? "",
                     MaxLength = type.GetCustomAttribute<StringLengthAttribute>()?.MaximumLength ?? null,
                     Required = type.HasAttribute<RequiredAttribute>(),
                     ReferenceType = type.GetCustomAttribute<ForeignKeyAttribute>()?.Name.For(name =>
