@@ -4,19 +4,130 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NStandard;
+using NStandard.Caching;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace LinqSharp
 {
     public static partial class LinqSharpEx
     {
+        private const string SaveChangesName = "Int32 SaveChanges(Boolean)";
+        private const string SaveChangesAsyncName = "System.Threading.Tasks.Task`1[System.Int32] SaveChangesAsync(Boolean, System.Threading.CancellationToken)";
+
+        public static int HandleConcurrencyExceptionRetryCount = 3;
+        public static CacheContainer<Type, Dictionary<ConflictWin, string[]>> ConcurrencyWins = new CacheContainer<Type, Dictionary<ConflictWin, string[]>>()
+        {
+            CacheMethod = type => () =>
+            {
+                var storeWins = new List<string>();
+                var clientWins = new List<string>();
+                var combines = new List<string>();
+
+                foreach (var prop in type.GetProperties())
+                {
+                    var attr = prop.GetCustomAttribute<ConcurrencyPolicyAttribute>();
+                    if (attr != null)
+                    {
+                        switch (attr.ConflictWin)
+                        {
+                            case ConflictWin.Store: storeWins.Add(prop.Name); break;
+                            case ConflictWin.Client: storeWins.Add(prop.Name); break;
+                            case ConflictWin.Combine: combines.Add(prop.Name); break;
+                        }
+                    }
+                }
+
+                var dict = new Dictionary<ConflictWin, string[]>
+                {
+                    [ConflictWin.Store] = storeWins.ToArray(),
+                    [ConflictWin.Client] = clientWins.ToArray(),
+                    [ConflictWin.Combine] = combines.ToArray(),
+                };
+                return dict;
+            }
+        };
+
         public static ValueConverter<TModel, TProvider> BuildConverter<TModel, TProvider>(IProvider<TModel, TProvider> field)
         {
             return new ValueConverter<TModel, TProvider>(v => field.ConvertToProvider(v), v => field.ConvertFromProvider(v));
+        }
+
+        public static void OnModelCreating(DbContext context, Action<ModelBuilder> baseOnModelCreating, ModelBuilder modelBuilder)
+        {
+            ApplyProviderFunctions(context, modelBuilder);
+            ApplyUdFunctions(context, modelBuilder);
+            ApplyAnnotations(context, modelBuilder);
+            baseOnModelCreating(modelBuilder);
+        }
+
+        private static TRet HandleConcurrencyException<TRet>(DbUpdateConcurrencyException ex, Func<TRet> saveChanges)
+        {
+            for (int retry = 0; retry < HandleConcurrencyExceptionRetryCount; retry++)
+            {
+                try
+                {
+                    var entries = ex.Entries;
+                    foreach (var entry in entries)
+                    {
+                        var storeValues = entry.GetDatabaseValues();
+                        var originalValues = entry.OriginalValues.Clone();
+
+                        entry.OriginalValues.SetValues(storeValues);
+
+                        var entityType = entry.Entity.GetType();
+                        var wins = ConcurrencyWins[entityType].Value;
+
+                        foreach (var propName in wins[ConflictWin.Store])
+                        {
+                            entry.Property(propName).IsModified = false;
+                        }
+
+                        foreach (var propName in wins[ConflictWin.Combine])
+                        {
+                            if (!Equals(originalValues[propName], storeValues[propName]))
+                                entry.Property(propName).IsModified = false;
+                        }
+                    }
+
+                    return saveChanges();
+                }
+                catch (DbUpdateConcurrencyException _ex) { ex = _ex; }
+                catch (Exception _ex) { throw _ex; }
+            }
+
+            throw ex;
+        }
+
+        public static int SaveChanges(DbContext context, Func<bool, int> baseSaveChanges, bool acceptAllChangesOnSuccess)
+        {
+            IntelliTrack(context, acceptAllChangesOnSuccess);
+            try
+            {
+                return baseSaveChanges(acceptAllChangesOnSuccess);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return HandleConcurrencyException(ex, () => baseSaveChanges(acceptAllChangesOnSuccess));
+            }
+        }
+
+        public static Task<int> SaveChangesAsync(DbContext context, Func<bool, CancellationToken, Task<int>> baseSaveChangesAsync, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            IntelliTrack(context, acceptAllChangesOnSuccess);
+            try
+            {
+                return baseSaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return HandleConcurrencyException(ex, () => baseSaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken));
+            }
         }
 
         public static void ApplyProviderFunctions(DbContext context, ModelBuilder modelBuilder)
@@ -114,7 +225,7 @@ namespace LinqSharp
 
             foreach (var entry in entries)
             {
-                // Resolve TrackAttributes
+                // Resolve AutoAttributes
                 var entity = entry.Entity;
                 var entityType = entity.GetType();
                 if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
@@ -122,18 +233,6 @@ namespace LinqSharp
                     var props = entityType.GetProperties().Where(x => x.CanWrite).ToArray();
                     ResolveAutoAttributes(entry, props);
                 }
-
-                // Resolve Monitors
-                //if (entity is IEntityMonitor)
-                //{
-                //    var paramType = typeof(EntityMonitorInvokerParameter<>).MakeGenericType(entityType);
-                //    var param = Activator.CreateInstance(paramType) as IEntityMonitorInvokerParameter;
-                //    param.State = entry.State;
-                //    param.Entity = entity;
-                //    param.PropertyEntries = entry.Properties;
-
-                //    EntityMonitor.GetMonitor(entityType.FullName)?.DynamicInvoke(param);
-                //}
             }
 
             // Resolve EntityTracker

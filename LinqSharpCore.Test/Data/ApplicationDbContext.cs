@@ -17,17 +17,6 @@ namespace LinqSharp.Data.Test
 
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            UseNorthwndPrefix(modelBuilder, "@Northwnd.");
-
-            LinqSharpEx.ApplyProviderFunctions(this, modelBuilder);
-            LinqSharpEx.ApplyUdFunctions(this, modelBuilder);
-            LinqSharpEx.ApplyAnnotations(this, modelBuilder, LinqSharpAnnotation.All);
-
-            base.OnModelCreating(modelBuilder);
-        }
-
         public DbSet<AppRegistry> AppRegistries { get; set; }
         public KvEntityAgent<AppRegistryAccessor> AppRegistriesAgent => KvEntityAgent<AppRegistryAccessor>.Create(AppRegistries);
 
@@ -41,17 +30,21 @@ namespace LinqSharp.Data.Test
         public DbSet<EntityTrackModel3> EntityTrackModel3s { get; set; }
         public DbSet<ProviderTestModel> ProviderTestModels { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            UseNorthwndPrefix(modelBuilder, "@Northwnd.");
+            LinqSharpEx.OnModelCreating(this, base.OnModelCreating, modelBuilder);
+        }
+
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            LinqSharpEx.IntelliTrack(this, acceptAllChangesOnSuccess);
-            return base.SaveChanges(acceptAllChangesOnSuccess);
+            return LinqSharpEx.SaveChanges(this, base.SaveChanges, acceptAllChangesOnSuccess);
         }
 
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            LinqSharpEx.IntelliTrack(this, acceptAllChangesOnSuccess);
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            return LinqSharpEx.SaveChangesAsync(this, base.SaveChangesAsync, acceptAllChangesOnSuccess, cancellationToken);
         }
-    }
 
+    }
 }

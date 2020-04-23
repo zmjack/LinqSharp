@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationDbScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\AppRegistry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ConcurrencyWin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\CPKeyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\EntityMonitorModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\EntityTrackModel1.cs" />
@@ -28,7 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)GroupByCountTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KvEntityTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MonitorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MySqlTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PagedEnumerableTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProviderTests.cs" />

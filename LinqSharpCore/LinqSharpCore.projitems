@@ -9,6 +9,7 @@
     <Import_RootNamespace>LinqSharp</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ConflictWin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\JsonProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RowChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FieldChangeInfo.cs" />
@@ -41,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Strategies\WhereSearchStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Strategies\WhereStringStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ConcurrencyWinAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\CPKeyAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\IndexAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\NotAcceptableAttribute.cs" />
@@ -112,11 +114,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntityAccessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntityAccessorProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntityAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Monitor\EntityMonitor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Monitor\EntityMonitorChangeValue.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Monitor\EntityMonitorInvokerParameter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Monitor\IEntityMonitor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Monitor\IEntityMonitorLog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Pageable\IPageable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Pageable\PagedEnumerable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Pageable\PagedQueryable.cs" />
