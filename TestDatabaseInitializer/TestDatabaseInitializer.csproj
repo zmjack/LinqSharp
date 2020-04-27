@@ -6,12 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Northwnd" Version="2.0.0" />
+    <PackageReference Include="Northwnd" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinqSharp - EF2.x\LinqSharp - EF2.x.csproj" />
-    <ProjectReference Include="..\LinqSharp.Test - EF2.x\LinqSharp.Test - EF2.x.csproj" />
+    <ProjectReference Include="..\LinqSharp.EFCore.Test - EF3.1\LinqSharp.EFCore.Test - EF3.1.csproj" />
   </ItemGroup>
 
 </Project>

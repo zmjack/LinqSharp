@@ -63,7 +63,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinqSharp\LinqSharp.csproj" />
+    <ProjectReference Include="..\LinqSharp.EFCore - EF3.x\LinqSharp.EFCore - EF3.x.csproj" />
   </ItemGroup>
 
 </Project>

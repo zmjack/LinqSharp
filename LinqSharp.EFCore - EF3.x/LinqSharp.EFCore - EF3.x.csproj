@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <LangVersion>preview</LangVersion>
-    <Version>3.1.0-alpha</Version>
+    <Version>3.0.1-alpha2</Version>
     <Authors>zmjack</Authors>
     <Company>dawnx.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
@@ -13,17 +13,22 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageId>LinqSharp</PackageId>
+    <PackageId>LinqSharp.EFCore</PackageId>
     <PackageTags>Linq</PackageTags>
     <PackageIcon>LinqSharp.png</PackageIcon>
     <RootNamespace>LinqSharp</RootNamespace>
-    <AssemblyName>LinqSharp</AssemblyName>
+    <AssemblyName>LinqSharp.EFCore</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" Condition="'$(TargetFramework)'=='netstandard2.0'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.0" Condition="'$(TargetFramework)'=='netstandard2.0'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" Condition="'$(TargetFramework)'=='netstandard2.1'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.0.0" Condition="'$(TargetFramework)'=='netstandard2.1'" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NStandard" Version="0.3.19" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,5 +41,11 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LinqSharp\LinqSharp.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\LinqSharp.EFCore - Shared\LinqSharpCore.EFCore.projitems" Label="Shared" />
 
 </Project>
