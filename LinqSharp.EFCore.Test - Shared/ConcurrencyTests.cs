@@ -1,11 +1,12 @@
-﻿using LinqSharp.Data.Test;
+﻿using LinqSharp.EFCore.Data.Test;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
 
-namespace LinqSharp.Test
+namespace LinqSharp.EFCore.Test
 {
     public class ConcurrencyTests
     {
@@ -19,21 +20,22 @@ namespace LinqSharp.Test
             using (var context1 = ApplicationDbContext.UseMySql())
             using (var context2 = ApplicationDbContext.UseMySql())
             {
-                context1.SimpleModels.Add(new SimpleModel
+                context1.ConcurrencyModels.Add(new ConcurrencyModel
                 {
                     RandomNumber = num,
                     CheckDefault = 0,
                 });
                 context1.SaveChanges();
 
-                var record1 = context1.SimpleModels.First(x => x.RandomNumber == num);
+                var record1 = context1.ConcurrencyModels.First(x => x.RandomNumber == num);
                 record1.CheckDefault = 1;
 
-                var record2 = context2.SimpleModels.First(x => x.RandomNumber == num);
+                var record2 = context2.ConcurrencyModels.First(x => x.RandomNumber == num);
                 record2.CheckDefault = 2;
 
                 context1.SaveChanges();
-                context2.SaveChanges();
+
+                Assert.ThrowsAny<DbUpdateConcurrencyException>(() => context2.SaveChanges());
             }
         }
 

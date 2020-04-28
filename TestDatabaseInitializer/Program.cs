@@ -1,4 +1,4 @@
-﻿using LinqSharp.Data.Test;
+﻿using LinqSharp.EFCore.Data.Test;
 using Northwnd;
 using System;
 

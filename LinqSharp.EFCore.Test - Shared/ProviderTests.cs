@@ -1,8 +1,8 @@
-﻿using LinqSharp.Data.Test;
+﻿using LinqSharp.EFCore.Data.Test;
 using System.Linq;
 using Xunit;
 
-namespace LinqSharp.Test
+namespace LinqSharp.EFCore.Test
 {
     public class ProviderTests
     {
@@ -17,7 +17,7 @@ namespace LinqSharp.Test
                     Password = "0416",
                     SimpleModel = new SimpleModel
                     {
-                        NickName = "Jack",
+                        Name = "Jack",
                         Age = 29,
                         State = EState.Default,
                     }
@@ -26,14 +26,14 @@ namespace LinqSharp.Test
                 context.ProviderTestModels.Add(item);
                 context.SaveChanges();
 
-                var storePassword = db.SqlQuery($"SELECT Password FROM ProviderTestModels;").ToArray().First()["Password"];
-                Assert.Equal("MDQxNg==", storePassword);
-                var storeFreeModel = db.SqlQuery($"SELECT FreeModel FROM ProviderTestModels;").ToArray().First()["FreeModel"];
-                Assert.Equal(@"{""Id"":""00000000-0000-0000-0000-000000000000"",""Name"":""Jack"",""Age"":29,""State"":0}", storeFreeModel);
+                var password = db.SqlQuery($"SELECT Password FROM ProviderTestModels;").ToArray().First()[nameof(ProviderTestModel.Password)];
+                Assert.Equal("MDQxNg==", password);
+                var simpleModel = db.SqlQuery($"SELECT SimpleModel FROM ProviderTestModels;").ToArray().First()[nameof(ProviderTestModel.SimpleModel)];
+                Assert.Equal(@"{""Id"":""00000000-0000-0000-0000-000000000000"",""Name"":""Jack"",""Age"":29,""Birthday"":null,""State"":0}", simpleModel);
 
                 var record = context.ProviderTestModels.First();
                 Assert.Equal("0416", record.Password);
-                Assert.Equal("Jack", record.SimpleModel.NickName);
+                Assert.Equal("Jack", record.SimpleModel.Name);
                 Assert.Equal(29, record.SimpleModel.Age);
                 Assert.Equal(EState.Default, record.SimpleModel.State);
 

@@ -1,7 +1,7 @@
-﻿using LinqSharp.Data.Test;
+﻿using LinqSharp.EFCore.Data.Test;
 using Xunit;
 
-namespace LinqSharp.Test
+namespace LinqSharp.EFCore.Test
 {
     public class DbFunctionTests
     {
@@ -16,7 +16,7 @@ namespace LinqSharp.Test
 
                 if (EFVersion.AtLeast(3, 0))
                 {
-                    expectedSql = @"SELECT `s`.`Id`, `s`.`Age`, `s`.`Name`, `s`.`State`
+                    expectedSql = @"SELECT `s`.`Id`, `s`.`Age`, `s`.`Birthday`, `s`.`Name`, `s`.`State`
 FROM `SimpleModels` AS `s`
 ORDER BY `RAND`()
 LIMIT @__p_0;
@@ -24,7 +24,7 @@ LIMIT @__p_0;
                 }
                 else if (EFVersion.AtLeast(2, 0))
                 {
-                    expectedSql = @"SELECT `x`.`Id`, `x`.`Age`, `x`.`Name`, `x`.`State`
+                    expectedSql = @"SELECT `x`.`Id`, `x`.`Age`, `x`.`Birthday`, `x`.`Name`, `x`.`State`
 FROM `SimpleModels` AS `x`
 ORDER BY RAND()
 LIMIT 2;

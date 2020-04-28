@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace LinqSharp.Test
+namespace LinqSharp.EFCore.Test
 {
     public static class Utility
     {

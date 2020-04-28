@@ -1,11 +1,11 @@
-﻿using LinqSharp.Data.Test;
+﻿using LinqSharp.EFCore.Data.Test;
 using Northwnd;
 using NStandard;
 using System;
 using System.Linq;
 using Xunit;
 
-namespace LinqSharp.Test
+namespace LinqSharp.EFCore.Test
 {
     public class XWhereTests
     {

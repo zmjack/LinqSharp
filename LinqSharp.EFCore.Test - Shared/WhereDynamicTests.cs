@@ -1,11 +1,11 @@
-﻿using LinqSharp.Data.Test;
+﻿using LinqSharp.EFCore.Data.Test;
 using Northwnd;
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using Xunit;
 
-namespace LinqSharp.Test
+namespace LinqSharp.EFCore.Test
 {
     public class DynamicTests
     {

@@ -2,10 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
-    <AssemblyName>LinqSharp.Test</AssemblyName>
+    <AssemblyName>LinqSharp.EFCore.Test</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,13 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\LinqSharp.EFCore - EF3.1\LinqSharp.EFCore - EF3.1.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\LinqSharp.EFCore - EF3.x\LinqSharp.EFCore - EF3.x.csproj" />
-  </ItemGroup>
+  <Import Project="..\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems" Label="Shared" />
 
-  <Import Project="..\LinqSharp.EFCore.Test - Shared\LinqSharpCore.EFCore.Test.projitems" Label="Shared" />
+  <Import Project="..\LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems" Label="Shared" />
 
 </Project>

@@ -3,7 +3,7 @@ using System;
 using System.Linq.Expressions;
 using Xunit;
 
-namespace LinqSharp.Test
+namespace LinqSharp.EFCore.Test
 {
     public class XExpressionTests
     {

@@ -1,10 +1,10 @@
-﻿using LinqSharp.Data.Test;
+﻿using LinqSharp.EFCore.Data.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace LinqSharp.Test
+namespace LinqSharp.EFCore.Test
 {
     public class KvEntityTests
     {

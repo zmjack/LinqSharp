@@ -2,7 +2,7 @@ using NStandard;
 using System.Linq;
 using Xunit;
 
-namespace LinqSharp.Test
+namespace LinqSharp.EFCore.Test
 {
     public class XIEnumerableTests
     {

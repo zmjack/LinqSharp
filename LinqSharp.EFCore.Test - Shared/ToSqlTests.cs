@@ -1,11 +1,11 @@
-using LinqSharp.Data.Test;
+using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
 using Northwnd;
 using System;
 using System.Linq;
 using Xunit;
 
-namespace LinqSharp.Test
+namespace LinqSharp.EFCore.Test
 {
     public class ToSqlTests
     {
