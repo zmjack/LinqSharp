@@ -1,7 +1,6 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using Northwnd;
 using System;
-using System.Linq.Expressions;
 using System.Reflection;
 using Xunit;
 

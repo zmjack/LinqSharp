@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TestDatabaseCreator
+﻿namespace TestDatabaseCreator
 {
     class Program
     {

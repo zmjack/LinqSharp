@@ -1,6 +1,4 @@
-﻿using LinqSharp;
-using LinqSharp.EFCore.Data.Test;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Northwnd;
 using System.Threading;
 using System.Threading.Tasks;
