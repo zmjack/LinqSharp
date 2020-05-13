@@ -1,7 +1,9 @@
-﻿using LinqSharp.EFCore.Data.Test;
+﻿using LinqSharp;
+using LinqSharp.EFCore.Data.Test;
 using Northwnd;
 using NStandard;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -74,7 +76,7 @@ namespace LinqSharp.EFCore.Test
             public string Value;
         }
 
-        private class SearchEvaluator<TSource> : Evaluator<string, WhereExp<TSource>>
+        private class SearchEvaluator<TSource> : Evaluator<WhereExp<TSource>, string>
         {
             public WhereHelper<TSource> WhereHelper;
 
@@ -83,25 +85,22 @@ namespace LinqSharp.EFCore.Test
                 WhereHelper = helper;
             }
 
-            public override Func<WhereExp<TSource>, WhereExp<TSource>, WhereExp<TSource>> GetOpFunction(string op)
+            protected override Dictionary<string, BinaryOpFunc<WhereExp<TSource>>> OpFunctions { get; } = new Dictionary<string, BinaryOpFunc<WhereExp<TSource>>>
             {
-                return op switch
-                {
-                    "|" => (left, right) => left | right,
-                    "&" => (left, right) => left & right,
-                    _ => throw new NotImplementedException(),
-                };
-            }
+                ["|"] = (left, right) => left | right,
+                ["&"] = (left, right) => left & right,
+            };
 
-            public override int GetOpLevel(string op)
+            protected override Dictionary<string, int> OpLevels { get; } = new Dictionary<string, int>
             {
-                return op switch
-                {
-                    "&" => 1,
-                    "|" => 2,
-                    _ => throw new NotImplementedException(),
-                };
-            }
+                ["&"] = 1,
+                ["|"] = 2,
+            };
+
+            protected override Dictionary<(string Item1, string Item2), SingleOpFunc<WhereExp<TSource>>> BracketFunctions { get; } = new Dictionary<(string Item1, string Item2), SingleOpFunc<WhereExp<TSource>>>
+            {
+            };
+
         }
 
         [Fact]
@@ -110,19 +109,19 @@ namespace LinqSharp.EFCore.Test
             using (var mysql = ApplicationDbContext.UseMySql())
             {
                 var query1 = mysql.Categories.XWhere(h =>
-                {
-                    return h.Where(x => x.CategoryName.Contains("Con")) | h.Where(x => x.Description == "Cheeses") & h.Where(x => x.Description.Contains("fish"));
-                });
+                 {
+                     return h.Where(x => x.CategoryName.Contains("Con")) | h.Where(x => x.Description == "Cheeses") & h.Where(x => x.Description.Contains("fish"));
+                 });
 
                 var query2 = mysql.Categories.XWhere(h =>
-                {
-                    return
-                        h.Or(
-                            h.Where(x => x.CategoryName.Contains("Con")),
-                            h.And(
-                                h.Where(x => x.Description == "Cheeses"),
-                                h.Where(x => x.Description.Contains("fish"))));
-                });
+                 {
+                     return
+                         h.Or(
+                             h.Where(x => x.CategoryName.Contains("Con")),
+                             h.And(
+                                 h.Where(x => x.Description == "Cheeses"),
+                                 h.Where(x => x.Description.Contains("fish"))));
+                 });
 
                 var searches = new[]
                 {
@@ -131,20 +130,20 @@ namespace LinqSharp.EFCore.Test
                     new SearchModel { PropName = nameof(Category.Description), Method = "contains", Value = "fish" },
                 };
                 var operators = new[] { "|", "&" };
-                var query3 = mysql.Categories.XWhere(h =>
-                {
-                    var operands = searches.Select(x =>
-                    {
-                        var method = x.Method switch
-                        {
-                            "contains" => MethodUnit.StringContains,
-                            "equals" => MethodUnit.StringEquals,
-                            _ => throw new NotSupportedException(),
-                        };
-                        return h.WhereDynamic(b => b.Property(x.PropName).Invoke(method, x.Value));
-                    });
-                    return new SearchEvaluator<Category>(h).Eval(operators, operands);
-                });
+                var query3 = mysql.Categories.XWhere<Category>(h =>
+                 {
+                     var operands = searches.Select(x =>
+                     {
+                         var method = x.Method switch
+                         {
+                             "contains" => MethodUnit.StringContains,
+                             "equals" => MethodUnit.StringEquals,
+                             _ => throw new NotSupportedException(),
+                         };
+                         return h.WhereDynamic(b => b.Property(x.PropName).Invoke(method, x.Value));
+                     });
+                     return new SearchEvaluator<Category>(h).Eval(operands, operators);
+                 });
 
                 Assert.Equal(new[] { 2, 3 }, query1.Select(x => x.CategoryID));
                 Assert.Equal(new[] { 2, 3 }, query2.Select(x => x.CategoryID));
