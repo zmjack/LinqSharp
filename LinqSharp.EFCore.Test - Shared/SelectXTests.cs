@@ -72,5 +72,13 @@ namespace LinqSharp.EFCore.Test
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void SelectMoreTest()
+        {
+            var expected = new[] { "A", "A-a", "1", "2", "A-b", "3", "B", "4", "5", "6" };
+            var actual = Trees.SelectMore(x => x.Children).Select(x => x.Name).ToArray();
+            Assert.Equal(expected, actual);
+        }
+
     }
 }
