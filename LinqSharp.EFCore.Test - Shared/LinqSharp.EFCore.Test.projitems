@@ -20,7 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MySqlTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PagedEnumerableTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProviderTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SelectLeafsTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SelectManyUntilTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToSqlTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AutoTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WhereDynamicTests.cs" />

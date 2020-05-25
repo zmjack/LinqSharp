@@ -56,7 +56,7 @@ namespace LinqSharp.EFCore.Test
         public void Test1()
         {
             var expected = new[] { "1", "2", "3", "4", "5" };
-            var actual = Trees.SelectLeafs(x => x.Children).Select(x => x.Name);
+            var actual = Trees.SelectManyUntil(x => x.Children, x => !(x?.Any() ?? false)).Select(x => x.Name);
             Assert.Equal(expected, actual);
         }
 

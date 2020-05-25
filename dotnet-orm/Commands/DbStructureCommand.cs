@@ -36,7 +36,7 @@ Options:
                 return;
             }
 
-            var outFolder = conArgs["-o"] ?? conArgs["--out"] ?? ".";
+            var outFolder = conArgs["-o"]?.FirstOrDefault() ?? conArgs["--out"].FirstOrDefault() ?? ".";
             var setBOM = conArgs.Properties.ContainsKey("-b") || conArgs.Properties.ContainsKey("--bom");
 
             GenerateTypeScript(outFolder, setBOM);
