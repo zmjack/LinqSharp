@@ -26,7 +26,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="NStandard" Version="0.4.3" />
+    <PackageReference Include="NStandard" Version="0.4.6" />
   </ItemGroup>
 
   <ItemGroup>

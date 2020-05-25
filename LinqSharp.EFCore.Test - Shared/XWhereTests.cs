@@ -130,7 +130,7 @@ namespace LinqSharp.EFCore.Test
                     new SearchModel { PropName = nameof(Category.Description), Method = "contains", Value = "fish" },
                 };
                 var operators = new[] { "|", "&" };
-                var query3 = mysql.Categories.XWhere<Category>(h =>
+                var query3 = mysql.Categories.XWhere(h =>
                  {
                      var operands = searches.Select(x =>
                      {

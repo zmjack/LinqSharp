@@ -47,8 +47,8 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetCli" Version="0.0.6" />
-    <PackageReference Include="Ink" Version="0.1.1" />
-    <PackageReference Include="NStandard" Version="0.4.3" />
+    <PackageReference Include="Ink" Version="0.4.0" />
+    <PackageReference Include="NStandard" Version="0.4.6" />
   </ItemGroup>
 
   <ItemGroup>
