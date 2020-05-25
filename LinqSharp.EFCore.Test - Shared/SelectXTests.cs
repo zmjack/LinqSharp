@@ -7,7 +7,7 @@ using Xunit;
 
 namespace LinqSharp.EFCore.Test
 {
-    public class SelectLeafsTests
+    public class SelectXTests
     {
         private class Tree
         {
@@ -50,13 +50,25 @@ namespace LinqSharp.EFCore.Test
                     new Tree { Name = "5" },
                 },
             },
+            new Tree
+            {
+                Name = "6",
+            },
         };
 
         [Fact]
-        public void Test1()
+        public void SelectUntilTest()
         {
-            var expected = new[] { "1", "2", "3", "4", "5" };
-            var actual = Trees.SelectManyUntil(x => x.Children, x => !(x?.Any() ?? false)).Select(x => x.Name);
+            var expected = new[] { "1", "2", "3", "4", "5", "6" };
+            var actual = Trees.SelectUntil(x => x.Children, x => !(x?.Any() ?? false)).Select(x => x.Name).ToArray();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void SelectWhileTest()
+        {
+            var expected = new[] { "A", "A-a", "A-b", "B" };
+            var actual = Trees.SelectWhile(x => x.Children, x => x?.Any() ?? false).Select(x => x.Name).ToArray();
             Assert.Equal(expected, actual);
         }
 
