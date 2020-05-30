@@ -38,7 +38,6 @@ namespace LinqSharp
                     x.UnitExpression.RebindParameter(x.UnitExpression.Parameters[0], parameter).Body.For(body => (body as UnaryExpression)?.Operand ?? body),
                     Expression.Constant(x.ExpectedValue)),
                 parameter)).LambdaJoin(Expression.AndAlso);
-
             return predicate;
         }
 

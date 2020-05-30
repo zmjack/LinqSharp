@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)EFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureConditionUnit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EnsureOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FieldChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTracker.cs" />

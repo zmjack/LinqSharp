@@ -10,7 +10,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AssemblyName>dotnet-orm</AssemblyName>
     <Company>linqsharp.net</Company>
     <Authors>zmjack</Authors>

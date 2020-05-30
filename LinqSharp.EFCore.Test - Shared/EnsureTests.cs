@@ -1,4 +1,5 @@
 ﻿using LinqSharp.EFCore.Data.Test;
+using Microsoft.Extensions.Options;
 using NStandard;
 using System.Linq;
 using Xunit;
@@ -50,6 +51,9 @@ namespace LinqSharp.EFCore.Test
                     {
                         [x => x.TotalQuantity] = 2,
                     },
+                }, options =>
+                {
+                    options.Predicate = x => new[] { 1, 2 }.Contains(x.TotalQuantity);
                 });
                 Assert.Equal(created1, created2[0]);
 
