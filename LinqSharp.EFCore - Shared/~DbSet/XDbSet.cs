@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XDbSet
@@ -31,7 +31,7 @@ namespace LinqSharp
             return new DeleteWrapper<TEntity>(new WhereWrapper<TEntity>(@this, expression));
         }
 
-        public static string ToSql<TEntity>(this DbSet<TEntity> @this) where TEntity : class => XIQueryable.ToSql(@this.Where(x => true));
+        public static string ToSql<TEntity>(this DbSet<TEntity> @this) where TEntity : class => LinqSharp.XIQueryable.ToSql(@this.Where(x => true));
 
     }
 }

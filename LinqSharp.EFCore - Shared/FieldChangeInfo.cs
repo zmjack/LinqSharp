@@ -1,4 +1,4 @@
-﻿namespace LinqSharp
+﻿namespace LinqSharp.EFCore
 {
     public class FieldChangeInfo
     {

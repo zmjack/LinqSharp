@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace LinqSharp.Providers
+namespace LinqSharp.EFCore.Providers
 {
     public class JsonProvider<TModel> : IProvider<TModel, string>
     {

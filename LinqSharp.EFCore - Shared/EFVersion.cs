@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public static class EFVersion
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace LinqSharp.ProviderFunctions
+namespace LinqSharp.EFCore.ProviderFunctions
 {
     public static class PPostgreSQL
     {

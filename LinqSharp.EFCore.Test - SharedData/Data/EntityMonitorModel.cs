@@ -1,4 +1,4 @@
-﻿using LinqSharp.Providers;
+﻿using LinqSharp.EFCore.Providers;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

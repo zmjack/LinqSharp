@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public abstract class KvEntityAgent<TKvEntityAccessor>
         where TKvEntityAccessor : KvEntityAccessor, new()

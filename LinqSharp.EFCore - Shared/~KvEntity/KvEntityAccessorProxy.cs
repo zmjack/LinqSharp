@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class KvEntityAccessorProxy<TRegistry> : IInterceptor

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XDbContext

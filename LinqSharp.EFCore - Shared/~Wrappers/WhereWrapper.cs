@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public class WhereWrapper<TEntity>
         where TEntity : class

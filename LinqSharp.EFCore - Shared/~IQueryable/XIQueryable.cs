@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 using NStandard;
 using System.Linq;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public static partial class XIQueryable
     {

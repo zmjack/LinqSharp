@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public static partial class XIQueryable
     {

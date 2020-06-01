@@ -1,10 +1,11 @@
-﻿using LinqSharp.ProviderFunctions;
+﻿using LinqSharp.EFCore.ProviderFunctions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NStandard;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public static partial class LinqSharpEx
     {
@@ -245,51 +246,104 @@ namespace LinqSharp
                 }
             }
 
-            // Resolve EntityTracker
-            foreach (var entry in entries)
+            // Resolve EntityAudit
+            foreach (var entriesByType in entries.GroupBy(x => x.Entity.GetType()))
             {
-                var entity = entry.Entity;
-                var entityType = entity.GetType();
-                if (entityType.IsImplement(typeof(IEntityTracker<,>)))
+                var entityType = entriesByType.Key;
+                var entityAuditAttr = entityType.GetCustomAttribute<EntityAuditAttribute>();
+                if (entityAuditAttr != null)
                 {
-                    //TODO: Use TypeReflectionCacheContainer to optimize it in the futrue.
-                    var trackerType = typeof(IEntityTracker<,>).MakeGenericType(context.GetType(), entityType);
-                    var onInsertingMethod = trackerType.GetMethod(nameof(EntityTrackerClass.OnInserting));
-                    var onUpdatingMethod = trackerType.GetMethod(nameof(EntityTrackerClass.OnUpdating));
-                    var onDeletingMethod = trackerType.GetMethod(nameof(EntityTrackerClass.OnDeleting));
-
-                    var origin = Activator.CreateInstance(entry.Entity.GetType());
-                    foreach (var originValue in entry.OriginalValues.Properties)
-                        origin.GetReflector().Property(originValue.Name).Value = entry.OriginalValues[originValue.Name];
-
-                    switch (entry.State)
+                    var auditUnitType = typeof(EntityAuditUnit<>).MakeGenericType(entityType);
+                    var units = Array.CreateInstance(auditUnitType, entriesByType.Count());
+                    foreach (var kv in entriesByType.AsKvPairs())
                     {
-                        case EntityState.Added: onInsertingMethod.Invoke(entity, new object[] { context, entry.Properties }); break;
-                        case EntityState.Modified: onUpdatingMethod.Invoke(entity, new object[] { context, origin, entry.Properties }); break;
-                        case EntityState.Deleted: onDeletingMethod.Invoke(entity, new object[] { context, entry.Properties }); break;
+                        var entry = kv.Value;
+                        var entity = entry.Entity;
+                        var origin = Activator.CreateInstance(entityType);
+                        foreach (var originValue in entry.OriginalValues.Properties)
+                            origin.GetReflector().Property(originValue.Name).Value = entry.OriginalValues[originValue.Name];
+
+                        var auditUnit = Activator.CreateInstance(auditUnitType);
+                        var auditUnitReflector = auditUnit.GetReflector();
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.State)).Value = entry.State;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.Origin)).Value = origin;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.Current)).Value = entity;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.PropertyEntries)).Value = entry.Properties;
+
+                        units.SetValue(auditUnit, kv.Key);
+                    }
+
+                    var audit = Activator.CreateInstance(entityAuditAttr.EntityAuditType);
+                    audit.GetReflector().DeclaredMethod(nameof(IEntityAudit<DbContext, object>.OnAuditing)).Call(context, units);
+                }
+            }
+
+            CompleteAudit(context);
+        }
+
+        private static void CompleteAudit(DbContext context)
+        {
+            var entries = context.ChangeTracker.Entries()
+                .Where(x => new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(x.State))
+                .ToArray();
+            var unitContainer = new EntityAuditUnitContainer();
+
+            // Complete EntityAudit
+            foreach (var entriesByType in entries.GroupBy(x => x.Entity.GetType()))
+            {
+                var entityType = entriesByType.Key;
+                var entityAuditAttr = entityType.GetCustomAttribute<EntityAuditAttribute>();
+                if (entityAuditAttr != null)
+                {
+                    var auditUnitType = typeof(EntityAuditUnit<>).MakeGenericType(entityType);
+                    foreach (var kv in entriesByType.AsKvPairs())
+                    {
+                        var entry = kv.Value;
+                        var entity = entry.Entity;
+                        var origin = Activator.CreateInstance(entityType);
+                        foreach (var originValue in entry.OriginalValues.Properties)
+                            origin.GetReflector().Property(originValue.Name).Value = entry.OriginalValues[originValue.Name];
+
+                        var auditUnit = Activator.CreateInstance(auditUnitType);
+                        var auditUnitReflector = auditUnit.GetReflector();
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.State)).Value = entry.State;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.Origin)).Value = origin;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.Current)).Value = entity;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.PropertyEntries)).Value = entry.Properties;
+
+                        unitContainer.Add(auditUnit);
                     }
                 }
             }
 
-            CompleteTracker(context);
-        }
-
-        private static void CompleteTracker(DbContext context)
-        {
-            var entries = context.ChangeTracker.Entries()
-                .Where(x => new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(x.State))
-                .Where(x => x.Entity.GetType().IsImplement(typeof(IEntityTracker<,>)))
-                .ToArray();
-
-            foreach (var entry in entries)
+            foreach (var entriesByType in entries.GroupBy(x => x.Entity.GetType()))
             {
-                //TODO: Use TypeReflectionCacheContainer to optimize it in the futrue.
-                var entity = entry.Entity;
-                var entityType = entity.GetType();
-                var trackerType = typeof(IEntityTracker<,>).MakeGenericType(context.GetType(), entityType);
-                var onCompletingMethod = trackerType.GetMethod(nameof(EntityTrackerClass.OnCompleting));
-                onCompletingMethod.Invoke(entity, new object[] { context, entry.State, entry.Properties });
+                var entityType = entriesByType.Key;
+                var entityAuditAttr = entityType.GetCustomAttribute<EntityAuditAttribute>();
+                if (entityAuditAttr != null)
+                {
+                    var audit = Activator.CreateInstance(entityAuditAttr.EntityAuditType);
+                    audit.GetReflector().DeclaredMethod(nameof(IEntityAudit<DbContext, object>.OnAudited)).Call(context, unitContainer);
+                }
             }
+            //// Complete EntityAudit
+            //foreach (var entriesByType in entries.GroupBy(x => x.Entity.GetType()))
+            //{
+            //    var entityType = entriesByType.Key;
+            //    var entityAuditAttr = entityType.GetCustomAttribute<EntityAuditAttribute>();
+            //    if (entityAuditAttr != null)
+            //    {
+            //        var entities = Array.CreateInstance(entityType, entriesByType.Count());
+            //        foreach (var kv in entriesByType.AsKvPairs())
+            //        {
+            //            var entry = kv.Value;
+            //            entities.SetValue(entry.Entity, kv.Key);
+            //        }
+
+            //        var audit = Activator.CreateInstance(entityAuditAttr.EntityAuditType);
+            //        audit.GetReflector().DeclaredMethod(nameof(IEntityAudit<DbContext, object>.OnAudited)).Call(context, entities);
+            //    }
+            //}
         }
 
         private static void ApplyCompositeKey(object entityTypeBuilder, Type modelClass)

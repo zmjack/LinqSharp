@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public class DeleteWrapper<TEntity>
         where TEntity : class

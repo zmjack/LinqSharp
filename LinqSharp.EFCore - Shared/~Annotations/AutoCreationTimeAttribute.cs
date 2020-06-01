@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class AutoCreationTimeAttribute : Attribute { }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public abstract class KvEntity
     {

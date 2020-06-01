@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public class RowChangeInfo : Dictionary<string, FieldChangeInfo>
     {

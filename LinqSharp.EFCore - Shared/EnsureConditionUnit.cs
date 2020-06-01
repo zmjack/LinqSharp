@@ -2,7 +2,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public class EnsureConditionUnit<TEntity>
     {

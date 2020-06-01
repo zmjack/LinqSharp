@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public abstract class IProvider<TModel, TProvider>
     {
@@ -8,6 +8,7 @@ namespace LinqSharp
         public abstract TModel ConvertFromProvider(TProvider value);
     }
 
+    [AttributeUsage(AttributeTargets.Property)]
     public class ProviderAttribute : Attribute
     {
         public Type ProviderType { get; set; }

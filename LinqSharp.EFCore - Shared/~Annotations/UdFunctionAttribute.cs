@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public sealed class UdFunctionAttribute : Attribute

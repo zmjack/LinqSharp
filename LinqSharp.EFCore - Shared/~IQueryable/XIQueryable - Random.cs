@@ -1,8 +1,8 @@
-﻿using LinqSharp.ProviderFunctions;
+﻿using LinqSharp.EFCore.ProviderFunctions;
 using System;
 using System.Linq;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public static partial class XIQueryable
     {

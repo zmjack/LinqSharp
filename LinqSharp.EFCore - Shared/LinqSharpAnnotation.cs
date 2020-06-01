@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     [Flags]
     public enum LinqSharpAnnotation

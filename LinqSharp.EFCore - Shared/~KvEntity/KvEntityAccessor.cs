@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class KvEntityAccessor

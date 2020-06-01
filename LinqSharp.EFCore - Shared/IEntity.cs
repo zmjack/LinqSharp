@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     /// <summary>
     /// Use <see cref="IEntity"/> to define entity classes to get some useful extension methods.

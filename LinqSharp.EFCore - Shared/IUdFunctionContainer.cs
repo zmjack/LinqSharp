@@ -1,4 +1,5 @@
-﻿namespace LinqSharp
+﻿
+namespace LinqSharp.EFCore
 {
     public interface IUdFunctionContainer
     {

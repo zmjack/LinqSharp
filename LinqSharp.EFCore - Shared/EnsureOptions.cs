@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace LinqSharp
+namespace LinqSharp.EFCore
 {
     public class EnsureOptions<TEntity>
         where TEntity : class, new()

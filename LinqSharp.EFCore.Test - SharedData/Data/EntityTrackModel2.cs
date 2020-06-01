@@ -4,10 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace LinqSharp.EFCore.Data.Test
 {
-    public class EntityTrackModel2 : IEntityTracker<ApplicationDbContext, EntityTrackModel2>
+    [EntityAudit(typeof(EntityTrackModel2Audit))]
+    public class EntityTrackModel2
     {
         [Key]
         public Guid Id { get; set; }
@@ -21,26 +23,31 @@ namespace LinqSharp.EFCore.Data.Test
         public EntityTrackModel1 SuperLink { get; set; }
 
         public virtual ICollection<EntityTrackModel3> EntityTrackModel3s { get; set; }
-
-        public void OnCompleting(ApplicationDbContext context, EntityState state, IEnumerable<PropertyEntry> entries)
-        {
-        }
-
-        public void OnDeleting(ApplicationDbContext context, IEnumerable<PropertyEntry> entries)
-        {
-            var super = context.EntityTrackModel1s.Find(Super);
-            super.TotalQuantity -= GroupQuantity;
-        }
-
-        public void OnInserting(ApplicationDbContext context, IEnumerable<PropertyEntry> entries)
-        {
-        }
-
-        public void OnUpdating(ApplicationDbContext context, EntityTrackModel2 origin, IEnumerable<PropertyEntry> entries)
-        {
-            var super = context.EntityTrackModel1s.Find(Super);
-            super.TotalQuantity += GroupQuantity - origin.GroupQuantity;
-        }
-
     }
+
+    public class EntityTrackModel2Audit : IEntityAudit<ApplicationDbContext, EntityTrackModel2>
+    {
+        public void OnAudited(ApplicationDbContext context, EntityAuditUnitContainer container)
+        {
+        }
+
+        public void OnAuditing(ApplicationDbContext context, EntityAuditUnit<EntityTrackModel2>[] units)
+        {
+            var unitsBySuper = units.GroupBy(x => x.Current.Super);
+            foreach (var group in unitsBySuper)
+            {
+                var super = context.EntityTrackModel1s.Find(group.Key);
+                foreach (var unit in group)
+                {
+                    switch (unit.State)
+                    {
+                        case EntityState.Added: super.TotalQuantity += unit.Current.GroupQuantity; break;
+                        case EntityState.Modified: super.TotalQuantity += unit.Current.GroupQuantity - unit.Origin.GroupQuantity; break;
+                        case EntityState.Deleted: super.TotalQuantity -= unit.Current.GroupQuantity; break;
+                    }
+                }
+            }
+        }
+    }
+
 }

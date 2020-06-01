@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LinqSharp.EFCore;
+using Microsoft.EntityFrameworkCore;
 using NStandard;
 using NStandard.Flows;
 using System;
