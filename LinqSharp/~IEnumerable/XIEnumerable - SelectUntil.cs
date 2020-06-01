@@ -6,12 +6,12 @@ namespace LinqSharp
 {
     public static partial class XIEnumerable
     {
-        public static IEnumerable<TSource> SelectUntil<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector, Func<IEnumerable<TSource>, bool> until)
+        public static IEnumerable<TSource> SelectUntil<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector, Func<IEnumerable<TSource>, bool> predicate)
         {
             IEnumerable<TSource> RecursiveChildren(TSource node)
             {
                 var selectNode = childrenSelector(node);
-                if (until(selectNode))
+                if (predicate(selectNode))
                     yield return node;
                 else
                 {
