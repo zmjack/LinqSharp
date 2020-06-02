@@ -14,14 +14,14 @@ namespace LinqSharp.EFCore.Test
             using (var context = ApplicationDbContext.UseMySql())
             using (var trans = context.Database.BeginTransaction())
             {
-                var create = context.EntityTrackModel1s.EnsureFirst(new EnsureCondition<EntityTrackModel1>
+                var create = context.AuditRoots.EnsureFirst(new EnsureCondition<AuditRoot>
                 {
-                    [x => x.TotalQuantity] = 1,
+                    [x => x.LimitQuantity] = 1,
                 });
 
-                var found = context.EntityTrackModel1s.EnsureFirst(new EnsureCondition<EntityTrackModel1>
+                var found = context.AuditRoots.EnsureFirst(new EnsureCondition<AuditRoot>
                 {
-                    [x => x.TotalQuantity] = 1,
+                    [x => x.LimitQuantity] = 1,
                 });
 
                 Assert.Equal(create, found);
@@ -36,36 +36,36 @@ namespace LinqSharp.EFCore.Test
             using (var context = ApplicationDbContext.UseMySql())
             using (var trans = context.Database.BeginTransaction())
             {
-                var created1 = context.EntityTrackModel1s.EnsureFirst(new EnsureCondition<EntityTrackModel1>
+                var created1 = context.AuditRoots.EnsureFirst(new EnsureCondition<AuditRoot>
                 {
-                    [x => x.TotalQuantity] = 1,
+                    [x => x.LimitQuantity] = 1,
                 });
 
-                var created2 = context.EntityTrackModel1s.EnsureMany(new[]
+                var created2 = context.AuditRoots.EnsureMany(new[]
                 {
-                    new EnsureCondition<EntityTrackModel1>
+                    new EnsureCondition<AuditRoot>
                     {
-                        [x => x.TotalQuantity] = 1,
+                        [x => x.LimitQuantity] = 1,
                     },
-                    new EnsureCondition<EntityTrackModel1>
+                    new EnsureCondition<AuditRoot>
                     {
-                        [x => x.TotalQuantity] = 2,
+                        [x => x.LimitQuantity] = 2,
                     },
                 }, options =>
                 {
-                    options.Predicate = x => new[] { 1, 2 }.Contains(x.TotalQuantity);
+                    options.Predicate = x => new[] { 1, 2 }.Contains(x.LimitQuantity);
                 });
                 Assert.Equal(created1, created2[0]);
 
-                var found = context.EntityTrackModel1s.EnsureMany(new[]
+                var found = context.AuditRoots.EnsureMany(new[]
                 {
-                    new EnsureCondition<EntityTrackModel1>
+                    new EnsureCondition<AuditRoot>
                     {
-                        [x => x.TotalQuantity] = 1,
+                        [x => x.LimitQuantity] = 1,
                     },
-                    new EnsureCondition<EntityTrackModel1>
+                    new EnsureCondition<AuditRoot>
                     {
-                        [x => x.TotalQuantity] = 2,
+                        [x => x.LimitQuantity] = 2,
                     },
                 });
                 Assert.Equal(created2, found);
@@ -80,12 +80,12 @@ namespace LinqSharp.EFCore.Test
             using (var context = ApplicationDbContext.UseMySql())
             using (var trans = context.Database.BeginTransaction())
             {
-                var conditions = new int[1000].Let(i => i).Select(i => new EnsureCondition<EntityTrackModel1>
+                var conditions = new int[1000].Let(i => i).Select(i => new EnsureCondition<AuditRoot>
                 {
-                    [x => x.TotalQuantity] = i,
+                    [x => x.LimitQuantity] = i,
                 }).ToArray();
 
-                var created = context.EntityTrackModel1s.EnsureMany(conditions);
+                var created = context.AuditRoots.EnsureMany(conditions);
                 Assert.Equal(1000, created.Length);
 
                 trans.Rollback();

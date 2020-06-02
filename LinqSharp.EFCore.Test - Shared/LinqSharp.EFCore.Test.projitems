@@ -13,7 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConcurrencyTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbFunctionTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EntityTrackerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AuditorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GroupByCountTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KvEntityTests.cs" />

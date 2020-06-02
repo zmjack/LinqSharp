@@ -15,9 +15,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\ConcurrencyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\CPKeyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\EntityMonitorModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\EntityTrackModel1.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\EntityTrackModel2.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\EntityTrackModel3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\AuditRoot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\AuditLevel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\AuditValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ProviderTestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SimpleModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\TrackModel.cs" />

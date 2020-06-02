@@ -5,11 +5,11 @@ namespace LinqSharp.EFCore
     [AttributeUsage(AttributeTargets.Class)]
     public class EntityAuditAttribute : Attribute
     {
-        public Type EntityAuditType { get; set; }
+        public Type EntityAuditorType { get; set; }
 
-        public EntityAuditAttribute(Type entityAuditType)
+        public EntityAuditAttribute(Type entityAuditorType)
         {
-            EntityAuditType = entityAuditType;
+            EntityAuditorType = entityAuditorType;
         }
     }
 

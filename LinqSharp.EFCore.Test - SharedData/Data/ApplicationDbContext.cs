@@ -24,9 +24,9 @@ namespace LinqSharp.EFCore.Data.Test
         public DbSet<EntityMonitorModel> EntityMonitorModels { get; set; }
         public DbSet<SimpleModel> SimpleModels { get; set; }
         public DbSet<CPKeyModel> CompositeKeyModels { get; set; }
-        public DbSet<EntityTrackModel1> EntityTrackModel1s { get; set; }
-        public DbSet<EntityTrackModel2> EntityTrackModel2s { get; set; }
-        public DbSet<EntityTrackModel3> EntityTrackModel3s { get; set; }
+        public DbSet<AuditRoot> AuditRoots { get; set; }
+        public DbSet<AuditLevel> AuditLevels { get; set; }
+        public DbSet<AuditValue> AuditValues { get; set; }
         public DbSet<ProviderTestModel> ProviderTestModels { get; set; }
         public DbSet<ConcurrencyModel> ConcurrencyModels { get; set; }
 
