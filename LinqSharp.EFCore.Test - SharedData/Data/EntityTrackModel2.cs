@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using NStandard;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,26 +26,33 @@ namespace LinqSharp.EFCore.Data.Test
         public virtual ICollection<EntityTrackModel3> EntityTrackModel3s { get; set; }
     }
 
-    public class EntityTrackModel2Audit : IEntityAudit<ApplicationDbContext, EntityTrackModel2>
+    public class EntityTrackModel2Audit : IEntityAuditor<ApplicationDbContext, EntityTrackModel2>
     {
-        public void OnAudited(ApplicationDbContext context, EntityAuditUnitContainer container)
+        public void OnAudited(ApplicationDbContext context, EntityAuditContainer container)
         {
+            var supers = container.OfType<EntityTrackModel2>().Select(x => x.Current.Super).Distinct();
+
+            foreach (var super in supers)
+            {
+                var predict = container.Predict(context.EntityTrackModel2s, x => x.Super == super);
+            }
         }
 
         public void OnAuditing(ApplicationDbContext context, EntityAuditUnit<EntityTrackModel2>[] units)
         {
-            var unitsBySuper = units.GroupBy(x => x.Current.Super);
-            foreach (var group in unitsBySuper)
+            var superCaches = new CacheContainer<Guid, EntityTrackModel1>
             {
-                var super = context.EntityTrackModel1s.Find(group.Key);
-                foreach (var unit in group)
+                CacheMethod = superId => () => context.EntityTrackModel1s.Find(superId),
+            };
+
+            foreach (var unit in units)
+            {
+                var super = superCaches[unit.Current.Super].Value;
+                switch (unit.State)
                 {
-                    switch (unit.State)
-                    {
-                        case EntityState.Added: super.TotalQuantity += unit.Current.GroupQuantity; break;
-                        case EntityState.Modified: super.TotalQuantity += unit.Current.GroupQuantity - unit.Origin.GroupQuantity; break;
-                        case EntityState.Deleted: super.TotalQuantity -= unit.Current.GroupQuantity; break;
-                    }
+                    case EntityState.Added: super.TotalQuantity += unit.Current.GroupQuantity; break;
+                    case EntityState.Modified: super.TotalQuantity += unit.Current.GroupQuantity - unit.Origin.GroupQuantity; break;
+                    case EntityState.Deleted: super.TotalQuantity -= unit.Current.GroupQuantity; break;
                 }
             }
         }

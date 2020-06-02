@@ -274,7 +274,7 @@ namespace LinqSharp.EFCore
                     }
 
                     var audit = Activator.CreateInstance(entityAuditAttr.EntityAuditType);
-                    audit.GetReflector().DeclaredMethod(nameof(IEntityAudit<DbContext, object>.OnAuditing)).Call(context, units);
+                    audit.GetReflector().DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.OnAuditing)).Call(context, units);
                 }
             }
 
@@ -286,7 +286,7 @@ namespace LinqSharp.EFCore
             var entries = context.ChangeTracker.Entries()
                 .Where(x => new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(x.State))
                 .ToArray();
-            var unitContainer = new EntityAuditUnitContainer();
+            var unitContainer = new EntityAuditContainer();
 
             // Complete EntityAudit
             foreach (var entriesByType in entries.GroupBy(x => x.Entity.GetType()))
@@ -323,7 +323,7 @@ namespace LinqSharp.EFCore
                 if (entityAuditAttr != null)
                 {
                     var audit = Activator.CreateInstance(entityAuditAttr.EntityAuditType);
-                    audit.GetReflector().DeclaredMethod(nameof(IEntityAudit<DbContext, object>.OnAudited)).Call(context, unitContainer);
+                    audit.GetReflector().DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.OnAudited)).Call(context, unitContainer);
                 }
             }
             //// Complete EntityAudit

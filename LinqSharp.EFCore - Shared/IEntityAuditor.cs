@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace LinqSharp.EFCore
 {
-    public interface IEntityAudit<TDbContext, TEntity> : IEntity
+    public interface IEntityAuditor<TDbContext, TEntity> : IEntity
         where TDbContext : DbContext
         where TEntity : class, new()
     {
@@ -15,7 +15,7 @@ namespace LinqSharp.EFCore
         //void OnDeleting(TDbContext context, IEnumerable<PropertyEntry> entries);
 
         void OnAuditing(TDbContext context, EntityAuditUnit<TEntity>[] units);
-        void OnAudited(TDbContext context, EntityAuditUnitContainer container);
+        void OnAudited(TDbContext context, EntityAuditContainer container);
     }
 
 }

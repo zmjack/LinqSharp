@@ -1,49 +1,49 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<LangVersion>preview</LangVersion>
-		<Version>2.0.3.8</Version>
-		<Authors>zmjack</Authors>
-		<Company>dawnx.net</Company>
-		<Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
-		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-		<PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
-		<Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageId>LinqSharp.EFCore</PackageId>
-		<PackageTags>Linq</PackageTags>
-		<PackageIcon>LinqSharp.png</PackageIcon>
-		<RootNamespace>LinqSharp</RootNamespace>
-		<AssemblyName>LinqSharp.EFCore</AssemblyName>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Version>2.0.3.9</Version>
+    <Authors>zmjack</Authors>
+    <Company>dawnx.net</Company>
+    <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
+    <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageId>LinqSharp.EFCore</PackageId>
+    <PackageTags>Linq</PackageTags>
+    <PackageIcon>LinqSharp.png</PackageIcon>
+    <RootNamespace>LinqSharp</RootNamespace>
+    <AssemblyName>LinqSharp.EFCore</AssemblyName>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Castle.Core" Version="4.4.0" />
-		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.6" />
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-		<PackageReference Include="NStandard" Version="0.4.6" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.4.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="NStandard" Version="0.4.6" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<None Include="..\LICENSE.md">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-		<None Include="..\LinqSharp.png">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\LinqSharp.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\LinqSharp\LinqSharp.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LinqSharp\LinqSharp.csproj" />
+  </ItemGroup>
 
-	<Import Project="..\LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems" Label="Shared" />
+  <Import Project="..\LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems" Label="Shared" />
 
 </Project>
