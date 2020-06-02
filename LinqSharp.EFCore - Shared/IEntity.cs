@@ -1,6 +1,7 @@
 ﻿using NStandard;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
@@ -20,7 +21,8 @@ namespace LinqSharp.EFCore
     {
     }
 
-    public static partial class IEntityX
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static class XIEntity
     {
         /// <summary>
         /// Accept all property values which are can be read and write from another model.

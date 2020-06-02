@@ -16,7 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)EnsureConditionUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityAudit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EntityAuditContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EntityAuditPredictor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FieldChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityAuditor.cs" />

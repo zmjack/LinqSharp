@@ -253,7 +253,7 @@ namespace LinqSharp.EFCore
                 var entityAuditAttr = entityType.GetCustomAttribute<EntityAuditAttribute>();
                 if (entityAuditAttr != null)
                 {
-                    var auditUnitType = typeof(EntityAuditUnit<>).MakeGenericType(entityType);
+                    var auditUnitType = typeof(EntityAudit<>).MakeGenericType(entityType);
                     var units = Array.CreateInstance(auditUnitType, entriesByType.Count());
                     foreach (var kv in entriesByType.AsKvPairs())
                     {
@@ -265,10 +265,10 @@ namespace LinqSharp.EFCore
 
                         var auditUnit = Activator.CreateInstance(auditUnitType);
                         var auditUnitReflector = auditUnit.GetReflector();
-                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.State)).Value = entry.State;
-                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.Origin)).Value = origin;
-                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.Current)).Value = entity;
-                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.PropertyEntries)).Value = entry.Properties;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAudit<object>.State)).Value = entry.State;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAudit<object>.Origin)).Value = origin;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAudit<object>.Current)).Value = entity;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAudit<object>.PropertyEntries)).Value = entry.Properties;
 
                         units.SetValue(auditUnit, kv.Key);
                     }
@@ -286,7 +286,7 @@ namespace LinqSharp.EFCore
             var entries = context.ChangeTracker.Entries()
                 .Where(x => new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(x.State))
                 .ToArray();
-            var unitContainer = new EntityAuditContainer();
+            var unitContainer = new EntityAuditPredictor();
 
             // Complete EntityAudit
             foreach (var entriesByType in entries.GroupBy(x => x.Entity.GetType()))
@@ -295,7 +295,7 @@ namespace LinqSharp.EFCore
                 var entityAuditAttr = entityType.GetCustomAttribute<EntityAuditAttribute>();
                 if (entityAuditAttr != null)
                 {
-                    var auditUnitType = typeof(EntityAuditUnit<>).MakeGenericType(entityType);
+                    var auditUnitType = typeof(EntityAudit<>).MakeGenericType(entityType);
                     foreach (var kv in entriesByType.AsKvPairs())
                     {
                         var entry = kv.Value;
@@ -306,10 +306,10 @@ namespace LinqSharp.EFCore
 
                         var auditUnit = Activator.CreateInstance(auditUnitType);
                         var auditUnitReflector = auditUnit.GetReflector();
-                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.State)).Value = entry.State;
-                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.Origin)).Value = origin;
-                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.Current)).Value = entity;
-                        auditUnitReflector.DeclaredProperty(nameof(EntityAuditUnit<object>.PropertyEntries)).Value = entry.Properties;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAudit<object>.State)).Value = entry.State;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAudit<object>.Origin)).Value = origin;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAudit<object>.Current)).Value = entity;
+                        auditUnitReflector.DeclaredProperty(nameof(EntityAudit<object>.PropertyEntries)).Value = entry.Properties;
 
                         unitContainer.Add(auditUnit);
                     }

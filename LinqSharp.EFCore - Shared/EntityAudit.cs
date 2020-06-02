@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LinqSharp.EFCore
 {
-    public class EntityAuditUnit<TEntity>
+    public class EntityAudit<TEntity>
         where TEntity : class, new()
     {
         public EntityState State { get; set; }

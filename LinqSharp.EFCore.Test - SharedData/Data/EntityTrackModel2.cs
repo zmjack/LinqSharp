@@ -28,9 +28,9 @@ namespace LinqSharp.EFCore.Data.Test
 
     public class EntityTrackModel2Audit : IEntityAuditor<ApplicationDbContext, EntityTrackModel2>
     {
-        public void OnAudited(ApplicationDbContext context, EntityAuditContainer container)
+        public void OnAudited(ApplicationDbContext context, EntityAuditPredictor container)
         {
-            var supers = container.OfType<EntityTrackModel2>().Select(x => x.Current.Super).Distinct();
+            var supers = container.Pick<EntityTrackModel2>().Select(x => x.Current.Super).Distinct();
 
             foreach (var super in supers)
             {
@@ -38,21 +38,21 @@ namespace LinqSharp.EFCore.Data.Test
             }
         }
 
-        public void OnAuditing(ApplicationDbContext context, EntityAuditUnit<EntityTrackModel2>[] units)
+        public void OnAuditing(ApplicationDbContext context, EntityAudit<EntityTrackModel2>[] audits)
         {
             var superCaches = new CacheContainer<Guid, EntityTrackModel1>
             {
                 CacheMethod = superId => () => context.EntityTrackModel1s.Find(superId),
             };
 
-            foreach (var unit in units)
+            foreach (var audit in audits)
             {
-                var super = superCaches[unit.Current.Super].Value;
-                switch (unit.State)
+                var super = superCaches[audit.Current.Super].Value;
+                switch (audit.State)
                 {
-                    case EntityState.Added: super.TotalQuantity += unit.Current.GroupQuantity; break;
-                    case EntityState.Modified: super.TotalQuantity += unit.Current.GroupQuantity - unit.Origin.GroupQuantity; break;
-                    case EntityState.Deleted: super.TotalQuantity -= unit.Current.GroupQuantity; break;
+                    case EntityState.Added: super.TotalQuantity += audit.Current.GroupQuantity; break;
+                    case EntityState.Modified: super.TotalQuantity += audit.Current.GroupQuantity - audit.Origin.GroupQuantity; break;
+                    case EntityState.Deleted: super.TotalQuantity -= audit.Current.GroupQuantity; break;
                 }
             }
         }

@@ -26,39 +26,39 @@ namespace LinqSharp.EFCore.Data.Test
 
     public class EntityTrackModel3Auditor : IEntityAuditor<ApplicationDbContext, EntityTrackModel3>
     {
-        public void OnAudited(ApplicationDbContext context, EntityAuditContainer container)
+        public void OnAudited(ApplicationDbContext context, EntityAuditPredictor predictor)
         {
-            var supers = container.OfType<EntityTrackModel3>().Select(x => x.Current.Super).Distinct();
+            var supers = predictor.Pick<EntityTrackModel3>().Select(x => x.Current.Super).Distinct();
 
             foreach (var super in supers)
             {
-                var predict = container.Predict(context.EntityTrackModel3s, x => x.Super == super);
+                var predict = predictor.Predict(context.EntityTrackModel3s, x => x.Super == super);
             }
         }
 
-        public void OnAuditing(ApplicationDbContext context, EntityAuditUnit<EntityTrackModel3>[] units)
+        public void OnAuditing(ApplicationDbContext context, EntityAudit<EntityTrackModel3>[] audits)
         {
             var superCaches = new CacheContainer<Guid, EntityTrackModel2>
             {
                 CacheMethod = superId => () => context.EntityTrackModel2s.Include(x => x.SuperLink).First(x => x.Id == superId),
             };
 
-            foreach (var unit in units)
+            foreach (var audit in audits)
             {
-                var super = superCaches[unit.Current.Super].Value;
-                switch (unit.State)
+                var super = superCaches[audit.Current.Super].Value;
+                switch (audit.State)
                 {
                     case EntityState.Added:
-                        super.GroupQuantity += unit.Current.Quantity;
-                        super.SuperLink.TotalQuantity += unit.Current.Quantity;
+                        super.GroupQuantity += audit.Current.Quantity;
+                        super.SuperLink.TotalQuantity += audit.Current.Quantity;
                         break;
                     case EntityState.Modified:
-                        super.GroupQuantity += unit.Current.Quantity - unit.Origin.Quantity;
-                        super.SuperLink.TotalQuantity += unit.Current.Quantity - unit.Origin.Quantity;
+                        super.GroupQuantity += audit.Current.Quantity - audit.Origin.Quantity;
+                        super.SuperLink.TotalQuantity += audit.Current.Quantity - audit.Origin.Quantity;
                         break;
                     case EntityState.Deleted:
-                        super.GroupQuantity -= unit.Current.Quantity;
-                        super.SuperLink.TotalQuantity -= unit.Current.Quantity;
+                        super.GroupQuantity -= audit.Current.Quantity;
+                        super.SuperLink.TotalQuantity -= audit.Current.Quantity;
                         break;
                 }
             }

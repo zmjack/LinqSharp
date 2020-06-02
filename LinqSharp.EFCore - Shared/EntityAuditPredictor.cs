@@ -9,20 +9,20 @@ using System.Text;
 
 namespace LinqSharp.EFCore
 {
-    public class EntityAuditContainer
+    public class EntityAuditPredictor
     {
         private List<object> List { get; } = new List<object>();
         internal void Add(object auditUnit) => List.Add(auditUnit);
 
-        public IEnumerable<EntityAuditUnit<TEntity>> OfType<TEntity>() where TEntity : class, new()
+        public IEnumerable<EntityAudit<TEntity>> Pick<TEntity>() where TEntity : class, new()
         {
-            return List.OfType<EntityAuditUnit<TEntity>>();
+            return List.OfType<EntityAudit<TEntity>>();
         }
 
         public TEntity[] Predict<TEntity>(DbSet<TEntity> dbSet, Func<TEntity, bool> predicate)
             where TEntity : class, new()
         {
-            var locals = OfType<TEntity>();
+            var locals = Pick<TEntity>();
             var localsOfAdded = locals.Where(x => x.State == EntityState.Added).ToArray();
             var localsOfModified = locals.Where(x => x.State == EntityState.Modified).ToArray();
             var localsOfDeleted = locals.Where(x => x.State == EntityState.Deleted).ToArray();
