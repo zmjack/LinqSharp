@@ -9,7 +9,7 @@ using System.Text;
 
 namespace LinqSharp.EFCore
 {
-    public class EntityAuditPredictor
+    public class AuditPredictor
     {
         private List<object> List { get; } = new List<object>();
         internal void Add(object auditUnit) => List.Add(auditUnit);
@@ -26,7 +26,7 @@ namespace LinqSharp.EFCore
             var localsOfAdded = locals.Where(x => x.State == EntityState.Added).ToArray();
             var localsOfModified = locals.Where(x => x.State == EntityState.Modified).ToArray();
             var localsOfDeleted = locals.Where(x => x.State == EntityState.Deleted).ToArray();
-            var stores = dbSet.Where(predicate).ToArray();
+            var stores = dbSet.AsNoTracking().Where(predicate).ToArray();
 
             var keyProps = typeof(TEntity).GetProperties().Where(x => x.HasAttribute<KeyAttribute>());
             var ret = stores.Where(store =>

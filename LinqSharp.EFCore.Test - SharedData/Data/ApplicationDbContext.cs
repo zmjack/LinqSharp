@@ -33,17 +33,17 @@ namespace LinqSharp.EFCore.Data.Test
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             UseNorthwndPrefix(modelBuilder, "@Northwnd.");
-            LinqSharpEx.OnModelCreating(this, base.OnModelCreating, modelBuilder);
+            LinqSharpEF.OnModelCreating(this, base.OnModelCreating, modelBuilder);
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            return LinqSharpEx.SaveChanges(this, base.SaveChanges, acceptAllChangesOnSuccess);
+            return LinqSharpEF.SaveChanges(this, base.SaveChanges, acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            return LinqSharpEx.SaveChangesAsync(this, base.SaveChangesAsync, acceptAllChangesOnSuccess, cancellationToken);
+            return LinqSharpEF.SaveChangesAsync(this, base.SaveChangesAsync, acceptAllChangesOnSuccess, cancellationToken);
         }
 
     }

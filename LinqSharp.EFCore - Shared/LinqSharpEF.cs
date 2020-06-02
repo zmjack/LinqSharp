@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace LinqSharp.EFCore
 {
-    public static partial class LinqSharpEx
+    public static partial class LinqSharpEF
     {
         private const string SaveChangesName = "Int32 SaveChanges(Boolean)";
         private const string SaveChangesAsyncName = "System.Threading.Tasks.Task`1[System.Int32] SaveChangesAsync(Boolean, System.Threading.CancellationToken)";
@@ -286,7 +286,7 @@ namespace LinqSharp.EFCore
             var entries = context.ChangeTracker.Entries()
                 .Where(x => new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(x.State))
                 .ToArray();
-            var unitContainer = new EntityAuditPredictor();
+            var unitContainer = new AuditPredictor();
 
             // Complete EntityAudit
             foreach (var entriesByType in entries.GroupBy(x => x.Entity.GetType()))
@@ -416,7 +416,7 @@ namespace LinqSharp.EFCore
                     var hasConversionMethod = typeof(PropertyBuilder).GetMethod(nameof(PropertyBuilder.HasConversion), new[] { typeof(ValueConverter) });
 
                     dynamic provider = Activator.CreateInstance(attr.ProviderType);
-                    hasConversionMethod.Invoke(propertyBuilder, new object[] { LinqSharpEx.BuildConverter(provider) });
+                    hasConversionMethod.Invoke(propertyBuilder, new object[] { LinqSharpEF.BuildConverter(provider) });
                 }
             }
         }

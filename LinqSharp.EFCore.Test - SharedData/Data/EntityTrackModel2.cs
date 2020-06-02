@@ -28,7 +28,7 @@ namespace LinqSharp.EFCore.Data.Test
 
     public class EntityTrackModel2Audit : IEntityAuditor<ApplicationDbContext, EntityTrackModel2>
     {
-        public void OnAudited(ApplicationDbContext context, EntityAuditPredictor container)
+        public void OnAudited(ApplicationDbContext context, AuditPredictor container)
         {
             var supers = container.Pick<EntityTrackModel2>().Select(x => x.Current.Super).Distinct();
 

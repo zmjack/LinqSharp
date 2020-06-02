@@ -15,7 +15,7 @@ namespace LinqSharp.EFCore
         //void OnDeleting(TDbContext context, IEnumerable<PropertyEntry> entries);
 
         void OnAuditing(TDbContext context, EntityAudit<TEntity>[] audits);
-        void OnAudited(TDbContext context, EntityAuditPredictor container);
+        void OnAudited(TDbContext context, AuditPredictor predictor);
     }
 
 }

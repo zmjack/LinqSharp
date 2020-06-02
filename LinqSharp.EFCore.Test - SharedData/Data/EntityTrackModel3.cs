@@ -26,7 +26,7 @@ namespace LinqSharp.EFCore.Data.Test
 
     public class EntityTrackModel3Auditor : IEntityAuditor<ApplicationDbContext, EntityTrackModel3>
     {
-        public void OnAudited(ApplicationDbContext context, EntityAuditPredictor predictor)
+        public void OnAudited(ApplicationDbContext context, AuditPredictor predictor)
         {
             var supers = predictor.Pick<EntityTrackModel3>().Select(x => x.Current.Super).Distinct();
 
@@ -52,10 +52,12 @@ namespace LinqSharp.EFCore.Data.Test
                         super.GroupQuantity += audit.Current.Quantity;
                         super.SuperLink.TotalQuantity += audit.Current.Quantity;
                         break;
+
                     case EntityState.Modified:
                         super.GroupQuantity += audit.Current.Quantity - audit.Origin.Quantity;
                         super.SuperLink.TotalQuantity += audit.Current.Quantity - audit.Origin.Quantity;
                         break;
+
                     case EntityState.Deleted:
                         super.GroupQuantity -= audit.Current.Quantity;
                         super.SuperLink.TotalQuantity -= audit.Current.Quantity;

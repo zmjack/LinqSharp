@@ -16,13 +16,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)EnsureConditionUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityAudit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EntityAuditPredictor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AuditPredictor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FieldChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityAuditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IUdFunctionContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LinqSharpAnnotation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LinqSharpEx.cs" />
+    <Compile Include="..\LinqSharp.EFCore - Shared\LinqSharpEF.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProviderFunctions\PJet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProviderFunctions\PMySql.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProviderFunctions\POracle.cs" />
