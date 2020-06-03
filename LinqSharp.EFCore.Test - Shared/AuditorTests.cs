@@ -37,10 +37,15 @@ namespace LinqSharp.EFCore.Test
                 context.SaveChanges();
 
                 Assert.Equal(16, root.TotalQuantity);
+            }
 
+            using (var context = ApplicationDbContext.UseMySql())
+            {
+                var root = context.AuditRoots.First();
                 context.AuditRoots.Remove(root);
                 context.SaveChanges();
             }
+
         }
 
     }
