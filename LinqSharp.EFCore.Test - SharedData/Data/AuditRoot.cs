@@ -18,6 +18,9 @@ namespace LinqSharp.EFCore.Data.Test
 
         public int LimitQuantity { get; set; }
 
+        [Timestamp]
+        public DateTime RowVersion { get; set; }
+
         public virtual ICollection<AuditLevel> Levels { get; set; }
     }
 
