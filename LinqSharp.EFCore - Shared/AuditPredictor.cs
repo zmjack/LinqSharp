@@ -22,7 +22,7 @@ namespace LinqSharp.EFCore
         public TEntity[] Predict<TEntity>(DbSet<TEntity> dbSet, Func<TEntity, bool> predicate)
             where TEntity : class, new()
         {
-            var locals = Pick<TEntity>();
+            var locals = Pick<TEntity>().Where(x => predicate(x.Current));
             var localsOfAdded = locals.Where(x => x.State == EntityState.Added).ToArray();
             var localsOfModified = locals.Where(x => x.State == EntityState.Modified).ToArray();
             var localsOfDeleted = locals.Where(x => x.State == EntityState.Deleted).ToArray();
