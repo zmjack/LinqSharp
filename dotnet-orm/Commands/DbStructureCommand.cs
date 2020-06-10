@@ -48,8 +48,8 @@ Options:
                 Directory.CreateDirectory(outFolder);
 
             var assemblyName = Program.ProjectInfo.AssemblyName;
-            var assembly = Assembly.LoadFrom($"{TargetBinFolder}/{assemblyName}.dll");
-            AppDomain.CurrentDomain.AssemblyResolve += GAC.CreateAssemblyResolver(Program.ProjectInfo.TargetFramework, GACFolders.All);
+            var assembly = Assembly.LoadFile($"{TargetBinFolder}/{assemblyName}.dll");
+            AppDomain.CurrentDomain.AssemblyResolve += GAC.CreateAssemblyResolver(Program.ProjectInfo.TargetFramework, GACFolders.All, new[] { TargetBinFolder });
 
             var types = assembly.GetTypesWhichExtends<DbContext>(true);
             foreach (var type in types)
