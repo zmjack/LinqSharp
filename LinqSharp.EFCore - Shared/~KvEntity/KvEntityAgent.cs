@@ -44,11 +44,6 @@ namespace LinqSharp.EFCore
             proxy.Load(columnStores, item);
             return proxy;
         }
-
-        public static KvEntityAccessor<TKvEntity> CreateAccessor(DbSet<TKvEntity> dbSet)
-        {
-            return new KvEntityAccessor<TKvEntity>(dbSet);
-        }
     }
 
 }

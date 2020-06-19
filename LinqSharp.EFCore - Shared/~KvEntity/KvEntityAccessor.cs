@@ -5,6 +5,15 @@ using System.Linq;
 
 namespace LinqSharp.EFCore
 {
+    public static class KvEntityAccessor
+    {
+        public static KvEntityAccessor<TKvEntity> Create<TKvEntity>(DbSet<TKvEntity> dbSet)
+            where TKvEntity : KvEntity, new()
+        {
+            return new KvEntityAccessor<TKvEntity>(dbSet);
+        }
+    }
+
     public class KvEntityAccessor<TKvEntity>
         where TKvEntity : KvEntity, new()
     {
