@@ -8,31 +8,18 @@ namespace LinqSharp.EFCore.Test
 {
     public class KvEntityTests
     {
-        public class _AppRegistry : KvEntity { }
-
-        public class _AppRegistryAccessor : KvEntityAccessor<_AppRegistryAccessor, _AppRegistry>
-        {
-            public virtual string Name { get; set; }
-
-            public virtual int Age { get; set; }
-
-            public virtual string NickName { get; set; } = "haha";
-
-            public virtual string Address { get; set; }
-        }
-
         [Fact]
         public void AppRegistryTest()
         {
-            var regs = new _AppRegistry[]
+            var regs = new AppRegistry[]
             {
-                    new _AppRegistry { Item = "Person1", Key = "Name", Value = "zmjack" },
-                    new _AppRegistry { Item = "Person1", Key = "Age", Value = "28" },
-                    new _AppRegistry { Item = "Person2", Key = "Name", Value = "ashe" },
-                    new _AppRegistry { Item = "Person2", Key = "Age", Value = "27" },
+                new AppRegistry { Item = "Person1", Key = "Name", Value = "zmjack" },
+                new AppRegistry { Item = "Person1", Key = "Age", Value = "28" },
+                new AppRegistry { Item = "Person2", Key = "Name", Value = "ashe" },
+                new AppRegistry { Item = "Person2", Key = "Age", Value = "27" },
             };
 
-            var zmjack = _AppRegistryAccessor.Connect(regs, "Person1");
+            var zmjack = AppRegistryAgent.Connect(regs, "Person1");
             zmjack.Age = 999;
 
             Assert.Equal("Person1", zmjack.GetItemString());
@@ -41,7 +28,7 @@ namespace LinqSharp.EFCore.Test
             Assert.Null(zmjack.Address);
 
             Assert.Throws<KeyNotFoundException>(() => zmjack.NickName = "new");
-            Assert.Equal("999", regs.FirstOrDefault(x => x.Key == nameof(_AppRegistryAccessor.Age))?.Value);
+            Assert.Equal("999", regs.FirstOrDefault(x => x.Key == nameof(AppRegistryAgent.Age))?.Value);
         }
 
         [Fact]
@@ -49,7 +36,7 @@ namespace LinqSharp.EFCore.Test
         {
             using (var context = ApplicationDbContext.UseMySql())
             {
-                var appRegistry = context.AppRegistriesAgent["zmjack"];
+                var appRegistry = context.AppRegistriesAccessor.Get<AppRegistryAgent>("zmjack");
                 appRegistry.Enable = true;
                 appRegistry.Name = "zmjack";
                 appRegistry.Age = 29;
@@ -60,7 +47,7 @@ namespace LinqSharp.EFCore.Test
 
             using (var context = ApplicationDbContext.UseMySql())
             {
-                var zmjack = context.AppRegistriesAgent["zmjack"];
+                var zmjack = context.AppRegistriesAccessor.Get<AppRegistryAgent>("zmjack");
                 Assert.True(zmjack.Enable);
                 Assert.Equal("zmjack", zmjack.Name);
                 Assert.Equal(29, zmjack.Age);

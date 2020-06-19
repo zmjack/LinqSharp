@@ -3,7 +3,7 @@
 namespace LinqSharp.EFCore.Data.Test
 {
     public class AppRegistry : KvEntity { }
-    public class AppRegistryAccessor : KvEntityAccessor<AppRegistryAccessor, AppRegistry>
+    public class AppRegistryAgent : KvEntityAgent<AppRegistryAgent, AppRegistry>
     {
         public virtual string Name { get; set; }
 

@@ -52,9 +52,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - EnsureFirst.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - EnsureMany.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntityAccessor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntityAccessorProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntityAgent.cs" />
+    <Compile Include="..\LinqSharp.EFCore - Shared\~KvEntity\KvEntityAgentProxy.cs" />
+    <Compile Include="..\LinqSharp.EFCore - Shared\~KvEntity\KvEntityAccessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Wrappers\DeleteWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Wrappers\UpdateWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Wrappers\WhereWrapper.cs" />

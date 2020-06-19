@@ -8,12 +8,12 @@ using System.Reflection;
 namespace LinqSharp.EFCore
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class KvEntityAccessorProxy<TRegistry> : IInterceptor
-       where TRegistry : KvEntityAccessor
+    public class KvEntityAgentProxy<TKvEntityAgent> : IInterceptor
+       where TKvEntityAgent : KvEntityAgent
     {
         public void Intercept(IInvocation invocation)
         {
-            var proxy = (TRegistry)invocation.Proxy;
+            var proxy = (TKvEntityAgent)invocation.Proxy;
 
             string property;
             string value;

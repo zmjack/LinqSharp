@@ -1,62 +1,54 @@
 ﻿using Castle.DynamicProxy;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace LinqSharp.EFCore
 {
-    public abstract class KvEntityAgent<TKvEntityAccessor>
-        where TKvEntityAccessor : KvEntityAccessor, new()
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public abstract class KvEntityAgent
     {
-        public static KvEntityAgent<TKvEntityAccessor, TKvEntity> Create<TKvEntity>(DbSet<TKvEntity> dbSet)
-            where TKvEntity : KvEntity, new()
-        {
-            return new KvEntityAgent<TKvEntityAccessor, TKvEntity>(dbSet);
-        }
+        private string _Item;
+        private KvEntity[] _ColumnStores;
+        private bool _ProxyLoaded;
 
-        public abstract void EnsureItem(string item);
-        public abstract TKvEntityAccessor Get(string item);
-        public TKvEntityAccessor this[string item] => Get(item);
+        public string GetItemString() => _Item;
+        public KvEntity[] GetColumnStores() => _ColumnStores;
+        public bool IsProxyLoaded() => _ProxyLoaded;
+
+        public void Load<TKvEntity>(IEnumerable<TKvEntity> columnStores, string item)
+            where TKvEntity : KvEntity
+        {
+            if (GetType().Namespace != "Castle.Proxies")
+                throw new InvalidOperationException("This method can only be called in a proxy instance.");
+
+            _Item = item;
+            _ColumnStores = columnStores.Where(x => x.Item == item).ToArray();
+            _ProxyLoaded = true;
+        }
     }
 
-    public class KvEntityAgent<TKvEntityAccessor, TKvEntity> : KvEntityAgent<TKvEntityAccessor>
-        where TKvEntityAccessor : KvEntityAccessor, new()
+    /// <summary>
+    /// Hint: Each custom properties must be virtual(public).
+    /// </summary>
+    /// <typeparam name="TSelf"></typeparam>
+    public abstract class KvEntityAgent<TSelf, TKvEntity> : KvEntityAgent
+        where TSelf : KvEntityAgent<TSelf, TKvEntity>, new()
         where TKvEntity : KvEntity, new()
     {
-        public DbSet<TKvEntity> DbSet;
-
-        public KvEntityAgent(DbSet<TKvEntity> dbSet)
+        public static TSelf Connect(IEnumerable<TKvEntity> columnStores, string item)
         {
-            DbSet = dbSet;
-        }
-
-        public override void EnsureItem(string item)
-        {
-            var ensureItems = typeof(TKvEntityAccessor).GetProperties()
-                .Where(x => x.GetMethod.IsVirtual)
-                .Select(x => new EnsureCondition<TKvEntity>
-                {
-                    [c => c.Item] = item,
-                    [c => c.Key] = x.Name,
-                }).ToArray();
-
-            foreach (var ensureItem in ensureItems)
-            {
-                DbSet.EnsureFirst(ensureItem);
-            }
-        }
-
-        public override TKvEntityAccessor Get(string item)
-        {
-            EnsureItem(item);
-
-            var registry = new TKvEntityAccessor();
-            var registryProxy = Activator.CreateInstance(typeof(KvEntityAccessorProxy<TKvEntityAccessor>));
-
-            var proxy = new ProxyGenerator().CreateClassProxyWithTarget(registry, registryProxy as IInterceptor);
-            proxy.Load(DbSet, item);
+            var proxy = new ProxyGenerator().CreateClassProxyWithTarget(new TSelf(), new KvEntityAgentProxy<TSelf>());
+            proxy.Load(columnStores, item);
             return proxy;
         }
 
+        public static KvEntityAccessor<TKvEntity> CreateAccessor(DbSet<TKvEntity> dbSet)
+        {
+            return new KvEntityAccessor<TKvEntity>(dbSet);
+        }
     }
+
 }
