@@ -60,7 +60,7 @@ namespace LinqSharp.EFCore.Test
         public void SelectUntilTest()
         {
             var expected = new[] { "1", "2", "3", "4", "5", "6" };
-            var actual = Trees.SelectUntil(x => x.Children, x => !(x?.Any() ?? false)).Select(x => x.Name).ToArray();
+            var actual = Trees.SelectUntil(x => x.Children, x => !(x.Children?.Any() ?? false)).Select(x => x.Name).ToArray();
             Assert.Equal(expected, actual);
         }
 
@@ -68,7 +68,7 @@ namespace LinqSharp.EFCore.Test
         public void SelectWhileTest()
         {
             var expected = new[] { "A", "A-a", "A-b", "B" };
-            var actual = Trees.SelectWhile(x => x.Children, x => x?.Any() ?? false).Select(x => x.Name).ToArray();
+            var actual = Trees.SelectWhile(x => x.Children, x => x.Children?.Any() ?? false).Select(x => x.Name).ToArray();
             Assert.Equal(expected, actual);
         }
 
