@@ -2,6 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+#if EFCore2
+using Microsoft.EntityFrameworkCore.Query.Expressions;
+#else
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+#endif
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NStandard;
 using System;
