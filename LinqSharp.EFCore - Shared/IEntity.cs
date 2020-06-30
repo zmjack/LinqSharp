@@ -42,12 +42,12 @@ namespace LinqSharp.EFCore
                 .Where(x => !x.GetCustomAttributes(false).For(attrs =>
                 {
                     return attrs.Any(attr => attr is NotAcceptableAttribute)
-                        || attrs.Any(attr => attr.GetType().Name.In(new[]
+                        || attrs.Any(attr => new[]
                         {
                             nameof(KeyAttribute),
                             nameof(AutoCreationTimeAttribute),
                             nameof(AutoLastWriteTimeAttribute)
-                        }));
+                        }.Contains(attr.GetType().Name));
                 }))
                 .Where(x => x.PropertyType.IsBasicType(true) || x.PropertyType.IsValueType);
 
@@ -112,12 +112,12 @@ namespace LinqSharp.EFCore
                 .Where(x => !x.GetCustomAttributes(false).For(attrs =>
                 {
                     return attrs.Any(attr => attr is NotAcceptableAttribute)
-                        || attrs.Any(attr => attr.GetType().Name.In(new[]
+                        || attrs.Any(attr => new[]
                         {
                             nameof(KeyAttribute),
                             nameof(AutoCreationTimeAttribute),
                             nameof(AutoLastWriteTimeAttribute)
-                        }));
+                        }.Contains(attr.GetType().Name));
                 }))
                 .Where(x => x.PropertyType.IsBasicType() || x.PropertyType.IsValueType);
 

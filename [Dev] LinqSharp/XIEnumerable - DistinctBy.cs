@@ -15,7 +15,8 @@ namespace LinqSharp
         /// <param name="compares_MemberOrNewExp"></param>
         /// <returns></returns>
         public static IEnumerable<TSource> DistinctBy<TSource>(this IEnumerable<TSource> source, Expression<Func<TSource, object>> compares_MemberOrNewExp)
-            => Enumerable.Distinct(source, new ExactEqualityComparer<TSource>(compares_MemberOrNewExp));
-
+        {
+            return Enumerable.Distinct(source, new ExactEqualityComparer<TSource>(compares_MemberOrNewExp));
+        }
     }
 }

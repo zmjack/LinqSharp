@@ -12,25 +12,33 @@ namespace LinqSharp
             Expression<Func<TEntity, DateTime>> memberExp,
             Expression<Func<TEntity, DateTime>> afterExp,
             bool includePoint = true)
-            => @this.WhereStrategy(new WhereAfterStrategy<TEntity>(memberExp, afterExp, includePoint));
+        {
+            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, afterExp, includePoint).StrategyExpression.Compile());
+        }
 
         public static IEnumerable<TEntity> WhereAfter<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             DateTime after,
             bool includePoint = true)
-            => @this.WhereStrategy(new WhereAfterStrategy<TEntity>(memberExp, after, includePoint));
+        {
+            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, after, includePoint).StrategyExpression.Compile());
+        }
 
         public static IEnumerable<TEntity> WhereAfter<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             Expression<Func<TEntity, DateTime>> afterExp,
             bool liftNullToTrue, bool includePoint = true)
-            => @this.WhereStrategy(new WhereAfterStrategy<TEntity>(memberExp, afterExp, liftNullToTrue, includePoint));
+        {
+            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, afterExp, liftNullToTrue, includePoint).StrategyExpression.Compile());
+        }
 
         public static IEnumerable<TEntity> WhereAfter<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             DateTime after,
             bool liftNullToTrue, bool includePoint = true)
-            => @this.WhereStrategy(new WhereAfterStrategy<TEntity>(memberExp, after, liftNullToTrue, includePoint));
+        {
+            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, after, liftNullToTrue, includePoint).StrategyExpression.Compile());
+        }
 
         public static IEnumerable<TEntity> WhereAfter<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, object>> yearExp,

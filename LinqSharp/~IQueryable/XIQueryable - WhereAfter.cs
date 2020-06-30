@@ -11,25 +11,33 @@ namespace LinqSharp
             Expression<Func<TEntity, DateTime>> memberExp,
             Expression<Func<TEntity, DateTime>> afterExp,
             bool includePoint = true)
-            => @this.WhereStrategy(new WhereAfterStrategy<TEntity>(memberExp, afterExp, includePoint));
+        {
+            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, afterExp, includePoint).StrategyExpression);
+        }
 
         public static IQueryable<TEntity> WhereAfter<TEntity>(this IQueryable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             DateTime after,
             bool includePoint = true)
-            => @this.WhereStrategy(new WhereAfterStrategy<TEntity>(memberExp, after, includePoint));
+        {
+            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, after, includePoint).StrategyExpression);
+        }
 
         public static IQueryable<TEntity> WhereAfter<TEntity>(this IQueryable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             Expression<Func<TEntity, DateTime>> afterExp,
             bool liftNullToTrue, bool includePoint = true)
-            => @this.WhereStrategy(new WhereAfterStrategy<TEntity>(memberExp, afterExp, liftNullToTrue, includePoint));
+        {
+            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, afterExp, liftNullToTrue, includePoint).StrategyExpression);
+        }
 
         public static IQueryable<TEntity> WhereAfter<TEntity>(this IQueryable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             DateTime after,
             bool liftNullToTrue, bool includePoint = true)
-            => @this.WhereStrategy(new WhereAfterStrategy<TEntity>(memberExp, after, liftNullToTrue, includePoint));
+        {
+            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, after, liftNullToTrue, includePoint).StrategyExpression);
+        }
 
         public static IQueryable<TEntity> WhereAfter<TEntity>(this IQueryable<TEntity> @this,
             Expression<Func<TEntity, object>> yearExp,
@@ -37,7 +45,8 @@ namespace LinqSharp
             Expression<Func<TEntity, object>> dayExp,
             DateTime after,
             bool includePoint = true)
-            => @this.WhereStrategy(new WhereAfterStrategy<TEntity>(yearExp, monthExp, dayExp, after, includePoint));
-
+        {
+            return @this.Where(new WhereAfterStrategy<TEntity>(yearExp, monthExp, dayExp, after, includePoint).StrategyExpression);
+        }
     }
 }

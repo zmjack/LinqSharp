@@ -1,5 +1,4 @@
 ﻿using LinqSharp.EFCore.Data.Test;
-using Microsoft.Extensions.Options;
 using NStandard;
 using System.Linq;
 using Xunit;

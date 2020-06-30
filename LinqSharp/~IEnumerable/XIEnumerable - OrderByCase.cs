@@ -11,22 +11,29 @@ namespace LinqSharp
         public static IOrderedEnumerable<TEntity> OrderByCase<TEntity, TRet>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, TRet>> memberExp,
             TRet[] orderValues)
-            => @this.OrderByCaseStrategy(new OrderByCaseStrategy<TEntity, TRet>(memberExp, orderValues));
+        {
+            return @this.OrderBy(new OrderByCaseStrategy<TEntity, TRet>(memberExp, orderValues).StrategyExpression.Compile());
+        }
 
         public static IOrderedEnumerable<TEntity> OrderByCaseDescending<TEntity, TRet>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, TRet>> memberExp,
             TRet[] orderValues)
-            => @this.OrderByCaseDescendingStrategy(new OrderByCaseStrategy<TEntity, TRet>(memberExp, orderValues));
+        {
+            return @this.OrderByDescending(new OrderByCaseStrategy<TEntity, TRet>(memberExp, orderValues).StrategyExpression.Compile());
+        }
 
         public static IOrderedEnumerable<TEntity> ThenByCase<TEntity, TRet>(this IOrderedEnumerable<TEntity> @this,
             Expression<Func<TEntity, TRet>> memberExp,
             TRet[] orderValues)
-            => @this.ThenByCaseStrategy(new OrderByCaseStrategy<TEntity, TRet>(memberExp, orderValues));
+        {
+            return @this.ThenBy(new OrderByCaseStrategy<TEntity, TRet>(memberExp, orderValues).StrategyExpression.Compile());
+        }
 
         public static IOrderedEnumerable<TEntity> ThenByCaseDescending<TEntity, TRet>(this IOrderedEnumerable<TEntity> @this,
             Expression<Func<TEntity, TRet>> memberExp,
             TRet[] orderValues)
-            => @this.ThenByCaseDescendingStrategy(new OrderByCaseStrategy<TEntity, TRet>(memberExp, orderValues));
-
+        {
+            return @this.ThenByDescending(new OrderByCaseStrategy<TEntity, TRet>(memberExp, orderValues).StrategyExpression.Compile());
+        }
     }
 }

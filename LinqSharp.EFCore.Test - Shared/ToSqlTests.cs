@@ -1,5 +1,4 @@
 using LinqSharp.EFCore.Data.Test;
-using LinqSharp.EFCore.ProviderFunctions;
 using System;
 using System.Linq;
 using Xunit;
@@ -14,7 +13,7 @@ namespace LinqSharp.EFCore.Test
             using (var mysql = ApplicationDbContext.UseMySql())
             {
                 var query = mysql.Employees
-                    .WhereSearch("Tofu", e => new
+                    .Search("Tofu", e => new
                     {
                         ProductName = e.Orders
                             .SelectMany(o => o.Order_Details)
@@ -158,7 +157,7 @@ namespace LinqSharp.EFCore.Test
             using (var mysql = ApplicationDbContext.UseMySql())
             {
                 var query = mysql.Employees
-                    .WhereSearch("London", e => new
+                    .Search("London", e => new
                     {
                         ProductName = e.Orders
                             .SelectMany(o => o.Order_Details)
@@ -176,7 +175,7 @@ namespace LinqSharp.EFCore.Test
             using (var mysql = ApplicationDbContext.UseMySql())
             {
                 var employees_WhoSelled_AllKindsOfTofu = mysql.Employees
-                    .WhereSearch("Tofu", e => new
+                    .Search("Tofu", e => new
                     {
                         ProductName = e.Orders
                             .SelectMany(o => o.Order_Details)
@@ -185,21 +184,21 @@ namespace LinqSharp.EFCore.Test
                 var sql1 = employees_WhoSelled_AllKindsOfTofu.ToSql();
 
                 var employees_WhoSelled_Tofu = mysql.Employees
-                     .WhereMatch("Tofu", e => new
+                     .Search("Tofu", e => new
                      {
                          ProductName = e.Orders
                              .SelectMany(o => o.Order_Details)
                              .Select(x => x.Product.ProductName)
-                     });
+                     }, SearchOption.Equal);
                 var sql2 = employees_WhoSelled_Tofu.ToSql();
 
                 var employees_WhoSelled_LongLifeTofu = mysql.Employees
-                     .WhereMatch("Longlife Tofu", e => new
+                     .Search("Longlife Tofu", e => new
                      {
                          ProductName = e.Orders
                              .SelectMany(o => o.Order_Details)
                              .Select(x => x.Product.ProductName)
-                     });
+                     }, SearchOption.Equal);
                 var sql3 = employees_WhoSelled_LongLifeTofu.ToSql();
             }
             return;

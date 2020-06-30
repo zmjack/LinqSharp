@@ -11,7 +11,11 @@ namespace LinqSharp.Strategies
     {
         public Expression<Func<TEntity, bool>> StrategyExpression { get; private set; }
 
-        public WhereStringStrategy(Expression<Func<TEntity, object>> inExp, Func<Expression, Expression, Expression> compareExp, string searchString)
+        internal WhereStringStrategy()
+        {
+        }
+
+        public void Init(Expression<Func<TEntity, object>> inExp, Func<Expression, Expression, Expression> compareExp, string searchString)
         {
             if (!searchString.IsNullOrWhiteSpace())
                 StrategyExpression = GenerateExpression(inExp, compareExp, searchString);

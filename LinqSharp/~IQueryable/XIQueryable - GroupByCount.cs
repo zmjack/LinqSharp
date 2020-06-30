@@ -13,10 +13,10 @@ namespace LinqSharp
         /// <param name="this"></param>
         /// <param name="groupCount"></param>
         /// <returns></returns>
-        [Obsolete("This function does not generate SQL and runs locally.")]
-        public static IEnumerable<IGrouping<int, TSource>> GroupByCount<TSource>(this IQueryable<TSource> @this, int groupCount)
+        [Obsolete("This function does not support generating SQL.", true)]
+        public static IQueryable<IGrouping<int, TSource>> GroupByCount<TSource>(this IQueryable<TSource> @this, int groupCount)
         {
-            return @this.AsEnumerable().GroupByCount(groupCount, PadDirection.Default);
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -26,12 +26,11 @@ namespace LinqSharp
         /// <param name="this"></param>
         /// <param name="groupCount"></param>
         /// <returns></returns>
-        [Obsolete("This function does not generate SQL and runs locally.")]
-        public static IEnumerable<IGrouping<int, TSource>> GroupByCount<TSource>(this IQueryable<TSource> @this, int groupCount, PadDirection padDirection)
+        [Obsolete("This function does not support generating SQL.", true)]
+        public static IQueryable<IGrouping<int, TSource>> GroupByCount<TSource>(this IQueryable<TSource> @this, int groupCount, PadDirection padDirection)
         {
-            return @this.AsEnumerable().GroupByCount(groupCount, padDirection);
+            throw new NotSupportedException();
         }
-
     }
 
 }

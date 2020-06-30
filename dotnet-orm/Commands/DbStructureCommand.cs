@@ -3,10 +3,10 @@ using Ink;
 using Microsoft.EntityFrameworkCore;
 using NStandard;
 using NStandard.Reference;
+using NStandard.Runtime;
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace LinqSharp.Cli
@@ -47,11 +47,10 @@ Options:
             if (!Directory.Exists(outFolder))
                 Directory.CreateDirectory(outFolder);
 
-            var assemblyName = Program.ProjectInfo.AssemblyName;
-            var assembly = Assembly.LoadFile($"{TargetBinFolder}/{assemblyName}.dll");
-            AppDomain.CurrentDomain.AssemblyResolve += GAC.CreateAssemblyResolver(Program.ProjectInfo.TargetFramework, GACFolders.All, new[] { TargetBinFolder });
+            var targetAssemblyName = Program.ProjectInfo.AssemblyName;
+            var assemblyContext = new AssemblyContext($"{TargetBinFolder}/{targetAssemblyName}.dll", DotNetFramework.Parse(Program.ProjectInfo.TargetFramework));
 
-            var types = assembly.GetTypesWhichExtends<DbContext>(true);
+            var types = assemblyContext.RootAssembly.GetTypesWhichExtends<DbContext>(true);
             foreach (var type in types)
             {
                 var outFile = $"{Path.GetFullPath($"{outFolder}/{type.Name}.html")}";

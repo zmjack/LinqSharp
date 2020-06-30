@@ -26,21 +26,16 @@ namespace LinqSharp
 
         public WhereExp<TSource> Where(Expression<Func<TSource, bool>> selector) => new WhereExp<TSource>(selector);
 
-        public WhereExp<TSource> WhereDynamic(Action<DynamicExpressionBuilder<TSource>> build)
+        public WhereExp<TSource> Dynamic(Action<WhereExpBuilder<TSource>> build)
         {
-            var builder = new DynamicExpressionBuilder<TSource>();
+            var builder = new WhereExpBuilder<TSource>();
             build(builder);
             return new WhereExp<TSource>(builder.Lambda);
         }
 
-        public WhereExp<TSource> WhereSearch(string searchString, Expression<Func<TSource, object>> searchMembers)
+        public WhereExp<TSource> Search(string searchString, Expression<Func<TSource, object>> searchMembers, SearchOption option = SearchOption.Contains)
         {
-            var strategy = new WhereSearchStrategy<TSource>(searchString, searchMembers);
-            return new WhereExp<TSource>(strategy.StrategyExpression);
-        }
-        public WhereExp<TSource> WhereMatch(string searchString, Expression<Func<TSource, object>> searchMembers)
-        {
-            var strategy = new WhereMatchStrategy<TSource>(searchString, searchMembers);
+            var strategy = new WhereSearchStrategy<TSource>(searchString, searchMembers, option);
             return new WhereExp<TSource>(strategy.StrategyExpression);
         }
 

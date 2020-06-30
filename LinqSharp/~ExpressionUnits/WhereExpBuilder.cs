@@ -3,18 +3,18 @@ using System.Linq.Expressions;
 
 namespace LinqSharp
 {
-    public class DynamicExpressionBuilder<TSource>
+    public class WhereExpBuilder<TSource>
     {
         public ParameterExpression Parameter { get; set; }
         public Expression Expression { get; set; }
 
-        public DynamicExpressionBuilder()
+        public WhereExpBuilder()
         {
             Parameter = Expression.Parameter(typeof(TSource));
             Expression = Parameter;
         }
 
-        public DynamicExpressionBuilder(ParameterExpression parameter, Expression expression)
+        public WhereExpBuilder(ParameterExpression parameter, Expression expression)
         {
             Parameter = parameter;
             Expression = expression;
