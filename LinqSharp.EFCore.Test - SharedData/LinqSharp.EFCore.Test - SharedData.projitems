@@ -21,5 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\ProviderTestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SimpleModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\TrackModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\YearMonthModel.cs" />
   </ItemGroup>
 </Project>

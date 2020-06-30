@@ -9,11 +9,11 @@ namespace LinqSharp.Strategies
 {
     public class WhereSearchStrategy<TEntity> : WhereStringStrategy<TEntity>
     {
-        private static MethodInfo _Method_Enumerable_op_Any = typeof(Enumerable)
+        private static readonly MethodInfo _Method_Enumerable_op_Any = typeof(Enumerable)
             .GetMethodViaQualifiedName("Boolean Any[TSource](System.Collections.Generic.IEnumerable`1[TSource], System.Func`2[TSource,System.Boolean])")
             .MakeGenericMethod(typeof(string));
-        private static MethodInfo _Method_String_op_Contains = typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string) });
-        private static MethodInfo _Method_String_op_Equals = typeof(string).GetMethod(nameof(string.Equals), new[] { typeof(string) });
+        private static readonly MethodInfo _Method_String_op_Contains = typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string) });
+        private static readonly MethodInfo _Method_String_op_Equals = typeof(string).GetMethod(nameof(string.Equals), new[] { typeof(string) });
 
         public WhereSearchStrategy(string searchString, Expression<Func<TEntity, object>> searchMembers, SearchOption option)
         {

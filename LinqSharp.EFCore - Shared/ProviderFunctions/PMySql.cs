@@ -11,7 +11,7 @@ namespace LinqSharp.EFCore.ProviderFunctions
         public static double Rand() => throw new NotSupportedException();
 
         [DbFunction("STR_TO_DATE")]
-        public static string StrToDate(string str, string format) => throw new NotSupportedException();
+        public static DateTime StrToDate(string str, string format) => throw new NotSupportedException();
     }
 }
 
