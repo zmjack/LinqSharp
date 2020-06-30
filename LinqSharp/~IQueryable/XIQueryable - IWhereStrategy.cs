@@ -12,10 +12,10 @@ namespace LinqSharp
         /// <param name="this"></param>
         /// <param name="strategy"></param>
         /// <returns></returns>
-        public static IQueryable<TEntity> WhereStrategy<TEntity>(this IQueryable<TEntity> @this,
-            IWhereStrategy<TEntity> strategy)
-            => @this.Where(strategy.StrategyExpression);
-
+        public static IQueryable<TEntity> WhereStrategy<TEntity>(this IQueryable<TEntity> @this, IWhereStrategy<TEntity> strategy)
+        {
+            return @this.Where(strategy.StrategyExpression);
+        }
     }
 
 }

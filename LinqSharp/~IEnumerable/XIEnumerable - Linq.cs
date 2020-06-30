@@ -16,7 +16,9 @@ namespace LinqSharp
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public static PagedEnumerable<TSource> SelectPage<TSource>(this IEnumerable<TSource> @this, int pageNumber, int pageSize)
-            => new PagedEnumerable<TSource>(@this, pageNumber, pageSize);
+        {
+            return new PagedEnumerable<TSource>(@this, pageNumber, pageSize);
+        }
 
         /// <summary>
         /// Calculates the max page number through the specified page size.
@@ -28,13 +30,13 @@ namespace LinqSharp
         /// <returns></returns>
         public static int PageCount<TSource>(this IEnumerable<TSource> @this, int pageSize, out int count)
         {
-            switch (@this)
+            count = @this switch
             {
-                case TSource[] array: count = array.Length; break;
-                case ICollection<TSource> collection: count = collection.Count; break;
-                case IQueryable<TSource> querable: count = querable.Count(); break;
-                default: count = @this.Count(); break;
-            }
+                TSource[] array => array.Length,
+                ICollection<TSource> collection => collection.Count,
+                IQueryable<TSource> querable => querable.Count(),
+                _ => @this.Count(),
+            };
             return (int)Math.Ceiling((double)count / pageSize);
         }
         /// <summary>
@@ -45,9 +47,6 @@ namespace LinqSharp
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public static int PageCount<TSource>(this IEnumerable<TSource> @this, int pageSize) => PageCount(@this, pageSize, out _);
-
-        public static IEnumerable<TSource> WhereNot<TSource>(this IEnumerable<TSource> @this, Expression<Func<TSource, bool>> predicate)
-            => @this.Where(Expression.Lambda<Func<TSource, bool>>(Expression.Not(predicate.Body), predicate.Parameters).Compile());
 
         /// <summary>
         /// Produces the set difference of two sequences by using the specified properties to compare values.
@@ -83,5 +82,4 @@ namespace LinqSharp
             => Enumerable.Intersect(first, second, new ExactEqualityComparer<TSource>(compare));
 
     }
-
 }

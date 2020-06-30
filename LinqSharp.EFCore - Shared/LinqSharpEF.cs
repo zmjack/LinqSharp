@@ -160,6 +160,7 @@ namespace LinqSharp.EFCore
                 case DatabaseProviderName.MyCat:
                 case DatabaseProviderName.MySql:
                     modelBuilder.HasDbFunction(typeof(PMySql).GetMethod(nameof(PMySql.Rand)));
+                    modelBuilder.HasDbFunction(typeof(PMySql).GetMethod(nameof(PMySql.StrToDate)));
                     break;
 
                 case DatabaseProviderName.Oracle:

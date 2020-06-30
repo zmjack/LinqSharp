@@ -37,6 +37,14 @@ namespace LinqSharp
             var exp = Expression.Lambda<Func<TSource, bool>>(Expression.OrElse(leftExp, rightExp), parameter);
             return new WhereExp<TSource>(exp);
         }
+
+        public static WhereExp<TSource> operator !(WhereExp<TSource> operand)
+        {
+            var parameter = operand.Exp.Parameters[0];
+            var opndExp = operand.Exp.Body;
+            var exp = Expression.Lambda<Func<TSource, bool>>(Expression.Not(opndExp), parameter);
+            return new WhereExp<TSource>(exp);
+        }
     }
 
 }

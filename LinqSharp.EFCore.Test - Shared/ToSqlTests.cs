@@ -1,4 +1,5 @@
 using LinqSharp.EFCore.Data.Test;
+using LinqSharp.EFCore.ProviderFunctions;
 using System;
 using System.Linq;
 using Xunit;

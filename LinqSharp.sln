@@ -29,13 +29,15 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore - Shared",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.Test - EF3.1", "LinqSharp.EFCore.Test - EF3.1\LinqSharp.EFCore.Test - EF3.1.csproj", "{D78F663E-4833-4468-9A96-F66F3EF8B782}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDatabaseCreator", "TestDatabaseCreator\TestDatabaseCreator.csproj", "{BB53FE17-0658-4A41-AAAC-A2E426A24970}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestDatabaseCreator", "TestDatabaseCreator\TestDatabaseCreator.csproj", "{BB53FE17-0658-4A41-AAAC-A2E426A24970}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore.Test - SharedData", "LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.shproj", "{D679BDA0-C06D-4115-BAE2-400FB62AFAAE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF3.0", "LinqSharp.EFCore - EF3.0\LinqSharp.EFCore - EF3.0.csproj", "{6F850137-8A8D-4561-8243-956173A7B5D5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF3.1", "LinqSharp.EFCore - EF3.1\LinqSharp.EFCore - EF3.1.csproj", "{1F0CD34F-FE3B-47B4-B7E9-52D21165E0B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[Dev] LinqSharp", "[Dev] LinqSharp\[Dev] LinqSharp.csproj", "{60710A47-58E5-4209-85A5-09FE8E558E75}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -182,6 +184,18 @@ Global
 		{1F0CD34F-FE3B-47B4-B7E9-52D21165E0B9}.Release|x64.Build.0 = Release|Any CPU
 		{1F0CD34F-FE3B-47B4-B7E9-52D21165E0B9}.Release|x86.ActiveCfg = Release|Any CPU
 		{1F0CD34F-FE3B-47B4-B7E9-52D21165E0B9}.Release|x86.Build.0 = Release|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Debug|x64.Build.0 = Debug|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Debug|x86.Build.0 = Debug|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Release|x64.ActiveCfg = Release|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Release|x64.Build.0 = Release|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Release|x86.ActiveCfg = Release|Any CPU
+		{60710A47-58E5-4209-85A5-09FE8E558E75}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace LinqSharp
 {
-    internal class ExactEqualityComparer<TEntity> : IEqualityComparer<TEntity>
+    public class ExactEqualityComparer<TEntity> : IEqualityComparer<TEntity>
     {
         private Func<TEntity, object> _compare;
 
