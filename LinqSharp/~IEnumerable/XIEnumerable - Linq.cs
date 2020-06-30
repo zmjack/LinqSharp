@@ -57,7 +57,9 @@ namespace LinqSharp
         /// <param name="compare"></param>
         /// <returns></returns>
         public static IEnumerable<TSource> ExceptBy<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Expression<Func<TSource, object>> compare)
-            => Enumerable.Except(first, second, new ExactEqualityComparer<TSource>(compare));
+        {
+            return Enumerable.Except(first, second, new ExactEqualityComparer<TSource>(compare));
+        }
 
         /// <summary>
         /// Produces the set union of two sequences by using a specified properties.
@@ -68,7 +70,9 @@ namespace LinqSharp
         /// <param name="compare"></param>
         /// <returns></returns>
         public static IEnumerable<TSource> UnionBy<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Expression<Func<TSource, object>> compare)
-            => Enumerable.Union(first, second, new ExactEqualityComparer<TSource>(compare));
+        {
+            return Enumerable.Union(first, second, new ExactEqualityComparer<TSource>(compare));
+        }
 
         /// <summary>
         /// Produces the set intersection of two sequences by using the specified properties to compare values.
@@ -79,7 +83,8 @@ namespace LinqSharp
         /// <param name="compare"></param>
         /// <returns></returns>
         public static IEnumerable<TSource> IntersectBy<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Expression<Func<TSource, object>> compare)
-            => Enumerable.Intersect(first, second, new ExactEqualityComparer<TSource>(compare));
-
+        {
+            return Enumerable.Intersect(first, second, new ExactEqualityComparer<TSource>(compare));
+        }
     }
 }
