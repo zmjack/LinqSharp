@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="Northwnd" Version="2.0.0" />
     <PackageReference Include="NStandard" Version="0.4.14" />
@@ -26,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LinqSharp.EFCore - EF2.x\LinqSharp.EFCore - EF2.x.csproj" />
+    <ProjectReference Include="..\[NoRelease] LinqSharp.Dev\[NoRelease] LinqSharp.Dev.csproj" />
   </ItemGroup>
 
   <Import Project="..\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems" Label="Shared" />

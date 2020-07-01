@@ -15,6 +15,18 @@ namespace LinqSharp.EFCore.Data.Test
             return new ApplicationDbContext(options);
         }
 
+        public static ApplicationDbContext UseSqlServer()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer(CONNECT_STRING).Options;
+            return new ApplicationDbContext(options);
+        }
+
+        public static ApplicationDbContext UseSqlite()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CONNECT_STRING).Options;
+            return new ApplicationDbContext(options);
+        }
+
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<AppRegistry> AppRegistries { get; set; }

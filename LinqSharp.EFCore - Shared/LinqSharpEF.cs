@@ -1,5 +1,4 @@
-﻿using LinqSharp.EFCore.ProviderFunctions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 #if EFCore2
@@ -151,40 +150,27 @@ namespace LinqSharp.EFCore
             var providerName = context.GetProviderName();
             switch (providerName)
             {
-                case DatabaseProviderName.Cosmos: goto default;
-                case DatabaseProviderName.Firebird: goto default;
-                case DatabaseProviderName.IBM: goto default;
-                case DatabaseProviderName.OpenEdge: goto default;
+                case DatabaseProviderName.Cosmos:
+                case DatabaseProviderName.Firebird:
+                case DatabaseProviderName.IBM:
+                case DatabaseProviderName.OpenEdge:
+                default: throw new NotSupportedException();
 
-                case DatabaseProviderName.Jet:
-                    modelBuilder.HasDbFunction(typeof(PJet).GetMethod(nameof(PJet.Rnd)));
-                    break;
+                case DatabaseProviderName.Jet: JetFuncProvider.Register(modelBuilder); break;
 
                 case DatabaseProviderName.MyCat:
-                case DatabaseProviderName.MySql:
-                    modelBuilder.HasDbFunction(typeof(PMySql).GetMethod(nameof(PMySql.Rand)));
-                    modelBuilder.HasDbFunction(typeof(PMySql).GetMethod(nameof(PMySql.StrToDate)));
-                    break;
+                case DatabaseProviderName.MySql: MySqlFuncProvider.Register(modelBuilder); break;
 
-                case DatabaseProviderName.Oracle:
-                    modelBuilder.HasDbFunction(typeof(POracle).GetMethod(nameof(POracle.Random)));
-                    break;
+                case DatabaseProviderName.Oracle: OracleFuncProvider.Register(modelBuilder); break;
 
-                case DatabaseProviderName.PostgreSQL:
-                    modelBuilder.HasDbFunction(typeof(PPostgreSQL).GetMethod(nameof(PPostgreSQL.Random)));
-                    break;
+                case DatabaseProviderName.PostgreSQL: PostgreSQLFuncProvider.Register(modelBuilder); break;
 
-                case DatabaseProviderName.Sqlite:
-                    modelBuilder.HasDbFunction(typeof(PSqlite).GetMethod(nameof(PSqlite.Random)));
-                    break;
+                case DatabaseProviderName.Sqlite: SqliteFuncProvider.Register(modelBuilder); break;
 
                 case DatabaseProviderName.SqlServer:
                 case DatabaseProviderName.SqlServerCompact35:
-                case DatabaseProviderName.SqlServerCompact40:
-                    modelBuilder.HasDbFunction(typeof(PSqlServer).GetMethod(nameof(PSqlServer.Rand)));
-                    break;
+                case DatabaseProviderName.SqlServerCompact40: SqlServerFuncProvider.Register(modelBuilder); break;
 
-                default: throw new NotSupportedException();
             }
         }
 

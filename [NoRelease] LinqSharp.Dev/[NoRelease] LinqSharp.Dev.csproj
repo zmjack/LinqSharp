@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>LinqSharp</RootNamespace>
-    <AssemblyName>LinqSharp</AssemblyName>
+    <RootNamespace>LinqSharp.Dev</RootNamespace>
+    <AssemblyName>LinqSharp.Dev</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

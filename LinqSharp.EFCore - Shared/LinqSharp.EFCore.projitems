@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConflictWin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DatabaseProviderName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\MySqlFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureConditionUnit.cs" />
@@ -22,13 +23,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)IEntityAuditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IUdFunctionContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LinqSharpAnnotation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DbFunc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Translator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Translator - EF2.cs" />
     <Compile Include="..\LinqSharp.EFCore - Shared\LinqSharpEF.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProviderFunctions\PJet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProviderFunctions\PMySql.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProviderFunctions\POracle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProviderFunctions\PPostgreSQL.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProviderFunctions\PSqlite.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProviderFunctions\PSqlServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\JetFuncProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\OracleFuncProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\PostgreSQLFuncProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\SqliteFuncProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\SqlServerFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\JsonProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RowChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\EntityAuditAttribute.cs" />
@@ -60,6 +63,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Wrappers\WhereWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)~FuncProviders\" />
     <Folder Include="$(MSBuildThisFileDirectory)~IQueryable\" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace LinqSharp
+﻿namespace LinqSharp.Dev
 {
     public static partial class XIQueryable
     {

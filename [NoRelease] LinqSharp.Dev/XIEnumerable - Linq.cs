@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LinqSharp
+namespace LinqSharp.Dev
 {
     public static partial class XIEnumerable
     {

@@ -18,7 +18,7 @@ namespace LinqSharp.EFCore.Test
                 {
                     expectedSql = @"SELECT `s`.`Id`, `s`.`Age`, `s`.`Birthday`, `s`.`Name`, `s`.`State`
 FROM `SimpleModels` AS `s`
-ORDER BY `RAND`()
+ORDER BY RAND()
 LIMIT @__p_0;
 ";
                 }

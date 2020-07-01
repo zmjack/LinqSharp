@@ -23,7 +23,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)SelectXTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToSqlTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AutoTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WhereAfterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XExpressionTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XIEnumerableTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XWhereTests.cs" />
