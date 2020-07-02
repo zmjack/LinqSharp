@@ -17,17 +17,6 @@ namespace LinqSharp.EFCore
             Random(modelBuilder);
             Concat(modelBuilder);
             DateTime(modelBuilder);
-            Test(modelBuilder);
-        }
-
-        private static void Test(ModelBuilder modelBuilder)
-        {
-            modelBuilder
-                .HasDbFunction(typeof(DbFunc).GetMethod(nameof(DbFunc.Random)))
-                .HasTranslation(args =>
-                {
-                    return Translator.Function("RAND", args, typeof(double));
-                });
         }
 
         private static void Random(ModelBuilder modelBuilder)
