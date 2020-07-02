@@ -8,18 +8,17 @@ namespace LinqSharp.EFCore.Test
 {
     public class ToSqlTests
     {
+        class CA
+        {
+            public static int GetA() => 1;
+        }
+
         [Fact]
         public void Test()
         {
             using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = mysql.Employees
-                    .Search("Tofu", e => new
-                    {
-                        ProductName = e.Orders
-                            .SelectMany(o => o.Order_Details)
-                            .Select(x => x.Product.ProductName)
-                    });
+                var query = mysql.Employees.Where(x => x.EmployeeID.ToString() == CA.GetA().ToString());
                 var sql = query.ToSql();
                 var result = query.ToArray();
             }

@@ -24,6 +24,8 @@ namespace LinqSharp.EFCore
         public static DateTime DateTime(int year, int month, int day) => new DateTime(year, month, day);
         public static DateTime DateTime(int year, int month, int day, int hour, int minute, int second) => new DateTime(year, month, day, hour, minute, second);
 
+        public static TValue Value<TValue>(TValue value) => value;
+
 #if DEBUG
         public static string Test(string s0) => throw new NotSupportedException();
 #endif
