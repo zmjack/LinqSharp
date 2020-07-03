@@ -30,8 +30,8 @@ namespace LinqSharp.Strategies
                 case SearchOption.Contains:
                 case SearchOption.NotContains: stringMethod = _Method_String_op_Contains; break;
 
-                case SearchOption.Equal:
-                case SearchOption.NotEqual: stringMethod = _Method_String_op_Equals; break;
+                case SearchOption.Equals:
+                case SearchOption.NotEquals: stringMethod = _Method_String_op_Equals; break;
 
                 default: throw new NotSupportedException();
             }
@@ -48,14 +48,14 @@ namespace LinqSharp.Strategies
                     switch (option)
                     {
                         case SearchOption.Contains:
-                        case SearchOption.Equal:
+                        case SearchOption.Equals:
                             lambda = Expression.Lambda<Func<string, bool>>(
                                 Expression.Call(parameter, stringMethod, secharStringExp),
                                 parameter);
                             break;
 
                         case SearchOption.NotContains:
-                        case SearchOption.NotEqual:
+                        case SearchOption.NotEquals:
                             lambda = Expression.Lambda<Func<string, bool>>(
                                 Expression.Not(Expression.Call(parameter, stringMethod, secharStringExp)),
                                 parameter);

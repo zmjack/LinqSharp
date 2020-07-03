@@ -189,7 +189,7 @@ namespace LinqSharp.EFCore.Test
                          ProductName = e.Orders
                              .SelectMany(o => o.Order_Details)
                              .Select(x => x.Product.ProductName)
-                     }, SearchOption.Equal);
+                     }, SearchOption.Equals);
                 var sql2 = employees_WhoSelled_Tofu.ToSql();
 
                 var employees_WhoSelled_LongLifeTofu = mysql.Employees
@@ -198,7 +198,7 @@ namespace LinqSharp.EFCore.Test
                          ProductName = e.Orders
                              .SelectMany(o => o.Order_Details)
                              .Select(x => x.Product.ProductName)
-                     }, SearchOption.Equal);
+                     }, SearchOption.Equals);
                 var sql3 = employees_WhoSelled_LongLifeTofu.ToSql();
             }
             return;
