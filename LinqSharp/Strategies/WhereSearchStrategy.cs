@@ -39,7 +39,7 @@ namespace LinqSharp.Strategies
             compareExp = (singlePartOfInExp, secharStringExp) => singlePartOfInExp.For(exp =>
             {
                 if (exp.Type == typeof(string))
-                    return Expression.Call(singlePartOfInExp, typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string) }), secharStringExp);
+                    return Expression.Call(singlePartOfInExp, stringMethod, secharStringExp);
                 else if (exp.Type.GetInterface(typeof(IEnumerable).FullName) != null)
                 {
                     var parameter = Expression.Parameter(typeof(string));

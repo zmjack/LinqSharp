@@ -18,7 +18,7 @@ namespace LinqSharp.EFCore.Test
         {
             using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = mysql.Employees.Where(x => x.EmployeeID.ToString() == CA.GetA().ToString());
+                var query = mysql.Employees.Search("m", x => new { x.City, x.Address }, SearchOption.Contains);
                 var sql = query.ToSql();
                 var result = query.ToArray();
             }
