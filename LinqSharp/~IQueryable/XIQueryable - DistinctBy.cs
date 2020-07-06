@@ -4,18 +4,16 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace LinqSharp
 {
-    public static partial class XIEnumerable
+    public static partial class XIQueryable
     {
         [Obsolete("This function does not support generating SQL.", true)]
-        public static IEnumerable<TSource> DistinctBy<TSource>(this IEnumerable<TSource> source, Expression<Func<TSource, object>> compares_MemberOrNewExp)
+        public static IQueryable<TSource> DistinctBy<TSource>(this IQueryable<TSource> source, Func<TSource, object> compare)
         {
-            return Enumerable.Distinct(source, new ExactEqualityComparer<TSource>(compares_MemberOrNewExp));
+            throw new NotSupportedException();
         }
 
     }
