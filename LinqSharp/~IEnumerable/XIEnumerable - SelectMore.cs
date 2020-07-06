@@ -11,9 +11,9 @@ namespace LinqSharp
 {
     public static partial class XIEnumerable
     {
-        public static IEnumerable<TSource> SelectMore<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> selector)
+        public static IEnumerable<TSource> SelectMore<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector)
         {
-            return SelectMore(@this, selector, null);
+            return SelectMore(@this, childrenSelector, null);
         }
 
         public static IEnumerable<TSource> SelectMore<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector, Func<TSource, bool> predicate)

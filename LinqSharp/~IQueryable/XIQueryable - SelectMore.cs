@@ -12,7 +12,7 @@ namespace LinqSharp
     public static partial class XIEnumerable
     {
         [Obsolete("This function does not support generating SQL.", true)]
-        public static IQueryable<TSource> SelectMore<TSource>(this IQueryable<TSource> @this, Func<TSource, IEnumerable<TSource>> selector)
+        public static IQueryable<TSource> SelectMore<TSource>(this IQueryable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector)
         {
             throw new NotSupportedException();
         }
