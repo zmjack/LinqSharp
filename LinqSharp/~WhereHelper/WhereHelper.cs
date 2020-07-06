@@ -29,6 +29,7 @@ namespace LinqSharp
             return Or(whereExps);
         }
 
+        public WhereExp<TSource> CreateWhereExp() => new WhereExp<TSource>();
         public WhereExp<TSource> Where(Expression<Func<TSource, bool>> selector) => new WhereExp<TSource>(selector);
 
         public WhereExp<TSource> Dynamic(Action<WhereExpBuilder<TSource>> build)

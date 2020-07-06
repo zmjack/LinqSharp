@@ -12,6 +12,8 @@ namespace LinqSharp
     {
         public Expression<Func<TSource, bool>> Exp { get; private set; }
 
+        public WhereExp() { }
+
         public WhereExp(Func<Expression<Func<TSource, bool>>> build)
         {
             Exp = build();
@@ -27,6 +29,8 @@ namespace LinqSharp
 
         public static WhereExp<TSource> operator &(WhereExp<TSource> left, WhereExp<TSource> right)
         {
+            if (left.Exp is null) return new WhereExp<TSource>(right.Exp);
+
             var parameter = left.Exp.Parameters[0];
             var leftExp = left.Exp.Body;
             var rightExp = right.Exp.Body.RebindParameter(right.Exp.Parameters[0], parameter);
@@ -36,6 +40,8 @@ namespace LinqSharp
 
         public static WhereExp<TSource> operator |(WhereExp<TSource> left, WhereExp<TSource> right)
         {
+            if (left.Exp is null) return new WhereExp<TSource>(right.Exp);
+
             var parameter = left.Exp.Parameters[0];
             var leftExp = left.Exp.Body;
             var rightExp = right.Exp.Body.RebindParameter(right.Exp.Parameters[0], parameter);
@@ -50,6 +56,6 @@ namespace LinqSharp
             var exp = Expression.Lambda<Func<TSource, bool>>(Expression.Not(opndExp), parameter);
             return new WhereExp<TSource>(exp);
         }
-    }
 
+    }
 }
