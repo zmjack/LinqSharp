@@ -12,6 +12,28 @@
 
 ## DateTime
 
+### Why
+
+For example,**EntityFramework** can not translate this expression:
+
+```c#
+.Where(x => new DateTime(x.Year, x.Month, x.Day) > DateTime.Now);
+```
+
+So, we provide another function to support this:
+
+```c#
+.Where(x => DbFunc.DateTime(x.Year, x.Month, x.Day) > DateTime.Now);
+```
+
+If use **MySQL**, the generated SQL is:
+
+```mysql
+WHERE STR_TO_DATE(CONCAT(`x`.`Year`, '-', `x`.`Month`, '-', `x`.`Day`), '%Y-%m-%d') = CURRENT_TIMESTAMP();
+```
+
+<br/>
+
 ### SqlServer
 
 Use:

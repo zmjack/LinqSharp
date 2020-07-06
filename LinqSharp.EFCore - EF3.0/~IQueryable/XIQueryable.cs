@@ -28,7 +28,8 @@ namespace LinqSharp
             {
                 if (EFVersion.AtLeast(3, 1))
                 {
-                    var reflector_enumerator = query.Provider.Execute<IEnumerable<TEntity>>(query.Expression).GetEnumerator().GetReflector();
+                    var enumerable = query.Provider.Execute<IEnumerable<TEntity>>(query.Expression);
+                    var reflector_enumerator = enumerable.GetEnumerator().GetReflector();
                     var reflector_cmdCache = reflector_enumerator.DeclaredField("_relationalCommandCache");
 
                     var factory = reflector_cmdCache.DeclaredField<IQuerySqlGeneratorFactory>("_querySqlGeneratorFactory").Value;
@@ -42,7 +43,8 @@ namespace LinqSharp
                 }
                 else if (EFVersion.AtLeast(3, 0))
                 {
-                    var reflector_enumerator = query.Provider.Execute<IEnumerable<TEntity>>(query.Expression).GetEnumerator().GetReflector();
+                    var enumerable = query.Provider.Execute<IEnumerable<TEntity>>(query.Expression);
+                    var reflector_enumerator = enumerable.GetEnumerator().GetReflector();
 
                     var factory = reflector_enumerator.DeclaredField<IQuerySqlGeneratorFactory>("_querySqlGeneratorFactory").Value;
                     var sqlGenerator = factory.Create();

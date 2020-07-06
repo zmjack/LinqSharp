@@ -8,17 +8,13 @@ namespace LinqSharp.EFCore.Test
 {
     public class ToSqlTests
     {
-        class CA
-        {
-            public static int GetA() => 1;
-        }
-
         [Fact]
         public void Test()
         {
             using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var query = mysql.Employees.Search("m", x => new { x.City, x.Address }, SearchOption.Contains);
+                var now = DateTime.Now;
+                var query = mysql.YearMonthModels.Where(x => DbFunc.DateTime(x.Year, x.Month, 1) == DateTime.Now);
                 var sql = query.ToSql();
                 var result = query.ToArray();
             }
