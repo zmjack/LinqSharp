@@ -13,8 +13,7 @@ namespace LinqSharp.EFCore.Test
         {
             using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var now = DateTime.Now;
-                var query = mysql.YearMonthModels.Where(x => DbFunc.DateTime(x.Year, x.Month, 1) == DateTime.Now);
+                var query = mysql.Employees.SelectPage(2, 3);
                 var sql = query.ToSql();
                 var result = query.ToArray();
             }

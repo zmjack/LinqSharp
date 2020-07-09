@@ -24,41 +24,36 @@ namespace LinqSharp
         /// <returns></returns>
         public static string ToSql<TEntity>(this IQueryable<TEntity> @this)
         {
-            if (@this is EntityQueryable<TEntity> query)
+            if (EFVersion.AtLeast(3, 1))
             {
-                if (EFVersion.AtLeast(3, 1))
-                {
-                    var enumerable = query.Provider.Execute<IEnumerable<TEntity>>(query.Expression);
-                    var reflector_enumerator = enumerable.GetEnumerator().GetReflector();
-                    var reflector_cmdCache = reflector_enumerator.DeclaredField("_relationalCommandCache");
+                var enumerable = @this.Provider.Execute<IEnumerable<TEntity>>(@this.Expression);
+                var reflector_enumerator = enumerable.GetEnumerator().GetReflector();
+                var reflector_cmdCache = reflector_enumerator.DeclaredField("_relationalCommandCache");
 
-                    var factory = reflector_cmdCache.DeclaredField<IQuerySqlGeneratorFactory>("_querySqlGeneratorFactory").Value;
-                    var sqlGenerator = factory.Create();
+                var factory = reflector_cmdCache.DeclaredField<IQuerySqlGeneratorFactory>("_querySqlGeneratorFactory").Value;
+                var sqlGenerator = factory.Create();
 
-                    var selectExpression = reflector_cmdCache.DeclaredField<SelectExpression>("_selectExpression").Value;
-                    var command = sqlGenerator.GetCommand(selectExpression);
-                    var sql = $"{command.CommandText};{Environment.NewLine}";
+                var selectExpression = reflector_cmdCache.DeclaredField<SelectExpression>("_selectExpression").Value;
+                var command = sqlGenerator.GetCommand(selectExpression);
+                var sql = $"{command.CommandText};{Environment.NewLine}";
 
-                    return sql;
-                }
-                else if (EFVersion.AtLeast(3, 0))
-                {
-                    var enumerable = query.Provider.Execute<IEnumerable<TEntity>>(query.Expression);
-                    var reflector_enumerator = enumerable.GetEnumerator().GetReflector();
-
-                    var factory = reflector_enumerator.DeclaredField<IQuerySqlGeneratorFactory>("_querySqlGeneratorFactory").Value;
-                    var sqlGenerator = factory.Create();
-
-                    var selectExpression = reflector_enumerator.DeclaredField<SelectExpression>("_selectExpression").Value;
-                    var command = sqlGenerator.GetCommand(selectExpression);
-                    var sql = $"{command.CommandText};{Environment.NewLine}";
-
-                    return sql;
-                }
-                else throw EFVersion.NotSupportedException;
+                return sql;
             }
-            else throw new ArgumentException($"Need to convert {@this.GetType().FullName} to {typeof(EntityQueryable<TEntity>).FullName} to use this method.");
-        }
+            else if (EFVersion.AtLeast(3, 0))
+            {
+                var enumerable = @this.Provider.Execute<IEnumerable<TEntity>>(@this.Expression);
+                var reflector_enumerator = enumerable.GetEnumerator().GetReflector();
 
+                var factory = reflector_enumerator.DeclaredField<IQuerySqlGeneratorFactory>("_querySqlGeneratorFactory").Value;
+                var sqlGenerator = factory.Create();
+
+                var selectExpression = reflector_enumerator.DeclaredField<SelectExpression>("_selectExpression").Value;
+                var command = sqlGenerator.GetCommand(selectExpression);
+                var sql = $"{command.CommandText};{Environment.NewLine}";
+
+                return sql;
+            }
+            else throw EFVersion.NotSupportedException;
+        }
     }
 }

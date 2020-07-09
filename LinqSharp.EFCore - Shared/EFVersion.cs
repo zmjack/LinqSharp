@@ -17,6 +17,7 @@ namespace LinqSharp.EFCore
         public static bool AtLeast(int major, int minor, int build, int revision) => Version >= new Version(major, minor, build, revision);
 
         public static NotSupportedException NotSupportedException => new NotSupportedException($"The version({Version}) of EntityFramework is not supported.");
+        public static NotSupportedException NeedNewerVersionException => new NotSupportedException($"Please use the newer version of LinqSharp.EFCore instead.");
 
     }
 }
