@@ -30,7 +30,7 @@ namespace LinqSharp
         }
 
         public WhereExp<TSource> CreateWhereExp() => new WhereExp<TSource>();
-        public WhereExp<TSource> Where(Expression<Func<TSource, bool>> selector) => new WhereExp<TSource>(selector);
+        public WhereExp<TSource> Where(Expression<Func<TSource, bool>> predicate) => new WhereExp<TSource>(predicate);
 
         public WhereExp<TSource> Dynamic(Action<WhereExpBuilder<TSource>> build)
         {
@@ -43,6 +43,15 @@ namespace LinqSharp
         {
             var strategy = new WhereSearchStrategy<TSource>(searchString, searchMembers, option);
             return new WhereExp<TSource>(strategy.StrategyExpression);
+        }
+
+        public WhereExp<TSource> Search(string[] searchStrings, Expression<Func<TSource, object>> searchMembers, SearchOption option = SearchOption.Contains)
+        {
+            return And(searchStrings.Select(searchString =>
+            {
+                var strategy = new WhereSearchStrategy<TSource>(searchString, searchMembers, option);
+                return new WhereExp<TSource>(strategy.StrategyExpression);
+            }));
         }
 
     }

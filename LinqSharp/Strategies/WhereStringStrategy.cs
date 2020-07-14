@@ -59,13 +59,16 @@ namespace LinqSharp.Strategies
         {
             if (expression.Type == typeof(string))
                 return expression;
-            else if (expression.Type.GetInterface(typeof(IEnumerable).FullName) != null)
+            else if (expression.Type.IsImplement<IEnumerable>())
             {
-                var ienumerableGenericType = new[] { expression.Type }
-                    .Concat(expression.Type.GetInterfaces()).For(_ =>
+                var ienumerableGenericType = new[]
+                    {
+                        expression.Type,
+                    }
+                    .Concat(expression.Type.GetInterfaces()).For(interfaces =>
                     {
                         var regex = new Regex(@"System\.Collections\.Generic\.IEnumerable`1\[(.+)\]");
-                        foreach (var @interface in _)
+                        foreach (var @interface in interfaces)
                         {
                             var match = regex.Match(@interface.ToString());
                             if (match.Success)

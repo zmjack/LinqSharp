@@ -146,59 +146,6 @@ namespace LinqSharp.EFCore.Test
             }
         }
 
-        [Fact]
-        public void Test1()
-        {
-            using (var mysql = ApplicationDbContext.UseMySql())
-            {
-                var query = mysql.Employees
-                    .Search("London", e => new
-                    {
-                        ProductName = e.Orders
-                            .SelectMany(o => o.Order_Details)
-                            .Select(x => x.Product.ProductName),
-                        ShipCountry = e.Orders.Select(x => x.ShipCountry),
-                        ShipRegion = e.Orders.Select(x => x.ShipRegion),
-                        ShipCity = e.Orders.Select(x => x.ShipCity),
-                        ShipAddress = e.Orders.Select(x => x.ShipAddress),
-                    });
-                var sql = query.ToSql();
-            }
-
-            var now = DateTime.Now.AddDays(-1).AddHours(-2);
-
-            using (var mysql = ApplicationDbContext.UseMySql())
-            {
-                var employees_WhoSelled_AllKindsOfTofu = mysql.Employees
-                    .Search("Tofu", e => new
-                    {
-                        ProductName = e.Orders
-                            .SelectMany(o => o.Order_Details)
-                            .Select(x => x.Product.ProductName)
-                    });
-                var sql1 = employees_WhoSelled_AllKindsOfTofu.ToSql();
-
-                var employees_WhoSelled_Tofu = mysql.Employees
-                     .Search("Tofu", e => new
-                     {
-                         ProductName = e.Orders
-                             .SelectMany(o => o.Order_Details)
-                             .Select(x => x.Product.ProductName)
-                     }, SearchOption.Equals);
-                var sql2 = employees_WhoSelled_Tofu.ToSql();
-
-                var employees_WhoSelled_LongLifeTofu = mysql.Employees
-                     .Search("Longlife Tofu", e => new
-                     {
-                         ProductName = e.Orders
-                             .SelectMany(o => o.Order_Details)
-                             .Select(x => x.Product.ProductName)
-                     }, SearchOption.Equals);
-                var sql3 = employees_WhoSelled_LongLifeTofu.ToSql();
-            }
-            return;
-        }
-
     }
 
 }

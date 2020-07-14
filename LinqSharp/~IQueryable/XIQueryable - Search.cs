@@ -1,4 +1,9 @@
-﻿using LinqSharp.Strategies;
+﻿// Copyright 2020 zmjack
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// See the LICENSE file in the project root for more information.
+
+using LinqSharp.Strategies;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,16 +17,10 @@ namespace LinqSharp
             return @this.XWhere(h => h.Search(searchString, searchMembers, option));
         }
 
-        [Obsolete("This function may cause performance problems.")]
         public static IQueryable<TEntity> Search<TEntity>(this IQueryable<TEntity> @this, string[] searchStrings, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
         {
-            return searchStrings.Aggregate(@this, (acc, searchString) => acc.Where(new WhereSearchStrategy<TEntity>(searchString, searchMembers, option).StrategyExpression));
+            return @this.XWhere(h => h.Search(searchStrings, searchMembers, option));
         }
 
-    }// Copyright 2020 zmjack
-     // Licensed under the Apache License, Version 2.0 (the "License");
-     // you may not use this file except in compliance with the License.
-     // See the LICENSE file in the project root for more information.
-
-
+    }
 }
