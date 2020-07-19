@@ -39,20 +39,6 @@ namespace LinqSharp
 
                 return sql;
             }
-            else if (EFVersion.AtLeast(3, 0))
-            {
-                var enumerable = @this.Provider.Execute<IEnumerable<TEntity>>(@this.Expression);
-                var reflector_enumerator = enumerable.GetEnumerator().GetReflector();
-
-                var factory = reflector_enumerator.DeclaredField<IQuerySqlGeneratorFactory>("_querySqlGeneratorFactory").Value;
-                var sqlGenerator = factory.Create();
-
-                var selectExpression = reflector_enumerator.DeclaredField<SelectExpression>("_selectExpression").Value;
-                var command = sqlGenerator.GetCommand(selectExpression);
-                var sql = $"{command.CommandText};{Environment.NewLine}";
-
-                return sql;
-            }
             else throw EFVersion.NotSupportedException;
         }
     }

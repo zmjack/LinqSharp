@@ -35,9 +35,7 @@ namespace LinqSharp
                 }
             }
 
-            var ret = @this
-                .Select(x => RecursiveChildren(x))
-                .Aggregate((a, b) => a.Concat(b));
+            var ret = @this.SelectMany(x => RecursiveChildren(x));
             return ret;
         }
 

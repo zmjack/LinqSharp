@@ -1,5 +1,6 @@
 using LinqSharp.Dev;
 using LinqSharp.EFCore.Data.Test;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Xunit;
@@ -144,6 +145,27 @@ namespace LinqSharp.EFCore.Test
                 Assert.Equal(new[] { 1, 2, 3, 4 }, originResult.Select(x => x.RegionID));
                 Assert.Equal(new[] { 3, 1, 2, 4 }, orderedResult.Select(x => x.RegionID));
             }
+        }
+
+        [Fact]
+        public void Test1()
+        {
+            using var mysql = ApplicationDbContext.UseMySql();
+
+            var employees = mysql.Employees
+                .Include(x => x.Superordinate)
+                .Include(x => x.Subordinates)
+                .ToArray();
+            var query = employees
+                .Where(x => x.EmployeeID == 2)
+                .SelectWhile(x => x.Subordinates, x => x.Subordinates?.Any() ?? false);
+
+            var result = query.Select(x => new
+            {
+                x.EmployeeID,
+                x.FirstName,
+                Subordinates = string.Join(", ", x.Subordinates?.SelectMore(s => s.Subordinates).Select(s => s.FirstName)),
+            });
         }
 
     }
