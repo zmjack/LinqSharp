@@ -66,7 +66,6 @@ WHERE "x"."CompanyName" = 'Speedy Express';
 ```
 
 <iframe width="100%" height="475" src="https://dotnetfiddle.net/Widget/X55y12" frameborder="0"></iframe>
-
 Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite file:
 
 > **%userprofile%/.nuget/northwnd/{version}/content/@Resources/Northwnd/northwnd.db**
@@ -75,17 +74,17 @@ Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite fil
 
 ## Extension Simples
 
-### WhereSearch
+### Search
 
-  Queries records which is contains the specified string in one or any fields.
+Queries records which is contains the specified string in one or any fields.
 
-  For example, if you want to query ***Sweet*** in the field ***Description*** (table **Categories**):
+For example, if you want to query ***Sweet*** in the field ***Description*** (table **Categories**):
 
   ```C#
-  sqlite.Employees.WhereSearch("Steven", x => x.FirstName);
+  sqlite.Employees.Search("Steven", x => x.FirstName);
   ```
 
-  This invoke will generate a SQL query string:
+This invoke will generate a SQL query string:
 
   ```sqlite
   SELECT *
@@ -95,13 +94,13 @@ Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite fil
 
 ----
 
-  And, if you want to query ***An*** in the field ***FirstName*** or ***LastName*** (table ***employees***):
+And, if you want to query ***An*** in the field ***FirstName*** or ***LastName*** (table ***employees***):
 
   ```C#
-  sqlite.Employees.WhereSearch("An", x => new { x.FirstName, x.LastName })
+  sqlite.Employees.Search("An", x => new { x.FirstName, x.LastName })
   ```
 
-  The SQL is:
+The SQL is:
 
   ```sqlite
   SELECT *
@@ -111,14 +110,14 @@ Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite fil
 
 ----
 
-  As you see, this method supports some abilities to search single string in more than one field.
+As you see, this method supports some abilities to search single string in more than one field.
 
-  In some complex scenarios, we also allowed you to query a string in any table which is connected by foreign keys.
+In some complex scenarios, we also allowed you to query a string in any table which is connected by foreign keys.
 
-  For example, if you want to query who sold product to customer ***QUICK***:
+For example, if you want to query who sold product to customer ***QUICK***:
 
   ```c#
-  sqlite.Employees.WhereSearch("QUICK", x => x.Orders.Select(o => o.CustomerID));
+  sqlite.Employees.Search("QUICK", x => x.Orders.Select(o => o.CustomerID));
   ```
 
   ```sqlite
@@ -132,46 +131,27 @@ Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite fil
 
 ----
 
-  In addition, we may also need to use some other special queries. For example, if you want to search for another string in many fields.
+In addition, we may also need to use some other special queries. For example, if you want to search for another string in many fields.
 
-  This is an example of querying ***ToFu*** and ***pkg*** in the fields ***ProductName*** and ***QuantityPerUnit***.
+This is an example of querying ***ToFu*** and ***pkg*** in the fields ***ProductName*** and ***QuantityPerUnit***.
 
   ```c#
-  sqlite.Products.WhereSearch(new[] { "Tofu", "pkg" }, x => new 
+  sqlite.Products.Search(new[] { "Tofu", "pkg" }, x => new 
   { 
   	x.ProductName, x.QuantityPerUnit
   })
   ```
 
   ```sqlite
-  SELECT "x"."ProductID", "x"."CategoryID", "x"."Discontinued", "x"."ProductName", "x"."QuantityPerUnit", "x"."ReorderLevel", "x"."SupplierID", "x"."UnitPrice", "x"."UnitsInStock", "x"."UnitsOnOrder"
+  SELECT *
   FROM "Products" AS "x"
   WHERE ((instr("x"."ProductName", 'Tofu') > 0) OR (instr("x"."QuantityPerUnit", 'Tofu') > 0)) AND ((instr("x"."ProductName", 'pkg') > 0) OR (instr("x"."QuantityPerUnit", 'pkg') > 0));
   ```
 
-### WhereMatch
-  Different from **WhereSearch**, this statement will perform an exact match:
-
-  ```mssql
-  /* SQL Server */
-  SELECT [x].[Id], [x].[First_Name], [x].[Last_Name]
-  FROM [Emplyees] AS [x]
-  WHERE [x].[First_Name] = N'Bill' 
-  	OR [x].[Last_Name] = N'Bill'
-  ```
-
-  ```mysql
-  /* MySql */
-  SELECT `x`.`Id`, `x`.`First_Name`, `x`.`Last_Name`
-  FROM `Emplyees` AS `x`
-  WHERE `x`.`First_Name` = 'Bill' 
-  	OR `x`.`Last_Name` = 'Bill'
-  ```
-
 ### WhereBetween
-  Queries records which is start at a specified time and end at another time.
+Queries records which is start at a specified time and end at another time.
 
-  Note: Support type **Nullable\<DateTime\>**: If member expression's result is null, then the main expression's result is false. Here is the simple:
+Note: Support type **Nullable\<DateTime\>**: If member expression's result is null, then the main expression's result is false. Here is the simple:
 
   ```c#
   sqlite.Employees.WhereBetween(x => x.BirthDate, 
@@ -190,18 +170,16 @@ Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite fil
   END = 1;
   ```
 
-### WhereBefore
-
-### WhereAfter
+###
 
 ### WhereMax
-  Selects the entire record with the largest value for a field.
+Selects the entire record with the largest value for a field.
 
 ### WhereMin
-  Selects the entire record with the smallest value for a field.
+Selects the entire record with the smallest value for a field.
 
 ### OrderByCase
-  Queries records and order the result by a specified sequence.
+Queries records and order the result by a specified sequence.
 
   ```c#
   sqlite.Regions
@@ -228,7 +206,7 @@ Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite fil
   ```
 
 ### OrderByCaseDescending
-  Same as **OrderByCase**, but use descending order.
+Same as **OrderByCase**, but use descending order.
 
 ### ThenByCase
 
@@ -270,5 +248,5 @@ Use **NorthwndContext.UseSqliteResource()** method to use the default sqlite fil
   ```
 
 ### ThenByCaseDescending
-  Same as **ThenByCase**, but use descending order.
+Same as **ThenByCase**, but use descending order.
 

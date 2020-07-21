@@ -69,7 +69,7 @@ WHERE "x"."CompanyName" = 'Speedy Express';
 
 ## 查询扩展
 
-### WhereSearch
+### Search
 
 查询“某些字段包括指定字符串”的记录。
 
@@ -78,7 +78,7 @@ WHERE "x"."CompanyName" = 'Speedy Express';
 例如，查询表 ***Employees*** 中字段 ***FirstName*** 包含 ***Steven*** 的记录：
 
   ```C#
-sqlite.Employees.WhereSearch("Steven", x => x.FirstName);
+sqlite.Employees.Search("Steven", x => x.FirstName);
   ```
 
   ```sqlite
@@ -92,7 +92,7 @@ WHERE instr("x"."FirstName", 'Steven') > 0;
 例如，查询表 ***Employees*** 中字段 ***FirstName*** 或 ***LastName*** 的记录：
 
   ```C#
-sqlite.Employees.WhereSearch("An", x => new { x.FirstName, x.LastName })
+sqlite.Employees.Search("An", x => new { x.FirstName, x.LastName })
   ```
 
   ```sqlite
@@ -103,14 +103,14 @@ WHERE (instr("x"."FirstName", 'An') > 0) OR (instr("x"."LastName", 'An') > 0);
 
 ----
 
-可以看到 **WhereSearch** 提供了查询多个字段的能力，但是这样还不够。
+可以看到 **Search** 提供了查询多个字段的能力，但是这样还不够。
 
 在一些复杂的查询场景，我们可能希望连接多个表来执行查询。
 
 例如，查询“谁出售了产品（**Product**）给名叫 ***QUICK*** 的客户（**Customer**）”：
 
   ```c#
-sqlite.Employees.WhereSearch("QUICK", x => x.Orders.Select(o => o.CustomerID));
+sqlite.Employees.Search("QUICK", x => x.Orders.Select(o => o.CustomerID));
   ```
 
   ```sqlite
@@ -130,13 +130,13 @@ WHERE EXISTS (
 
   ```c#
 sqlite.Products
-    .WhereSearch("Tofu", x => new { x.ProductName, x.QuantityPerUnit })
-    .WhereSearch("pkg", x => new { x.ProductName, x.QuantityPerUnit });
+    .Search("Tofu", x => new { x.ProductName, x.QuantityPerUnit })
+    .Search("pkg", x => new { x.ProductName, x.QuantityPerUnit });
   ```
 
   ```c#
 sqlite.Products
-	.WhereSearch(new[] { "Tofu", "pkg" }, 
+	.Search(new[] { "Tofu", "pkg" }, 
                  x => new { x.ProductName, x.QuantityPerUnit });
   ```
 
@@ -150,33 +150,9 @@ WHERE
 
 <br/>
 
-### WhereMatch
-
-查询“**某些字段等于指定字符串**”的记录。
-
-----
-
-逻辑不同于 **WhereSearch** 的模糊匹配，**WhereMatch** 将执行精确匹配。
-
-例如，例如，查询表 ***Employees*** 中字段 ***FirstName*** 为 ***Steven*** 的记录：
-
-```c#
-sqlite.Employees.WhereSearch("Steven", x => x.FirstName);
-```
-
-```sqlite
-SELECT *
-FROM "Employees" AS "x"
-WHERE "x"."FirstName" = 'Steven';
-```
-
-<br/>
-
-### WhereBetween / WhereBefore / WhereAfter
+### WhereBetween
 
 - WhereBetween：查询“**某个日期字段在指定的日期范围**”  的记录。
-- WhereBefore：查询“**某个日期字段在指定的日期范围**”  的记录。
-- WhereAfter：查询“**某个日期字段在指定的日期范围**”  的记录。
 
 注：此组函数在日期字段为 ***NULL*** 时，返回 ***false***。
 
