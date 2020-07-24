@@ -58,6 +58,8 @@ namespace LinqSharp.EFCore
                     [c => c.Key] = x.Name,
                 }).ToArray();
 
+            if (ensureItems.Length == 0) throw new InvalidOperationException($"No virtual properties could be found in `{typeof(TKvEntityAgent).FullName}`.");
+
             DbSet.EnsureMany(ensureItems);
         }
 
