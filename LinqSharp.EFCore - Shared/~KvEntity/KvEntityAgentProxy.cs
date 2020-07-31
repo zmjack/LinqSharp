@@ -47,6 +47,8 @@ namespace LinqSharp.EFCore
 
                         if (store != null)
                         {
+                            if (store.Value is null) invocation.ReturnValue = proxyProperty.PropertyType.CreateDefault();
+
                             try
                             {
                                 var ret = ConvertEx.ChangeType(store.Value, proxyProperty.PropertyType);
