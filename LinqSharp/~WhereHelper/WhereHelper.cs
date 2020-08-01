@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 
 namespace LinqSharp
 {
-    public abstract class WhereHelper<TSource>
+    public abstract partial class WhereHelper<TSource>
     {
         public WhereExp<TSource> And(IEnumerable<WhereExp<TSource>> whereExps) => whereExps.Aggregate((x, y) => x & y);
         public WhereExp<TSource> And(params WhereExp<TSource>[] whereExps) => whereExps.Aggregate((x, y) => x & y);
