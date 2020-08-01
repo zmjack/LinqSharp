@@ -14,7 +14,7 @@ namespace LinqSharp
     public abstract partial class WhereHelper<TSource>
     {
         #region Return DateTime
-        public static WhereExp<TSource> WhereBetween(
+        public WhereExp<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
             Expression<Func<TSource, DateTime>> endExp)
@@ -23,7 +23,7 @@ namespace LinqSharp
             return new WhereExp<TSource>(strategy.StrategyExpression);
         }
 
-        public static WhereExp<TSource> WhereBetween(
+        public WhereExp<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             DateTime start,
             Expression<Func<TSource, DateTime>> endExp)
@@ -32,7 +32,7 @@ namespace LinqSharp
             return new WhereExp<TSource>(strategy.StrategyExpression);
         }
 
-        public static WhereExp<TSource> WhereBetween(
+        public WhereExp<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
             DateTime end)
@@ -41,7 +41,7 @@ namespace LinqSharp
             return new WhereExp<TSource>(strategy.StrategyExpression);
         }
 
-        public static WhereExp<TSource> WhereBetween(
+        public WhereExp<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             DateTime start,
             DateTime end)
@@ -52,7 +52,7 @@ namespace LinqSharp
         #endregion
 
         #region Return DateTime?
-        public static WhereExp<TSource> WhereBetween(
+        public WhereExp<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
             Expression<Func<TSource, DateTime>> endExp)
@@ -61,7 +61,7 @@ namespace LinqSharp
             return new WhereExp<TSource>(strategy.StrategyExpression);
         }
 
-        public static WhereExp<TSource> WhereBetween(
+        public WhereExp<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             DateTime start,
             Expression<Func<TSource, DateTime>> endExp)
@@ -70,7 +70,7 @@ namespace LinqSharp
             return new WhereExp<TSource>(strategy.StrategyExpression);
         }
 
-        public static WhereExp<TSource> WhereBetween(
+        public WhereExp<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
             DateTime end)
@@ -79,7 +79,7 @@ namespace LinqSharp
             return new WhereExp<TSource>(strategy.StrategyExpression);
         }
 
-        public static WhereExp<TSource> WhereBetween(
+        public WhereExp<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             DateTime start,
             DateTime end)
