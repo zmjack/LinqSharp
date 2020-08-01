@@ -14,8 +14,11 @@ namespace LinqSharp
         public static IEnumerable<TSource> XWhere<TSource>(this IEnumerable<TSource> @this, Func<WhereHelperE<TSource>, WhereExp<TSource>> build)
         {
             var helper = new WhereHelperE<TSource>(@this);
-            var exp = build(helper).Exp;
-            return @this.Where(exp.Compile());
+            var whereExp = build(helper);
+
+            if (whereExp != null)
+                return @this.Where(whereExp.Exp.Compile());
+            else return @this;
         }
 
     }
