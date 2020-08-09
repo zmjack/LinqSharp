@@ -29,12 +29,12 @@ namespace LinqSharp
 
             if (PageCount > 0)
             {
-                switch (page)
+                PageNumber = page switch
                 {
-                    case int p when p < 1: PageNumber = 1; break;
-                    case int p when p > PageCount: PageNumber = PageCount; break;
-                    default: PageNumber = page; break;
-                }
+                    int p when p < 1 => 1,
+                    int p when p > PageCount => PageCount,
+                    _ => page,
+                };
                 Items = source.Skip((PageNumber - 1) * PageSize).Take(PageSize);
             }
             else Items = source;

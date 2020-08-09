@@ -32,7 +32,9 @@ namespace LinqSharp
         /// <returns></returns>
         public static int PageCount<TSource>(this IQueryable<TSource> @this, int pageSize)
         {
-            return (int)Math.Ceiling((double)@this.Count() / pageSize);
+            var count = @this.Count();
+            if (count == 0) return 0;
+            else return ((count - 1) / pageSize) + 1;
         }
 
     }
