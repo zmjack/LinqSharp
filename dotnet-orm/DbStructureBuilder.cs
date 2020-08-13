@@ -3,16 +3,11 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using LinqSharp.EFCore;
-using Microsoft.EntityFrameworkCore;
 using NStandard;
 using NStandard.Flows;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace LinqSharp.Cli
@@ -70,11 +65,35 @@ namespace LinqSharp.Cli
         public string GetHtml()
         {
             var sb = new StringBuilder();
-            sb.AppendLine("<!DOCTYPE html>");
-            sb.AppendLine("<html>");
-            sb.AppendLine("<head>");
-            sb.AppendLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" />");
-            sb.AppendLine("</head>");
+            sb.AppendLine(@"<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" />
+    <style type=""text/css"">
+        table {
+            font-family: verdana,arial,sans-serif;
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+        }
+        table th {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
+        }
+        table td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+    </style>
+</head>");
             sb.AppendLine("<body>");
             void appendLine(string[] cols, string tag = "td")
             {
@@ -129,7 +148,7 @@ namespace LinqSharp.Cli
 
         public void Cache(Type dbContextType)
         {
-            var dbSetProps = dbContextType.GetProperties().Where(x => x.PropertyType.IsType(typeof(DbSet<>)));
+            var dbSetProps = dbContextType.GetProperties().Where(x => x.PropertyType.Name == "DbSet`1");
             foreach (var prop in dbSetProps)
             {
                 var defaultTableName = prop.Name;
@@ -142,8 +161,8 @@ namespace LinqSharp.Cli
         {
             if (!DbTables.ContainsKey(tableType))
             {
-                var tableAttr = tableType.GetCustomAttribute<TableAttribute>();
-                var tableName = tableAttr?.For(x => $"{x.Schema}.{x.Name}") ?? defaultName;
+                var tableAttr = tableType.GetAttributeViaName("System.ComponentModel.DataAnnotations.Schema.TableAttribute");
+                var tableName = tableAttr?.GetReflector().For(x => $"{x.Property<string>("Schema").Value}.{x.Property<string>("Name").Value}") ?? defaultName;
 
                 var filedTypes = tableType.GetProperties().Where(x => x.CanRead && x.CanWrite).ToArray();
                 var tableFields = filedTypes.Select(type => new DbTableField
@@ -151,13 +170,14 @@ namespace LinqSharp.Cli
                     Name = type.Name,
                     DisplayName = DataAnnotationEx.GetDisplayName(type),
                     RuntimeType = type.PropertyType,
-                    Index = type.HasAttribute<KeyAttribute>() ? "Key"
-                        : type.HasAttribute<CPKeyAttribute>() ? "CPKey"
-                        : type.GetCustomAttribute<IndexAttribute>()?.For(x => $"{x.Type} {x.Group?.For(g => $"({g})")}") ?? "",
-                    MaxLength = type.GetCustomAttribute<StringLengthAttribute>()?.MaximumLength ?? null,
-                    Required = type.HasAttribute<RequiredAttribute>(),
-                    ReferenceType = type.GetCustomAttribute<ForeignKeyAttribute>()?.Name.For(name =>
+                    Index = type.HasAttributeViaName("System.ComponentModel.DataAnnotations.KeyAttribute") ? "Key"
+                        : type.HasAttributeViaName($"LinqSharp.EFCore.CPKeyAttribute") ? "CPKey"
+                        : type.GetAttributeViaName($"LinqSharp.EFCore.IndexAttribute")?.GetReflector().For(x => $"{x.Property<Enum>("Type").Value} {x.Property<string>("Group").Value?.For(g => $"({g})")}") ?? "",
+                    MaxLength = type.GetAttributeViaName("System.ComponentModel.DataAnnotations.StringLengthAttribute")?.GetReflector().For(x => x.Property<int>("MaximumLength").Value) ?? null,
+                    Required = type.HasAttributeViaName("System.ComponentModel.DataAnnotations.RequiredAttribute"),
+                    ReferenceType = type.GetAttributeViaName("System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute")?.GetReflector().For(x =>
                     {
+                        var name = x.Property<string>("Name").Value;
                         return tableType.GetProperty(name).PropertyType;
                     }),
                 }).ToArray();

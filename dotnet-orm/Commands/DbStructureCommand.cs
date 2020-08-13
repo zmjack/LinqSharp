@@ -5,7 +5,6 @@
 
 using DotNetCli;
 using Ink;
-using Microsoft.EntityFrameworkCore;
 using NStandard;
 using NStandard.Reference;
 using NStandard.Runtime;
@@ -55,7 +54,8 @@ Options:
             var targetAssemblyName = Program.ProjectInfo.AssemblyName;
             var assemblyContext = new AssemblyContext($"{TargetBinFolder}/{targetAssemblyName}.dll", DotNetFramework.Parse(Program.ProjectInfo.TargetFramework));
 
-            var types = assemblyContext.RootAssembly.GetTypesWhichExtends<DbContext>(true);
+            var dbContextType = assemblyContext.GetType($"Microsoft.EntityFrameworkCore.DbContext,Microsoft.EntityFrameworkCore");
+            var types = assemblyContext.RootAssembly.GetTypesWhichExtends(dbContextType, true);
             foreach (var type in types)
             {
                 var outFile = $"{Path.GetFullPath($"{outFolder}/{type.Name}.html")}";

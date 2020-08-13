@@ -32,7 +32,7 @@ namespace LinqSharp.Cli
             Console.WriteLine($@"
 {"ヽ(*^▽^)ノ".Center(60)}
 
-TypeSharp .NET Command-line Tools {CLI_VERSION}");
+LinqSharp .NET Command-line Tools {CLI_VERSION}");
         }
 
     }
