@@ -14,7 +14,7 @@
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageId>LinqSharp.EFCore</PackageId>
-    <PackageTags>Linq</PackageTags>
+    <PackageTags>Linq EntityFramework</PackageTags>
     <PackageIcon>LinqSharp.png</PackageIcon>
     <RootNamespace>LinqSharp</RootNamespace>
     <AssemblyName>LinqSharp.EFCore</AssemblyName>
