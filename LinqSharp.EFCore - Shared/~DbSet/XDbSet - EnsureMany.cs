@@ -22,6 +22,8 @@ namespace LinqSharp.EFCore
         public static TEntity[] EnsureMany<TEntity>(this DbSet<TEntity> @this, EnsureCondition<TEntity>[] conditions, Action<EnsureOptions<TEntity>> initOptions)
             where TEntity : class, new()
         {
+            if (conditions.Length == 0) return new TEntity[0];
+
             var options = new EnsureOptions<TEntity>();
             initOptions?.Invoke(options);
 

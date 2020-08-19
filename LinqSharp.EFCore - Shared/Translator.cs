@@ -35,6 +35,7 @@ namespace LinqSharp.EFCore
                 Type _ when type == typeof(string) => new StringTypeMapping("string", DbType.String),
                 Type _ when type == typeof(decimal) => new DecimalTypeMapping("decimal", DbType.Decimal),
                 Type _ when type == typeof(DateTime) => new DateTimeTypeMapping("DateTime", DbType.DateTime),
+                _ => throw new NotSupportedException($"Type mapping is not supported to {type.FullName}."),
             };
             return typeMapping;
         }
