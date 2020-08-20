@@ -251,4 +251,4 @@ WHERE (("e"."City" || '!') = 'London') OR (("e"."FirstName" || '!') = 'Andrew');
 
 ---
 
-是不是很棒呢？
+很棒，是吗？
