@@ -20,12 +20,22 @@ namespace LinqSharp
             var whereExps = enumerable.Select(e => new WhereExp<TSource>(exp(e))).ToArray();
             return And(whereExps);
         }
+        public WhereExp<TSource> And<T>(IEnumerable<T> enumerable, Func<T, WhereExp<TSource>> exp)
+        {
+            var whereExps = enumerable.Select(e => exp(e)).ToArray();
+            return And(whereExps);
+        }
 
         public WhereExp<TSource> Or(IEnumerable<WhereExp<TSource>> whereExps) => whereExps.Aggregate((x, y) => x | y);
         public WhereExp<TSource> Or(params WhereExp<TSource>[] whereExps) => whereExps.Aggregate((x, y) => x | y);
         public WhereExp<TSource> Or<T>(IEnumerable<T> enumerable, Func<T, Expression<Func<TSource, bool>>> exp)
         {
             var whereExps = enumerable.Select(e => new WhereExp<TSource>(exp(e))).ToArray();
+            return Or(whereExps);
+        }
+        public WhereExp<TSource> Or<T>(IEnumerable<T> enumerable, Func<T, WhereExp<TSource>> exp)
+        {
+            var whereExps = enumerable.Select(e => exp(e)).ToArray();
             return Or(whereExps);
         }
 
