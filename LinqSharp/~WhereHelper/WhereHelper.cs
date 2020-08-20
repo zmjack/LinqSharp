@@ -15,9 +15,9 @@ namespace LinqSharp
     {
         public WhereExp<TSource> And(IEnumerable<WhereExp<TSource>> whereExps) => whereExps.Aggregate((x, y) => x & y);
         public WhereExp<TSource> And(params WhereExp<TSource>[] whereExps) => whereExps.Aggregate((x, y) => x & y);
-        public WhereExp<TSource> And<T>(IEnumerable<T> enumerable, Expression<Func<TSource, bool>> exp)
+        public WhereExp<TSource> And<T>(IEnumerable<T> enumerable, Func<T, Expression<Func<TSource, bool>>> exp)
         {
-            var whereExps = enumerable.Select(e => new WhereExp<TSource>(exp)).ToArray();
+            var whereExps = enumerable.Select(e => new WhereExp<TSource>(exp(e))).ToArray();
             return And(whereExps);
         }
 
@@ -32,12 +32,8 @@ namespace LinqSharp
         public WhereExp<TSource> CreateEmpty() => new WhereExp<TSource>();
         public WhereExp<TSource> Where(Expression<Func<TSource, bool>> predicate) => new WhereExp<TSource>(predicate);
 
-        public WhereExp<TSource> Dynamic(Action<WhereExpBuilder<TSource>> build)
-        {
-            var builder = new WhereExpBuilder<TSource>();
-            build(builder);
-            return new WhereExp<TSource>(builder.Lambda);
-        }
+        public PropertyUnit<TSource> Property(string property, Type type) => new PropertyUnit<TSource>(property, type);
+        public PropertyUnit<TSource> Property<TType>(string property) => new PropertyUnit<TSource>(property, typeof(TType));
 
         public WhereExp<TSource> Search(string searchString, Expression<Func<TSource, object>> searchMembers, SearchOption option = SearchOption.Contains)
         {

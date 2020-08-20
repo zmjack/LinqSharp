@@ -123,16 +123,6 @@ namespace LinqSharp.EFCore.Test
                 };
                 var operators = searches.Select(x => x.Link).Skip(1);
 
-                static MethodInfo GetMethod(string method)
-                {
-                    return method switch
-                    {
-                        "contains" => MethodUnit.StringContains,
-                        "equals" => MethodUnit.StringEquals,
-                        _ => throw new NotSupportedException(),
-                    };
-                }
-
                 // No priority
                 var query = mysql.Categories.XWhere(h =>
                 {
@@ -140,8 +130,12 @@ namespace LinqSharp.EFCore.Test
 
                     foreach (var search in searches)
                     {
-                        var method = GetMethod(search.Method);
-                        var _exp = h.Dynamic(b => b.Property(search.PropName).Invoke(method, search.Value));
+                        var _exp = search.Method switch
+                        {
+                            "contains" => h.Property<string>(search.PropName).StringContains(search.Value),
+                            "equals" => h.Property<string>(search.PropName).ValueEquals(search.Value),
+                            _ => throw new NotSupportedException(),
+                        };
 
                         switch (search.Link)
                         {
@@ -153,6 +147,7 @@ namespace LinqSharp.EFCore.Test
 
                     return exp;
                 });
+                var sql = query.ToSql();
 
                 Assert.Equal(new int[0], query.Select(x => x.CategoryID));
             }
@@ -193,21 +188,16 @@ namespace LinqSharp.EFCore.Test
                 };
                 var operators = searches.Select(x => x.Link).Skip(1);
 
-                static MethodInfo GetMethod(string method)
-                {
-                    return method switch
-                    {
-                        "contains" => MethodUnit.StringContains,
-                        "equals" => MethodUnit.StringEquals,
-                        _ => throw new NotSupportedException(),
-                    };
-                }
-
                 var query = mysql.Categories.XWhere(h =>
                 {
-                    var operands = searches.Select(x =>
+                    var operands = searches.Select(search =>
                     {
-                        return h.Dynamic(b => b.Property(x.PropName).Invoke(GetMethod(x.Method), x.Value));
+                        return search.Method switch
+                        {
+                            "contains" => h.Property<string>(search.PropName).StringContains(search.Value),
+                            "equals" => h.Property<string>(search.PropName).ValueEquals(search.Value),
+                            _ => throw new NotSupportedException(),
+                        };
                     });
 
                     return new SearchEvaluator<Category>(h).Eval(operands, operators);

@@ -14,11 +14,6 @@ namespace LinqSharp
 
         public WhereExp() { }
 
-        public WhereExp(Func<Expression<Func<TSource, bool>>> build)
-        {
-            Exp = build();
-        }
-
         public WhereExp(Expression<Func<TSource, bool>> exp)
         {
             Exp = exp;
