@@ -27,7 +27,7 @@ var searches = new[] { ("Mr.", "London"), ("Ms.", "Seattle") };
 如果是 **定量** 数据，我们很容易写出静态 **LINQ**：
 
 ```csharp
-var query = mysql.Employees.Where(x =>
+var query = sqlite.Employees.Where(x =>
     (x.TitleOfCourtesy == "Mr." && x.City == "London")
     || (x.TitleOfCourtesy == "Ms." && x.City == "Seattle"));
 ```
@@ -43,45 +43,57 @@ var query = mysql.Employees.Where(x =>
 
 <br/>
 
-### 动态 LINQ
+### 动态条件查询
 
 - **XWhere**：动态构建查询树。
 
-按照上节给出的查询场景举例：
+按照上节给出的场景举例：
 
-1. 定义输入数据：
+首先定义输入数据：
 
 ```csharp
 var searches = new[] { ("Mr.", "London"), ("Ms.", "Seattle") };
 ```
 
-2. 在 **XWhere** 函数中将 **searches** 的每个单元 **s** 转换成单元表达式 **parts**，然后使用 **Or** 方法连接每个 **part**：
+随后在 **XWhere** 函数中将 **searches** 的每个单元 **s** 转换成单元表达式 **parts**，然后使用 **Or** 方法连接每个 **part**：
 
 ```csharp
 var query = sqlite.Employees.XWhere(h =>
 {
     var parts = searches.Select(s =>
-        h.Where(x => x.TitleOfCourtesy == s.Item1 && x.City == s.Item2));
+        h.Where(x => x.TitleOfCourtesy == s.Item1 || x.City == s.Item2));
     return h.Or(parts);
 });
 ```
 
-更简单些，我们可以使用 **h.Or** 方法的另一个重载：
+更简单些，我们可以使用 **h.Or** 方法的另一个重载来编写代码：
 
 ```csharp
 var query = sqlite.Employees.XWhere(h =>
 {
     return h.Or(searches,
-        s => x => x.TitleOfCourtesy == s.Item1 && x.City == s.Item2);
+        s => x => x.TitleOfCourtesy == s.Item1 || x.City == s.Item2);
 });
 ```
 
-**注：Visual Studio** 分析器似乎不能很好地为这个表达式工作，直到您完整地编写完整条语句，它将是正确的。
-
-3. 执行查询：
+或者，使用 **for / foreach** 构建：
 
 ```csharp
-// 示例等效于 Where 语法
+var query = sqlite.Employees.XWhere(h =>
+{
+    var exp = h.CreateEmpty();
+    foreach (var s in searches)
+    {
+        exp |= h.Where(x => x.TitleOfCourtesy == s.Item1 && x.City == s.Item2);
+    }
+    return exp;
+});
+```
+
+执行等效查询：
+
+```csharp
+// 示例等效于原生 Where 语法
 sqlite.Employees.Where(x =>
 	(x.TitleOfCourtesy == "Mr." && x.City == "London")
 	|| (x.TitleOfCourtesy == "Ms." && x.City == "Seattle"));
@@ -102,7 +114,7 @@ OR
 
 #### 运算符
 
-**XWhere** 也支持使用运算符或连接函数来合并表达式单元，并且支持 **LinqSharp** 基础扩展（**Search** 函数等）。
+**XWhere** 也支持使用 **运算符** 或 **连接函数** 来合并表达式单元，并且支持 **LinqSharp** 扩展（**Search** 函数等）。
 
 使用 **运算符**：
 
@@ -114,7 +126,7 @@ var query = sqlite.Employees.XWhere(h =>
 });
 ```
 
-使用 **函数**：
+使用 **连接函数**：
 
 ```csharp
 var query = sqlite.Employees.XWhere(h =>
@@ -134,21 +146,21 @@ var query = sqlite.Employees.XWhere(h =>
 - 具有 **运算符优先级**；
 - 可以使用 **括号** 自定义优先级。
 
-使用 **函数** 的好处是
+使用 **连接函数** 的好处是
 
-- 可以在 **for / foreach** 或其他逻辑结构中动态构建。
-
-<br/>
-
-灵活运用这两种方式，是构建动态 LINQ 查询的基本方式。
+- 方便在 **for / foreach** 或其他逻辑结构中动态构建。
 
 <br/>
 
-#### 复杂点的例子
+灵活运用这两种方式，是构建 **动态LINQ** 查询的基本方式。
 
-例如，我们在使用 **Where** 的同时还使用 **Search**，最终将使用 **And** 连接起来。
+<br/>
 
-在这个案例，我们将混合使用 **运算符** 和 **函数** 来构建查询：
+#### 稍微复杂的例子
+
+例如，我们在使用 **Where** 的同时还使用 **Search**，使用 **Or** 连接起来。
+
+在这个案例中，我们将混合使用 **运算符** 和 **函数** 来构建查询：
 
 ```csharp
 var query = sqlite.Employees.XWhere(h =>
@@ -156,7 +168,7 @@ var query = sqlite.Employees.XWhere(h =>
     return h.Or(
         h.Where(x => x.TitleOfCourtesy == "Mr." && x.City == "London"),
         h.Where(x => x.TitleOfCourtesy == "Ms." && x.City == "Seattle")
-    ) & h.Search("m", e => new
+    ) | h.Search("m", e => new
     {
         e.Address,
         e.City,
@@ -174,7 +186,7 @@ WHERE (
     OR 
     (("e"."TitleOfCourtesy" = 'Ms.') AND ("e"."City" = 'Seattle'))
 ) 
-AND 
+OR 
 (
     ("e"."Address" IS NOT NULL AND (('m' = '') OR (instr("e"."Address", 'm') > 0))) 
     OR 
@@ -186,17 +198,57 @@ AND
 
 #### 动态属性查询
 
-想通过给定字符串，对指定字段进行查询？当然可以！动态属性查询就是支持这项功能的。
+动态属性是通过给定字符串，解析为对指定字段的查询。
 
-例如，我们给定查询数据定义，在 **City** 查询 **Londom**，在 **FirstName** 中查询 **Andrew**：
+例如，下面这个例子：
+
+- 在 **City** 查询 **Londom**，在 **FirstName** 中查询 **Andrew**；
+- 使用 **And** 连接起来。
+
+定义输入数据（例如在 **City** 查询 **Londom**，在 **FirstName** 中查询 **Andrew**，使用 **Or** 连接起来）：
 
 ```csharp
 var searches = new[] { ("City", "London"), ("FirstName", "Andrew") };
 ```
 
-然后在在 **Employees** 表中进行查询：
+然后在 **Employees** 表中进行查询：
 
+```csharp
+var query = sqlite.Employees.XWhere(h =>
+{
+    return h.Or(searches, s => h.Property<string>(s.Item1) == s.Item2);
+});
+```
 
+生成 SQL：
 
+```sql
+SELECT *
+FROM "Employees" AS "e"
+WHERE ("e"."City" = 'London') Or ("e"."FirstName" = 'Andrew');
+```
 
+<br/>
 
+我们甚至允许动态属性值参与运算：
+
+```csharp
+var query = sqlite.Employees.XWhere(h =>
+{
+    return h.Or(searches, s => (h.Property<string>(s.Item1) + "!") == s.Item2);
+});
+```
+
+生成 SQL：
+
+```sql
+SELECT *
+FROM "Employees" AS "e"
+WHERE (("e"."City" || '!') = 'London') OR (("e"."FirstName" || '!') = 'Andrew');
+```
+
+<br/>
+
+---
+
+是不是很棒呢？

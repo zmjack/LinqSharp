@@ -14,59 +14,67 @@ namespace LinqSharp
     {
         public readonly string PropertyName;
         public readonly Type PropertyType;
+        private readonly ParameterExpression Parameter;
+        private readonly Expression Exp;
 
         public PropertyUnit(string propertyName, Type propertyType)
         {
             PropertyName = propertyName;
             PropertyType = propertyType;
+            Parameter = Expression.Parameter(typeof(TSource));
+            Exp = Expression.Property(Parameter, PropertyName);
         }
 
-        public WhereExp<TSource> StringContains(object value)
+        public PropertyUnit(Expression exp, ParameterExpression parameter, Type propertyType)
         {
-            return PropertyType switch
-            {
-                Type type when type == typeof(string) => Invoke(MethodUnit.StringContains, value),
-                _ => throw new NotSupportedException($"{nameof(StringContains)} does not support type {PropertyType.FullName}."),
-            };
+            Exp = exp;
+            Parameter = parameter;
+            PropertyType = propertyType;
         }
 
-        public WhereExp<TSource> ValueEquals(object value)
+        public WhereExp<TSource> Contains(string value)
         {
-            return PropertyType switch
-            {
-                Type type when type == typeof(string) => Invoke(MethodUnit.StringEquals, value),
+            if (PropertyType == typeof(string)) return Invoke(MethodUnit.StringContains, value);
+            else throw new NotSupportedException($"{nameof(Contains)} does not support type {PropertyType?.FullName ?? "null"}.");
+        }
 
-                Type type when type == typeof(short) => Invoke(MethodUnit.Int16Equals, value),
-                Type type when type == typeof(ushort) => Invoke(MethodUnit.UInt16Equals, value),
-                Type type when type == typeof(int) => Invoke(MethodUnit.Int32Equals, value),
-                Type type when type == typeof(uint) => Invoke(MethodUnit.UInt32Equals, value),
-                Type type when type == typeof(long) => Invoke(MethodUnit.Int64Equals, value),
-                Type type when type == typeof(ulong) => Invoke(MethodUnit.UInt64Equals, value),
-                Type type when type == typeof(float) => Invoke(MethodUnit.SingleEquals, value),
-                Type type when type == typeof(double) => Invoke(MethodUnit.DoubleEquals, value),
-                Type type when type == typeof(DateTime) => Invoke(MethodUnit.DoubleEquals, value),
-                Type type when type == typeof(Guid) => Invoke(MethodUnit.DoubleEquals, value),
+        public static PropertyUnit<TSource> operator +(PropertyUnit<TSource> @this, object value)
+        {
+            if (@this.PropertyType == typeof(string))
+                return new PropertyUnit<TSource>(Expression.Add(@this.Exp, Expression.Constant(value), MethodUnit.StringConcat), @this.Parameter, typeof(string));
+            else return new PropertyUnit<TSource>(Expression.AddChecked(@this.Exp, Expression.Constant(value)), @this.Parameter, @this.PropertyType);
+        }
+        public static PropertyUnit<TSource> operator -(PropertyUnit<TSource> @this, object value)
+        {
+            return new PropertyUnit<TSource>(Expression.SubtractChecked(@this.Exp, Expression.Constant(value)), @this.Parameter, @this.PropertyType);
+        }
+        public static PropertyUnit<TSource> operator *(PropertyUnit<TSource> @this, object value)
+        {
+            return new PropertyUnit<TSource>(Expression.MultiplyChecked(@this.Exp, Expression.Constant(value)), @this.Parameter, @this.PropertyType);
+        }
+        public static PropertyUnit<TSource> operator /(PropertyUnit<TSource> @this, object value)
+        {
+            return new PropertyUnit<TSource>(Expression.Divide(@this.Exp, Expression.Constant(value)), @this.Parameter, @this.PropertyType);
+        }
 
-                Type type when type == typeof(short?) => Invoke(MethodUnit.NullableInt16Equals, value),
-                Type type when type == typeof(ushort?) => Invoke(MethodUnit.NullableUInt16Equals, value),
-                Type type when type == typeof(int?) => Invoke(MethodUnit.NullableInt32Equals, value),
-                Type type when type == typeof(uint?) => Invoke(MethodUnit.NullableUInt32Equals, value),
-                Type type when type == typeof(long?) => Invoke(MethodUnit.NullableInt64Equals, value),
-                Type type when type == typeof(ulong?) => Invoke(MethodUnit.NullableUInt64Equals, value),
-                Type type when type == typeof(float?) => Invoke(MethodUnit.NullableSingleEquals, value),
-                Type type when type == typeof(double?) => Invoke(MethodUnit.NullableDoubleEquals, value),
-                Type type when type == typeof(DateTime?) => Invoke(MethodUnit.NullableDoubleEquals, value),
-                Type type when type == typeof(Guid?) => Invoke(MethodUnit.NullableDoubleEquals, value),
+        public static WhereExp<TSource> operator ==(PropertyUnit<TSource> @this, object value) => @this.Op(Expression.Equal, value);
+        public static WhereExp<TSource> operator !=(PropertyUnit<TSource> @this, object value) => @this.Op(Expression.NotEqual, value);
+        public static WhereExp<TSource> operator >(PropertyUnit<TSource> @this, object value) => @this.Op(Expression.GreaterThan, value);
+        public static WhereExp<TSource> operator <(PropertyUnit<TSource> @this, object value) => @this.Op(Expression.LessThan, value);
+        public static WhereExp<TSource> operator >=(PropertyUnit<TSource> @this, object value) => @this.Op(Expression.GreaterThanOrEqual, value);
+        public static WhereExp<TSource> operator <=(PropertyUnit<TSource> @this, object value) => @this.Op(Expression.LessThanOrEqual, value);
 
-                _ => throw new NotSupportedException($"{nameof(ValueEquals)} does not support type {PropertyType.FullName}."),
-            };
+        private WhereExp<TSource> Op(Func<Expression, Expression, BinaryExpression> func, object value)
+        {
+            var body = func(Exp, Expression.Constant(value));
+            var exp = Expression.Lambda<Func<TSource, bool>>(body, Parameter);
+            return new WhereExp<TSource>(exp);
         }
 
         public WhereExp<TSource> Invoke(MethodInfo method, params object[] parameters)
         {
-            var parameter = Expression.Parameter(typeof(TSource));
-            var callExp = Expression.Call(Expression.Property(parameter, PropertyName), method, parameters.Select(x => Expression.Constant(x)));
-            var exp = Expression.Lambda<Func<TSource, bool>>(callExp, parameter);
+            var body = Expression.Call(Exp, method, parameters.Select(x => Expression.Constant(x)));
+            var exp = Expression.Lambda<Func<TSource, bool>>(body, Parameter);
             return new WhereExp<TSource>(exp);
         }
 

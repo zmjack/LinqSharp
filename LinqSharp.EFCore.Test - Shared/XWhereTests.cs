@@ -1,4 +1,5 @@
 ﻿using LinqSharp.EFCore.Data.Test;
+using Microsoft.EntityFrameworkCore;
 using Northwnd;
 using NStandard;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Xunit;
+using Xunit.Sdk;
 
 namespace LinqSharp.EFCore.Test
 {
@@ -132,8 +134,8 @@ namespace LinqSharp.EFCore.Test
                     {
                         var _exp = search.Method switch
                         {
-                            "contains" => h.Property<string>(search.PropName).StringContains(search.Value),
-                            "equals" => h.Property<string>(search.PropName).ValueEquals(search.Value),
+                            "contains" => h.Property<string>(search.PropName).Contains(search.Value),
+                            "equals" => h.Property<string>(search.PropName) == search.Value,
                             _ => throw new NotSupportedException(),
                         };
 
@@ -194,8 +196,8 @@ namespace LinqSharp.EFCore.Test
                     {
                         return search.Method switch
                         {
-                            "contains" => h.Property<string>(search.PropName).StringContains(search.Value),
-                            "equals" => h.Property<string>(search.PropName).ValueEquals(search.Value),
+                            "contains" => h.Property<string>(search.PropName).Contains(search.Value),
+                            "equals" => h.Property<string>(search.PropName) == search.Value,
                             _ => throw new NotSupportedException(),
                         };
                     });
@@ -216,6 +218,18 @@ namespace LinqSharp.EFCore.Test
                 var actual = mysql.Categories.XWhere(h => null).Select(x => x.CategoryID).ToArray();
                 Assert.Equal(expected, actual);
             }
+        }
+
+        [Fact]
+        public void PropertyTest()
+        {
+            using var mysql = ApplicationDbContext.UseMySql();
+
+            var query = mysql.Categories.XWhere(h =>
+            {
+                return (h.Property<string>(nameof(Category.CategoryName)) + "a").Contains("Con"); ;
+            });
+            var sql = query.ToSql();
         }
 
     }

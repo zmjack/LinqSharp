@@ -11,6 +11,7 @@ namespace LinqSharp
 {
     public static class MethodUnit
     {
+        public static MethodInfo StringConcat => typeof(string).GetMethodViaQualifiedName("System.String Concat(System.String, System.String)");
         public static MethodInfo StringEquals => typeof(string).GetMethodViaQualifiedName("Boolean Equals(System.String)");
         public static MethodInfo StringContains => typeof(string).GetMethodViaQualifiedName("Boolean Contains(System.String)");
 
