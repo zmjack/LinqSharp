@@ -107,7 +107,7 @@ using (var sqlite = NorthwndContext.UseSqliteResource())
 
 变量 **sql** 为：
 
-```sqlite
+```sql
 SELECT "x"."ShipperID", "x"."CompanyName", "x"."Phone"
 FROM "Shippers" AS "x"
 WHERE "x"."CompanyName" = 'Speedy Express';

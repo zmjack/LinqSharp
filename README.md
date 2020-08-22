@@ -107,7 +107,7 @@ using (var sqlite = NorthwndContext.UseSqliteResource())
 
 The variable **sql** is:
 
-```sqlite
+```sql
 SELECT "x"."ShipperID", "x"."CompanyName", "x"."Phone"
 FROM "Shippers" AS "x"
 WHERE "x"."CompanyName" = 'Speedy Express';
