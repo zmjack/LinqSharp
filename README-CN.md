@@ -15,6 +15,8 @@
 - [查询扩展](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/1-introduce.md)
 - [动态 LINQ](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/2-xwhere.md)
 
+
+
 **LinqSharp.EFCore** 可为 **Entity Frameowk** 提供如下方面的增强：
 
 - <font color="orange">[暂无文档]</font> 更多数据库生成注释
@@ -30,6 +32,8 @@
 - Entity Framework Core 3.1
 - Entity Framework Core 2.1+
 
+
+
  **受限支持的 Entity Framework 版本：**
 
 - Entity Framework Core 3.0：1 项失败。
@@ -38,7 +42,7 @@
 
 ## 安装
 
-通过 Nuget 安装：
+通过 **Nuget** 安装：
 
 **Package Manager**
 

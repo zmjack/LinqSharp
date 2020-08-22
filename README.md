@@ -15,6 +15,8 @@ Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README-
 - <font color="orange">[No documentation yet, but have [Chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/1-introduce.md)]</font> Query extension
 - <font color="orange">[No documentation yet, but have [Chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/2-xwhere.md)]</font> Dynamic LINQ
 
+
+
 **LinqSharp.EFCore** provides enhancements to **Entity Frameowk** in the following ways:
 
 - <font color="orange">[no documentation yet]</font> Data check mode
@@ -23,12 +25,14 @@ Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README-
 - <font color="orange">[no documentation yet]</font> Custom storage extensions
 - <font color="orange">[no documentation yet]</font> Column storage agent
 
-
+<br/>
 
 **Supported version of Entity Framework:** 
 
 - Entity Framework Core 3.1
 - Entity Framework Core 2.1+
+
+
 
 **Restricted supported version of Entity Framework: **
 
