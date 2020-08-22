@@ -13,6 +13,8 @@ namespace LinqSharp
 {
     public abstract partial class WhereHelper<TSource>
     {
+        internal readonly ParameterExpression DefaultParameter = Expression.Parameter(typeof(TSource));
+
         public WhereExp<TSource> And(IEnumerable<WhereExp<TSource>> whereExps) => whereExps.Aggregate((x, y) => x & y);
         public WhereExp<TSource> And(params WhereExp<TSource>[] whereExps) => whereExps.Aggregate((x, y) => x & y);
         public WhereExp<TSource> And<T>(IEnumerable<T> enumerable, Func<T, Expression<Func<TSource, bool>>> exp)
@@ -42,8 +44,8 @@ namespace LinqSharp
         public WhereExp<TSource> CreateEmpty() => new WhereExp<TSource>();
         public WhereExp<TSource> Where(Expression<Func<TSource, bool>> predicate) => new WhereExp<TSource>(predicate);
 
-        public PropertyUnit<TSource> Property(string property, Type type) => new PropertyUnit<TSource>(property, type);
-        public PropertyUnit<TSource> Property<TType>(string property) => new PropertyUnit<TSource>(property, typeof(TType));
+        public PropertyUnit<TSource> Property(string property, Type type) => new PropertyUnit<TSource>(DefaultParameter, property, type);
+        public PropertyUnit<TSource> Property<TType>(string property) => new PropertyUnit<TSource>(DefaultParameter, property, typeof(TType));
 
         public WhereExp<TSource> Search(string searchString, Expression<Func<TSource, object>> searchMembers, SearchOption option = SearchOption.Contains)
         {

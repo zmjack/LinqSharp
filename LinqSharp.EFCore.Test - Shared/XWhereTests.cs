@@ -221,15 +221,29 @@ namespace LinqSharp.EFCore.Test
         }
 
         [Fact]
-        public void PropertyTest()
+        public void PropertyTest1()
         {
             using var mysql = ApplicationDbContext.UseMySql();
 
             var query = mysql.Categories.XWhere(h =>
             {
-                return (h.Property<string>(nameof(Category.CategoryName)) + "a").Contains("Con"); ;
+                return (h.Property<string>("CategoryName") + "a").Contains("Con");
             });
             var sql = query.ToSql();
+        }
+
+        [Fact]
+        public void PropertyTest2()
+        {
+            using var mysql = ApplicationDbContext.UseMySql();
+
+            var query1 = mysql.Categories.XWhere(h =>
+            {
+                return h.Property<string>("CategoryName") + "a" == h.Property<string>("Description");
+            });
+            var query2 = mysql.Categories.Where(x => x.CategoryName + "a" == x.Description);
+            var sql1 = query1.ToSql();
+            var sql2 = query2.ToSql();
         }
 
     }
