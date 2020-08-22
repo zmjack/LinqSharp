@@ -44,8 +44,8 @@ namespace LinqSharp
         public WhereExp<TSource> CreateEmpty() => new WhereExp<TSource>();
         public WhereExp<TSource> Where(Expression<Func<TSource, bool>> predicate) => new WhereExp<TSource>(predicate);
 
-        public PropertyUnit<TSource> Property(string property, Type type) => new PropertyUnit<TSource>(DefaultParameter, property, type);
-        public PropertyUnit<TSource> Property<TType>(string property) => new PropertyUnit<TSource>(DefaultParameter, property, typeof(TType));
+        public PropertyUnit<TSource> Property(string property, Type propertyType) => new PropertyUnit<TSource>(DefaultParameter, property, propertyType);
+        public PropertyUnit<TSource> Property<TPropertyType>(string property) => new PropertyUnit<TSource>(DefaultParameter, property, typeof(TPropertyType));
 
         public WhereExp<TSource> Search(string searchString, Expression<Func<TSource, object>> searchMembers, SearchOption option = SearchOption.Contains)
         {

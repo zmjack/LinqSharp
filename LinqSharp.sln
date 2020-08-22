@@ -39,15 +39,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF3.1", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "[NoRelease] LinqSharp.Dev", "[NoRelease] LinqSharp.Dev\[NoRelease] LinqSharp.Dev.csproj", "{756D009B-76EA-4425-A74A-4A040292C66C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A87BB883-2E69-4329-9B68-737CE704C643}"
-	ProjectSection(SolutionItems) = preProject
-		README-CN.md = README-CN.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cn", "cn", "{0D3EB685-B108-4448-AF71-AFDCABAD004F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "en", "en", "{3C4BF48C-30C3-4E05-B452-554831EFCFC6}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems*{1f0cd34f-fe3b-47b4-b7e9-52d21165e0b9}*SharedItemsImports = 5
@@ -208,11 +199,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{A87BB883-2E69-4329-9B68-737CE704C643} = {69CCCCD4-B3BF-4882-8B20-AC3548E642A4}
-		{0D3EB685-B108-4448-AF71-AFDCABAD004F} = {A87BB883-2E69-4329-9B68-737CE704C643}
-		{3C4BF48C-30C3-4E05-B452-554831EFCFC6} = {A87BB883-2E69-4329-9B68-737CE704C643}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE8FFA56-A385-4D18-8E81-93227E276884}

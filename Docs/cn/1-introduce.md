@@ -1,59 +1,6 @@
 # LinqSharp
 
-**LinqSharp** 是个开源的 **LINQ** 扩展库，它允许您编写简单代码来生成复杂查询，包括常用查询扩展和动态查询生成。
-
-**LinqSharp.EFCore** 是对 **EntityFramework** 的增强库，提供更多数据注解、数据库函数及自定义储存规则等。
-
-- [English Readme](https://github.com/zmjack/LinqSharp/blob/master/README.md)
-- [中文自述](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
-
-<br/>
-
-**LinqSharp** 按不同应用场景可以为 **Entity Frameowk** 提供如下方面的增强：
-
-- <font color="limegreen">[README]</font> 查询扩展（增强 SQL 生成、增强内存查询）
-- <font color="limegreen">[README]</font> 动态 LINQ
-- <font color="orange">[暂无文档]</font> 数据检查模式（方便进行数据一致性检查）
-- <font color="orange">[暂无文档]</font> 数据库生成辅助工具（复合主键、字段索引）
-- <font color="orange">[暂无文档]</font> 数据库自定义函数映射（增强 SQL 生成，例如 RAND 函数）
-- <font color="orange">[暂无文档]</font> 自定义存储扩展（数据格式调整、复杂数据存储、加密储存等）
-- <font color="orange">[暂无文档]</font> 列式存储代理（全局注册信息）
-
-<br/>
-
-**支持的 Entity Framework 版本：**
-
-- Entity Framework Core 3.1
-- Entity Framework Core 2.0+
-
- **受限支持的 Entity Framework 版本：**
-
-- Entity Framework Core 3.0：1 项失败。
-
-<br/>
-
-## 使用示例数据库尝试
-
-**Northwnd** 是 **SQL Server** 早期附带的示例数据库，该数据库描述“公司销售产品网”简单案例场景。包括“雇员（**Employees**）”“产品订单（**Orders**）”“供应商（**Suppliers**）”的关系网络。
-
-本文示例使用的是它的 **Sqlite** 版本（**Code First**）：https://github.com/zmjack/Northwnd
-
-通过 **NuGet** 安装：
-
-```powershell
-dotnet add package Northwnd
-dotnet add package LinqSharp
-dotnet add package LinqSharp.EFCore
-```
-
-简单使用：
-
-```csharp
-using (var context = NorthwndContext.UseSqliteResource())
-{
-    ...
-}
-```
+- [返回列表](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
 
 <br/>
 
