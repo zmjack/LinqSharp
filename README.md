@@ -12,10 +12,9 @@ Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README-
 
 **LinqSharp** provides enhancements to **LINQ** in the following ways:
 
-- <font color="orange">[no documentation yet]</font> Query extension
-  The English version is not available yet, you can browse the [Chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/1-introduce.md).
-- <font color="orange">[no documentation yet]</font> Dynamic LINQ
-  The English version is not available yet, you can browse the [Chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/2-xwhere.md).
+- <font color="orange">[No documentation yet, but have [Chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/1-introduce.md)]</font> Query extension
+  The English version is not available yet, you can browse the .
+- <font color="orange">[No documentation yet, but have [Chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/2-xwhere.md)]</font> Dynamic LINQ
 
 **LinqSharp.EFCore** provides enhancements to **Entity Frameowk** in the following ways:
 
