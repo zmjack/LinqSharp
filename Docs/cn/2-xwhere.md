@@ -38,7 +38,9 @@ var query = sqlite.Employees.Where(x =>
 
 ### 静态查询拆分
 
-**XWhere** 是 **LinqSharp** 提供的动态查询方法，首先先了解一下如何将静态查询表达式拆分为动态查询。
+**XWhere** 是 **LinqSharp** 提供的动态查询方法。
+
+首先了解下如何将静态查询表达式拆分为动态查询。例如，
 
 例如，
 
@@ -179,7 +181,7 @@ var query = sqlite.Employees.XWhere(h =>
 
 #### 稍微复杂的例子
 
-在上述案例中，假设我们在使用 **Where** 的同时还使用 **Search**，我们将混合使用 **运算符** 和 **函数** 来构建：
+在上述案例中，假设我们在使用 **Where** 的同时还使用 **Search**，我们将混合使用 **运算符** 和 **连接函数** 来构建：
 
 ```csharp
 var query = sqlite.Employees.XWhere(h =>
@@ -221,7 +223,7 @@ OR
 
 例如，下面这个例子：
 
-- 在多个指定字段中进行查询（例如，在 **City** 查询 **Londom**，在 **FirstName** 中查询 **Andrew**）；
+- 在 **多个** 指定 **字段** 中进行查询（例如，在 **City** 查询 **Londom**，在 **FirstName** 中查询 **Andrew**）；
 - 将查询条件使用 **Or** 连接起来。.
 
 固定条件下，可以使用以下语句：
@@ -235,7 +237,7 @@ var query = sqlite.Employees.XWhere(h =>
 });
 ```
 
-使用 **Property** 方法可以将 **字段名参数化**：
+使用 **Property** 方法将 **字段名参数化**：
 
 ```csharp
 var query = sqlite.Employees.XWhere(h =>
@@ -250,22 +252,30 @@ var query = sqlite.Employees.XWhere(h =>
 
 <br/>
 
-为支持更多应用场景，我们甚至允许 **动态属性值** 参与运算。
+我们允许 **动态属性值** 参与运算，以支持更多场景。
 
-例如，将 **City** 值连接指定字符串 **!!**，然后与另一字符串进行比较。
+例如，将 **City** 值与字符串 **!!** 合并，然后与另一字符串进行比较。
 
-静态语句为：
+静态语句：
 
 ```csharp
 var query = sqlite.Employees
     .Where(x => x.City + "!!" == "London!!");
 ```
 
-动态语句为：
+动态语句：
 
 ```csharp
 var query = sqlite.Employees
     .XWhere(h => h.Property<string>("City") + "!!" == "London!!");
+```
+
+它们将生成完全一样的 SQL：
+
+```sql
+SELECT *
+FROM "Employees" AS "e"
+WHERE ("e"."City" || '!!') = 'London!!';
 ```
 
 <br/>
@@ -274,7 +284,7 @@ var query = sqlite.Employees
 
 了解基本用法后，来看一个完整例子。
 
-- 输入数据为多组数据，每组数据为 “（字段名，值）”；
+- 输入数据为多组数据，每组数据为 “**（字段名，值）**”；
 - 每组数据的生成条件使用 **And** 连接。
 
 1、假设输入数据：
