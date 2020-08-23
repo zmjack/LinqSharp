@@ -243,8 +243,8 @@ var query = sqlite.Employees.XWhere(h =>
 var query = sqlite.Employees.XWhere(h =>
 {
     return h.Or(
-        h.Property<string>("City") == "London",
-        h.Property<string>("FirstName") == "Adnrew");
+        h.Property("City") == "London",
+        h.Property("FirstName") == "Adnrew");
 });
 ```
 
@@ -267,7 +267,7 @@ var query = sqlite.Employees
 
 ```csharp
 var query = sqlite.Employees
-    .XWhere(h => h.Property<string>("City") + "!!" == "London!!");
+    .XWhere(h => h.Property("City") + "!!" == "London!!");
 ```
 
 它们将生成完全一样的 SQL：
@@ -298,7 +298,7 @@ var searches = new[] { ("City", "London"), ("FirstName", "Andrew") };
 ```csharp
 var query = sqlite.Employees.XWhere(h =>
 {
-    return h.And(searches, s => h.Property<string>(s.Item1) == s.Item2);
+    return h.And(searches, s => h.Property(s.Item1) == s.Item2);
 });
 ```
 

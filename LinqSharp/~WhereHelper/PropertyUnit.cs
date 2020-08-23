@@ -17,7 +17,7 @@ namespace LinqSharp
         private readonly ParameterExpression Parameter;
         private readonly Expression Exp;
 
-        public PropertyUnit(ParameterExpression parameter, string propertyName, Type propertyType)
+        internal PropertyUnit(ParameterExpression parameter, string propertyName, Type propertyType)
         {
             PropertyName = propertyName;
             PropertyType = propertyType;
@@ -25,11 +25,22 @@ namespace LinqSharp
             Exp = Expression.Property(Parameter, PropertyName);
         }
 
-        private PropertyUnit(ParameterExpression parameter, Expression exp, Type propertyType)
+        internal PropertyUnit(ParameterExpression parameter, Expression exp, Type propertyType)
         {
             Exp = exp;
             Parameter = parameter;
             PropertyType = propertyType;
+        }
+
+        internal PropertyUnit(ParameterExpression parameter, LambdaExpression exp)
+        {
+            if ((exp.Body as MemberExpression)?.Member is PropertyInfo prop)
+            {
+                Exp = exp.Body;
+                Parameter = parameter;
+                PropertyType = prop.PropertyType;
+            }
+            else throw new NotSupportedException("Invalid lambda expression.");
         }
 
         public WhereExp<TSource> Contains(string value)
@@ -62,21 +73,27 @@ namespace LinqSharp
         public static WhereExp<TSource> operator >=(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.CompareOp(Expression.GreaterThanOrEqual, unit);
         public static WhereExp<TSource> operator <=(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.CompareOp(Expression.LessThanOrEqual, unit);
 
+        private Expression GetValueExpression(object value)
+        {
+            if (value.GetType() == PropertyType) return Expression.Constant(value);
+            else return Expression.Convert(Expression.Constant(value), PropertyType);
+        }
+
         private PropertyUnit<TSource> UnitAddOp(object value)
         {
-            var operand = Expression.Constant(value);
+            var operand = GetValueExpression(value);
             if (PropertyType == typeof(string))
                 return new PropertyUnit<TSource>(Parameter, Expression.Add(Exp, operand, MethodUnit.StringConcat), typeof(string));
             else return new PropertyUnit<TSource>(Parameter, Expression.AddChecked(Exp, operand), PropertyType);
         }
         private PropertyUnit<TSource> UnitOp(Func<Expression, Expression, BinaryExpression> func, object value)
         {
-            var operand = Expression.Constant(value);
+            var operand = GetValueExpression(value);
             return new PropertyUnit<TSource>(Parameter, func(Exp, operand), PropertyType);
         }
         private WhereExp<TSource> CompareOp(Func<Expression, Expression, BinaryExpression> func, object value)
         {
-            var operand = Expression.Constant(value);
+            var operand = GetValueExpression(value);
             var body = func(Exp, operand);
             var exp = Expression.Lambda<Func<TSource, bool>>(body, Parameter);
             return new WhereExp<TSource>(exp);

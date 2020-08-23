@@ -38,21 +38,14 @@ namespace LinqSharp.Strategies
             if (expression.NodeType == ExpressionType.Lambda)
                 return Enumerable.ToArray((expression as LambdaExpression).Parameters);
 
-            switch (expression)
+            return expression switch
             {
-                case MemberExpression exp:
-                    return GetParameters(exp.Expression);
-                case UnaryExpression exp:
-                    return GetParameters(exp.Operand);
-                case MethodCallExpression exp:
-                    return GetParameters(exp.Object)
-                        .Concat(exp.Arguments.SelectMany(x => GetParameters(x)))
-                        .ToArray();
-                case NewExpression exp:
-                    return exp.Arguments.SelectMany(x => GetParameters(x)).ToArray();
-
-                default: return new ParameterExpression[0];
-            }
+                MemberExpression exp => GetParameters(exp.Expression),
+                UnaryExpression exp => GetParameters(exp.Operand),
+                MethodCallExpression exp => GetParameters(exp.Object).Concat(exp.Arguments.SelectMany(x => GetParameters(x))).ToArray(),
+                NewExpression exp => exp.Arguments.SelectMany(x => GetParameters(x)).ToArray(),
+                _ => new ParameterExpression[0],
+            };
         }
 
         private Expression GetReturnStringOrArrayExpression(Expression expression)

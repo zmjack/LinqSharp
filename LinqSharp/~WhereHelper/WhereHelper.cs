@@ -47,6 +47,18 @@ namespace LinqSharp
         public PropertyUnit<TSource> Property(string property, Type propertyType) => new PropertyUnit<TSource>(DefaultParameter, property, propertyType);
         public PropertyUnit<TSource> Property<TPropertyType>(string property) => new PropertyUnit<TSource>(DefaultParameter, property, typeof(TPropertyType));
 
+        public PropertyUnit<TSource> Property(string property)
+        {
+            var prop = typeof(TSource).GetProperty(property);
+            if (prop is not null) return new PropertyUnit<TSource>(DefaultParameter, property, prop.PropertyType);
+            else throw new ArgumentException($"The specified property({property}) was not found.");
+        }
+        public PropertyUnit<TSource> Property<TPropertyType>(Expression<Func<TSource, TPropertyType>> exp)
+        {
+            var _exp = exp.RebindParameter(exp.Parameters[0], DefaultParameter) as LambdaExpression;
+            return new PropertyUnit<TSource>(DefaultParameter, _exp);
+        }
+
         public WhereExp<TSource> Search(string searchString, Expression<Func<TSource, object>> searchMembers, SearchOption option = SearchOption.Contains)
         {
             var strategy = new WhereSearchStrategy<TSource>(searchString, searchMembers, option);

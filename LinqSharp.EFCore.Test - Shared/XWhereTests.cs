@@ -30,6 +30,17 @@ namespace LinqSharp.EFCore.Test
             }
         }
 
+        [Fact]
+        public void Test00()
+        {
+            using (var mysql = ApplicationDbContext.UseMySql())
+            {
+                var query = mysql.Products.Where(x => x.CategoryID == 123);
+                var query1 = mysql.Products.XWhere(h => h.Property("CategoryID") == 123);
+                var query2 = mysql.Products.XWhere(h => h.Property(x => x.CategoryID) == 123);
+                var sql1 = query1.ToSql();
+            }
+        }
 
         [Fact]
         public void Test1()
