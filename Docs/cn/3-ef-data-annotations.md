@@ -43,7 +43,7 @@ public class ApplicationDbContext : DbContext
 
 <br/>
 
-例如，我们想要创建这样的表：
+假设，我们要创建这样的表：
 
 - **Id**：主键
 - **Int0**：非聚集索引
@@ -120,7 +120,7 @@ public class ApplicationDbContext : DbContext
 }
 ```
 
-假设使用 **MySQL**，这段代码会生成如下索引：
+如果使用 **MySQL**，这段代码会生成如下索引：
 
 | 名                                | 字段             | 索引类型 | 索引方法 |
 | --------------------------------- | ---------------- | -------- | -------- |
