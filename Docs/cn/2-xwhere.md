@@ -40,7 +40,7 @@ var query = sqlite.Employees.Where(x =>
 
 **XWhere** 是 **LinqSharp** 提供的动态查询方法。
 
-首先了解下如何将静态查询表达式拆分为动态查询。例如，
+首先了解如何将静态查询表达式拆分为动态查询。例如，
 
 例如，
 
