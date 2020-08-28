@@ -9,7 +9,7 @@ namespace LinqSharp.EFCore.Providers
 {
     public class JsonProvider<TModel> : IProvider<TModel, string>
     {
-        public override TModel ConvertFromProvider(string value) => (TModel)JsonConvert.DeserializeObject(value, typeof(TModel));
-        public override string ConvertToProvider(TModel model) => JsonConvert.SerializeObject(model);
+        public override TModel ReadFromProvider(string value) => (TModel)JsonConvert.DeserializeObject(value, typeof(TModel));
+        public override string WriteToProvider(TModel model) => JsonConvert.SerializeObject(model);
     }
 }

@@ -19,11 +19,11 @@
 
 **LinqSharp.EFCore** 可为 **Entity Frameowk** 提供如下方面的增强：
 
-- <font color="orange">[暂无文档]</font> 更多数据库生成注释
-- <font color="orange">[暂无文档]</font> 自定义字段储存
-- <font color="orange">[暂无文档]</font> 数据库自定义函数映射
-- <font color="orange">[暂无文档]</font> 自定义存储扩展
+- [表设计数据注解](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/3-ef-data-annotations.md)
+- <font color="orange">[暂无文档]</font> 字段标准化数据注解
+- <font color="orange">[暂无文档]</font> 函数映射
 - <font color="orange">[暂无文档]</font> 列式存储代理
+- <font color="orange">[暂无文档]</font> 关联计算与审计
 
 <br/>
 
@@ -32,7 +32,7 @@
 - Entity Framework Core 3.1
 - Entity Framework Core 2.1+
 
-
+<br/>
 
  **受限支持的 Entity Framework 版本：**
 

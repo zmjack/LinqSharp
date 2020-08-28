@@ -3,14 +3,16 @@ using System;
 using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace TestDatabaseCreator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200828104828_202008281848")]
+    partial class _202008281848
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,6 +231,21 @@ namespace TestDatabaseCreator.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LS_Providers");
+                });
+
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.M_Name", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(127) CHARACTER SET utf8mb4")
+                        .HasMaxLength(127);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("M_Names");
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleModel", b =>

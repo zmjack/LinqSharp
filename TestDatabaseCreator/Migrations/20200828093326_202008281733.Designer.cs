@@ -3,14 +3,16 @@ using System;
 using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace TestDatabaseCreator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200828093326_202008281733")]
+    partial class _202008281733
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,23 +214,23 @@ namespace TestDatabaseCreator.Migrations
                     b.ToTable("LS_Indices");
                 });
 
-            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.LS_Provider", b =>
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.ProviderTestModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("NameModel")
+                    b.Property<string>("Password")
                         .HasColumnType("varchar(127) CHARACTER SET utf8mb4")
                         .HasMaxLength(127);
 
-                    b.Property<string>("Password")
+                    b.Property<string>("SimpleModel")
                         .HasColumnType("varchar(127) CHARACTER SET utf8mb4")
                         .HasMaxLength(127);
 
                     b.HasKey("Id");
 
-                    b.ToTable("LS_Providers");
+                    b.ToTable("ProviderTestModels");
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleModel", b =>

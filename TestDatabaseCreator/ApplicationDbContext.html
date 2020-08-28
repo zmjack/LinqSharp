@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css">
+        table {
+            font-family: verdana,arial,sans-serif;
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+        }
+        table th {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
+        }
+        table td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>AppRegistries</td><td>AppRegistry</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id</td><td>Id</td><td>Guid</td><td></td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Item</td><td>Item</td><td>string</td><td>127</td><td>Unique (Item&amp;Key)</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Key</td><td>Key</td><td>string</td><td>127</td><td>Unique (Item&amp;Key)</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Value</td><td>Value</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>TrackModels</td><td>TrackModel</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id</td><td>Id</td><td>Guid</td><td></td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CreationTime</td><td>CreationTime</td><td>DateTime</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>LastWriteTime</td><td>LastWriteTime</td><td>DateTime</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ForTrim</td><td>ForTrim</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ForUpper</td><td>ForUpper</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ForLower</td><td>ForLower</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ForCondensed</td><td>ForCondensed</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>EntityMonitorModels</td><td>EntityMonitorModel</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id</td><td>Id</td><td>Guid</td><td></td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CreationTime</td><td>CreationTime</td><td>DateTime</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Event</td><td>Event</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>TypeName</td><td>TypeName</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Key</td><td>Key</td><td>string[]</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ChangeValues</td><td>ChangeValues</td><td>RowChangeInfo</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>SimpleModels</td><td>SimpleModel</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id</td><td>Id</td><td>Guid</td><td></td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Name</td><td>Name</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Age</td><td>Age</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Birthday</td><td>Birthday</td><td>DateTime?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>State</td><td>State</td><td>EState</td><td></td><td></td><td></td><td></td><td><ul><li>0=Default</li><li>1=StateA</li><li>2=StateB</li><li>4=StateC</li></ul></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>CompositeKeyModels</td><td>CPKeyModel</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id1</td><td>Id1</td><td>Guid</td><td></td><td>CPKey</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Id2</td><td>Id2</td><td>Guid</td><td></td><td>CPKey</td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>AuditRoots</td><td>AuditRoot</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id</td><td>Id</td><td>Guid</td><td></td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>TotalQuantity</td><td>TotalQuantity</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>LimitQuantity</td><td>LimitQuantity</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>RowVersion</td><td>RowVersion</td><td>DateTime</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Levels</td><td>Levels</td><td>ICollection&lt;AuditLevel&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>AuditLevels</td><td>AuditLevel</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id</td><td>Id</td><td>Guid</td><td></td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Root</td><td>Root</td><td>Guid</td><td></td><td></td><td></td><td>AuditRoots</td><td></td>
+</tr>
+<tr>
+<td>ValueCount</td><td>ValueCount</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>RootLink</td><td>RootLink</td><td>AuditRoot</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Values</td><td>Values</td><td>ICollection&lt;AuditValue&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>AuditValues</td><td>AuditValue</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id</td><td>Id</td><td>Guid</td><td></td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Level</td><td>Level</td><td>Guid</td><td></td><td></td><td></td><td>AuditLevels</td><td></td>
+</tr>
+<tr>
+<td>Quantity</td><td>Quantity</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>LevelLink</td><td>LevelLink</td><td>AuditLevel</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>ProviderTestModels</td><td>ProviderTestModel</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id</td><td>Id</td><td>Guid</td><td></td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Password</td><td>Password</td><td>string</td><td>127</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>SimpleModel</td><td>SimpleModel</td><td>SimpleModel</td><td>127</td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>ConcurrencyModels</td><td>ConcurrencyModel</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id</td><td>Id</td><td>Guid</td><td></td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>RandomNumber</td><td>RandomNumber</td><td>int</td><td></td><td>Unique </td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CheckDefault</td><td>CheckDefault</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CheckThrow</td><td>CheckThrow</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CheckStoreWin</td><td>CheckStoreWin</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CheckClientWin</td><td>CheckClientWin</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CheckCombine</td><td>CheckCombine</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>YearMonthModels</td><td>YearMonthModel</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id</td><td>Id</td><td>Guid</td><td></td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Year</td><td>Year</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Month</td><td>Month</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Day</td><td>Day</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Date</td><td>Date</td><td>DateTime</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>LS_Indices</td><td>LS_Index</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>Id</td><td>Id</td><td>Guid</td><td></td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Int0</td><td>Int0</td><td>int</td><td></td><td>Normal </td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Int1</td><td>Int1</td><td>int</td><td></td><td>Unique </td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Int2_G1</td><td>Int2_G1</td><td>int</td><td></td><td>Unique (Int2_G1&amp;Int3_G1)</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Int3_G1</td><td>Int3_G1</td><td>int</td><td></td><td>Unique (Int2_G1&amp;Int3_G1)</td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>Categories</td><td>Category</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>CategoryID</td><td>CategoryID</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CategoryName</td><td>CategoryName</td><td>string</td><td>15</td><td></td><td>Required</td><td></td><td></td>
+</tr>
+<tr>
+<td>Description</td><td>Description</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Picture</td><td>Picture</td><td>byte[]</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Products</td><td>Products</td><td>ICollection&lt;Product&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>CustomerDemographics</td><td>CustomerDemographic</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>CustomerTypeID</td><td>CustomerTypeID</td><td>string</td><td>10</td><td>Key</td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CustomerDesc</td><td>CustomerDesc</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CustomerCustomerDemos</td><td>CustomerCustomerDemos</td><td>ICollection&lt;CustomerCustomerDemo&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>Customers</td><td>Customer</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>CustomerID</td><td>CustomerID</td><td>string</td><td>5</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CompanyName</td><td>CompanyName</td><td>string</td><td>40</td><td></td><td>Required</td><td></td><td></td>
+</tr>
+<tr>
+<td>ContactName</td><td>ContactName</td><td>string</td><td>30</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ContactTitle</td><td>ContactTitle</td><td>string</td><td>30</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Address</td><td>Address</td><td>string</td><td>60</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>City</td><td>City</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Region</td><td>Region</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>PostalCode</td><td>PostalCode</td><td>string</td><td>10</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Country</td><td>Country</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Phone</td><td>Phone</td><td>string</td><td>24</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Fax</td><td>Fax</td><td>string</td><td>24</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Orders</td><td>Orders</td><td>ICollection&lt;Order&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CustomerCustomerDemos</td><td>CustomerCustomerDemos</td><td>ICollection&lt;CustomerCustomerDemo&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>Employees</td><td>Employee</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>EmployeeID</td><td>EmployeeID</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>LastName</td><td>LastName</td><td>string</td><td>20</td><td></td><td>Required</td><td></td><td></td>
+</tr>
+<tr>
+<td>FirstName</td><td>FirstName</td><td>string</td><td>10</td><td></td><td>Required</td><td></td><td></td>
+</tr>
+<tr>
+<td>Title</td><td>Title</td><td>string</td><td>30</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>TitleOfCourtesy</td><td>TitleOfCourtesy</td><td>string</td><td>25</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>BirthDate</td><td>BirthDate</td><td>DateTime?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>HireDate</td><td>HireDate</td><td>DateTime?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Address</td><td>Address</td><td>string</td><td>60</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>City</td><td>City</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Region</td><td>Region</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>PostalCode</td><td>PostalCode</td><td>string</td><td>10</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Country</td><td>Country</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>HomePhone</td><td>HomePhone</td><td>string</td><td>24</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Extension</td><td>Extension</td><td>string</td><td>4</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Photo</td><td>Photo</td><td>byte[]</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Notes</td><td>Notes</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ReportsTo</td><td>ReportsTo</td><td>int?</td><td></td><td></td><td></td><td>Employees</td><td></td>
+</tr>
+<tr>
+<td>Superordinate</td><td>Superordinate</td><td>Employee</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>PhotoPath</td><td>PhotoPath</td><td>string</td><td>255</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Subordinates</td><td>Subordinates</td><td>ICollection&lt;Employee&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Orders</td><td>Orders</td><td>ICollection&lt;Order&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>EmployeeTerritories</td><td>EmployeeTerritories</td><td>ICollection&lt;EmployeeTerritory&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>OrderDetails</td><td>OrderDetail</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>OrderID</td><td>OrderID</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ProductID</td><td>ProductID</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>UnitPrice</td><td>UnitPrice</td><td>double</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Quantity</td><td>Quantity</td><td>short</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Discount</td><td>Discount</td><td>float</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Order</td><td>Order</td><td>Order</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Product</td><td>Product</td><td>Product</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>Orders</td><td>Order</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>OrderID</td><td>OrderID</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CustomerID</td><td>CustomerID</td><td>string</td><td>5</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>EmployeeID</td><td>EmployeeID</td><td>int?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>OrderDate</td><td>OrderDate</td><td>DateTime?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>RequiredDate</td><td>RequiredDate</td><td>DateTime?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ShippedDate</td><td>ShippedDate</td><td>DateTime?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ShipVia</td><td>ShipVia</td><td>int?</td><td></td><td></td><td></td><td>Shippers</td><td></td>
+</tr>
+<tr>
+<td>Shipper</td><td>Shipper</td><td>Shipper</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Freight</td><td>Freight</td><td>double?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ShipName</td><td>ShipName</td><td>string</td><td>40</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ShipAddress</td><td>ShipAddress</td><td>string</td><td>60</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ShipCity</td><td>ShipCity</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ShipRegion</td><td>ShipRegion</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ShipPostalCode</td><td>ShipPostalCode</td><td>string</td><td>10</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ShipCountry</td><td>ShipCountry</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Customer</td><td>Customer</td><td>Customer</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Employee</td><td>Employee</td><td>Employee</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Order_Details</td><td>Order_Details</td><td>ICollection&lt;OrderDetail&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>Products</td><td>Product</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>ProductID</td><td>ProductID</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ProductName</td><td>ProductName</td><td>string</td><td>40</td><td></td><td>Required</td><td></td><td></td>
+</tr>
+<tr>
+<td>SupplierID</td><td>SupplierID</td><td>int?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CategoryID</td><td>CategoryID</td><td>int?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>QuantityPerUnit</td><td>QuantityPerUnit</td><td>string</td><td>20</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>UnitPrice</td><td>UnitPrice</td><td>double?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>UnitsInStock</td><td>UnitsInStock</td><td>short?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>UnitsOnOrder</td><td>UnitsOnOrder</td><td>short?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ReorderLevel</td><td>ReorderLevel</td><td>short?</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Discontinued</td><td>Discontinued</td><td>bool</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Category</td><td>Category</td><td>Category</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>OrderDetails</td><td>OrderDetails</td><td>ICollection&lt;OrderDetail&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Supplier</td><td>Supplier</td><td>Supplier</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>Regions</td><td>Region</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>RegionID</td><td>RegionID</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>RegionDescription</td><td>RegionDescription</td><td>string</td><td>50</td><td></td><td>Required</td><td></td><td></td>
+</tr>
+<tr>
+<td>Territories</td><td>Territories</td><td>ICollection&lt;Territory&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>Shippers</td><td>Shipper</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>ShipperID</td><td>ShipperID</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CompanyName</td><td>CompanyName</td><td>string</td><td>40</td><td></td><td>Required</td><td></td><td></td>
+</tr>
+<tr>
+<td>Phone</td><td>Phone</td><td>string</td><td>24</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Orders</td><td>Orders</td><td>ICollection&lt;Order&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>Suppliers</td><td>Supplier</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>SupplierID</td><td>SupplierID</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CompanyName</td><td>CompanyName</td><td>string</td><td>40</td><td></td><td>Required</td><td></td><td></td>
+</tr>
+<tr>
+<td>ContactName</td><td>ContactName</td><td>string</td><td>30</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>ContactTitle</td><td>ContactTitle</td><td>string</td><td>30</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Address</td><td>Address</td><td>string</td><td>60</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>City</td><td>City</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Region</td><td>Region</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>PostalCode</td><td>PostalCode</td><td>string</td><td>10</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Country</td><td>Country</td><td>string</td><td>15</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Phone</td><td>Phone</td><td>string</td><td>24</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Fax</td><td>Fax</td><td>string</td><td>24</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>HomePage</td><td>HomePage</td><td>string</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Products</td><td>Products</td><td>ICollection&lt;Product&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>Territories</td><td>Territory</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>TerritoryID</td><td>TerritoryID</td><td>string</td><td>20</td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>TerritoryDescription</td><td>TerritoryDescription</td><td>string</td><td>50</td><td></td><td>Required</td><td></td><td></td>
+</tr>
+<tr>
+<td>RegionID</td><td>RegionID</td><td>int</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>Region</td><td>Region</td><td>Region</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>EmployeeTerritories</td><td>EmployeeTerritories</td><td>ICollection&lt;EmployeeTerritory&gt;</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>CustomerCustomerDemos</td><td>CustomerCustomerDemo</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>CustomerID</td><td>CustomerID</td><td>string</td><td>5</td><td></td><td></td><td>Customers</td><td></td>
+</tr>
+<tr>
+<td>Customer</td><td>Customer</td><td>Customer</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>CustomerTypeID</td><td>CustomerTypeID</td><td>string</td><td>10</td><td></td><td></td><td>CustomerDemographics</td><td></td>
+</tr>
+<tr>
+<td>CustomerDemographic</td><td>CustomerDemographic</td><td>CustomerDemographic</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+<table style="border-collapse:collapse; width:100%" border="1">
+<col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%">
+<tr>
+<td>EmployeeTerritories</td><td>EmployeeTerritory</td>
+</tr>
+<tr>
+<th>Field</th><th>Display</th><th>Runtime Type</th><th>Max Length</th><th>Index</th><th>Required</th><th>Reference</th><th>Note</th>
+</tr>
+<tr>
+<td>EmployeeID</td><td>EmployeeID</td><td>int</td><td></td><td></td><td></td><td>Employees</td><td></td>
+</tr>
+<tr>
+<td>Employee</td><td>Employee</td><td>Employee</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td>TerritoryID</td><td>TerritoryID</td><td>string</td><td>20</td><td></td><td></td><td>Territories</td><td></td>
+</tr>
+<tr>
+<td>Territory</td><td>Territory</td><td>Territory</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</table>
+<p></p>
+</body>
+</html>

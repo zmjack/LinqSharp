@@ -1,4 +1,5 @@
-﻿using LinqSharp.EFCore.Providers;
+﻿using LinqSharp.EFCore.Models.Test;
+using LinqSharp.EFCore.Providers;
 using NStandard;
 using NStandard.Flows;
 using System;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LinqSharp.EFCore.Data.Test
 {
-    public class ProviderTestModel
+    public class LS_Provider
     {
         [Key]
         public Guid Id { get; set; }
@@ -16,14 +17,13 @@ namespace LinqSharp.EFCore.Data.Test
         public string Password { get; set; }
 
         [StringLength(127)]
-        [Provider(typeof(JsonProvider<SimpleModel>))]
-        public SimpleModel SimpleModel { get; set; }
+        [Provider(typeof(JsonProvider<NameModel>))]
+        public NameModel NameModel { get; set; }
 
         public class PasswordProvider : IProvider<string, string>
         {
-            public override string ConvertFromProvider(string value) => value.Flow(StringFlow.FromBase64);
-            public override string ConvertToProvider(string model) => model.Flow(StringFlow.Base64);
+            public override string ReadFromProvider(string value) => value.Flow(StringFlow.FromBase64);
+            public override string WriteToProvider(string model) => model.Flow(StringFlow.Base64);
         }
-
     }
 }

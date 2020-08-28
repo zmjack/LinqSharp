@@ -39,9 +39,10 @@ namespace LinqSharp.EFCore.Data.Test
         public DbSet<AuditRoot> AuditRoots { get; set; }
         public DbSet<AuditLevel> AuditLevels { get; set; }
         public DbSet<AuditValue> AuditValues { get; set; }
-        public DbSet<ProviderTestModel> ProviderTestModels { get; set; }
+        public DbSet<LS_Provider> LS_Providers { get; set; }
         public DbSet<ConcurrencyModel> ConcurrencyModels { get; set; }
         public DbSet<YearMonthModel> YearMonthModels { get; set; }
+        public DbSet<LS_Index> LS_Indices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

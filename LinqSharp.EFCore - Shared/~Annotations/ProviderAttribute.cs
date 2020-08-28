@@ -9,8 +9,8 @@ namespace LinqSharp.EFCore
 {
     public abstract class IProvider<TModel, TProvider>
     {
-        public abstract TProvider ConvertToProvider(TModel model);
-        public abstract TModel ConvertFromProvider(TProvider value);
+        public abstract TProvider WriteToProvider(TModel model);
+        public abstract TModel ReadFromProvider(TProvider value);
     }
 
     [AttributeUsage(AttributeTargets.Property)]

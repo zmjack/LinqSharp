@@ -1,4 +1,5 @@
 ﻿using LinqSharp.EFCore.Data.Test;
+using LinqSharp.EFCore.Models.Test;
 using System.Linq;
 using Xunit;
 
@@ -12,32 +13,26 @@ namespace LinqSharp.EFCore.Test
             using (var db = ApplicationDbScope.UseDefault())
             using (var context = ApplicationDbContext.UseMySql())
             {
-                var item = new ProviderTestModel
+                var item = new LS_Provider
                 {
                     Password = "0416",
-                    SimpleModel = new SimpleModel
-                    {
-                        Name = "Jack",
-                        Age = 29,
-                        State = EState.Default,
-                    }
+                    NameModel = new NameModel { Name = "Jack", NickName = "zmjack" }
                 };
 
-                context.ProviderTestModels.Add(item);
+                context.LS_Providers.Add(item);
                 context.SaveChanges();
 
-                var password = db.SqlQuery($"SELECT Password FROM ProviderTestModels;").ToArray().First()[nameof(ProviderTestModel.Password)];
+                var password = db.SqlQuery($"SELECT Password FROM LS_Providers;").ToArray().First()[nameof(LS_Provider.Password)];
                 Assert.Equal("MDQxNg==", password);
-                var simpleModel = db.SqlQuery($"SELECT SimpleModel FROM ProviderTestModels;").ToArray().First()[nameof(ProviderTestModel.SimpleModel)];
-                Assert.Equal(@"{""Id"":""00000000-0000-0000-0000-000000000000"",""Name"":""Jack"",""Age"":29,""Birthday"":null,""State"":0}", simpleModel);
+                var nameModel = db.SqlQuery($"SELECT NameModel FROM LS_Providers;").ToArray().First()[nameof(LS_Provider.NameModel)];
+                Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack""}", nameModel);
 
-                var record = context.ProviderTestModels.First();
+                var record = context.LS_Providers.First();
                 Assert.Equal("0416", record.Password);
-                Assert.Equal("Jack", record.SimpleModel.Name);
-                Assert.Equal(29, record.SimpleModel.Age);
-                Assert.Equal(EState.Default, record.SimpleModel.State);
+                Assert.Equal("Jack", record.NameModel.Name);
+                Assert.Equal("zmjack", record.NameModel.NickName);
 
-                context.ProviderTestModels.Remove(item);
+                context.LS_Providers.Remove(item);
                 context.SaveChanges();
             }
         }

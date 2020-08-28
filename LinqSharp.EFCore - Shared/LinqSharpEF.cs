@@ -69,7 +69,7 @@ namespace LinqSharp.EFCore
 
         public static ValueConverter<TModel, TProvider> BuildConverter<TModel, TProvider>(IProvider<TModel, TProvider> field)
         {
-            return new ValueConverter<TModel, TProvider>(v => field.ConvertToProvider(v), v => field.ConvertFromProvider(v));
+            return new ValueConverter<TModel, TProvider>(v => field.WriteToProvider(v), v => field.ReadFromProvider(v));
         }
 
         public static void OnModelCreating(DbContext context, Action<ModelBuilder> baseOnModelCreating, ModelBuilder modelBuilder)
@@ -347,8 +347,7 @@ namespace LinqSharp.EFCore
                     // Because of some unknown BUG in EntityFramework, creating an index causes the first normal index to be dropped, which is defined with ForeignKeyAttribute.
                     // (The problem was found in EntityFrameworkCore 2.2.6)
                     //TODO: Here is the temporary solution
-                    if (isForeignKey)
-                        setIndex(new[] { propertyNames[0] }, false, false);
+                    if (isForeignKey) setIndex(new[] { propertyNames[0] }, false, false);
                 }
             }
 
