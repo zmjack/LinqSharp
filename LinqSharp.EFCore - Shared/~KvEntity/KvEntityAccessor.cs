@@ -5,6 +5,7 @@
 
 using Castle.DynamicProxy;
 using Microsoft.EntityFrameworkCore;
+using NStandard;
 using System;
 using System.Linq;
 
@@ -50,7 +51,9 @@ namespace LinqSharp.EFCore
 
         public void EnsureItem(string item)
         {
-            var ensureItems = typeof(TKvEntityAgent).GetProperties()
+            var defaultAgent = typeof(TKvEntityAgent).CreateInstance();
+            var props = typeof(TKvEntityAgent).GetProperties();
+            var ensureItems = props
                 .Where(x => x.GetMethod.IsVirtual)
                 .Select(x => new EnsureCondition<TKvEntity>
                 {
@@ -60,7 +63,14 @@ namespace LinqSharp.EFCore
 
             if (ensureItems.Length == 0) throw new InvalidOperationException($"No virtual properties could be found in `{typeof(TKvEntityAgent).FullName}`.");
 
-            DbSet.EnsureMany(ensureItems);
+            DbSet.EnsureMany(ensureItems, option =>
+            {
+                option.SetEntity = entity =>
+                {
+                    var prop = props.First(x => x.Name == entity.Key);
+                    entity.Value = prop.GetValue(defaultAgent)?.ToString();
+                };
+            });
         }
 
         public TKvEntityAgent Get(string item)
