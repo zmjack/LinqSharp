@@ -9,6 +9,7 @@ namespace LinqSharp.EFCore
 {
     public enum IndexType { Normal, Unique }
 
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class IndexAttribute : Attribute
     {
         public string Group { get; set; }

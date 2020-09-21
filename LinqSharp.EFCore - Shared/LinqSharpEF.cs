@@ -337,42 +337,52 @@ namespace LinqSharp.EFCore
         private static void ApplyIndexes(object entityTypeBuilder, Type modelClass)
         {
             var hasIndexMethod = entityTypeBuilder.GetType().GetMethod(nameof(EntityTypeBuilder.HasIndex), new[] { typeof(string[]) });
-            void setIndex(string[] propertyNames, bool unique, bool isForeignKey)
+            void SetIndex(string[] propertyNames, IndexType type)
             {
-                if (propertyNames.Length > 0)
+                if (propertyNames.Length == 0) throw new ArgumentException("No property specified.", nameof(propertyNames));
+
+                var indexBuilder = hasIndexMethod.Invoke(entityTypeBuilder, new object[] { propertyNames }) as IndexBuilder;
+                if (type == IndexType.Unique) indexBuilder.IsUnique();
+            }
+
+            var props = X.Create(() =>
+            {
+                var list = new List<PropIndex>();
+                var props = modelClass.GetProperties();
+                foreach (var prop in props)
                 {
-                    var indexBuilder = hasIndexMethod.Invoke(entityTypeBuilder, new object[] { propertyNames }) as IndexBuilder;
-                    if (unique) indexBuilder.IsUnique();
+                    var indexes = prop.GetCustomAttributes<IndexAttribute>();
+                    foreach (var index in indexes)
+                    {
+                        list.Add(new PropIndex
+                        {
+                            Index = index,
+                            Name = prop.Name,
+                        });
+                    }
 
                     // Because of some unknown BUG in EntityFramework, creating an index causes the first normal index to be dropped, which is defined with ForeignKeyAttribute.
                     // (The problem was found in EntityFrameworkCore 2.2.6)
                     //TODO: Here is the temporary solution
-                    if (isForeignKey) setIndex(new[] { propertyNames[0] }, false, false);
+                    if (prop.HasAttribute<ForeignKeyAttribute>() && !indexes.Any(x => x.Type == IndexType.Normal && x.Group is null))
+                    {
+                        list.Add(new PropIndex
+                        {
+                            Index = new IndexAttribute(IndexType.Normal),
+                            Name = prop.Name,
+                        });
+                    }
                 }
-            }
-
-            var props = modelClass.GetProperties().Select(prop => new
-            {
-                Index = prop.GetCustomAttribute<IndexAttribute>(),
-                IsForeignKey = prop.GetCustomAttribute<ForeignKeyAttribute>() != null,
-                prop.Name,
-            }).Where(x => x.Index != null);
+                return list.ToArray();
+            });
 
             foreach (var prop in props.Where(x => x.Index.Group == null))
             {
-                switch (prop.Index.Type)
-                {
-                    case IndexType.Normal: setIndex(new[] { prop.Name }, false, prop.IsForeignKey); break;
-                    case IndexType.Unique: setIndex(new[] { prop.Name }, true, prop.IsForeignKey); break;
-                }
+                SetIndex(new[] { prop.Name }, prop.Index.Type);
             }
             foreach (var group in props.Where(x => x.Index.Group != null).GroupBy(x => new { x.Index.Type, x.Index.Group }))
             {
-                switch (group.Key.Type)
-                {
-                    case IndexType.Normal: setIndex(group.Select(x => x.Name).ToArray(), false, group.First().IsForeignKey); break;
-                    case IndexType.Unique: setIndex(group.Select(x => x.Name).ToArray(), true, group.First().IsForeignKey); break;
-                }
+                SetIndex(group.Select(x => x.Name).ToArray(), group.Key.Type);
             }
         }
 

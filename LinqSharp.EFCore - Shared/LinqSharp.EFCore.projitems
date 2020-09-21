@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DbFunc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translator - EF2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~internals\PropIndex.cs" />
     <Compile Include="..\LinqSharp.EFCore - Shared\LinqSharpEF.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\JetFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\OracleFuncProvider.cs" />
