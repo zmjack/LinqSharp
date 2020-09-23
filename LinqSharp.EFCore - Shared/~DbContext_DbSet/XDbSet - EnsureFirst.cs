@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace LinqSharp.EFCore
 {
-    public static partial class XIQueryable
+    public static partial class XDbSet
     {
         public static TEntity EnsureFirst<TEntity>(this DbSet<TEntity> @this, EnsureCondition<TEntity> condition)
             where TEntity : class, new()

@@ -37,21 +37,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF3.0", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF3.1", "LinqSharp.EFCore - EF3.1\LinqSharp.EFCore - EF3.1.csproj", "{1F0CD34F-FE3B-47B4-B7E9-52D21165E0B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "[NoRelease] LinqSharp.Dev", "[NoRelease] LinqSharp.Dev\[NoRelease] LinqSharp.Dev.csproj", "{756D009B-76EA-4425-A74A-4A040292C66C}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.Dev - Shared", "LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.shproj", "{D0E01AC5-AAD3-41F6-B5D2-C5B024D7AB89}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems*{1f0cd34f-fe3b-47b4-b7e9-52d21165e0b9}*SharedItemsImports = 5
 		LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems*{33a6e654-f743-4c2f-be03-6434348f003a}*SharedItemsImports = 5
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{6d10a56f-5733-40f7-b98d-109283c95ca3}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems*{6d10a56f-5733-40f7-b98d-109283c95ca3}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems*{6d10a56f-5733-40f7-b98d-109283c95ca3}*SharedItemsImports = 5
 		LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems*{6f850137-8a8d-4561-8243-956173a7b5d5}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems*{78fa23e2-57bf-4b94-aab1-1006fb087701}*SharedItemsImports = 13
 		LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems*{bb53fe17-0658-4a41-aaac-a2e426a24970}*SharedItemsImports = 5
 		LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems*{c05e5c78-0de2-4d86-a1ca-5421cd6b4f47}*SharedItemsImports = 13
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{d0e01ac5-aad3-41f6-b5d2-c5b024d7ab89}*SharedItemsImports = 13
 		LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems*{d679bda0-c06d-4115-bae2-400fb62afaae}*SharedItemsImports = 13
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{d78f663e-4833-4468-9a96-f66f3ef8b782}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems*{d78f663e-4833-4468-9a96-f66f3ef8b782}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems*{d78f663e-4833-4468-9a96-f66f3ef8b782}*SharedItemsImports = 5
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{f3e1b084-8ef7-4f07-b2b3-f6891709b274}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems*{f3e1b084-8ef7-4f07-b2b3-f6891709b274}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems*{f3e1b084-8ef7-4f07-b2b3-f6891709b274}*SharedItemsImports = 5
 	EndGlobalSection
@@ -184,18 +188,6 @@ Global
 		{1F0CD34F-FE3B-47B4-B7E9-52D21165E0B9}.Release|x64.Build.0 = Release|Any CPU
 		{1F0CD34F-FE3B-47B4-B7E9-52D21165E0B9}.Release|x86.ActiveCfg = Release|Any CPU
 		{1F0CD34F-FE3B-47B4-B7E9-52D21165E0B9}.Release|x86.Build.0 = Release|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Debug|x64.Build.0 = Debug|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Debug|x86.Build.0 = Debug|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Release|x64.ActiveCfg = Release|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Release|x64.Build.0 = Release|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Release|x86.ActiveCfg = Release|Any CPU
-		{756D009B-76EA-4425-A74A-4A040292C66C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

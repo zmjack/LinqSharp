@@ -12,7 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConflictWin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DatabaseProviderName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UpdateOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - AddOrUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbContext_DbSet\XDbSet - AddOrUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbContext_DbSet\XDbSet - Delete.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\MySqlFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureCondition.cs" />
@@ -53,17 +54,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\PendingDeleteAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ProviderAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\UdFunctionAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - EnsureFirst.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - EnsureMany.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbContext_DbSet\XDbContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbContext_DbSet\XDbSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbContext_DbSet\XDbSet - EnsureFirst.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbContext_DbSet\XDbSet - EnsureMany.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntityAgent.cs" />
     <Compile Include="..\LinqSharp.EFCore - Shared\~KvEntity\KvEntityAgentProxy.cs" />
     <Compile Include="..\LinqSharp.EFCore - Shared\~KvEntity\KvEntityAccessor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Wrappers\DeleteWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Wrappers\UpdateWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Wrappers\WhereWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)~FuncProviders\" />

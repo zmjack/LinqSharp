@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 
 namespace LinqSharp.EFCore
 {
-    public static partial class XIQueryable
+    public static partial class XDbSet
     {
         public static TEntity[] EnsureMany<TEntity>(this DbSet<TEntity> @this, EnsureCondition<TEntity>[] conditions)
             where TEntity : class, new()

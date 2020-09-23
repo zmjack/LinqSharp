@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 
 namespace LinqSharp.EFCore
 {
-    public static partial class XIQueryable
+    public static partial class XDbSet
     {
         private static Expression<Func<TEntity, bool>> GetAddOrUpdateLambda<TEntity>(string[] propNames, TEntity entity)
         {

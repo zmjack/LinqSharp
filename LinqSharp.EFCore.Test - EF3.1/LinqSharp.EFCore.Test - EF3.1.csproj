@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -26,11 +26,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LinqSharp.EFCore - EF3.1\LinqSharp.EFCore - EF3.1.csproj" />
-    <ProjectReference Include="..\[NoRelease] LinqSharp.Dev\[NoRelease] LinqSharp.Dev.csproj" />
   </ItemGroup>
 
   <Import Project="..\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems" Label="Shared" />
-
   <Import Project="..\LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems" Label="Shared" />
+  <Import Project="..\LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems" Label="Shared" />
 
 </Project>

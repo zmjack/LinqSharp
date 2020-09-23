@@ -12,7 +12,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace LinqSharp.EFCore
+namespace LinqSharp.EFCore.Dev
 {
     public class UpdateWrapper<TEntity>
         where TEntity : class

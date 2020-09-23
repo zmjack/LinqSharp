@@ -9,7 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
-namespace LinqSharp.EFCore
+namespace LinqSharp.EFCore.Dev
 {
     public class WhereWrapper<TEntity>
         where TEntity : class

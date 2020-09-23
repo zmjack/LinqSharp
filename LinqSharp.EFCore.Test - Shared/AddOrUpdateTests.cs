@@ -1,5 +1,6 @@
 ﻿using LinqSharp.EFCore.Data;
 using LinqSharp.EFCore.Data.Test;
+using LinqSharp.EFCore.Dev;
 using Microsoft.EntityFrameworkCore;
 using NStandard;
 using System;
@@ -60,8 +61,7 @@ namespace LinqSharp.EFCore.Test
                 Assert.Equal(2, mysql.LS_Names.Count(x => x.Note.Contains("Changed")));
 
                 // Clear
-                var records = mysql.LS_Names.ToArray();
-                mysql.LS_Names.RemoveRange(records);
+                mysql.LS_Names.Delete(x => true);
                 mysql.SaveChanges();
             }
         }

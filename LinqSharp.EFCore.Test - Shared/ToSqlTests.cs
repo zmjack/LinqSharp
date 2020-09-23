@@ -95,19 +95,6 @@ namespace LinqSharp.EFCore.Test
         }
 
         [Fact]
-        public void TryDeleteTest()
-        {
-            using (var mysql = ApplicationDbContext.UseMySql())
-            {
-                var query = mysql.Employees.TryDelete(x => x.Country == "China");
-                var sql = query.ToSql();
-
-                //var result = query.ToArray();
-                //Assert.Single(result);
-            }
-        }
-
-        [Fact]
         public void OrderByCaseTest1()
         {
             //  RegionID    RegionDescription
