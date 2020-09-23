@@ -42,7 +42,7 @@ namespace LinqSharp.EFCore
                 Expression.Equal(
                     x.UnitExpression.RebindParameter(x.UnitExpression.Parameters[0], parameter).Body.For(body => (body as UnaryExpression)?.Operand ?? body),
                     Expression.Constant(x.ExpectedValue)),
-                parameter)).LambdaJoin(Expression.AndAlso);
+                parameter)).ToArray().LambdaJoin(Expression.AndAlso);
             return predicate;
         }
 

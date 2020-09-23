@@ -65,7 +65,7 @@ namespace LinqSharp.EFCore
 
             DbSet.EnsureMany(ensureItems, option =>
             {
-                option.SetEntity = entity =>
+                option.Set = entity =>
                 {
                     var prop = props.First(x => x.Name == entity.Key);
                     entity.Value = prop.GetValue(defaultAgent)?.ToString();

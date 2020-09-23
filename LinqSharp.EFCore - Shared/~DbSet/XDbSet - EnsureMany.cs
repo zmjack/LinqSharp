@@ -34,7 +34,8 @@ namespace LinqSharp.EFCore
             if (options.Predicate is null)
             {
                 var parameter = expressions[0].Parameters[0];
-                predicate = expressions.Each(exp => exp.RebindParameter(exp.Parameters[0], parameter)).LambdaJoin(Expression.OrElse);
+                foreach (var exp in expressions) exp.RebindParameter(exp.Parameters[0], parameter);
+                predicate = expressions.LambdaJoin(Expression.OrElse);
             }
             else predicate = options.Predicate;
 
@@ -49,7 +50,7 @@ namespace LinqSharp.EFCore
                     var prop = typeof(TEntity).GetProperty(unit.PropName);
                     prop.SetValue(item, unit.ExpectedValue);
                 }
-                options.SetEntity?.Invoke(item);
+                options.Set?.Invoke(item);
                 context.Add(item);
             }
             context.SaveChanges();

@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace LinqSharp.EFCore
 {
@@ -29,18 +30,14 @@ namespace LinqSharp.EFCore
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XIEntity
     {
-        /// <summary>
-        /// Accept all property values which are can be read and write from another model.
-        ///     (Only ValueTypes, exclude 'KeyAttribute' and attributes which are start with 'Track')
-        /// </summary>
-        /// <typeparam name="TEntity">Instance of IEntity</typeparam>
-        /// <param name="this">Source model</param>
-        /// <param name="model">The model which provide values</param>
-        /// <returns></returns>
-        public static TEntity Accept<TEntity>(this TEntity @this, TEntity model)
-            where TEntity : class, IEntity
+        internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, IEnumerable<PropertyInfo> properties)
         {
-            // Filter
+            foreach (var prop in properties) prop.SetValue(entity, prop.GetValue(model));
+            return entity;
+        }
+
+        internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model)
+        {
             var type = typeof(TEntity);
             var props = type.GetProperties()
                 .Where(x => x.CanRead && x.CanWrite)
@@ -54,14 +51,21 @@ namespace LinqSharp.EFCore
                             nameof(AutoLastWriteTimeAttribute)
                         }.Contains(attr.GetType().Name));
                 }))
-                .Where(x => x.PropertyType.IsBasicType(true) || x.PropertyType.IsValueType);
+                .Where(x => x.PropertyType.IsBasicType(true) || x.PropertyType.IsValueType)
+                .ToArray();
 
-            // Copy values
-            foreach (var prop in props)
-                prop.SetValue(@this, prop.GetValue(model));
-
-            return @this;
+            return InnerAccept(entity, model, props);
         }
+
+        /// <summary>
+        /// Accept all property values which are can be read and write from another model.
+        ///     (Only ValueTypes, exclude 'KeyAttribute' and attributes which are start with 'Track')
+        /// </summary>
+        /// <typeparam name="TEntity">Instance of IEntity</typeparam>
+        /// <param name="this">Source model</param>
+        /// <param name="model">The model which provide values</param>
+        /// <returns></returns>
+        public static TEntity Accept<TEntity>(this TEntity @this, TEntity model) where TEntity : class, IEntity => InnerAccept(@this, model);
 
         /// <summary>
         /// Accept the specified property values from another model.
@@ -81,12 +85,7 @@ namespace LinqSharp.EFCore
             where TEntity : class, IEntity
         {
             var props = ExpressionEx.GetProperties(includes_MemberOrNewExp);
-
-            // Copy values
-            foreach (var prop in props)
-                prop.SetValue(@this, prop.GetValue(model));
-
-            return @this;
+            return InnerAccept(@this, model, props);
         }
 
         /// <summary>
@@ -110,7 +109,6 @@ namespace LinqSharp.EFCore
         {
             var propNames = ExpressionEx.GetPropertyNames(excludes_MemberOrNewExp);
 
-            // Filter
             var type = typeof(TEntity);
             var props = type.GetProperties()
                 .Where(x => x.CanRead && x.CanWrite)
@@ -124,32 +122,22 @@ namespace LinqSharp.EFCore
                             nameof(AutoLastWriteTimeAttribute)
                         }.Contains(attr.GetType().Name));
                 }))
-                .Where(x => x.PropertyType.IsBasicType() || x.PropertyType.IsValueType);
+                .Where(x => x.PropertyType.IsBasicType() || x.PropertyType.IsValueType)
+                .Where(x => !propNames.Contains(x.Name));
 
-            props = props.Where(x => !propNames.Contains(x.Name));
-
-            // Copy values
-            foreach (var prop in props)
-                prop.SetValue(@this, prop.GetValue(model), null);
-
-            return @this;
+            return InnerAccept(@this, model, props);
         }
 
-        public static void SetValue(this IEntity @this, string propName, object value)
-            => @this.GetType().GetProperty(propName).SetValue(@this, value);
-        public static object GetValue(this IEntity @this, string propName)
-            => @this.GetType().GetProperty(propName).GetValue(@this);
+        public static void SetValue(this IEntity @this, string propName, object value) => @this.GetType().GetProperty(propName).SetValue(@this, value);
+        public static object GetValue(this IEntity @this, string propName) => @this.GetType().GetProperty(propName).GetValue(@this);
 
-        public static string Display(this IEntity @this, LambdaExpression expression, string defaultReturn = "")
-            => DataAnnotationEx.GetDisplayString(@this, expression, defaultReturn);
+        public static string Display(this IEntity @this, LambdaExpression expression, string defaultReturn = "") => DataAnnotationEx.GetDisplayString(@this, expression, defaultReturn);
 
         public static Dictionary<string, string> ToDisplayDictionary(this IEntity @this)
         {
-            // Filter
             var type = @this.GetType();
             var props = type.GetProperties();
 
-            // Copy Values
             var ret = new Dictionary<string, string>();
             foreach (var prop in props)
             {
@@ -165,14 +153,11 @@ namespace LinqSharp.EFCore
 
         public static Dictionary<string, string> ToDisplayDictionary(this IEntity @this, params string[] propNames)
         {
-            // Filter
             var type = @this.GetType();
             var props = type.GetProperties().Where(x => propNames.Contains(x.Name));
 
-            // Copy Values
             var ret = new Dictionary<string, string>();
-            foreach (var prop in props)
-                ret.Add(prop.Name, DataAnnotationEx.GetDisplayString(@this, prop.Name));
+            foreach (var prop in props) ret.Add(prop.Name, DataAnnotationEx.GetDisplayString(@this, prop.Name));
 
             return ret;
         }

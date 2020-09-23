@@ -13,10 +13,10 @@ namespace LinqSharp
 {
     public static class ExpressionEx
     {
-        public static string[] GetPropertyNames<TEntity>(Expression<Func<TEntity, object>> memberOrNewExp)
+        public static string[] GetPropertyNames<TEntity>(Expression<Func<TEntity, object>> memberOrNewSelector)
         {
             string[] propNames;
-            switch (memberOrNewExp.Body)
+            switch (memberOrNewSelector.Body)
             {
                 case MemberExpression exp:
                     propNames = new[] { exp.Member.Name };
@@ -46,9 +46,9 @@ namespace LinqSharp
             return propNames;
         }
 
-        public static IEnumerable<PropertyInfo> GetProperties<TEntity>(Expression<Func<TEntity, object>> memberOrNewExp)
+        public static IEnumerable<PropertyInfo> GetProperties<TEntity>(Expression<Func<TEntity, object>> memberOrNewSelector)
         {
-            var propNames = GetPropertyNames(memberOrNewExp);
+            var propNames = GetPropertyNames(memberOrNewSelector);
             var type = typeof(TEntity);
             var props = type.GetProperties().Where(x => propNames.Contains(x.Name));
             return props;

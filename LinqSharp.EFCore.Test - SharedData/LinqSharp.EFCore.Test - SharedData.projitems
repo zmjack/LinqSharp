@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\AuditLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\AuditValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\LS_Index.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\LS_Name.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NameModel.cs" />
     <Compile Include="..\LinqSharp.EFCore.Test - SharedData\Data\LS_Provider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SimpleModel.cs" />

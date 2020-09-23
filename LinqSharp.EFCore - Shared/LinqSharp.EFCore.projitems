@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConflictWin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DatabaseProviderName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UpdateOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - AddOrUpdate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\MySqlFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureCondition.cs" />
