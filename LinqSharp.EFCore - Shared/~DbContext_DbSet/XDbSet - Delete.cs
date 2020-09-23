@@ -12,11 +12,12 @@ namespace LinqSharp.EFCore
 {
     public static partial class XDbSet
     {
-        public static void Delete<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> predicate)
+        public static TEntity[] Delete<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> predicate)
             where TEntity : class
         {
-            var records = @this.Where(predicate);
+            var records = @this.Where(predicate).ToArray();
             @this.RemoveRange(records);
+            return records;
         }
 
     }
