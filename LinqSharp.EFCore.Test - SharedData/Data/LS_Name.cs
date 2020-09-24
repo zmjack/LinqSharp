@@ -11,9 +11,12 @@ namespace LinqSharp.EFCore.Data
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [Index(IndexType.Unique)]
+        [Index(IndexType.Unique, Group = "Name&CreationTime")]
         [StringLength(255)]
         public string Name { get; set; }
+
+        [Index(IndexType.Unique, Group = "Name&CreationTime")]
+        public DateTime CreationTime { get; set; }
 
         [StringLength(255)]
         public string Note { get; set; }

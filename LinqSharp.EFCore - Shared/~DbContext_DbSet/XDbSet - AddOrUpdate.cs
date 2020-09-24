@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace LinqSharp.EFCore
 {
@@ -21,9 +22,27 @@ namespace LinqSharp.EFCore
             var parts = propNames.Select(name =>
             {
                 var left = Expression.Property(param, name);
-                var rightValue = Expression.Lambda<Func<object>>(Expression.Property(entityExp, name)).Compile()();
+
+                var rightProperty = Expression.Property(entityExp, name);
+                object rightValue;
+                if (rightProperty.Member is PropertyInfo prop)
+                {
+                    if (prop.PropertyType.IsValueType)
+                    {
+                        var body = Expression.Convert(Expression.Property(entityExp, name), typeof(object));
+                        rightValue = Expression.Lambda<Func<object>>(body).Compile()();
+                    }
+                    else
+                    {
+                        var body = Expression.Property(entityExp, name);
+                        rightValue = Expression.Lambda<Func<object>>(body).Compile()();
+                    }
+                }
+                else throw new InvalidOperationException("Right property must be PropertyInfo.");
+
                 var right = Expression.Constant(rightValue);
                 var lambda = Expression.Lambda<Func<TEntity, bool>>(Expression.Equal(left, right), param);
+
                 return lambda;
             }).ToArray();
 
