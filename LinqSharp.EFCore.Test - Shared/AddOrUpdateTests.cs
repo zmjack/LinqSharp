@@ -72,5 +72,15 @@ namespace LinqSharp.EFCore.Test
             }
         }
 
+        [Fact]
+        public void Test2()
+        {
+            using var mysql = ApplicationDbContext.UseMySql();
+
+            // AddOrUpdateRange - Empty
+            mysql.LS_Names.AddOrUpdateRange(x => new { x.Name, x.CreationTime }, new LS_Name[0]);
+            mysql.SaveChanges();
+        }
+
     }
 }

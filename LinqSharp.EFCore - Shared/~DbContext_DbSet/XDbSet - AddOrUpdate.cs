@@ -80,15 +80,11 @@ namespace LinqSharp.EFCore
             AddOrUpdateRange(@this, memberOrNewSelector, entities, null);
         }
 
-        public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> memberOrNewSelector, params TEntity[] entities)
-            where TEntity : class
-        {
-            AddOrUpdateRange(@this, memberOrNewSelector, entities, null);
-        }
-
         public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> memberOrNewSelector, IEnumerable<TEntity> entities, Action<UpdateOptions<TEntity>> initOptions)
             where TEntity : class
         {
+            if (!entities.Any()) return;
+
             var options = new UpdateOptions<TEntity>();
             initOptions?.Invoke(options);
 

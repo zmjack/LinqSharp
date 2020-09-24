@@ -12,14 +12,14 @@
 
 **LinqSharp** 可为 **LINQ** 提供如下方面的增强：
 
-- [查询扩展](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/1-introduce.md)
-- [动态 LINQ](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/2-xwhere.md)
+- <font color="green">[文档链接]</font> [查询扩展](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/1-introduce.md)
+- <font color="green">[文档链接]</font> [动态 LINQ](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/2-xwhere.md)
 
 
 
 **LinqSharp.EFCore** 可为 **Entity Frameowk** 提供如下方面的增强：
 
-- [表设计数据注解](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/3-ef-data-annotations.md)
+- <font color="green">[文档链接]</font> [表设计数据注解](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/3-ef-data-annotations.md)
 - <font color="orange">[暂无文档]</font> 字段标准化数据注解
 - <font color="orange">[暂无文档]</font> 函数映射
 - <font color="orange">[暂无文档]</font> 列式存储代理
