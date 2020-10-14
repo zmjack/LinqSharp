@@ -8,5 +8,8 @@ using System;
 namespace LinqSharp.EFCore
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class AutoUpperAttribute : Attribute { }
+    public class AutoUpperAttribute : AutoAttribute
+    {
+        public override object Format(object value) => (value as string)?.ToUpper();
+    }
 }

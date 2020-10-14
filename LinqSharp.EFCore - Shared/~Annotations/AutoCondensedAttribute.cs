@@ -3,10 +3,14 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using NStandard;
 using System;
 
 namespace LinqSharp.EFCore
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class AutoCondensedAttribute : Attribute { }
+    public class AutoCondensedAttribute : AutoAttribute
+    {
+        public override object Format(object value) => ((value as string) ?? "").Unique();
+    }
 }

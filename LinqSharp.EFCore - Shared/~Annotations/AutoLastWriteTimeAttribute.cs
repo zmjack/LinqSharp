@@ -8,5 +8,8 @@ using System;
 namespace LinqSharp.EFCore
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class AutoLastWriteTimeAttribute : Attribute { }
+    public class AutoLastWriteTimeAttribute : AutoAttribute
+    {
+        public override object Format(object value) => throw new NotImplementedException();
+    }
 }

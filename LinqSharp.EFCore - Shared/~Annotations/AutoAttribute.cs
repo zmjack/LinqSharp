@@ -7,9 +7,8 @@ using System;
 
 namespace LinqSharp.EFCore
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class AutoTrimAttribute : AutoAttribute
+    public abstract class AutoAttribute : Attribute
     {
-        public override object Format(object value) => (value as string)?.Trim();
+        public abstract object Format(object value);
     }
 }

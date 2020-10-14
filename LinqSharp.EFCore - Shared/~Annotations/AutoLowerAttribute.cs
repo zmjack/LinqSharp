@@ -8,5 +8,8 @@ using System;
 namespace LinqSharp.EFCore
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class AutoLowerAttribute : Attribute { }
+    public class AutoLowerAttribute : AutoAttribute
+    {
+        public override object Format(object value) => (value as string)?.ToLower();
+    }
 }

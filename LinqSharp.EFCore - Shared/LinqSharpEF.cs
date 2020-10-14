@@ -407,35 +407,28 @@ namespace LinqSharp.EFCore
 
         private static void ResolveAutoAttributes(EntityEntry entry, PropertyInfo[] properties)
         {
-            var props_AutoCreationTime = properties.Where(x => x.HasAttribute<AutoCreationTimeAttribute>());
-            var props_AutoLastWrite = properties.Where(x => x.HasAttribute<AutoLastWriteTimeAttribute>());
-            var props_AutoLower = properties.Where(x => x.HasAttribute<AutoLowerAttribute>());
-            var props_AutoUpper = properties.Where(x => x.HasAttribute<AutoUpperAttribute>());
-            var props_AutoTrim = properties.Where(x => x.HasAttribute<AutoTrimAttribute>());
-            var props_AutoCondensed = properties.Where(x => x.HasAttribute<AutoCondensedAttribute>());
+            if (!new[] { EntityState.Added, EntityState.Modified }.Contains(entry.State)) return;
 
             var now = DateTime.Now;
-            if (entry.State == EntityState.Added)
-            {
-                SetPropertiesValue(props_AutoCreationTime, entry, v => now);
-            }
 
-            if (new[] { EntityState.Added, EntityState.Modified }.Contains(entry.State))
-            {
-                SetPropertiesValue(props_AutoLastWrite, entry, v => now);
-                SetPropertiesValue(props_AutoLower, entry, v => (v as string)?.ToLower());
-                SetPropertiesValue(props_AutoUpper, entry, v => (v as string)?.ToUpper());
-                SetPropertiesValue(props_AutoTrim, entry, v => (v as string)?.Trim());
-                SetPropertiesValue(props_AutoCondensed, entry, v => ((v as string) ?? "").Unique());
-            }
-        }
-
-        private static void SetPropertiesValue(IEnumerable<PropertyInfo> properties, EntityEntry entry, Func<object, object> evalMethod)
-        {
             foreach (var prop in properties)
             {
                 var oldValue = prop.GetValue(entry.Entity);
-                prop.SetValue(entry.Entity, evalMethod(oldValue));
+                var finalValue = oldValue;
+                var attrs = prop.GetCustomAttributes<AutoAttribute>();
+
+                foreach (var attr in attrs)
+                {
+                    if (finalValue is string str) finalValue = attr.Format(str);
+                    else if (attr is AutoCreationTimeAttribute)
+                    {
+                        if (entry.State == EntityState.Added) { finalValue = now; break; }
+                    }
+                    else if (attr is AutoLastWriteTimeAttribute) { prop.SetValue(entry.Entity, now); break; }
+                    else throw new ArgumentException($"Can not resolve AutoAttribute for {prop.Name}.");
+                }
+
+                if (oldValue != finalValue) prop.SetValue(entry.Entity, finalValue);
             }
         }
 

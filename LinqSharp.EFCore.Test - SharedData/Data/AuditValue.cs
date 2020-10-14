@@ -28,10 +28,6 @@ namespace LinqSharp.EFCore.Data.Test
         {
         }
 
-        public void OnAudited(ApplicationDbContext context, AuditPredictor predictor)
-        {
-        }
-
         public void OnAuditing(ApplicationDbContext context, EntityAudit<AuditValue>[] audits)
         {
             var levelCaches = new CacheContainer<Guid, AuditLevel>
@@ -59,6 +55,10 @@ namespace LinqSharp.EFCore.Data.Test
                         break;
                 }
             }
+        }
+
+        public void OnAudited(ApplicationDbContext context, AuditPredictor predictor)
+        {
         }
     }
 
