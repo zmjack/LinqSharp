@@ -10,13 +10,11 @@ namespace DbCreator
         {
             using (var sqlite = NorthwndContext.UseSqliteResource())
             using (var mysql = ApplicationDbContext.UseMySql())
-            using (var sqlserver = ApplicationDbContext.UseSqlServer())
             {
                 sqlite.WriteTo(mysql);
-                sqlite.WriteTo(sqlserver);
             }
 
-            Console.WriteLine("Complete");
+            Console.WriteLine("Complete.");
         }
     }
 }

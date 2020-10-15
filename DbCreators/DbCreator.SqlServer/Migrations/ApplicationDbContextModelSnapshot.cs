@@ -3,43 +3,70 @@ using System;
 using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace TestDatabaseCreator.Migrations
+namespace DbCreator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200604202302_202006050422")]
-    partial class _202006050422
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("LinqSharp.EFCore.Data.LS_Name", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name", "CreationTime")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
+
+                    b.ToTable("LS_Names");
+                });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AppRegistry", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Item")
-                        .HasColumnType("varchar(127) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(127)")
                         .HasMaxLength(127);
 
                     b.Property<string>("Key")
-                        .HasColumnType("varchar(127) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(127)")
                         .HasMaxLength(127);
 
                     b.Property<string>("Value")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Item", "Key")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Item] IS NOT NULL AND [Key] IS NOT NULL");
 
                     b.ToTable("AppRegistries");
                 });
@@ -48,10 +75,10 @@ namespace TestDatabaseCreator.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Root")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ValueCount")
                         .IsConcurrencyToken()
@@ -68,7 +95,7 @@ namespace TestDatabaseCreator.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("LimitQuantity")
                         .HasColumnType("int");
@@ -76,7 +103,7 @@ namespace TestDatabaseCreator.Migrations
                     b.Property<DateTime>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("TotalQuantity")
                         .IsConcurrencyToken()
@@ -91,10 +118,10 @@ namespace TestDatabaseCreator.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Level")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .IsConcurrencyToken()
@@ -110,10 +137,10 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.CPKeyModel", b =>
                 {
                     b.Property<Guid>("Id1")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Id2")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id1", "Id2");
 
@@ -124,7 +151,7 @@ namespace TestDatabaseCreator.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CheckClientWin")
                         .IsConcurrencyToken()
@@ -161,61 +188,92 @@ namespace TestDatabaseCreator.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ChangeValues")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Event")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Key")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TypeName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("EntityMonitorModels");
                 });
 
-            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.ProviderTestModel", b =>
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.LS_Index", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("varchar(127) CHARACTER SET utf8mb4")
+                    b.Property<int>("Int0")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Int1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Int2_G1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Int3_G1")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Int0");
+
+                    b.HasIndex("Int1")
+                        .IsUnique();
+
+                    b.HasIndex("Int2_G1", "Int3_G1")
+                        .IsUnique();
+
+                    b.ToTable("LS_Indices");
+                });
+
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.LS_Provider", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("NameModel")
+                        .HasColumnType("nvarchar(127)")
                         .HasMaxLength(127);
 
-                    b.Property<string>("SimpleModel")
-                        .HasColumnType("varchar(127) CHARACTER SET utf8mb4")
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(127)")
                         .HasMaxLength(127);
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProviderTestModels");
+                    b.ToTable("LS_Providers");
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("Birthday")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
@@ -229,47 +287,69 @@ namespace TestDatabaseCreator.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ForCondensed")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ForLower")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ForTrim")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ForUpper")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastWriteTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("TrackModels");
                 });
 
+            modelBuilder.Entity("LinqSharp.EFCore.Data.YearMonthModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("YearMonthModels");
+                });
+
             modelBuilder.Entity("Northwnd.Category", b =>
                 {
                     b.Property<int>("CategoryID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Picture")
-                        .HasColumnType("longblob");
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("CategoryID");
 
@@ -279,48 +359,48 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Customer", b =>
                 {
                     b.Property<string>("CustomerID")
-                        .HasColumnType("varchar(5) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(5)")
                         .HasMaxLength(5);
 
                     b.Property<string>("Address")
-                        .HasColumnType("varchar(60) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(60)")
                         .HasMaxLength(60);
 
                     b.Property<string>("City")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);
 
                     b.Property<string>("ContactName")
-                        .HasColumnType("varchar(30) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
                     b.Property<string>("ContactTitle")
-                        .HasColumnType("varchar(30) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
                     b.Property<string>("Country")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.Property<string>("Fax")
-                        .HasColumnType("varchar(24) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(24)")
                         .HasMaxLength(24);
 
                     b.Property<string>("Phone")
-                        .HasColumnType("varchar(24) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(24)")
                         .HasMaxLength(24);
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
                     b.Property<string>("Region")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.HasKey("CustomerID");
@@ -331,16 +411,18 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.CustomerCustomerDemo", b =>
                 {
                     b.Property<string>("CustomerTypeID")
-                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
                     b.Property<string>("CustomerID")
-                        .HasColumnType("varchar(5) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(5)")
                         .HasMaxLength(5);
 
                     b.HasKey("CustomerTypeID", "CustomerID");
 
                     b.HasIndex("CustomerID");
+
+                    b.HasIndex("CustomerTypeID");
 
                     b.ToTable("@Northwnd.CustomerCustomerDemos");
                 });
@@ -348,11 +430,11 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.CustomerDemographic", b =>
                 {
                     b.Property<string>("CustomerTypeID")
-                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
                     b.Property<string>("CustomerDesc")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerTypeID");
 
@@ -362,72 +444,71 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Employee", b =>
                 {
                     b.Property<int>("EmployeeID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasColumnType("varchar(60) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(60)")
                         .HasMaxLength(60);
 
                     b.Property<DateTime?>("BirthDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("City")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.Property<string>("Country")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.Property<string>("Extension")
-                        .HasColumnType("varchar(4) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(4)")
                         .HasMaxLength(4);
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
                     b.Property<DateTime?>("HireDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("HomePhone")
-                        .HasColumnType("varchar(24) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(24)")
                         .HasMaxLength(24);
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("Notes")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Photo")
-                        .HasColumnType("longblob");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PhotoPath")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
                     b.Property<string>("Region")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.Property<int?>("ReportsTo")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("varchar(30) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
                     b.Property<string>("TitleOfCourtesy")
-                        .HasColumnType("varchar(25) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(25)")
                         .HasMaxLength(25);
 
                     b.HasKey("EmployeeID");
@@ -443,10 +524,12 @@ namespace TestDatabaseCreator.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TerritoryID")
-                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.HasKey("EmployeeID", "TerritoryID");
+
+                    b.HasIndex("EmployeeID");
 
                     b.HasIndex("TerritoryID");
 
@@ -456,54 +539,53 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Order", b =>
                 {
                     b.Property<int>("OrderID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("CustomerID")
-                        .HasColumnType("varchar(5) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(5)")
                         .HasMaxLength(5);
 
                     b.Property<int?>("EmployeeID")
                         .HasColumnType("int");
 
                     b.Property<double?>("Freight")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("OrderDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("RequiredDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ShipAddress")
-                        .HasColumnType("varchar(60) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(60)")
                         .HasMaxLength(60);
 
                     b.Property<string>("ShipCity")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.Property<string>("ShipCountry")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.Property<string>("ShipName")
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);
 
                     b.Property<string>("ShipPostalCode")
-                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
                     b.Property<string>("ShipRegion")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.Property<int?>("ShipVia")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ShippedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("OrderID");
 
@@ -525,15 +607,17 @@ namespace TestDatabaseCreator.Migrations
                         .HasColumnType("int");
 
                     b.Property<float>("Discount")
-                        .HasColumnType("float");
+                        .HasColumnType("real");
 
                     b.Property<short>("Quantity")
                         .HasColumnType("smallint");
 
                     b.Property<double>("UnitPrice")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.HasKey("OrderID", "ProductID");
+
+                    b.HasIndex("OrderID");
 
                     b.HasIndex("ProductID");
 
@@ -543,22 +627,21 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Product", b =>
                 {
                     b.Property<int>("ProductID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<int?>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<bool>("Discontinued")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);
 
                     b.Property<string>("QuantityPerUnit")
-                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<short?>("ReorderLevel")
@@ -568,7 +651,7 @@ namespace TestDatabaseCreator.Migrations
                         .HasColumnType("int");
 
                     b.Property<double?>("UnitPrice")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<short?>("UnitsInStock")
                         .HasColumnType("smallint");
@@ -592,7 +675,7 @@ namespace TestDatabaseCreator.Migrations
 
                     b.Property<string>("RegionDescription")
                         .IsRequired()
-                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.HasKey("RegionID");
@@ -603,16 +686,15 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Shipper", b =>
                 {
                     b.Property<int>("ShipperID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);
 
                     b.Property<string>("Phone")
-                        .HasColumnType("varchar(24) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(24)")
                         .HasMaxLength(24);
 
                     b.HasKey("ShipperID");
@@ -623,51 +705,50 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Supplier", b =>
                 {
                     b.Property<int>("SupplierID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasColumnType("varchar(60) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(60)")
                         .HasMaxLength(60);
 
                     b.Property<string>("City")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);
 
                     b.Property<string>("ContactName")
-                        .HasColumnType("varchar(30) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
                     b.Property<string>("ContactTitle")
-                        .HasColumnType("varchar(30) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
                     b.Property<string>("Country")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.Property<string>("Fax")
-                        .HasColumnType("varchar(24) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(24)")
                         .HasMaxLength(24);
 
                     b.Property<string>("HomePage")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("varchar(24) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(24)")
                         .HasMaxLength(24);
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
                     b.Property<string>("Region")
-                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
                     b.HasKey("SupplierID");
@@ -678,7 +759,7 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Territory", b =>
                 {
                     b.Property<string>("TerritoryID")
-                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<int>("RegionID")
@@ -686,7 +767,7 @@ namespace TestDatabaseCreator.Migrations
 
                     b.Property<string>("TerritoryDescription")
                         .IsRequired()
-                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.HasKey("TerritoryID");
@@ -716,13 +797,13 @@ namespace TestDatabaseCreator.Migrations
 
             modelBuilder.Entity("Northwnd.CustomerCustomerDemo", b =>
                 {
-                    b.HasOne("Northwnd.Customer", "Customer")
+                    b.HasOne("Northwnd.Customer", "CustomerLink")
                         .WithMany("CustomerCustomerDemos")
                         .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Northwnd.CustomerDemographic", "CustomerDemographic")
+                    b.HasOne("Northwnd.CustomerDemographic", "CustomerDemographicLink")
                         .WithMany("CustomerCustomerDemos")
                         .HasForeignKey("CustomerTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -738,13 +819,13 @@ namespace TestDatabaseCreator.Migrations
 
             modelBuilder.Entity("Northwnd.EmployeeTerritory", b =>
                 {
-                    b.HasOne("Northwnd.Employee", "Employee")
+                    b.HasOne("Northwnd.Employee", "EmployeeLink")
                         .WithMany("EmployeeTerritories")
                         .HasForeignKey("EmployeeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Northwnd.Territory", "Territory")
+                    b.HasOne("Northwnd.Territory", "TerritoryLink")
                         .WithMany("EmployeeTerritories")
                         .HasForeignKey("TerritoryID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -753,11 +834,11 @@ namespace TestDatabaseCreator.Migrations
 
             modelBuilder.Entity("Northwnd.Order", b =>
                 {
-                    b.HasOne("Northwnd.Customer", "Customer")
+                    b.HasOne("Northwnd.Customer", "CustomerLink")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerID");
 
-                    b.HasOne("Northwnd.Employee", "Employee")
+                    b.HasOne("Northwnd.Employee", "EmployeeLink")
                         .WithMany("Orders")
                         .HasForeignKey("EmployeeID");
 
@@ -768,13 +849,13 @@ namespace TestDatabaseCreator.Migrations
 
             modelBuilder.Entity("Northwnd.OrderDetail", b =>
                 {
-                    b.HasOne("Northwnd.Order", "Order")
-                        .WithMany("Order_Details")
+                    b.HasOne("Northwnd.Order", "OrderLink")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Northwnd.Product", "Product")
+                    b.HasOne("Northwnd.Product", "ProductLink")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -783,11 +864,11 @@ namespace TestDatabaseCreator.Migrations
 
             modelBuilder.Entity("Northwnd.Product", b =>
                 {
-                    b.HasOne("Northwnd.Category", "Category")
+                    b.HasOne("Northwnd.Category", "CategoryLink")
                         .WithMany("Products")
                         .HasForeignKey("CategoryID");
 
-                    b.HasOne("Northwnd.Supplier", "Supplier")
+                    b.HasOne("Northwnd.Supplier", "SupplierLink")
                         .WithMany("Products")
                         .HasForeignKey("SupplierID");
                 });

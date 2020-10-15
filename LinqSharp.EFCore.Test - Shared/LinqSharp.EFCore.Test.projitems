@@ -18,7 +18,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)GroupByCountTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KvEntityTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MySqlTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DatabaseDepTests\SqlServerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DatabaseDepTests\MySqlTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PagedEnumerableTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProviderTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SearchTests.cs" />

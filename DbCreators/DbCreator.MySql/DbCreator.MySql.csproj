@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>DbCreator</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,9 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinqSharp.EFCore.Test - EF3.1\LinqSharp.EFCore.Test - EF3.1.csproj" />
+    <ProjectReference Include="..\..\LinqSharp.EFCore.Test - EF3.1\LinqSharp.EFCore.Test - EF3.1.csproj" />
   </ItemGroup>
 
-  <Import Project="..\LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems" Label="Shared" />
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 
 </Project>

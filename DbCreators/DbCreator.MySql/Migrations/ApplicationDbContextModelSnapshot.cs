@@ -3,16 +3,14 @@ using System;
 using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace TestDatabaseCreator.Migrations
+namespace DbCreator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200923055812_202009231358")]
-    partial class _202009231358
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,12 +23,20 @@ namespace TestDatabaseCreator.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Note")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
+                    b.HasIndex("Name", "CreationTime")
                         .IsUnique();
 
                     b.ToTable("LS_Names");
@@ -328,7 +334,6 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Category", b =>
                 {
                     b.Property<int>("CategoryID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("CategoryName")
@@ -435,7 +440,6 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Employee", b =>
                 {
                     b.Property<int>("EmployeeID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
@@ -531,7 +535,6 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Order", b =>
                 {
                     b.Property<int>("OrderID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("CustomerID")
@@ -610,6 +613,8 @@ namespace TestDatabaseCreator.Migrations
 
                     b.HasKey("OrderID", "ProductID");
 
+                    b.HasIndex("OrderID");
+
                     b.HasIndex("ProductID");
 
                     b.ToTable("@Northwnd.OrderDetails");
@@ -618,7 +623,6 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Product", b =>
                 {
                     b.Property<int>("ProductID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<int?>("CategoryID")
@@ -678,7 +682,6 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Shipper", b =>
                 {
                     b.Property<int>("ShipperID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("CompanyName")
@@ -698,7 +701,6 @@ namespace TestDatabaseCreator.Migrations
             modelBuilder.Entity("Northwnd.Supplier", b =>
                 {
                     b.Property<int>("SupplierID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
@@ -791,13 +793,13 @@ namespace TestDatabaseCreator.Migrations
 
             modelBuilder.Entity("Northwnd.CustomerCustomerDemo", b =>
                 {
-                    b.HasOne("Northwnd.Customer", "Customer")
+                    b.HasOne("Northwnd.Customer", "CustomerLink")
                         .WithMany("CustomerCustomerDemos")
                         .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Northwnd.CustomerDemographic", "CustomerDemographic")
+                    b.HasOne("Northwnd.CustomerDemographic", "CustomerDemographicLink")
                         .WithMany("CustomerCustomerDemos")
                         .HasForeignKey("CustomerTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -813,13 +815,13 @@ namespace TestDatabaseCreator.Migrations
 
             modelBuilder.Entity("Northwnd.EmployeeTerritory", b =>
                 {
-                    b.HasOne("Northwnd.Employee", "Employee")
+                    b.HasOne("Northwnd.Employee", "EmployeeLink")
                         .WithMany("EmployeeTerritories")
                         .HasForeignKey("EmployeeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Northwnd.Territory", "Territory")
+                    b.HasOne("Northwnd.Territory", "TerritoryLink")
                         .WithMany("EmployeeTerritories")
                         .HasForeignKey("TerritoryID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -828,11 +830,11 @@ namespace TestDatabaseCreator.Migrations
 
             modelBuilder.Entity("Northwnd.Order", b =>
                 {
-                    b.HasOne("Northwnd.Customer", "Customer")
+                    b.HasOne("Northwnd.Customer", "CustomerLink")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerID");
 
-                    b.HasOne("Northwnd.Employee", "Employee")
+                    b.HasOne("Northwnd.Employee", "EmployeeLink")
                         .WithMany("Orders")
                         .HasForeignKey("EmployeeID");
 
@@ -843,13 +845,13 @@ namespace TestDatabaseCreator.Migrations
 
             modelBuilder.Entity("Northwnd.OrderDetail", b =>
                 {
-                    b.HasOne("Northwnd.Order", "Order")
-                        .WithMany("Order_Details")
+                    b.HasOne("Northwnd.Order", "OrderLink")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Northwnd.Product", "Product")
+                    b.HasOne("Northwnd.Product", "ProductLink")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -858,11 +860,11 @@ namespace TestDatabaseCreator.Migrations
 
             modelBuilder.Entity("Northwnd.Product", b =>
                 {
-                    b.HasOne("Northwnd.Category", "Category")
+                    b.HasOne("Northwnd.Category", "CategoryLink")
                         .WithMany("Products")
                         .HasForeignKey("CategoryID");
 
-                    b.HasOne("Northwnd.Supplier", "Supplier")
+                    b.HasOne("Northwnd.Supplier", "SupplierLink")
                         .WithMany("Products")
                         .HasForeignKey("SupplierID");
                 });

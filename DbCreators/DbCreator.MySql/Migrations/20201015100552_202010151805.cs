@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
-namespace TestDatabaseCreator.Migrations
+namespace DbCreator.Migrations
 {
-    public partial class _202004281416 : Migration
+    public partial class _202010151805 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,8 +12,7 @@ namespace TestDatabaseCreator.Migrations
                 name: "@Northwnd.Categories",
                 columns: table => new
                 {
-                    CategoryID = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CategoryID = table.Column<int>(nullable: false),
                     CategoryName = table.Column<string>(maxLength: 15, nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Picture = table.Column<byte[]>(nullable: true)
@@ -60,8 +59,7 @@ namespace TestDatabaseCreator.Migrations
                 name: "@Northwnd.Employees",
                 columns: table => new
                 {
-                    EmployeeID = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    EmployeeID = table.Column<int>(nullable: false),
                     LastName = table.Column<string>(maxLength: 20, nullable: false),
                     FirstName = table.Column<string>(maxLength: 10, nullable: false),
                     Title = table.Column<string>(maxLength: 30, nullable: true),
@@ -107,8 +105,7 @@ namespace TestDatabaseCreator.Migrations
                 name: "@Northwnd.Shippers",
                 columns: table => new
                 {
-                    ShipperID = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ShipperID = table.Column<int>(nullable: false),
                     CompanyName = table.Column<string>(maxLength: 40, nullable: false),
                     Phone = table.Column<string>(maxLength: 24, nullable: true)
                 },
@@ -121,8 +118,7 @@ namespace TestDatabaseCreator.Migrations
                 name: "@Northwnd.Suppliers",
                 columns: table => new
                 {
-                    SupplierID = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    SupplierID = table.Column<int>(nullable: false),
                     CompanyName = table.Column<string>(maxLength: 40, nullable: false),
                     ContactName = table.Column<string>(maxLength: 30, nullable: true),
                     ContactTitle = table.Column<string>(maxLength: 30, nullable: true),
@@ -152,6 +148,21 @@ namespace TestDatabaseCreator.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppRegistries", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AuditRoots",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TotalQuantity = table.Column<int>(nullable: false),
+                    LimitQuantity = table.Column<int>(nullable: false),
+                    RowVersion = table.Column<DateTime>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditRoots", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,28 +211,45 @@ namespace TestDatabaseCreator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EntityTrackModel1s",
+                name: "LS_Indices",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    TotalQuantity = table.Column<int>(nullable: false)
+                    Int0 = table.Column<int>(nullable: false),
+                    Int1 = table.Column<int>(nullable: false),
+                    Int2_G1 = table.Column<int>(nullable: false),
+                    Int3_G1 = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EntityTrackModel1s", x => x.Id);
+                    table.PrimaryKey("PK_LS_Indices", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProviderTestModels",
+                name: "LS_Names",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(maxLength: 255, nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    Note = table.Column<string>(maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LS_Names", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LS_Providers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Password = table.Column<string>(maxLength: 127, nullable: true),
-                    SimpleModel = table.Column<string>(maxLength: 127, nullable: true)
+                    NameModel = table.Column<string>(maxLength: 127, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProviderTestModels", x => x.Id);
+                    table.PrimaryKey("PK_LS_Providers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -254,6 +282,21 @@ namespace TestDatabaseCreator.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TrackModels", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "YearMonthModels",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Year = table.Column<int>(nullable: false),
+                    Month = table.Column<int>(nullable: false),
+                    Day = table.Column<int>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_YearMonthModels", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -303,8 +346,7 @@ namespace TestDatabaseCreator.Migrations
                 name: "@Northwnd.Orders",
                 columns: table => new
                 {
-                    OrderID = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    OrderID = table.Column<int>(nullable: false),
                     CustomerID = table.Column<string>(maxLength: 5, nullable: true),
                     EmployeeID = table.Column<int>(nullable: true),
                     OrderDate = table.Column<DateTime>(nullable: true),
@@ -346,8 +388,7 @@ namespace TestDatabaseCreator.Migrations
                 name: "@Northwnd.Products",
                 columns: table => new
                 {
-                    ProductID = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ProductID = table.Column<int>(nullable: false),
                     ProductName = table.Column<string>(maxLength: 40, nullable: false),
                     SupplierID = table.Column<int>(nullable: true),
                     CategoryID = table.Column<int>(nullable: true),
@@ -376,20 +417,20 @@ namespace TestDatabaseCreator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EntityTrackModel2s",
+                name: "AuditLevels",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Super = table.Column<Guid>(nullable: false),
-                    GroupQuantity = table.Column<int>(nullable: false)
+                    Root = table.Column<Guid>(nullable: false),
+                    ValueCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EntityTrackModel2s", x => x.Id);
+                    table.PrimaryKey("PK_AuditLevels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EntityTrackModel2s_EntityTrackModel1s_Super",
-                        column: x => x.Super,
-                        principalTable: "EntityTrackModel1s",
+                        name: "FK_AuditLevels_AuditRoots_Root",
+                        column: x => x.Root,
+                        principalTable: "AuditRoots",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -446,20 +487,20 @@ namespace TestDatabaseCreator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EntityTrackModel3s",
+                name: "AuditValues",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Super = table.Column<Guid>(nullable: false),
+                    Level = table.Column<Guid>(nullable: false),
                     Quantity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EntityTrackModel3s", x => x.Id);
+                    table.PrimaryKey("PK_AuditValues", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EntityTrackModel3s_EntityTrackModel2s_Super",
-                        column: x => x.Super,
-                        principalTable: "EntityTrackModel2s",
+                        name: "FK_AuditValues_AuditLevels_Level",
+                        column: x => x.Level,
+                        principalTable: "AuditLevels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -470,14 +511,29 @@ namespace TestDatabaseCreator.Migrations
                 column: "CustomerID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_@Northwnd.CustomerCustomerDemos_CustomerTypeID",
+                table: "@Northwnd.CustomerCustomerDemos",
+                column: "CustomerTypeID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_@Northwnd.Employees_ReportsTo",
                 table: "@Northwnd.Employees",
                 column: "ReportsTo");
 
             migrationBuilder.CreateIndex(
+                name: "IX_@Northwnd.EmployeeTerritories_EmployeeID",
+                table: "@Northwnd.EmployeeTerritories",
+                column: "EmployeeID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_@Northwnd.EmployeeTerritories_TerritoryID",
                 table: "@Northwnd.EmployeeTerritories",
                 column: "TerritoryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_@Northwnd.OrderDetails_OrderID",
+                table: "@Northwnd.OrderDetails",
+                column: "OrderID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_@Northwnd.OrderDetails_ProductID",
@@ -521,20 +577,43 @@ namespace TestDatabaseCreator.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuditLevels_Root",
+                table: "AuditLevels",
+                column: "Root");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AuditValues_Level",
+                table: "AuditValues",
+                column: "Level");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ConcurrencyModels_RandomNumber",
                 table: "ConcurrencyModels",
                 column: "RandomNumber",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_EntityTrackModel2s_Super",
-                table: "EntityTrackModel2s",
-                column: "Super");
+                name: "IX_LS_Indices_Int0",
+                table: "LS_Indices",
+                column: "Int0");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EntityTrackModel3s_Super",
-                table: "EntityTrackModel3s",
-                column: "Super");
+                name: "IX_LS_Indices_Int1",
+                table: "LS_Indices",
+                column: "Int1",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LS_Indices_Int2_G1_Int3_G1",
+                table: "LS_Indices",
+                columns: new[] { "Int2_G1", "Int3_G1" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LS_Names_Name_CreationTime",
+                table: "LS_Names",
+                columns: new[] { "Name", "CreationTime" },
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -552,6 +631,9 @@ namespace TestDatabaseCreator.Migrations
                 name: "AppRegistries");
 
             migrationBuilder.DropTable(
+                name: "AuditValues");
+
+            migrationBuilder.DropTable(
                 name: "CompositeKeyModels");
 
             migrationBuilder.DropTable(
@@ -561,16 +643,22 @@ namespace TestDatabaseCreator.Migrations
                 name: "EntityMonitorModels");
 
             migrationBuilder.DropTable(
-                name: "EntityTrackModel3s");
+                name: "LS_Indices");
 
             migrationBuilder.DropTable(
-                name: "ProviderTestModels");
+                name: "LS_Names");
+
+            migrationBuilder.DropTable(
+                name: "LS_Providers");
 
             migrationBuilder.DropTable(
                 name: "SimpleModels");
 
             migrationBuilder.DropTable(
                 name: "TrackModels");
+
+            migrationBuilder.DropTable(
+                name: "YearMonthModels");
 
             migrationBuilder.DropTable(
                 name: "@Northwnd.CustomerDemographics");
@@ -585,7 +673,7 @@ namespace TestDatabaseCreator.Migrations
                 name: "@Northwnd.Products");
 
             migrationBuilder.DropTable(
-                name: "EntityTrackModel2s");
+                name: "AuditLevels");
 
             migrationBuilder.DropTable(
                 name: "@Northwnd.Regions");
@@ -606,7 +694,7 @@ namespace TestDatabaseCreator.Migrations
                 name: "@Northwnd.Suppliers");
 
             migrationBuilder.DropTable(
-                name: "EntityTrackModel1s");
+                name: "AuditRoots");
         }
     }
 }

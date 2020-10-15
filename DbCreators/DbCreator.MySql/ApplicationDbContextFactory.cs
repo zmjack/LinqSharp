@@ -1,13 +1,13 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace LinqSharp.Test
+namespace DbCreator.MySql
 {
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            return ApplicationDbContext.UseMySql();
+            return ApplicationDbContext.UseMySql(b => b.MigrationsAssembly("DbCreator.MySql"));
         }
     }
 }

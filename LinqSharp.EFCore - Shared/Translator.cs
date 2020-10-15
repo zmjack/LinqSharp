@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace LinqSharp.EFCore
 {
@@ -48,8 +49,11 @@ namespace LinqSharp.EFCore
 
         public static SqlFragmentExpression Fragment(string sql)
         {
-            var instance = typeof(SqlFragmentExpression).CreateInstance(sql) as SqlFragmentExpression;
-            return instance;
+#if EFCore30
+            return typeof(SqlFragmentExpression).CreateInstance(sql) as SqlFragmentExpression;
+#else
+            return new SqlFragmentExpression(sql);
+#endif
         }
 
         public static SqlFunctionExpression Function(string name, IEnumerable<SqlExpression> arguments, Type returnType)

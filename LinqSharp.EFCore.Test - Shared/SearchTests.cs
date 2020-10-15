@@ -47,8 +47,8 @@ namespace LinqSharp.EFCore.Test
                     {
                         e.City,
                         ProductName = e.Orders
-                            .SelectMany(o => o.Order_Details)
-                            .Select(x => x.Product.ProductName),
+                            .SelectMany(o => o.OrderDetails)
+                            .Select(x => x.ProductLink.ProductName),
                     });
                 var sql = query.ToSql();
             }
@@ -59,8 +59,8 @@ namespace LinqSharp.EFCore.Test
                     .Search("London", e => new
                     {
                         ProductName = e.Orders
-                            .SelectMany(o => o.Order_Details)
-                            .Select(x => x.Product.ProductName),
+                            .SelectMany(o => o.OrderDetails)
+                            .Select(x => x.ProductLink.ProductName),
                         ShipCountry = e.Orders.Select(x => x.ShipCountry),
                         ShipRegion = e.Orders.Select(x => x.ShipRegion),
                         ShipCity = e.Orders.Select(x => x.ShipCity),
@@ -75,8 +75,8 @@ namespace LinqSharp.EFCore.Test
                     .Search("Tofu", e => new
                     {
                         ProductName = e.Orders
-                            .SelectMany(o => o.Order_Details)
-                            .Select(x => x.Product.ProductName)
+                            .SelectMany(o => o.OrderDetails)
+                            .Select(x => x.ProductLink.ProductName)
                     });
                 var sql1 = employees_WhoSelled_AllKindsOfTofu.ToSql();
 
@@ -84,8 +84,8 @@ namespace LinqSharp.EFCore.Test
                      .Search("Tofu", e => new
                      {
                          ProductName = e.Orders
-                             .SelectMany(o => o.Order_Details)
-                             .Select(x => x.Product.ProductName)
+                             .SelectMany(o => o.OrderDetails)
+                             .Select(x => x.ProductLink.ProductName)
                      }, SearchOption.Equals);
                 var sql2 = employees_WhoSelled_Tofu.ToSql();
 
@@ -93,8 +93,8 @@ namespace LinqSharp.EFCore.Test
                      .Search("Longlife Tofu", e => new
                      {
                          ProductName = e.Orders
-                             .SelectMany(o => o.Order_Details)
-                             .Select(x => x.Product.ProductName)
+                             .SelectMany(o => o.OrderDetails)
+                             .Select(x => x.ProductLink.ProductName)
                      }, SearchOption.Equals);
                 var sql3 = employees_WhoSelled_LongLifeTofu.ToSql();
             }

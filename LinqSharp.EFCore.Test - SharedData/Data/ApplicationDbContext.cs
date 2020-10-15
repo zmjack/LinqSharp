@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Northwnd;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,23 +9,26 @@ namespace LinqSharp.EFCore.Data.Test
 {
     public class ApplicationDbContext : NorthwndContext
     {
-        public const string CONNECT_STRING = "server=127.0.0.1;database=linqsharp";
+        public const string DatabaseName = "linqsharp";
 
-        public static ApplicationDbContext UseMySql()
+        public static ApplicationDbContext UseMySql(Action<MySqlDbContextOptionsBuilder> mySqlOptionsAction = null)
         {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(CONNECT_STRING).Options;
+            var connection = $"server=127.0.0.1;database={DatabaseName}";
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(connection, mySqlOptionsAction).Options;
             return new ApplicationDbContext(options);
         }
 
-        public static ApplicationDbContext UseSqlServer()
+        public static ApplicationDbContext UseSqlServer(Action<SqlServerDbContextOptionsBuilder> sqlServerOptionsAction = null)
         {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer(CONNECT_STRING).Options;
+            var connection = $@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;database={DatabaseName}";
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer(connection, sqlServerOptionsAction).Options;
             return new ApplicationDbContext(options);
         }
 
-        public static ApplicationDbContext UseSqlite()
+        public static ApplicationDbContext UseSqlite(Action<SqliteDbContextOptionsBuilder> sqliteOptionsAction = null)
         {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CONNECT_STRING).Options;
+            var connection = $"filename={DatabaseName}";
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connection, sqliteOptionsAction).Options;
             return new ApplicationDbContext(options);
         }
 
