@@ -4,11 +4,8 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace LinqSharp.EFCore.Dev

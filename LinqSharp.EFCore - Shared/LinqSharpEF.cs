@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 #endif
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NStandard;
+using NStandard.Caching;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -29,9 +30,9 @@ namespace LinqSharp.EFCore
         private const string SaveChangesAsyncName = "System.Threading.Tasks.Task`1[System.Int32] SaveChangesAsync(Boolean, System.Threading.CancellationToken)";
 
         public static int HandleConcurrencyExceptionRetryCount = 1;
-        public static CacheContainer<Type, Dictionary<ConflictWin, string[]>> ConcurrencyWins = new CacheContainer<Type, Dictionary<ConflictWin, string[]>>()
+        public static CacheSet<Type, Dictionary<ConflictWin, string[]>> ConcurrencyWins = new CacheSet<Type, Dictionary<ConflictWin, string[]>>()
         {
-            CacheMethod = type => () =>
+            CacheMethodBuilder = type => () =>
             {
                 var storeWins = new List<string>();
                 var clientWins = new List<string>();
@@ -239,10 +240,7 @@ namespace LinqSharp.EFCore
                     .ToArray();
             }
 
-            var auditorCaches = new CacheContainer<Type, Reflector>
-            {
-                CacheMethod = auditType => () => Activator.CreateInstance(auditType).GetReflector(),
-            };
+            var auditorCaches = new CacheSet<Type, Reflector>(auditType => () => Activator.CreateInstance(auditType).GetReflector());
 
             RefreshEntries();
             foreach (var entry in entries)

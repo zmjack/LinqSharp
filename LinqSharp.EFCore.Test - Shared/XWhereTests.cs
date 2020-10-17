@@ -1,13 +1,10 @@
 ﻿using LinqSharp.EFCore.Data.Test;
-using Microsoft.EntityFrameworkCore;
 using Northwnd;
 using NStandard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Xunit;
-using Xunit.Sdk;
 
 namespace LinqSharp.EFCore.Test
 {

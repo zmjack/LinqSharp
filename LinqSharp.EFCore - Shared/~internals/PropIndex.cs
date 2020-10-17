@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LinqSharp.EFCore
+﻿namespace LinqSharp.EFCore
 {
     internal class PropIndex
     {

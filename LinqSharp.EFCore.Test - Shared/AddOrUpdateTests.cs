@@ -1,12 +1,9 @@
 ﻿using LinqSharp.EFCore.Data;
 using LinqSharp.EFCore.Data.Test;
-using LinqSharp.EFCore.Dev;
 using Microsoft.EntityFrameworkCore;
 using NStandard;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test

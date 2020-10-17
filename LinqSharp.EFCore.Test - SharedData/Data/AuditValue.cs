@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NStandard;
+using NStandard.Caching;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,10 +30,7 @@ namespace LinqSharp.EFCore.Data.Test
 
         public void OnAuditing(ApplicationDbContext context, EntityAudit<AuditValue>[] audits)
         {
-            var levelCaches = new CacheContainer<Guid, AuditLevel>
-            {
-                CacheMethod = id => () => context.AuditLevels.Include(x => x.RootLink).First(x => x.Id == id),
-            };
+            var levelCaches = new CacheSet<Guid, AuditLevel>(id => () => context.AuditLevels.Include(x => x.RootLink).First(x => x.Id == id));
 
             foreach (var audit in audits)
             {
