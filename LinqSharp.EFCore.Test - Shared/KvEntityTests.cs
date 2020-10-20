@@ -41,7 +41,6 @@ namespace LinqSharp.EFCore.Test
                 appRegistry.Name = "zmjack";
                 appRegistry.Age = 29;
                 appRegistry.Birthday = new DateTime(1991, 1, 1);
-
                 context.SaveChanges();
             }
 
