@@ -17,7 +17,7 @@ namespace LinqSharp
         /// <param name="this"></param>
         /// <param name="groupCount"></param>
         /// <returns></returns>
-        [Obsolete("This function does not support generating SQL.", true)]
+        [Obsolete("This function does not support generating.", true)]
         public static IQueryable<IGrouping<int, TSource>> GroupByCount<TSource>(this IQueryable<TSource> @this, int groupCount)
         {
             throw new NotSupportedException();
@@ -30,7 +30,7 @@ namespace LinqSharp
         /// <param name="this"></param>
         /// <param name="groupCount"></param>
         /// <returns></returns>
-        [Obsolete("This function does not support generating SQL.", true)]
+        [Obsolete("This function does not support generating.", true)]
         public static IQueryable<IGrouping<int, TSource>> GroupByCount<TSource>(this IQueryable<TSource> @this, int groupCount, PadDirection padDirection)
         {
             throw new NotSupportedException();

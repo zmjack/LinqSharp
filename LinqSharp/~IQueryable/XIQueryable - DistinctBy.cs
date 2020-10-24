@@ -10,7 +10,7 @@ namespace LinqSharp
 {
     public static partial class XIQueryable
     {
-        [Obsolete("This function does not support generating SQL.", true)]
+        [Obsolete("This function does not support generating.", true)]
         public static IQueryable<TSource> DistinctBy<TSource>(this IQueryable<TSource> source, Func<TSource, object> compare)
         {
             throw new NotSupportedException();

@@ -9,15 +9,15 @@ using System.Linq;
 
 namespace LinqSharp
 {
-    public static partial class XIEnumerable
+    public static partial class XIQueryable
     {
-        [Obsolete("This function does not support generating SQL.", true)]
+        [Obsolete("This function does not support generating.", true)]
         public static IQueryable<TSource> SelectMore<TSource>(this IQueryable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector)
         {
             throw new NotSupportedException();
         }
 
-        [Obsolete("This function does not support generating SQL.", true)]
+        [Obsolete("This function does not support generating.", true)]
         public static IQueryable<TSource> SelectMore<TSource>(this IQueryable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector, Func<TSource, bool> predicate)
         {
             throw new NotSupportedException();
