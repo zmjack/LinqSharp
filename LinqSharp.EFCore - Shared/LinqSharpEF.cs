@@ -343,11 +343,11 @@ namespace LinqSharp.EFCore
                 if (type == IndexType.Unique) indexBuilder.IsUnique();
             }
 
-            var props = X.Create(() =>
+            PropIndex[] props;
             {
                 var list = new List<PropIndex>();
-                var props = modelClass.GetProperties();
-                foreach (var prop in props)
+                var _props = modelClass.GetProperties();
+                foreach (var prop in _props)
                 {
                     var indexes = prop.GetCustomAttributes<IndexAttribute>();
                     foreach (var index in indexes)
@@ -371,8 +371,8 @@ namespace LinqSharp.EFCore
                         });
                     }
                 }
-                return list.ToArray();
-            });
+                props = list.ToArray();
+            }
 
             foreach (var prop in props.Where(x => x.Index.Group == null))
             {
