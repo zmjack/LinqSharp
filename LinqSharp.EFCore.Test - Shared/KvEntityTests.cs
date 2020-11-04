@@ -15,6 +15,7 @@ namespace LinqSharp.EFCore.Test
             {
                 new AppRegistry { Item = "Person1", Key = "Name", Value = "zmjack" },
                 new AppRegistry { Item = "Person1", Key = "Age", Value = "28" },
+                new AppRegistry { Item = "Person1", Key = "Enable", Value = "unknown" },
                 new AppRegistry { Item = "Person2", Key = "Name", Value = "ashe" },
                 new AppRegistry { Item = "Person2", Key = "Age", Value = "27" },
             };
@@ -25,6 +26,7 @@ namespace LinqSharp.EFCore.Test
             Assert.Equal("Person1", zmjack.GetItemString());
             Assert.Equal(999, zmjack.Age);
             Assert.Equal("haha", zmjack.NickName);
+            Assert.False(zmjack.Enable);
             Assert.Null(zmjack.Address);
 
             Assert.Throws<KeyNotFoundException>(() => zmjack.NickName = "new");
