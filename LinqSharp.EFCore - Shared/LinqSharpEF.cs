@@ -417,7 +417,8 @@ namespace LinqSharp.EFCore
 
                 foreach (var attr in attrs)
                 {
-                    if (finalValue is string str) finalValue = attr.Format(str);
+                    if (oldValue is null) finalValue = attr.Format(null);
+                    else if (oldValue is string str) finalValue = attr.Format(str);
                     else if (attr is AutoCreationTimeAttribute)
                     {
                         if (entry.State == EntityState.Added) { finalValue = now; break; }
