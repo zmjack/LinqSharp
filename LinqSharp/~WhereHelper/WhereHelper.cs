@@ -15,8 +15,16 @@ namespace LinqSharp
     {
         internal readonly ParameterExpression DefaultParameter = Expression.Parameter(typeof(TSource));
 
-        public WhereExp<TSource> And(IEnumerable<WhereExp<TSource>> whereExps) => whereExps.Aggregate((x, y) => x & y);
-        public WhereExp<TSource> And(params WhereExp<TSource>[] whereExps) => whereExps.Aggregate((x, y) => x & y);
+        public WhereExp<TSource> And(IEnumerable<WhereExp<TSource>> whereExps)
+        {
+            if (whereExps.Any()) return whereExps.Aggregate((x, y) => x & y);
+            else return null;
+        }
+        public WhereExp<TSource> And(params WhereExp<TSource>[] whereExps)
+        {
+            if (whereExps.Any()) return whereExps.Aggregate((x, y) => x & y);
+            else return null;
+        }
         public WhereExp<TSource> And<T>(IEnumerable<T> enumerable, Func<T, Expression<Func<TSource, bool>>> exp)
         {
             var whereExps = enumerable.Select(e => new WhereExp<TSource>(exp(e))).ToArray();
@@ -28,8 +36,16 @@ namespace LinqSharp
             return And(whereExps);
         }
 
-        public WhereExp<TSource> Or(IEnumerable<WhereExp<TSource>> whereExps) => whereExps.Aggregate((x, y) => x | y);
-        public WhereExp<TSource> Or(params WhereExp<TSource>[] whereExps) => whereExps.Aggregate((x, y) => x | y);
+        public WhereExp<TSource> Or(IEnumerable<WhereExp<TSource>> whereExps)
+        {
+            if (whereExps.Any()) return whereExps.Aggregate((x, y) => x | y);
+            else return null;
+        }
+        public WhereExp<TSource> Or(params WhereExp<TSource>[] whereExps)
+        {
+            if (whereExps.Any()) return whereExps.Aggregate((x, y) => x | y);
+            else return null;
+        }
         public WhereExp<TSource> Or<T>(IEnumerable<T> enumerable, Func<T, Expression<Func<TSource, bool>>> exp)
         {
             var whereExps = enumerable.Select(e => new WhereExp<TSource>(exp(e))).ToArray();
