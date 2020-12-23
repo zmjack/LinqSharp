@@ -115,10 +115,10 @@ namespace LinqSharp.Cli
                     appendLine(new[]
                     {
                         field.Name,
-                        field.DisplayName.Flow(StringFlow.HtmlEncode),
-                        field.RuntimeType.GetSimplifiedName().Flow(StringFlow.HtmlEncode),
+                        field.DisplayName.For(StringFlow.HtmlEncode),
+                        field.RuntimeType.GetSimplifiedName().For(StringFlow.HtmlEncode),
                         field.MaxLength?.ToString(),
-                        field.Index.Flow(StringFlow.HtmlEncode),
+                        field.Index.For(StringFlow.HtmlEncode),
                         field.Required ? "Required" : "",
                         field.ReferenceType?.For(type => DbTables[type].Name),
                         field.RuntimeType.For(type=>
@@ -130,7 +130,7 @@ namespace LinqSharp.Cli
                                     Name = DataAnnotationEx.GetDisplayName(x),
                                     LongValue = Convert.ChangeType(Enum.Parse(type, x.Name), typeof(long)),
                                 });
-                                var note = values.Select(value => $"<li>{$"{value.LongValue}={value.Name}".Flow(StringFlow.HtmlEncode)}</li>").Join("");
+                                var note = values.Select(value => $"<li>{$"{value.LongValue}={value.Name}".For(StringFlow.HtmlEncode)}</li>").Join("");
                                 return $"<ul>{note}</ul>";
                             }
                             else return "";

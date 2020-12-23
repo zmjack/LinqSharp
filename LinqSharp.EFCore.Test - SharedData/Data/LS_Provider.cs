@@ -22,8 +22,8 @@ namespace LinqSharp.EFCore.Data.Test
 
         public class PasswordProvider : IProvider<string, string>
         {
-            public override string ReadFromProvider(string value) => value.Flow(StringFlow.FromBase64);
-            public override string WriteToProvider(string model) => model.Flow(StringFlow.Base64);
+            public override string ReadFromProvider(string value) => value.For(StringFlow.BytesFromBase64).String();
+            public override string WriteToProvider(string model) => model.Bytes().For(BytesFlow.Base64);
         }
     }
 }
