@@ -15,7 +15,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
     <PackageReference Include="Northwnd" Version="3.0.2" />
-    <PackageReference Include="NStandard" Version="0.6.0" />
+    <PackageReference Include="NStandard" Version="0.6.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.0.0" />
     <PackageReference Include="SQLib" Version="0.7.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
