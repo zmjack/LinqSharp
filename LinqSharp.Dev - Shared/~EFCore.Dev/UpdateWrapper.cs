@@ -44,8 +44,7 @@ namespace LinqSharp.EFCore.Dev
 
         public string ToSql()
         {
-            if (!FieldChanges.Any())
-                throw new ArgumentException("The `set` statement is null.");
+            if (!FieldChanges.Any()) throw new ArgumentException("The `set` statement is null.");
 
             var set = FieldChanges.Select(x =>
             {

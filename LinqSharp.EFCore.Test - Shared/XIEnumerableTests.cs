@@ -20,16 +20,26 @@ namespace LinqSharp.EFCore.Test
         }
 
         [Fact]
-        public void FillTest()
+        public void PadTest()
         {
             var items = new[]
             {
-                new NameModel { Name = "A", NickName = "a" },
-                new NameModel { Name = "B", NickName = "b" },
+                new NameModel { Name = "A", NickName = "a", Tag = "01" },
+                new NameModel { Name = "B", NickName = "b", Tag = "01" },
             };
-            var filled = items.Pad(x => x.Name, new[] { "A", "B", "C" }, key => new NameModel { Name = key, NickName = ":c" });
-            Assert.Equal(new[] { "A", "B", "C" }, filled.Select(x => x.Name).ToArray());
-            Assert.Equal(new[] { "a", "b", ":c" }, filled.Select(x => x.NickName).ToArray());
+
+            var filled1 = items.Pad(x => x.Name, new[] { "A", "B", "C" }, key => new NameModel { Name = key, NickName = ":c" });
+            Assert.Equal(new[] { "A", "B", "C" }, filled1.Select(x => x.Name).ToArray());
+            Assert.Equal(new[] { "a", "b", ":c" }, filled1.Select(x => x.NickName).ToArray());
+
+            var filled2 = items.Pad(x => new { x.Name, x.Tag }, new[]
+            {
+                new { Name = "A", Tag = "01" },
+                new { Name = "B", Tag = "01" },
+                new { Name = "B", Tag = "02" },
+            }, key => new NameModel { Name = key.Name, NickName = ":c", Tag = key.Tag });
+            Assert.Equal(new[] { "A", "B", "B" }, filled2.Select(x => x.Name).ToArray());
+            Assert.Equal(new[] { "a", "b", ":c" }, filled2.Select(x => x.NickName).ToArray());
         }
 
     }

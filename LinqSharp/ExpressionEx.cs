@@ -13,10 +13,16 @@ namespace LinqSharp
 {
     public static class ExpressionEx
     {
-        public static string[] GetPropertyNames<TEntity>(Expression<Func<TEntity, object>> memberOrNewSelector)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="keys">[Member or NewSelector]</param>
+        /// <returns></returns>
+        public static string[] GetPropertyNames<TEntity>(Expression<Func<TEntity, object>> keys)
         {
             string[] propNames;
-            switch (memberOrNewSelector.Body)
+            switch (keys.Body)
             {
                 case MemberExpression exp:
                     propNames = new[] { exp.Member.Name };
@@ -46,9 +52,15 @@ namespace LinqSharp
             return propNames;
         }
 
-        public static IEnumerable<PropertyInfo> GetProperties<TEntity>(Expression<Func<TEntity, object>> memberOrNewSelector)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="keys">[Member or NewSelector]</param>
+        /// <returns></returns>
+        public static IEnumerable<PropertyInfo> GetProperties<TEntity>(Expression<Func<TEntity, object>> keys)
         {
-            var propNames = GetPropertyNames(memberOrNewSelector);
+            var propNames = GetPropertyNames(keys);
             var type = typeof(TEntity);
             var props = type.GetProperties().Where(x => propNames.Contains(x.Name));
             return props;

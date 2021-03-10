@@ -50,19 +50,36 @@ namespace LinqSharp.EFCore
             return predicate;
         }
 
-        public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> memberOrNewSelector, TEntity entity)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="keys">[Member or NewSelector]</param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, TEntity entity)
             where TEntity : class
         {
-            return AddOrUpdate(@this, memberOrNewSelector, entity, null);
+            return AddOrUpdate(@this, keys, entity, null);
         }
 
-        public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> memberOrNewSelector, TEntity entity, Action<UpdateOptions<TEntity>> initOptions)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="keys">[Member or NewSelector]</param>
+        /// <param name="entity"></param>
+        /// <param name="initOptions"></param>
+        /// <returns></returns>
+        public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, TEntity entity, Action<UpdateOptions<TEntity>> initOptions)
             where TEntity : class
         {
             var options = new UpdateOptions<TEntity>();
             initOptions?.Invoke(options);
 
-            var propNames = ExpressionEx.GetPropertyNames(memberOrNewSelector);
+            var propNames = ExpressionEx.GetPropertyNames(keys);
             var predicate = GetAddOrUpdateLambda(propNames, entity);
 
             var record = @this.FirstOrDefault(predicate);
@@ -74,13 +91,28 @@ namespace LinqSharp.EFCore
             else return @this.Add(entity);
         }
 
-        public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> memberOrNewSelector, IEnumerable<TEntity> entities)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="keys">[Member or NewSelector]</param>
+        /// <param name="entities"></param>
+        public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, IEnumerable<TEntity> entities)
             where TEntity : class
         {
-            AddOrUpdateRange(@this, memberOrNewSelector, entities, null);
+            AddOrUpdateRange(@this, keys, entities, null);
         }
 
-        public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> memberOrNewSelector, IEnumerable<TEntity> entities, Action<UpdateOptions<TEntity>> initOptions)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="keys">[Member or NewSelector]</param>
+        /// <param name="entities"></param>
+        /// <param name="initOptions"></param>
+        public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, IEnumerable<TEntity> entities, Action<UpdateOptions<TEntity>> initOptions)
             where TEntity : class
         {
             if (!entities.Any()) return;
@@ -88,7 +120,7 @@ namespace LinqSharp.EFCore
             var options = new UpdateOptions<TEntity>();
             initOptions?.Invoke(options);
 
-            var propNames = ExpressionEx.GetPropertyNames(memberOrNewSelector);
+            var propNames = ExpressionEx.GetPropertyNames(keys);
             var parts = entities.Select(x => new
             {
                 Entity = x,
