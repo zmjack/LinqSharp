@@ -417,14 +417,17 @@ namespace LinqSharp.EFCore
 
                 foreach (var attr in attrs)
                 {
-                    if (oldValue is null) finalValue = attr.Format(null);
-                    else if (oldValue is string str) finalValue = attr.Format(str);
-                    else if (attr is AutoCreationTimeAttribute)
+                    if (attr is AutoCreationTimeAttribute)
                     {
                         if (entry.State == EntityState.Added) { finalValue = now; break; }
                     }
                     else if (attr is AutoLastWriteTimeAttribute) { prop.SetValue(entry.Entity, now); break; }
-                    else throw new ArgumentException($"Can not resolve AutoAttribute for {prop.Name}.");
+                    else
+                    {
+                        if (oldValue is null) finalValue = attr.Format(null);
+                        else if (oldValue is string str) finalValue = attr.Format(str);
+                        else throw new ArgumentException($"Can not resolve AutoAttribute for {prop.Name}.");
+                    }
                 }
 
                 if (oldValue != finalValue) prop.SetValue(entry.Entity, finalValue);

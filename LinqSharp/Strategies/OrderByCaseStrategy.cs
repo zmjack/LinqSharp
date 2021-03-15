@@ -39,10 +39,9 @@ namespace LinqSharp.Strategies
                             Expression.Constant(valueLenth - 1 - kv.Key),
                             acc);
                 }
-            });
+            }) ?? Expression.Constant(0);
 
-            StrategyExpression =
-                Expression.Lambda<Func<TEntity, int>>(lambdaExp, memberExp.Parameters);
+            StrategyExpression = Expression.Lambda<Func<TEntity, int>>(lambdaExp, memberExp.Parameters);
         }
 
     }

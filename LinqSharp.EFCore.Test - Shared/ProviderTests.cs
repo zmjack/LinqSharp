@@ -25,7 +25,7 @@ namespace LinqSharp.EFCore.Test
                 var password = db.SqlQuery($"SELECT Password FROM LS_Providers;").ToArray().First()[nameof(LS_Provider.Password)];
                 Assert.Equal("MDQxNg==", password);
                 var nameModel = db.SqlQuery($"SELECT NameModel FROM LS_Providers;").ToArray().First()[nameof(LS_Provider.NameModel)];
-                Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack""}", nameModel);
+                Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":null}", nameModel);
 
                 var record = context.LS_Providers.First();
                 Assert.Equal("0416", record.Password);
