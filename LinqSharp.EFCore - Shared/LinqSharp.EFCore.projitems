@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConflictWin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DatabaseProviderName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\Provider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UpdateOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DbContext_DbSet\XDbSet - AddOrUpdate.cs" />

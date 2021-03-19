@@ -10,31 +10,40 @@ namespace LinqSharp.EFCore.Test
         [Fact]
         public void Test1()
         {
-            using (var db = ApplicationDbScope.UseDefault())
-            using (var context = ApplicationDbContext.UseMySql())
+            using var db = ApplicationDbScope.UseDefault();
+            using var context = ApplicationDbContext.UseMySql();
+
+            string GetPassword() => db.SqlQuery($"SELECT Password FROM LS_Providers;").First()[nameof(LS_Provider.Password)].ToString();
+            string GetNameModel() => db.SqlQuery($"SELECT NameModel FROM LS_Providers;").First()[nameof(LS_Provider.NameModel)].ToString();
+
+            context.LS_Providers.Delete(x => true);
+            context.SaveChanges();
+
+            var item = new LS_Provider
             {
-                var item = new LS_Provider
-                {
-                    Password = "0416",
-                    NameModel = new NameModel { Name = "Jack", NickName = "zmjack" }
-                };
+                Password = "0416",
+                NameModel = new NameModel { Name = "Jack", NickName = "zmjack" }
+            };
+            context.LS_Providers.Add(item);
+            context.SaveChanges();
+            Assert.Equal("MDQxNg==", GetPassword());
+            Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":null}", GetNameModel());
 
-                context.LS_Providers.Add(item);
-                context.SaveChanges();
+            var record = context.LS_Providers.First();
+            Assert.Equal("0416", record.Password);
+            Assert.Equal("Jack", record.NameModel.Name);
+            Assert.Equal("zmjack", record.NameModel.NickName);
 
-                var password = db.SqlQuery($"SELECT Password FROM LS_Providers;").ToArray().First()[nameof(LS_Provider.Password)];
-                Assert.Equal("MDQxNg==", password);
-                var nameModel = db.SqlQuery($"SELECT NameModel FROM LS_Providers;").ToArray().First()[nameof(LS_Provider.NameModel)];
-                Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":null}", nameModel);
+            item.Password = "120416";
+            context.SaveChanges();
+            Assert.Equal("MTIwNDE2", GetPassword());
 
-                var record = context.LS_Providers.First();
-                Assert.Equal("0416", record.Password);
-                Assert.Equal("Jack", record.NameModel.Name);
-                Assert.Equal("zmjack", record.NameModel.NickName);
+            item.NameModel.Tag = "Hi there.";
+            context.SaveChanges();
+            Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":""Hi there.""}", GetNameModel());
 
-                context.LS_Providers.Remove(item);
-                context.SaveChanges();
-            }
+            context.LS_Providers.Delete(x => true);
+            context.SaveChanges();
         }
     }
 

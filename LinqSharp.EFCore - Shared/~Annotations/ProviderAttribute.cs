@@ -7,12 +7,6 @@ using System;
 
 namespace LinqSharp.EFCore
 {
-    public abstract class IProvider<TModel, TProvider>
-    {
-        public abstract TProvider WriteToProvider(TModel model);
-        public abstract TModel ReadFromProvider(TProvider value);
-    }
-
     [AttributeUsage(AttributeTargets.Property)]
     public class ProviderAttribute : Attribute
     {

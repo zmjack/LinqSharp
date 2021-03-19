@@ -20,7 +20,7 @@ namespace LinqSharp.EFCore.Data.Test
         [Provider(typeof(JsonProvider<NameModel>))]
         public NameModel NameModel { get; set; }
 
-        public class PasswordProvider : IProvider<string, string>
+        public class PasswordProvider : Provider<string, string>
         {
             public override string ReadFromProvider(string value) => value.For(StringFlow.BytesFromBase64).String();
             public override string WriteToProvider(string model) => model.Bytes().For(BytesFlow.Base64);

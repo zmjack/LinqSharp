@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.EFCore.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -68,9 +69,14 @@ namespace LinqSharp.EFCore
             }
         };
 
-        public static ValueConverter<TModel, TProvider> BuildConverter<TModel, TProvider>(IProvider<TModel, TProvider> field)
+        public static ValueConverter<TModel, TProvider> BuildConverter<TModel, TProvider>(Provider<TModel, TProvider> field)
         {
             return new ValueConverter<TModel, TProvider>(v => field.WriteToProvider(v), v => field.ReadFromProvider(v));
+        }
+
+        public static ValueComparer<TModel> BuildComparer<TModel, TProvider>(Provider<TModel, TProvider> field)
+        {
+            return field.GetValueComparer();
         }
 
         public static void OnModelCreating(DbContext context, Action<ModelBuilder> baseOnModelCreating, ModelBuilder modelBuilder)
@@ -398,7 +404,17 @@ namespace LinqSharp.EFCore
                     var hasConversionMethod = typeof(PropertyBuilder).GetMethod(nameof(PropertyBuilder.HasConversion), new[] { typeof(ValueConverter) });
 
                     dynamic provider = Activator.CreateInstance(attr.ProviderType);
-                    hasConversionMethod.Invoke(propertyBuilder, new object[] { LinqSharpEF.BuildConverter(provider) });
+                    var converter = LinqSharpEF.BuildConverter(provider);
+                    hasConversionMethod.Invoke(propertyBuilder, new object[] { converter });
+
+                    var comparer = LinqSharpEF.BuildComparer(provider);
+                    if (comparer is not null)
+                    {
+                        var metadataProperty = typeof(PropertyBuilder).GetProperty(nameof(PropertyBuilder.Metadata));
+                        var metadata = metadataProperty.GetValue(propertyBuilder);
+                        var setValueComparerMethod = typeof(MutablePropertyExtensions).GetMethod(nameof(MutablePropertyExtensions.SetValueComparer));
+                        setValueComparerMethod.Invoke(null, new object[] { metadata, comparer });
+                    }
                 }
             }
         }
