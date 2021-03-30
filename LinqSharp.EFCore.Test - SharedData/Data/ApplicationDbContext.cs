@@ -13,26 +13,26 @@ namespace LinqSharp.EFCore.Data.Test
 
         public static ApplicationDbContext UseMySql(Action<MySqlDbContextOptionsBuilder> mySqlOptionsAction = null)
         {
-            var connection = $"server=127.0.0.1;database={DatabaseName}";
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(connection, mySqlOptionsAction).Options;
+            var connectionString = $"server=127.0.0.1;database={DatabaseName}";
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(connectionString, mySqlOptionsAction).Options;
             return new ApplicationDbContext(options);
         }
 
         public static ApplicationDbContext UseSqlServer(Action<SqlServerDbContextOptionsBuilder> sqlServerOptionsAction = null)
         {
-            var connection = $@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;database={DatabaseName}";
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer(connection, sqlServerOptionsAction).Options;
+            var connectionString = $@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;database={DatabaseName}";
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer(connectionString, sqlServerOptionsAction).Options;
             return new ApplicationDbContext(options);
         }
 
         public static ApplicationDbContext UseSqlite(Action<SqliteDbContextOptionsBuilder> sqliteOptionsAction = null)
         {
-            var connection = $"filename={DatabaseName}";
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connection, sqliteOptionsAction).Options;
+            var connectionString = $"filename={DatabaseName}";
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connectionString, sqliteOptionsAction).Options;
             return new ApplicationDbContext(options);
         }
 
-        public ApplicationDbContext(DbContextOptions options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<AppRegistry> AppRegistries { get; set; }
         public KvEntityAccessor<AppRegistry> AppRegistriesAccessor => KvEntityAccessor.Create(AppRegistries);
