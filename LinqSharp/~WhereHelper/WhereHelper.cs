@@ -57,11 +57,11 @@ namespace LinqSharp
             return Or(whereExps);
         }
 
-        public WhereExp<TSource> CreateEmpty() => new WhereExp<TSource>();
-        public WhereExp<TSource> Where(Expression<Func<TSource, bool>> predicate) => new WhereExp<TSource>(predicate);
+        public WhereExp<TSource> CreateEmpty() => new();
+        public WhereExp<TSource> Where(Expression<Func<TSource, bool>> predicate) => new(predicate);
 
-        public PropertyUnit<TSource> Property(string property, Type propertyType) => new PropertyUnit<TSource>(DefaultParameter, property, propertyType);
-        public PropertyUnit<TSource> Property<TPropertyType>(string property) => new PropertyUnit<TSource>(DefaultParameter, property, typeof(TPropertyType));
+        public PropertyUnit<TSource> Property(string property, Type propertyType) => new(DefaultParameter, property, propertyType);
+        public PropertyUnit<TSource> Property<TPropertyType>(string property) => new(DefaultParameter, property, typeof(TPropertyType));
 
         public PropertyUnit<TSource> Property(string property)
         {

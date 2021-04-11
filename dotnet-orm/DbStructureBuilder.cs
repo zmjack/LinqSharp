@@ -14,7 +14,7 @@ namespace LinqSharp.Cli
 {
     public class DbStructureBuilder
     {
-        readonly Dictionary<Type, DbTable> DbTables = new Dictionary<Type, DbTable>();
+        readonly Dictionary<Type, DbTable> DbTables = new();
 
         public string GetCsv()
         {

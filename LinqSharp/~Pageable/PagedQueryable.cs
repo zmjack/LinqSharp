@@ -34,7 +34,7 @@ namespace LinqSharp
             else Items = source;
         }
 
-        public PagedEnumerable<T> ToEnumerable() => new PagedEnumerable<T>(this);
+        public PagedEnumerable<T> ToEnumerable() => new(this);
 
     }
 }

@@ -12,15 +12,15 @@ Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README-
 
 **LinqSharp** provides enhancements to **LINQ** in the following ways:
 
-- <font color="orange">[No documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/1-introduce.md)]</font> Query extension
-- <font color="orange">[No documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/2-xwhere.md)]</font> Dynamic LINQ
+- <font color="orange">[No documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/query.md)]</font> Query extension
+- <font color="orange">[No documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/xwhere.md)]</font> Dynamic LINQ
 
 
 
 **LinqSharp.EFCore** provides enhancements to **Entity Frameowk** in the following ways:
 
-- <font color="orange">[no documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/3-ef-data-annotations.md)]</font> Data annotations for table design
-- <font color="orange">[no documentation yet]</font> Data annotations for field standard
+- <font color="orange">[no documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-1.md)]</font> Data annotations for table design
+- <font color="orange">[no documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md)]</font>]</font> Data annotations for field standard
 - <font color="orange">[no documentation yet]</font> Function mapping
 - <font color="orange">[no documentation yet]</font> Column storage agent
 - <font color="orange">[no documentation yet]</font> Data calculation and audit
@@ -111,6 +111,36 @@ The variable **sql** is:
 SELECT "x"."ShipperID", "x"."CompanyName", "x"."Phone"
 FROM "Shippers" AS "x"
 WHERE "x"."CompanyName" = 'Speedy Express';
+```
+
+<br/>
+
+### Function Provider Supports
+
+| .NET Function       | Jet  | MySql | Oracle | PostgreSQL | Sqlite | SqlServer |
+| ------------------- | :--: | :---: | :----: | :--------: | :----: | :-------: |
+| DbFunc.**Random**   |  ✔️   |   ✔️   |   ✔️    |     ✔️      |   ✔️    |     ✔️     |
+| DbFunc.**Concat**   |  ❌   |   ✔️   |   ✔️    |     ✔️      |   ❌    |     ✔️     |
+| DbFunc.**DateTime** |  ❌   |   ✔️   |   🔘    |     🔘      |   ❌    |     ✔️     |
+
+<br/>
+
+For example, **EntityFramework** can not translate this expression:
+
+```c#
+.Where(x => new DateTime(x.Year, x.Month, x.Day) > DateTime.Now);
+```
+
+So, we provide another function to support this:
+
+```c#
+.Where(x => DbFunc.DateTime(x.Year, x.Month, x.Day) > DateTime.Now);
+```
+
+If use **MySQL**, the generated SQL is:
+
+```mysql
+WHERE STR_TO_DATE(CONCAT(`x`.`Year`, '-', `x`.`Month`, '-', `x`.`Day`), '%Y-%m-%d') > CURRENT_TIMESTAMP();
 ```
 
 <br/>

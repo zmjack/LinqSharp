@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <PackageId>LinqSharp.EFCore.MySql</PackageId>
+    <Authors>zmjack</Authors>
+    <Company>zmjack</Company>
+    <Product>LinqSharp.EFCore.MySql</Product>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageIcon>LinqSharp.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Linq EFCore MySql</PackageTags>
+    <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
+    <Version>2.1.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySqlConnector" Version="0.62.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF2.x\LinqSharp.EFCore - EF2.x.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\LinqSharp.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <Import Project="..\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql.projitems" Label="Shared" />
+
+</Project>

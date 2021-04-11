@@ -13,18 +13,18 @@ namespace LinqSharp.Cli
     public class Program
     {
         public static readonly string CLI_VERSION = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        public static CommandContainer CommandContainer;
-        public static ProjectInfo ProjectInfo => CommandContainer.ProjectInfo;
+        public static CmdContainer CmdContainer;
+        public static ProjectInfo ProjectInfo => CmdContainer.ProjectInfo;
 
         static void Main(string[] args)
         {
-            CommandContainer = new CommandContainer("orm", ProjectInfo.GetCurrent());
-            CommandContainer.CacheCommands(Assembly.GetExecutingAssembly());
+            CmdContainer = new CmdContainer("orm", ProjectInfo.GetCurrent());
+            CmdContainer.CacheCommands(Assembly.GetExecutingAssembly());
 
             PrintWelcome();
 
-            CommandContainer.PrintProjectInfo();
-            CommandContainer.Run(args);
+            CmdContainer.PrintProjectInfo();
+            CmdContainer.Run(args);
         }
 
         public static void PrintWelcome()

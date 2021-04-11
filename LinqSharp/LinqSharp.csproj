@@ -24,7 +24,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0" />
-    <PackageReference Include="NStandard" Version="0.6.11" />
+    <PackageReference Include="NStandard" Version="0.6.13" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
   </ItemGroup>
 

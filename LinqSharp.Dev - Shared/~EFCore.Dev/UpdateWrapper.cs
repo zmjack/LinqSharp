@@ -19,7 +19,7 @@ namespace LinqSharp.EFCore.Dev
     {
         public WhereWrapper<TEntity> WhereWrapper { get; }
 
-        public Dictionary<string, object> FieldChanges = new Dictionary<string, object>();
+        public Dictionary<string, object> FieldChanges = new();
 
         public UpdateWrapper(WhereWrapper<TEntity> whereWrapper)
         {

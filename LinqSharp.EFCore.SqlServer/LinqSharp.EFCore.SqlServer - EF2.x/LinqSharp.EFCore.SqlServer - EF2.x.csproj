@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Authors>zmjack</Authors>
+    <PackageId>LinqSharp.EFCore.SqlServer</PackageId>
+    <Product>LinqSharp.EFCore.SqlServer</Product>
+    <Version>2.1.0</Version>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageIcon>LinqSharp.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Linq EFCore SqlServer</PackageTags>
+    <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
+  </PropertyGroup>
+
+  <Import Project="..\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF2.x\LinqSharp.EFCore - EF2.x.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\LinqSharp.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
