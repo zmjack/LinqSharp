@@ -15,6 +15,7 @@
     <PackageTags>Linq EFCore MySql</PackageTags>
     <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
     <Version>2.1.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

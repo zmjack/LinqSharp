@@ -20,7 +20,7 @@
     <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
-    <Version>0.2.0.1</Version>
+    <Version>0.2.1</Version>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageType>DotnetCliTool</PackageType>
@@ -30,10 +30,10 @@
     <RootNamespace>LinqSharp.Cli</RootNamespace>
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>7.3</LangVersion>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
     <DocumentationFile>dotnet-orm.xml</DocumentationFile>
@@ -46,8 +46,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCli" Version="0.1.2" />
-    <PackageReference Include="Ink" Version="0.6.4" />
+    <PackageReference Include="DotNetCli" Version="0.1.3" />
+    <PackageReference Include="Ink" Version="0.7.1" />
     <PackageReference Include="NStandard" Version="0.6.13" />
     <PackageReference Include="NStandard.Runtime" Version="0.6.13" />
   </ItemGroup>

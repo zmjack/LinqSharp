@@ -15,6 +15,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Linq EFCore SqlServer</PackageTags>
     <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <Import Project="..\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.projitems" Label="Shared" />

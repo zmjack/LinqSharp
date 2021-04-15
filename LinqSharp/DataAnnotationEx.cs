@@ -38,8 +38,7 @@ namespace LinqSharp
         public static string GetDisplayString(object model, LambdaExpression expression, string defaultReturn = "")
         {
             var exp = expression.Body as MemberExpression;
-            if (exp is null)
-                throw new NotSupportedException("This argument 'expression' must be MemberExpression.");
+            if (exp is null) throw new NotSupportedException("This argument 'expression' must be MemberExpression.");
 
             object value;
             try
