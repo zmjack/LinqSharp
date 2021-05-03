@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.EntityFrameworkCore;
 using NStandard;
 using System;
 
@@ -11,6 +12,12 @@ namespace LinqSharp.EFCore
     [AttributeUsage(AttributeTargets.Property)]
     public class AutoCondensedAttribute : AutoAttribute
     {
-        public override object Format(object value) => ((value as string) ?? "").Unique();
+        public AutoCondensedAttribute() : base(EntityState.Added, EntityState.Modified) { }
+        public override object Format(object value)
+        {
+            if (value is null) return "";
+            if (value is not string) throw new ArgumentException("The value must be string.");
+            return (value as string).Unique();
+        }
     }
 }

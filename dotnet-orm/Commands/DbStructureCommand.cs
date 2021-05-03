@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using DotNetCli;
-using Ink;
 using NStandard;
 using NStandard.Reference;
 using NStandard.Runtime;

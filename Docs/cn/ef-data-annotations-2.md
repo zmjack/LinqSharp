@@ -35,7 +35,7 @@ public class ApplicationDbContext : DbContext
 
 **Auto** 系列注释是为数据提交到数据库前，用来规范数据值的自动处理标记。
 
-目前包括：
+目前内置标记包括：
 
 - **AutoCondensed**（使用紧凑字符串）
 - **AutoCreationTime**（自动设置创建时间）
@@ -45,6 +45,8 @@ public class ApplicationDbContext : DbContext
 - **AutoTrim**（去除字符串边界空格）
 
 <br/>
+
+其中，**AutoCreationTime** 仅在新增条目时生效。
 
 例如：
 
@@ -74,10 +76,11 @@ public class TrackModel : IEntity<TrackModel>
 }
 ```
 
-使用插入操作：
+测试代码：
 
 ```csharp
 using var context = ApplicationDbContext.UseMySql();
+var now = DateTime.Now;
 
 var model = new TrackModel
 {
@@ -93,5 +96,19 @@ Assert.Equal("127.0.0.1", model.ForTrim);
 Assert.Equal("linqsharp", model.ForLower);
 Assert.Equal("LINQSHARP", model.ForUpper);
 Assert.Equal("Welcome to use LinqSharp", model.ForCondensed);
+Assert.Equal(now.StartOfDay(), model.CreationTime.StartOfDay());
+Assert.Equal(now.StartOfDay(), model.LastWriteTime.StartOfDay());
+
+Thread.Sleep(10);
+context.TrackModels.Update(model);
+context.SaveChanges();
+Assert.True(model.LastWriteTime > model.CreationTime);
+
+context.TrackModels.Remove(model);
+context.SaveChanges();
 ```
+
+<br/>
+
+同时，使用 **AutoAttribute** 也可以创建自定义标记，例如：
 

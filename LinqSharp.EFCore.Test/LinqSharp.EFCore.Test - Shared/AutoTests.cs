@@ -1,6 +1,7 @@
 using LinqSharp.EFCore.Data.Test;
+using NStandard;
 using System;
-using System.Linq;
+using System.Threading;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test
@@ -11,6 +12,7 @@ namespace LinqSharp.EFCore.Test
         public void Test1()
         {
             using var context = ApplicationDbContext.UseMySql();
+            var now = DateTime.Now;
 
             var model = new TrackModel
             {
@@ -26,6 +28,13 @@ namespace LinqSharp.EFCore.Test
             Assert.Equal("linqsharp", model.ForLower);
             Assert.Equal("LINQSHARP", model.ForUpper);
             Assert.Equal("Welcome to use LinqSharp", model.ForCondensed);
+            Assert.Equal(now.StartOfDay(), model.CreationTime.StartOfDay());
+            Assert.Equal(now.StartOfDay(), model.LastWriteTime.StartOfDay());
+
+            Thread.Sleep(10);
+            context.TrackModels.Update(model);
+            context.SaveChanges();
+            Assert.True(model.LastWriteTime > model.CreationTime);
 
             context.TrackModels.Remove(model);
             context.SaveChanges();
@@ -53,56 +62,6 @@ namespace LinqSharp.EFCore.Test
 
             context.TrackModels.Remove(model);
             context.SaveChanges();
-        }
-
-        [Fact]
-        public void Test3()
-        {
-            using (var context = ApplicationDbContext.UseMySql())
-            {
-                var model = new SimpleModel
-                {
-                    Name = "zmjack",
-                    Age = 18,
-                };
-                context.Add(model);
-                context.SaveChanges();
-            }
-
-            Guid id;
-            using (var context = ApplicationDbContext.UseMySql())
-            {
-                var result = context.SimpleModels.First();
-                id = result.Id;
-                Assert.Equal(18, result.Age);
-            }
-
-            using (var context = ApplicationDbContext.UseMySql())
-            {
-                var item = new SimpleModel
-                {
-                    Id = id,
-                    Name = "zmjack",
-                    Age = 27,
-                };
-                context.SimpleModels.Update(item);
-                context.SaveChanges();
-            }
-
-            using (var context = ApplicationDbContext.UseMySql())
-            {
-                var result = context.SimpleModels.First();
-                Assert.Equal(27, result.Age);
-            }
-
-
-            using (var context = ApplicationDbContext.UseMySql())
-            {
-                var result = context.SimpleModels;
-                context.RemoveRange(result);
-                context.SaveChanges();
-            }
-
         }
 
     }

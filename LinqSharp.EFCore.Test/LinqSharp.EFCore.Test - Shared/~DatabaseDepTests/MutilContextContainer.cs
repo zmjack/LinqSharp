@@ -1,7 +1,5 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LinqSharp.EFCore.Test
 {

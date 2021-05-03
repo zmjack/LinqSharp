@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore.Query.Expressions;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 #endif
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.Caching.Memory;
 using NStandard;
 using NStandard.Caching;
 using System;
@@ -29,6 +30,7 @@ namespace LinqSharp.EFCore
     {
         private const string SaveChangesName = "Int32 SaveChanges(Boolean)";
         private const string SaveChangesAsyncName = "System.Threading.Tasks.Task`1[System.Int32] SaveChangesAsync(Boolean, System.Threading.CancellationToken)";
+        private static readonly MemoryCache ComplexTypesCache = new(new MemoryCacheOptions());
 
         public static int HandleConcurrencyExceptionRetryCount = 1;
         public static CacheSet<Type, Dictionary<ConflictWin, string[]>> ConcurrencyWins = new()
@@ -84,6 +86,7 @@ namespace LinqSharp.EFCore
             ApplyProviderFunctions(context, modelBuilder);
             ApplyUdFunctions(context, modelBuilder);
             ApplyAnnotations(context, modelBuilder);
+            ApplyComplexTypes(context, modelBuilder);
             baseOnModelCreating(modelBuilder);
         }
 
@@ -162,12 +165,6 @@ namespace LinqSharp.EFCore
             var providerName = context.GetProviderName();
             switch (providerName)
             {
-                case DatabaseProviderName.Cosmos:
-                case DatabaseProviderName.Firebird:
-                case DatabaseProviderName.IBM:
-                case DatabaseProviderName.OpenEdge:
-                default: throw new NotSupportedException();
-
                 case DatabaseProviderName.Jet: JetFuncProvider.Register(modelBuilder); break;
 
                 case DatabaseProviderName.MyCat:
@@ -182,15 +179,21 @@ namespace LinqSharp.EFCore
                 case DatabaseProviderName.SqlServer:
                 case DatabaseProviderName.SqlServerCompact35:
                 case DatabaseProviderName.SqlServerCompact40: SqlServerFuncProvider.Register(modelBuilder); break;
+
+                case DatabaseProviderName.Cosmos:
+                case DatabaseProviderName.Firebird:
+                case DatabaseProviderName.IBM:
+                case DatabaseProviderName.OpenEdge:
+                default: throw new NotSupportedException();
             }
         }
 
         public static void ApplyUdFunctions(DbContext context, ModelBuilder modelBuilder)
         {
             var providerName = context.GetProviderName();
-
             var types = Assembly.GetEntryAssembly().GetTypesWhichImplements<IUdFunctionContainer>();
             var methods = types.SelectMany(type => type.GetMethods().Where(x => x.GetCustomAttribute<UdFunctionAttribute>()?.ProviderName == providerName));
+
             foreach (var method in methods)
             {
                 var attr = method.GetCustomAttribute<UdFunctionAttribute>();
@@ -204,10 +207,8 @@ namespace LinqSharp.EFCore
 
         public static void ApplyAnnotations(DbContext context, ModelBuilder modelBuilder, LinqSharpAnnotation annotation = LinqSharpAnnotation.All)
         {
-            var entityMethod = modelBuilder.GetType()
-                .GetMethodViaQualifiedName("Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder`1[TEntity] Entity[TEntity]()");
-            var dbSetProps = context.GetType().GetProperties()
-                .Where(x => x.ToString().StartsWith("Microsoft.EntityFrameworkCore.DbSet`1"));
+            var entityMethod = modelBuilder.GetType().GetMethodViaQualifiedName("Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder`1[TEntity] Entity[TEntity]()");
+            var dbSetProps = context.GetType().GetProperties().Where(x => x.ToString().StartsWith("Microsoft.EntityFrameworkCore.DbSet`1"));
 
             foreach (var dbSetProp in dbSetProps)
             {
@@ -219,6 +220,34 @@ namespace LinqSharp.EFCore
                 if ((annotation & LinqSharpAnnotation.Provider) == LinqSharpAnnotation.Provider) ApplyProviders(entityTypeBuilder, modelClass);
                 if ((annotation & LinqSharpAnnotation.CompositeKey) == LinqSharpAnnotation.CompositeKey) ApplyCompositeKey(entityTypeBuilder, modelClass);
             }
+        }
+
+        public static void ApplyComplexTypes(DbContext context, ModelBuilder modelBuilder)
+        {
+            var types = ComplexTypesCache.GetOrCreate(context.GetType().FullName, entry =>
+            {
+                entry.SlidingExpiration = TimeSpan.FromMinutes(20);
+
+                var typeList = new HashSet<Type>();
+                var dbSetTypes = context.GetType().GetProperties().Where(x => x.PropertyType.IsType(typeof(DbSet<>)));
+                foreach (var dbSetType in dbSetTypes)
+                {
+                    var prop = dbSetType.PropertyType.GetGenericArguments()[0].GetProperties();
+                    var fields = prop.Where(x => x.CanRead && x.CanWrite && !x.PropertyType.IsBasicType(true));
+                    foreach (var field in fields)
+                    {
+                        var type = field.PropertyType.For(p => p.IsNullable() ? p.GetElementType() : p);
+                        if (type.GetCustomAttributes().Any(x => x.GetType().FullName == "System.ComponentModel.DataAnnotations.Schema.ComplexTypeAttribute"))
+                        {
+                            typeList.Add(type);
+                        }
+                    }
+                }
+
+                return typeList.ToArray();
+            });
+
+            foreach (var type in types) modelBuilder.Owned(type);
         }
 
         /// <summary>
@@ -361,7 +390,7 @@ namespace LinqSharp.EFCore
                         });
                     }
 
-                    // Because of some unknown BUG in EntityFramework, creating an index causes the first normal index to be dropped, which is defined with ForeignKeyAttribute.
+                    // Because of some unknown bugs in EntityFramework, creating an index causes the first normal index to be dropped, which is defined with ForeignKeyAttribute.
                     // (The problem was found in EntityFrameworkCore 2.2.6)
                     //TODO: Here is the temporary solution
                     if (prop.HasAttribute<ForeignKeyAttribute>() && !indexes.Any(x => x.Type == IndexType.Normal && x.Group is null))
@@ -420,9 +449,11 @@ namespace LinqSharp.EFCore
             if (!new[] { EntityState.Added, EntityState.Modified }.Contains(entry.State)) return;
 
             var now = DateTime.Now;
+            var nowOffset = DateTimeOffset.Now;
 
             foreach (var prop in properties)
             {
+                var propertyType = prop.PropertyType;
                 var oldValue = prop.GetValue(entry.Entity);
                 var finalValue = oldValue;
                 var attrs = prop.GetCustomAttributes<AutoAttribute>();
@@ -431,14 +462,21 @@ namespace LinqSharp.EFCore
                 {
                     if (attr is AutoCreationTimeAttribute)
                     {
-                        if (entry.State == EntityState.Added) { finalValue = now; break; }
+                        if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
+                            if (entry.State == EntityState.Added) { finalValue = now; break; }
                     }
-                    else if (attr is AutoLastWriteTimeAttribute) { prop.SetValue(entry.Entity, now); break; }
+                    else if (attr is AutoLastWriteTimeAttribute)
+                    {
+                        prop.SetValue(entry.Entity, now); break;
+                    }
                     else
                     {
-                        if (oldValue is null) finalValue = attr.Format(null);
-                        else if (oldValue is string str) finalValue = attr.Format(str);
-                        else throw new ArgumentException($"Can not resolve AutoAttribute for {prop.Name}.");
+                        if (attr.States.Contains(entry.State))
+                        {
+                            if (oldValue is null) finalValue = attr.Format(null);
+                            else if (oldValue is string str) finalValue = attr.Format(str);
+                            else throw new ArgumentException($"Can not resolve AutoAttribute for property({prop.Name}).");
+                        }
                     }
                 }
 

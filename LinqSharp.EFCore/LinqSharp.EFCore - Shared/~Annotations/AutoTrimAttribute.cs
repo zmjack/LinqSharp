@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace LinqSharp.EFCore
@@ -10,6 +11,12 @@ namespace LinqSharp.EFCore
     [AttributeUsage(AttributeTargets.Property)]
     public class AutoTrimAttribute : AutoAttribute
     {
-        public override object Format(object value) => (value as string)?.Trim();
+        public AutoTrimAttribute() : base(EntityState.Added, EntityState.Modified) { }
+        public override object Format(object value)
+        {
+            if (value is null) return null;
+            if (value is not string) throw new ArgumentException("The value must be string.");
+            return (value as string).Trim();
+        }
     }
 }

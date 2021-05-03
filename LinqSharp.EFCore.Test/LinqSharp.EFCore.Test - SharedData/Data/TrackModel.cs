@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,5 +27,15 @@ namespace LinqSharp.EFCore.Data.Test
 
         [AutoCondensed]
         public string ForCondensed { get; set; }
+    }
+
+    public class CustomAttribute : AutoAttribute
+    {
+        public CustomAttribute() : base(EntityState.Added, EntityState.Modified) { }
+
+        public override object Format(object value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

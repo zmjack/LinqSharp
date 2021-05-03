@@ -81,10 +81,14 @@ namespace LinqSharp.EFCore
             var idPair = Identifiers.IdentifierUtil.GetDelimitedIdentifiers(providerName);
 #if EFCore2
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-            context.Database.ExecuteSqlCommand(new RawSqlString($"TRUNCATE TABLE {idPair?.Wrap(table) ?? table};"));
+            if (new[] { DatabaseProviderName.Sqlite }.Contains(providerName))
+                context.Database.ExecuteSqlCommand(new RawSqlString($"DELETE FROM {idPair?.Wrap(table) ?? table};"));
+            else context.Database.ExecuteSqlCommand(new RawSqlString($"TRUNCATE TABLE {idPair?.Wrap(table) ?? table};"));
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
 #else
-            context.Database.ExecuteSqlRaw($"TRUNCATE TABLE {idPair?.Wrap(table) ?? table};");
+            if (new[] { DatabaseProviderName.Sqlite }.Contains(providerName))
+                context.Database.ExecuteSqlRaw($"DELETE FROM {idPair?.Wrap(table) ?? table};");
+            else context.Database.ExecuteSqlRaw($"TRUNCATE TABLE {idPair?.Wrap(table) ?? table};");
 #endif
         }
 

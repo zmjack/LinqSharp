@@ -24,7 +24,7 @@ namespace LinqSharp.EFCore.Test
 
             var query = db.YearMonthModels.Where(x => DbFunc.DateTime(x.Year, x.Month, x.Day, 1, 1, 1) >= DateTime.Now);
             var sql = query.ToSql();
-            Assert.Equal(2, query.Count());
+            Assert.Equal(0, query.Count());
 
             trans.Rollback();
         }
@@ -42,7 +42,7 @@ namespace LinqSharp.EFCore.Test
             });
             db.SaveChanges();
 
-            var query = db.YearMonthModels.Where(x => DbFunc.DateTime(x.Year, x.Month, x.Day, 1, 1, 1) >= DateTime.Now);
+            var query = db.YearMonthModels.Random(2);
             var sql = query.ToSql();
             Assert.Equal(2, query.Count());
 

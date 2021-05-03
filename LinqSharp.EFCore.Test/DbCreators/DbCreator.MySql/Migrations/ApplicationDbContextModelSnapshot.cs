@@ -17,32 +17,9 @@ namespace DbCreator.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("LinqSharp.EFCore.Data.BulkTestModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Code")
-                        .HasColumnName("UniqueCode")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
-                        .HasMaxLength(255);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.ToTable("BulkTestModels");
-                });
-
             modelBuilder.Entity("LinqSharp.EFCore.Data.LS_Name", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -67,7 +44,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AppRegistry", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -92,11 +69,12 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditLevel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("Root")
+                    b.Property<string>("Root")
+                        .IsRequired()
                         .HasColumnType("char(36)");
 
                     b.Property<int>("ValueCount")
@@ -112,7 +90,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditRoot", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -135,11 +113,12 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditValue", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("Level")
+                    b.Property<string>("Level")
+                        .IsRequired()
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Quantity")
@@ -153,12 +132,35 @@ namespace DbCreator.Migrations
                     b.ToTable("AuditValues");
                 });
 
-            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.CPKeyModel", b =>
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.BulkTestModel", b =>
                 {
-                    b.Property<Guid>("Id1")
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("Id2")
+                    b.Property<string>("Code")
+                        .HasColumnName("UniqueCode")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("BulkTestModels");
+                });
+
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.CPKeyModel", b =>
+                {
+                    b.Property<string>("Id1")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Id2")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id1", "Id2");
@@ -168,7 +170,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.ConcurrencyModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -205,7 +207,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.EntityMonitorModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -231,7 +233,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.LS_Index", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -262,7 +264,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.LS_Provider", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -281,7 +283,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -302,9 +304,20 @@ namespace DbCreator.Migrations
                     b.ToTable("SimpleModels");
                 });
 
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleRow", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SimpleRows");
+                });
+
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.TrackModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -333,7 +346,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.YearMonthModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -812,6 +825,29 @@ namespace DbCreator.Migrations
                         .HasForeignKey("Level")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleRow", b =>
+                {
+                    b.OwnsOne("LinqSharp.EFCore.Data.Test.SimpleRowItemGroup", "Group", b1 =>
+                        {
+                            b1.Property<string>("SimpleRowId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<int>("Age")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Name")
+                                .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                                .HasMaxLength(255);
+
+                            b1.HasKey("SimpleRowId");
+
+                            b1.ToTable("SimpleRows");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SimpleRowId");
+                        });
                 });
 
             modelBuilder.Entity("Northwnd.CustomerCustomerDemo", b =>

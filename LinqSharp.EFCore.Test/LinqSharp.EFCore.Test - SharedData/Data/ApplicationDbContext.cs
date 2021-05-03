@@ -27,7 +27,7 @@ namespace LinqSharp.EFCore.Data.Test
 
         public static ApplicationDbContext UseSqlite(Action<SqliteDbContextOptionsBuilder> sqliteOptionsAction = null)
         {
-            var connectionString = $"filename={DatabaseName}";
+            var connectionString = $"filename={DatabaseName}.db";
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connectionString, sqliteOptionsAction).Options;
             return new ApplicationDbContext(options);
         }
@@ -52,6 +52,7 @@ namespace LinqSharp.EFCore.Data.Test
         public DbSet<LS_Name> LS_Names { get; set; }
 
         public DbSet<BulkTestModel> BulkTestModels { get; set; }
+        public DbSet<SimpleRow> SimpleRows { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

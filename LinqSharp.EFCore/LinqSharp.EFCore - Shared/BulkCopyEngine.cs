@@ -15,7 +15,7 @@ namespace LinqSharp.EFCore
 {
     public abstract class BulkCopyEngine
     {
-        private static readonly MemoryCache _mapCahce = new(new MemoryCacheOptions());
+        private static readonly MemoryCache _columnCahce = new(new MemoryCacheOptions());
 
         public DataTable BuildDataTable<TEntity>(DbContext dbContext, IEnumerable<TEntity> entities) where TEntity : class
         {
@@ -29,7 +29,7 @@ namespace LinqSharp.EFCore
         protected Dictionary<string, PropertyInfo> GetPropertyMap<TEntity>(DbContext dbContext) where TEntity : class
         {
             var type = typeof(TEntity);
-            var map = _mapCahce.GetOrCreate($"{dbContext.GetType().FullName}::{type.FullName}", entry =>
+            var map = _columnCahce.GetOrCreate($"{dbContext.GetType().FullName}::{type.FullName}", entry =>
             {
                 entry.SlidingExpiration = TimeSpan.FromMinutes(20);
                 var columnNames = GetDatabaseColumnNames<TEntity>(dbContext);

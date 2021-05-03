@@ -14,6 +14,7 @@ namespace LinqSharp.EFCore.Test
             static void Test(ApplicationDbContext db, TestDatabases databases)
             {
                 using var trans = db.Database.BeginTransaction();
+                using var directScope = db.BeginDirectScope();
 
                 db.YearMonthModels.Truncate();
 
@@ -33,7 +34,7 @@ namespace LinqSharp.EFCore.Test
             }
 
             var container = new MutilContextContainer();
-            container.Test(TestDatabases.All, Test);
+            container.Test(TestDatabases.MySql, Test);
         }
 
     }

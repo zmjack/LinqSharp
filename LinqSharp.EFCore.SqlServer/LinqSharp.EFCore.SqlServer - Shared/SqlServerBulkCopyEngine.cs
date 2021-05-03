@@ -3,10 +3,14 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+#if EFCore2
+using System.Data.SqlClient;
+#else
+using Microsoft.Data.SqlClient;
+#endif
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace LinqSharp.EFCore.SqlServer
 {
