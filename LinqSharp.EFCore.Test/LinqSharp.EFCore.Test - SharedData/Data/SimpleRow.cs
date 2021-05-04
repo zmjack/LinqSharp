@@ -10,7 +10,7 @@ namespace LinqSharp.EFCore.Data.Test
         [StringLength(255)]
         public string Name { get; set; }
 
-        public int? Age { get; set; }
+        public int Age { get; set; }
     }
 
     public class SimpleRow
@@ -18,8 +18,7 @@ namespace LinqSharp.EFCore.Data.Test
         [Key]
         public Guid Id { get; set; }
 
-        [Required]
-        public SimpleRowItemGroup Group { get; set; }
+        public SimpleRowItemGroup Group { get; set; } = new SimpleRowItemGroup { Name = "(default)" };
     }
 
 }
