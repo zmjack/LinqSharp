@@ -462,12 +462,19 @@ namespace LinqSharp.EFCore
                 {
                     if (attr is AutoCreationTimeAttribute)
                     {
-                        if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
-                            if (entry.State == EntityState.Added) { finalValue = now; break; }
+                        if (entry.State == EntityState.Added)
+                        {
+                            if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?)) { finalValue = now; break; }
+                            else if (propertyType == typeof(DateTimeOffset) || propertyType == typeof(DateTimeOffset?)) { finalValue = nowOffset; break; }
+                        }
                     }
                     else if (attr is AutoLastWriteTimeAttribute)
                     {
-                        prop.SetValue(entry.Entity, now); break;
+                        if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                        {
+                            if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?)) { finalValue = now; break; }
+                            else if (propertyType == typeof(DateTimeOffset) || propertyType == typeof(DateTimeOffset?)) { finalValue = nowOffset; break; }
+                        }
                     }
                     else
                     {

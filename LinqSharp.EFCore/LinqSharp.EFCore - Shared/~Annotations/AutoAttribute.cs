@@ -14,6 +14,11 @@ namespace LinqSharp.EFCore
         private EntityState[] _states;
         private readonly EntityState[] _validStates = new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted };
 
+        public AutoAttribute()
+        {
+            _states = _validStates;
+        }
+
         public AutoAttribute(params EntityState[] states)
         {
             _states = states;
