@@ -12,30 +12,30 @@ namespace LinqSharp.EFCore
 {
     public static partial class XDbSet
     {
-        public static TEntity EnsureFirst<TEntity>(this DbSet<TEntity> @this, EnsureCondition<TEntity> condition)
+        public static TEntity EnsureFirst<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity> condition)
             where TEntity : class, new()
         {
             return EnsureMany(@this, new[] { condition }, null).First();
         }
 
-        public static TEntity EnsureFirst<TEntity>(this DbSet<TEntity> @this, EnsureCondition<TEntity> condition, Action<EnsureOptions<TEntity>> initOptions)
+        public static TEntity EnsureFirst<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity> condition, Action<QueryOptions<TEntity>> initOptions)
             where TEntity : class, new()
         {
             return EnsureMany(@this, new[] { condition }, initOptions).First();
         }
 
-        public static TEntity[] EnsureMany<TEntity>(this DbSet<TEntity> @this, EnsureCondition<TEntity>[] conditions)
+        public static TEntity[] EnsureMany<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity>[] conditions)
             where TEntity : class, new()
         {
             return EnsureMany(@this, conditions, null);
         }
 
-        public static TEntity[] EnsureMany<TEntity>(this DbSet<TEntity> @this, EnsureCondition<TEntity>[] conditions, Action<EnsureOptions<TEntity>> initOptions)
+        public static TEntity[] EnsureMany<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity>[] conditions, Action<QueryOptions<TEntity>> initOptions)
             where TEntity : class, new()
         {
             if (conditions.Length == 0) return new TEntity[0];
 
-            var options = new EnsureOptions<TEntity>();
+            var options = new QueryOptions<TEntity>();
             initOptions?.Invoke(options);
 
             var context = @this.GetDbContext();

@@ -13,12 +13,12 @@ namespace LinqSharp.EFCore.Test
             using (var context = ApplicationDbContext.UseMySql())
             using (var trans = context.Database.BeginTransaction())
             {
-                var create = context.AuditRoots.EnsureFirst(new EnsureCondition<AuditRoot>
+                var create = context.AuditRoots.EnsureFirst(new QueryCondition<AuditRoot>
                 {
                     [x => x.LimitQuantity] = 1,
                 });
 
-                var found = context.AuditRoots.EnsureFirst(new EnsureCondition<AuditRoot>
+                var found = context.AuditRoots.EnsureFirst(new QueryCondition<AuditRoot>
                 {
                     [x => x.LimitQuantity] = 1,
                 });
@@ -35,18 +35,18 @@ namespace LinqSharp.EFCore.Test
             using (var context = ApplicationDbContext.UseMySql())
             using (var trans = context.Database.BeginTransaction())
             {
-                var created1 = context.AuditRoots.EnsureFirst(new EnsureCondition<AuditRoot>
+                var created1 = context.AuditRoots.EnsureFirst(new QueryCondition<AuditRoot>
                 {
                     [x => x.LimitQuantity] = 1,
                 });
 
                 var created2 = context.AuditRoots.EnsureMany(new[]
                 {
-                    new EnsureCondition<AuditRoot>
+                    new QueryCondition<AuditRoot>
                     {
                         [x => x.LimitQuantity] = 1,
                     },
-                    new EnsureCondition<AuditRoot>
+                    new QueryCondition<AuditRoot>
                     {
                         [x => x.LimitQuantity] = 2,
                     },
@@ -58,11 +58,11 @@ namespace LinqSharp.EFCore.Test
 
                 var found = context.AuditRoots.EnsureMany(new[]
                 {
-                    new EnsureCondition<AuditRoot>
+                    new QueryCondition<AuditRoot>
                     {
                         [x => x.LimitQuantity] = 1,
                     },
-                    new EnsureCondition<AuditRoot>
+                    new QueryCondition<AuditRoot>
                     {
                         [x => x.LimitQuantity] = 2,
                     },
@@ -79,7 +79,7 @@ namespace LinqSharp.EFCore.Test
             using (var context = ApplicationDbContext.UseMySql())
             using (var trans = context.Database.BeginTransaction())
             {
-                var conditions = new int[1000].Let(i => i).Select(i => new EnsureCondition<AuditRoot>
+                var conditions = new int[1000].Let(i => i).Select(i => new QueryCondition<AuditRoot>
                 {
                     [x => x.LimitQuantity] = i,
                 }).ToArray();

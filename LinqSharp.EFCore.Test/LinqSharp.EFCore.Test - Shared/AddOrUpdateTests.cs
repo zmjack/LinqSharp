@@ -13,9 +13,10 @@ namespace LinqSharp.EFCore.Test
         [Fact]
         public void Test1()
         {
+            var now = DateTime.Now;
             using (var mysql = ApplicationDbContext.UseMySql())
             {
-                var now = DateTime.Now;
+                mysql.LS_Names.Delete(x => true);
 
                 // AddOrUpdate
                 mysql.LS_Names

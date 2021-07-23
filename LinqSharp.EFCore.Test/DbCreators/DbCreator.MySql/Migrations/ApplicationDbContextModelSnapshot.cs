@@ -19,7 +19,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.LS_Name", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -44,7 +44,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AppRegistry", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -69,11 +69,12 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditLevel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("Root")
+                    b.Property<string>("Root")
+                        .IsRequired()
                         .HasColumnType("char(36)");
 
                     b.Property<int>("ValueCount")
@@ -89,7 +90,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditRoot", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -112,11 +113,12 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditValue", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("Level")
+                    b.Property<string>("Level")
+                        .IsRequired()
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Quantity")
@@ -132,7 +134,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.BulkTestModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -155,10 +157,10 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.CPKeyModel", b =>
                 {
-                    b.Property<Guid>("Id1")
+                    b.Property<string>("Id1")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("Id2")
+                    b.Property<string>("Id2")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id1", "Id2");
@@ -168,7 +170,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.ConcurrencyModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -205,7 +207,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.EntityMonitorModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -231,7 +233,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.LS_Index", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -262,7 +264,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.LS_Provider", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -281,7 +283,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -304,7 +306,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleRow", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -315,7 +317,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.TrackModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -344,7 +346,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.YearMonthModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -829,7 +831,7 @@ namespace DbCreator.Migrations
                 {
                     b.OwnsOne("LinqSharp.EFCore.Data.Test.SimpleRowItemGroup2", "Group", b1 =>
                         {
-                            b1.Property<Guid>("SimpleRowId")
+                            b1.Property<string>("SimpleRowId")
                                 .HasColumnType("char(36)");
 
                             b1.Property<int>("Age")

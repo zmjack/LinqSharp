@@ -11,10 +11,12 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConflictWin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DatabaseProviderName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DbSetCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Identifiers\IdentifierPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Identifiers\IdentifierUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DirectScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BulkCopyEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbSet - CacheQuery.cs" />
     <Compile Include="..\LinqSharp.EFCore - Shared\LinqSharpEFRegister.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Provider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UpdateOptions.cs" />
@@ -22,9 +24,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbSet - AddOrUpdate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\MySqlFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EFVersion.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EnsureCondition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EnsureConditionUnit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EnsureOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)QueryCondition.cs" />
+    <Compile Include="..\LinqSharp.EFCore - Shared\QueryConditionUnit.cs" />
+    <Compile Include="..\LinqSharp.EFCore - Shared\QueryOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityAudit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuditPredictor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FieldChangeInfo.cs" />

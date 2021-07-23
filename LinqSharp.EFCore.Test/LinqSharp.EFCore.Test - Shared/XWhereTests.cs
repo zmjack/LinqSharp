@@ -164,59 +164,60 @@ namespace LinqSharp.EFCore.Test
             }
         }
 
-        private class SearchEvaluator<TSource> : Evaluator<WhereExp<TSource>, string>
-        {
-            public WhereHelper<TSource> WhereHelper;
+        //TODO: fixed
+        //private class SearchEvaluator<TSource> : Evaluator<WhereExp<TSource>, string>
+        //{
+        //    public WhereHelper<TSource> WhereHelper;
 
-            public SearchEvaluator(WhereHelper<TSource> helper)
-            {
-                WhereHelper = helper;
-            }
+        //    public SearchEvaluator(WhereHelper<TSource> helper)
+        //    {
+        //        WhereHelper = helper;
+        //    }
 
-            protected override Dictionary<string, BinaryOpFunc<WhereExp<TSource>>> OpFunctions { get; } = new Dictionary<string, BinaryOpFunc<WhereExp<TSource>>>
-            {
-                ["|"] = (left, right) => left | right,
-                ["&"] = (left, right) => left & right,
-            };
+        //    protected override Dictionary<string, BinaryOpFunc<WhereExp<TSource>>> OpFunctions { get; } = new Dictionary<string, BinaryOpFunc<WhereExp<TSource>>>
+        //    {
+        //        ["|"] = (left, right) => left | right,
+        //        ["&"] = (left, right) => left & right,
+        //    };
 
-            protected override Dictionary<string, int> OpLevels { get; } = new Dictionary<string, int>
-            {
-                ["&"] = 1,
-                ["|"] = 2,
-            };
-        }
+        //    protected override Dictionary<string, int> OpLevels { get; } = new Dictionary<string, int>
+        //    {
+        //        ["&"] = 1,
+        //        ["|"] = 2,
+        //    };
+        //}
 
-        [Fact]
-        public void Test2_4()
-        {
-            using (var mysql = ApplicationDbContext.UseMySql())
-            {
-                var searches = new[]
-                {
-                    new SearchModel { Link = "", PropName = nameof(Category.CategoryName), Method = "contains", Value = "Con" },
-                    new SearchModel { Link = "|", PropName = nameof(Category.Description), Method = "equals", Value = "Cheeses" },
-                    new SearchModel { Link = "&", PropName = nameof(Category.Description), Method = "contains", Value = "fish" },
-                };
-                var operators = searches.Select(x => x.Link).Skip(1);
+        //[Fact]
+        //public void Test2_4()
+        //{
+        //    using (var mysql = ApplicationDbContext.UseMySql())
+        //    {
+        //        var searches = new[]
+        //        {
+        //            new SearchModel { Link = "", PropName = nameof(Category.CategoryName), Method = "contains", Value = "Con" },
+        //            new SearchModel { Link = "|", PropName = nameof(Category.Description), Method = "equals", Value = "Cheeses" },
+        //            new SearchModel { Link = "&", PropName = nameof(Category.Description), Method = "contains", Value = "fish" },
+        //        };
+        //        var operators = searches.Select(x => x.Link).Skip(1);
 
-                var query = mysql.Categories.XWhere(h =>
-                {
-                    var operands = searches.Select(search =>
-                    {
-                        return search.Method switch
-                        {
-                            "contains" => h.Property<string>(search.PropName).Contains(search.Value),
-                            "equals" => h.Property<string>(search.PropName) == search.Value,
-                            _ => throw new NotSupportedException(),
-                        };
-                    });
+        //        var query = mysql.Categories.XWhere(h =>
+        //        {
+        //            var operands = searches.Select(search =>
+        //            {
+        //                return search.Method switch
+        //                {
+        //                    "contains" => h.Property<string>(search.PropName).Contains(search.Value),
+        //                    "equals" => h.Property<string>(search.PropName) == search.Value,
+        //                    _ => throw new NotSupportedException(),
+        //                };
+        //            });
 
-                    return new SearchEvaluator<Category>(h).Eval(operands, operators);
-                });
+        //            return new SearchEvaluator<Category>(h).Eval(operands, operators);
+        //        });
 
-                Assert.Equal(new[] { 2, 3 }, query.Select(x => x.CategoryID));
-            }
-        }
+        //        Assert.Equal(new[] { 2, 3 }, query.Select(x => x.CategoryID));
+        //    }
+        //}
 
         [Fact]
         public void NullTest()

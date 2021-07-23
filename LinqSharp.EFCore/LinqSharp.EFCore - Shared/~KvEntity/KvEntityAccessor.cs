@@ -55,7 +55,7 @@ namespace LinqSharp.EFCore
             var props = typeof(TKvEntityAgent).GetProperties();
             var ensureItems = props
                 .Where(x => x.GetMethod.IsVirtual)
-                .Select(x => new EnsureCondition<TKvEntity>
+                .Select(x => new QueryCondition<TKvEntity>
                 {
                     [c => c.Item] = item,
                     [c => c.Key] = x.Name,
