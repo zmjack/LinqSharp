@@ -17,5 +17,7 @@ namespace LinqSharp.EFCore
         /// (Note that the predicate must contain all possible records.)
         /// </summary>
         public Expression<Func<TEntity, bool>> Predicate { get; set; }
+
+        public Func<TEntity[], bool> Condition { get; set; }
     }
 }

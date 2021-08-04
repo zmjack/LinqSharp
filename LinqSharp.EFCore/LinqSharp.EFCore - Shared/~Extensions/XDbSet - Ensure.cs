@@ -12,26 +12,22 @@ namespace LinqSharp.EFCore
 {
     public static partial class XDbSet
     {
-        public static TEntity EnsureFirst<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity> condition)
-            where TEntity : class, new()
+        public static TEntity Ensure<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity> condition) where TEntity : class, new()
         {
-            return EnsureMany(@this, new[] { condition }, null).First();
+            return Ensure(@this, new[] { condition }, null).First();
         }
 
-        public static TEntity EnsureFirst<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity> condition, Action<QueryOptions<TEntity>> initOptions)
-            where TEntity : class, new()
+        public static TEntity Ensure<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity> condition, Action<QueryOptions<TEntity>> initOptions) where TEntity : class, new()
         {
-            return EnsureMany(@this, new[] { condition }, initOptions).First();
+            return Ensure(@this, new[] { condition }, initOptions).First();
         }
 
-        public static TEntity[] EnsureMany<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity>[] conditions)
-            where TEntity : class, new()
+        public static TEntity[] Ensure<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity>[] conditions) where TEntity : class, new()
         {
-            return EnsureMany(@this, conditions, null);
+            return Ensure(@this, conditions, null);
         }
 
-        public static TEntity[] EnsureMany<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity>[] conditions, Action<QueryOptions<TEntity>> initOptions)
-            where TEntity : class, new()
+        public static TEntity[] Ensure<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity>[] conditions, Action<QueryOptions<TEntity>> initOptions) where TEntity : class, new()
         {
             if (conditions.Length == 0) return new TEntity[0];
 
@@ -39,11 +35,11 @@ namespace LinqSharp.EFCore
             initOptions?.Invoke(options);
 
             var context = @this.GetDbContext();
-            var expressions = conditions.Select(x => x.GetExpression()).ToArray();
 
             Expression<Func<TEntity, bool>> predicate;
             if (options.Predicate is null)
             {
+                var expressions = conditions.Select(x => x.GetExpression()).ToArray();
                 var parameter = expressions[0].Parameters[0];
                 foreach (var exp in expressions) exp.RebindParameter(exp.Parameters[0], parameter);
                 predicate = expressions.LambdaJoin(Expression.OrElse);
@@ -51,15 +47,17 @@ namespace LinqSharp.EFCore
             else predicate = options.Predicate;
 
             var exsists = @this.Where(predicate).ToArray();
-            var conditionsForAdd = conditions.Where(condition => !exsists.Any(condition.GetExpression().Compile()));
+            if (options.Condition?.Invoke(exsists) ?? false) return exsists;
 
-            foreach (var conditionForAdd in conditionsForAdd)
+            var pairs = conditions.Select(c => new { Condition = c, Predicate = c.GetExpression().Compile() });
+            var pairsForAdd = pairs.Where(pair => !exsists.Any(pair.Predicate)).ToArray();
+
+            foreach (var pair in pairsForAdd)
             {
                 var item = new TEntity();
-                foreach (var unit in conditionForAdd.UnitList)
+                foreach (var unit in pair.Condition.UnitList)
                 {
-                    var prop = typeof(TEntity).GetProperty(unit.PropName);
-                    prop.SetValue(item, unit.ExpectedValue);
+                    unit.Property.SetValue(item, unit.ExpectedValue);
                 }
                 options.Set?.Invoke(item);
                 context.Add(item);

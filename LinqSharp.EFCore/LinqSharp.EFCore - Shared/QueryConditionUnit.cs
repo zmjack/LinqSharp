@@ -3,9 +3,11 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Extensions.Caching.Memory;
 using NStandard;
 using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace LinqSharp.EFCore
 {
@@ -14,6 +16,19 @@ namespace LinqSharp.EFCore
         public readonly string PropName;
         public readonly object ExpectedValue;
         public readonly Expression<Func<TEntity, object>> UnitExpression;
+
+        public static MemoryCache PropAccessCache = new(new MemoryCacheOptions());
+        public PropertyInfo Property
+        {
+            get
+            {
+                return PropAccessCache.GetOrCreate(PropName, entry =>
+                {
+                    entry.SlidingExpiration = TimeSpan.FromMinutes(20);
+                    return typeof(TEntity).GetProperty(PropName);
+                });
+            }
+        }
 
         public QueryConditionUnit(Expression<Func<TEntity, object>> expression, object expectedValue)
         {
