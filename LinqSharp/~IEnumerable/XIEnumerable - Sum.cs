@@ -6,6 +6,7 @@
 using NStandard;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LinqSharp
 {
@@ -13,6 +14,8 @@ namespace LinqSharp
     {
         public static TResult Sum<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
+            if (!source.Any()) return default;
+
             var op_Addition = GetOpAddition<TResult>();
             if (op_Addition is null) throw new InvalidOperationException($"There is no matching op_Addition method for {typeof(TResult).FullName}.");
 

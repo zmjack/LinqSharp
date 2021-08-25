@@ -1,9 +1,7 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using Northwnd;
 using NStandard;
-using NStandard.Evaluators;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 

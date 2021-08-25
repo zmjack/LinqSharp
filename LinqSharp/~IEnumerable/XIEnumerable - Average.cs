@@ -6,6 +6,7 @@
 using NStandard;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LinqSharp
 {
@@ -13,6 +14,12 @@ namespace LinqSharp
     {
         public static TResult Average<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
+            if (!source.Any())
+            {
+                if (default(TResult) is null) return default;
+                else throw new InvalidOperationException("Sequence contains no elements");
+            }
+
             var op_Addition = GetOpAddition<TResult>();
             if (op_Addition is null) throw new InvalidOperationException($"There is no matching op_Addition method for {typeof(TResult).FullName}.");
 
@@ -33,8 +40,7 @@ namespace LinqSharp
 
             if (count == 0)
             {
-                var type = typeof(TResult);
-                if (type.IsClass || type.IsNullable()) return default;
+                if (default(TResult) is null) return default;
                 else throw new InvalidOperationException("Sequence contains no elements");
             }
             else return (TResult)op_Division.Invoke(null, new object[] { sum, count });

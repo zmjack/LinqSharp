@@ -50,7 +50,7 @@ namespace LinqSharp.EFCore.Test
                 new NumbericStruct { Value = 2 },
                 new NumbericStruct { Value = 4 },
             }.Sum());
-            Assert.ThrowsAny<InvalidOperationException>(() => new NumbericStruct[0].Sum());
+            Assert.Equal(default, new NumbericStruct[0].Sum());
 
             Assert.Null(new NumbericStruct?[]
             {

@@ -16,6 +16,7 @@ namespace LinqSharp
     public static partial class XIEnumerable
     {
         private static readonly MemoryCache typeOpMethods = new(new MemoryCacheOptions());
+
         private static MethodInfo GetOpMethod(Type type, string name, Type[][] parameterLists)
         {
             var opMethod = typeOpMethods.GetOrCreate($"[{type.AssemblyQualifiedName}].{name}", entry =>
