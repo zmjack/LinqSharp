@@ -14,36 +14,33 @@ namespace LinqSharp
     {
         public static TResult Average<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            if (!source.Any())
+            using (var enumerator = source.GetEnumerator())
             {
-                if (default(TResult) is null) return default;
-                else throw new InvalidOperationException("Sequence contains no elements");
+                while (enumerator.MoveNext())
+                {
+                    TResult current = selector(enumerator.Current);
+                    if (current is null) continue;
+
+                    var op_Addition = GetOpAddition<TResult>();
+                    TResult sum = current;
+                    long count = 1;
+                    while (enumerator.MoveNext())
+                    {
+                        current = selector(enumerator.Current);
+                        if (current is not null)
+                        {
+                            sum = (TResult)op_Addition.Invoke(null, new object[] { sum, current });
+                            count++;
+                        }
+                    }
+
+                    var op_Division = GetOpDivision<TResult>();
+                    return (TResult)op_Division.Invoke(null, new object[] { sum, count });
+                }
             }
 
-            var op_Addition = GetOpAddition<TResult>();
-            if (op_Addition is null) throw new InvalidOperationException($"There is no matching op_Addition method for {typeof(TResult).FullName}.");
-
-            var op_Division = GetOpDivision<TResult>();
-            if (op_Division is null) throw new InvalidOperationException($"There is no matching op_Division method for {typeof(TResult).FullName}.");
-
-            var count = 0;
-            TResult sum = default;
-            foreach (var pair in source.AsKvPairs())
-            {
-                var value = selector(pair.Value);
-                if (value is null) continue;
-
-                if (pair.Key == 0) sum = value;
-                else sum = (TResult)op_Addition.Invoke(null, new object[] { sum, value });
-                count++;
-            }
-
-            if (count == 0)
-            {
-                if (default(TResult) is null) return default;
-                else throw new InvalidOperationException("Sequence contains no elements");
-            }
-            else return (TResult)op_Division.Invoke(null, new object[] { sum, count });
+            if (default(TResult) is null) return default;
+            else throw new InvalidOperationException("Sequence contains no elements");
         }
         public static TSource Average<TSource>(this IEnumerable<TSource> source) => Average(source, x => x);
 

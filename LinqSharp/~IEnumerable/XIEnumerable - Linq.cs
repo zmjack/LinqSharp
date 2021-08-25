@@ -34,22 +34,26 @@ namespace LinqSharp
         {
             var type = typeof(TType);
             if (type.IsNullable()) type = type.GetGenericArguments()[0];
-            return GetOpMethod(type, "op_Addition", new[]
+            var op_Addition = GetOpMethod(type, "op_Addition", new[]
             {
                 new[] { type, type },
             });
+            if (op_Addition is null) throw new InvalidOperationException($"There is no matching op_Addition method for {type.FullName}.");
+            return op_Addition;
         }
         private static MethodInfo GetOpDivision<TType>()
         {
             var type = typeof(TType);
             if (type.IsNullable()) type = type.GetGenericArguments()[0];
-            return GetOpMethod(type, "op_Division", new[]
+            var opDivision = GetOpMethod(type, "op_Division", new[]
             {
-                new[] { type, typeof(int) },
                 new[] { type, typeof(long) },
+                new[] { type, typeof(int) },
                 new[] { type, typeof(double) },
                 new[] { type, typeof(float) },
             });
+            if (opDivision is null) throw new InvalidOperationException($"There is no matching op_Division method for {type.FullName}.");
+            return opDivision;
         }
 
         /// <summary>

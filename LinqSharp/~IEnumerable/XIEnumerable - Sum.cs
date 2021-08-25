@@ -14,30 +14,29 @@ namespace LinqSharp
     {
         public static TResult Sum<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            if (!source.Any()) return default;
-
-            var op_Addition = GetOpAddition<TResult>();
-            if (op_Addition is null) throw new InvalidOperationException($"There is no matching op_Addition method for {typeof(TResult).FullName}.");
-
-            var count = 0;
-            TResult sum = default;
-            foreach (var pair in source.AsKvPairs())
+            using (var enumerator = source.GetEnumerator())
             {
-                var value = selector(pair.Value);
-                if (value is null) return default;
+                while (enumerator.MoveNext())
+                {
+                    TResult current = selector(enumerator.Current);
+                    if (current is null) continue;
 
-                if (pair.Key == 0) sum = value;
-                else sum = (TResult)op_Addition.Invoke(null, new object[] { sum, value });
-                count++;
-            }
+                    var op_Addition = GetOpAddition<TResult>();
+                    if (op_Addition is null) throw new InvalidOperationException($"There is no matching op_Addition method for {typeof(TResult).FullName}.");
 
-            if (count == 0)
-            {
-                var type = typeof(TResult);
-                if (type.IsClass || type.IsNullable()) return default;
-                else throw new InvalidOperationException("Sequence contains no elements");
+                    TResult sum = current;
+                    while (enumerator.MoveNext())
+                    {
+                        current = selector(enumerator.Current);
+                        if (current is not null)
+                        {
+                            sum = (TResult)op_Addition.Invoke(null, new object[] { sum, current });
+                        }
+                    }
+                    return sum;
+                }
             }
-            else return sum;
+            return default;
         }
         public static TSource Sum<TSource>(this IEnumerable<TSource> source) => Sum(source, x => x);
 

@@ -12,6 +12,8 @@ namespace LinqSharp.EFCore.Test
             public static NumbericStruct operator -(NumbericStruct left, NumbericStruct right) => new() { Value = left.Value - right.Value };
             public static NumbericStruct operator *(NumbericStruct left, int multiple) => new() { Value = left.Value * multiple };
             public static NumbericStruct operator /(NumbericStruct left, int divisor) => new() { Value = left.Value / divisor };
+            public static NumbericStruct operator *(NumbericStruct left, long multiple) => new() { Value = checked((int)(left.Value * multiple)) };
+            public static NumbericStruct operator /(NumbericStruct left, long divisor) => new() { Value = checked((int)(left.Value / divisor)) };
         }
 
         private class NumbericClass
@@ -21,6 +23,8 @@ namespace LinqSharp.EFCore.Test
             public static NumbericClass operator -(NumbericClass left, NumbericClass right) => new() { Value = left.Value - right.Value };
             public static NumbericClass operator *(NumbericClass left, int multiple) => new() { Value = left.Value * multiple };
             public static NumbericClass operator /(NumbericClass left, int divisor) => new() { Value = left.Value / divisor };
+            public static NumbericClass operator *(NumbericClass left, long multiple) => new() { Value = checked((int)(left.Value * multiple)) };
+            public static NumbericClass operator /(NumbericClass left, long divisor) => new() { Value = checked((int)(left.Value / divisor)) };
         }
 
         [Fact]
@@ -33,11 +37,11 @@ namespace LinqSharp.EFCore.Test
             }.Average());
             Assert.ThrowsAny<InvalidOperationException>(() => new NumbericStruct[0].Average());
 
-            Assert.Equal(new NumbericStruct { Value = 2 }, new NumbericStruct?[]
+            Assert.Equal(2, new NumbericStruct?[]
             {
                 new NumbericStruct { Value = 2 },
                 null,
-            }.Average());
+            }.Average()?.Value);
             Assert.Null(new NumbericStruct?[] { null, null }.Average());
             Assert.Null(new NumbericStruct?[0].Average());
         }
@@ -50,13 +54,13 @@ namespace LinqSharp.EFCore.Test
                 new NumbericStruct { Value = 2 },
                 new NumbericStruct { Value = 4 },
             }.Sum());
-            Assert.Equal(default, new NumbericStruct[0].Sum());
+            Assert.Equal(default(NumbericStruct), new NumbericStruct[0].Sum());
 
-            Assert.Null(new NumbericStruct?[]
+            Assert.Equal(2, new NumbericStruct?[]
             {
                 new NumbericStruct { Value = 2 },
                 null,
-            }.Sum());
+            }.Sum()?.Value);
             Assert.Null(new NumbericStruct?[] { null, null }.Sum());
             Assert.Null(new NumbericStruct?[0].Sum());
         }
@@ -75,7 +79,6 @@ namespace LinqSharp.EFCore.Test
                 new NumbericClass { Value = 2 },
                 null,
             }.Average()?.Value);
-
             Assert.Null(new NumbericClass[] { null, null }.Average());
             Assert.Null(new NumbericClass[0].Sum());
         }
@@ -89,12 +92,11 @@ namespace LinqSharp.EFCore.Test
                 new NumbericClass { Value = 4 },
             }.Sum()?.Value);
 
-            Assert.Null(new NumbericClass[]
+            Assert.Equal(2, new NumbericClass[]
             {
                 new NumbericClass { Value = 2 },
                 null,
-            }.Sum());
-
+            }.Sum()?.Value);
             Assert.Null(new NumbericClass[] { null, null }.Sum());
             Assert.Null(new NumbericClass[0].Sum());
         }
