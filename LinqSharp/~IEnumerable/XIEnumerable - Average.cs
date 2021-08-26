@@ -22,6 +22,8 @@ namespace LinqSharp
                     if (current is null) continue;
 
                     var op_Addition = GetOpAddition<TResult>();
+                    var op_Division = GetOpDivision<TResult>();
+
                     TResult sum = current;
                     long count = 1;
                     while (enumerator.MoveNext())
@@ -29,13 +31,11 @@ namespace LinqSharp
                         current = selector(enumerator.Current);
                         if (current is not null)
                         {
-                            sum = (TResult)op_Addition.Invoke(null, new object[] { sum, current });
+                            sum = op_Addition(sum, current);
                             count++;
                         }
                     }
-
-                    var op_Division = GetOpDivision<TResult>();
-                    return (TResult)op_Division.Invoke(null, new object[] { sum, count });
+                    return op_Division(sum, count);
                 }
             }
 

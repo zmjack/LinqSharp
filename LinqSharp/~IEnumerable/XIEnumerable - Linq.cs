@@ -17,43 +17,89 @@ namespace LinqSharp
     {
         private static readonly MemoryCache typeOpMethods = new(new MemoryCacheOptions());
 
-        private static MethodInfo GetOpMethod(Type type, string name, Type[][] parameterLists)
+        private static Func<TObj, TRight, TResult> GetOpMethod<TObj, TRight, TResult>(string name, Type[][] paramLists)
         {
-            var opMethod = typeOpMethods.GetOrCreate($"[{type.AssemblyQualifiedName}].{name}", entry =>
+            var objType = typeof(TObj);
+            var rightType = typeof(TRight);
+
+            var opMethod = typeOpMethods.GetOrCreate($"[{objType.FullName}].{name}({objType.FullName}, {rightType.FullName})", entry =>
             {
                 entry.SlidingExpiration = TimeSpan.FromMinutes(20);
-                var methods = type.GetMethods();
-                var matchedMethod = methods.Where(x => x.Name == name)
-                    .OrderBy(p => parameterLists.IndexOf(list => p.GetParameters().Select(x => x.ParameterType).SequenceEqual(list)).For(x => x < 0 ? int.MaxValue : x))
-                    .FirstOrDefault();
-                return matchedMethod;
+
+                var objTypeFinal = objType;
+                if (objTypeFinal.IsNullable())
+                {
+                    objTypeFinal = objTypeFinal.GetGenericArguments()[0];
+                }
+                var rightTypeFinal = rightType;
+                if (rightTypeFinal.IsNullable())
+                {
+                    rightTypeFinal = rightTypeFinal.GetGenericArguments()[0];
+                }
+
+                var methods = objTypeFinal.GetMethods().Where(x => x.Name == name);
+                var method = methods.FirstOrDefault(m =>
+                {
+                    var methodParams = m.GetParameters().Select(x => x.ParameterType).ToArray();
+                    return methodParams[0] == objTypeFinal && methodParams[1] == rightTypeFinal;
+                });
+
+                if (method is null && (paramLists?.Any() ?? false))
+                {
+                    method = methods.OrderBy(p =>
+                    {
+                        var methodParams = p.GetParameters().Select(x => x.ParameterType).ToArray();
+                        var index = paramLists.IndexOf(list => methodParams.SequenceEqual(list));
+                        return index < 0 ? int.MaxValue : index;
+                    }).FirstOrDefault();
+                }
+
+                if (method is null) return null;
+
+                var methodParams = method.GetParameters().Select(x => x.ParameterType).ToArray();
+
+                var resultType = typeof(TResult);
+                var p0 = Expression.Parameter(objType);
+                var p1 = Expression.Parameter(rightType);
+                var arg0 = methodParams[0] == objType ? p0 : (Expression)Expression.Convert(p0, methodParams[0]);
+                var arg1 = methodParams[1] == rightType ? p1 : (Expression)Expression.Convert(p1, methodParams[1]);
+                var body = method.ReturnType == resultType
+                    ? Expression.Call(method, arg0, arg1)
+                    : (Expression)Expression.Convert(Expression.Call(method, arg0, arg1), resultType);
+
+                var func = Expression.Lambda<Func<TObj, TRight, TResult>>(body, p0, p1).Compile();
+                return func;
             });
             return opMethod;
         }
-        private static MethodInfo GetOpAddition<TType>()
+        private static Func<TType, TType, TType> GetOpAddition<TType>()
         {
             var type = typeof(TType);
             if (type.IsNullable()) type = type.GetGenericArguments()[0];
-            var op_Addition = GetOpMethod(type, "op_Addition", new[]
+
+            var op_Addition = GetOpMethod<TType, TType, TType>("op_Addition", new[]
             {
                 new[] { type, type },
             });
+
             if (op_Addition is null) throw new InvalidOperationException($"There is no matching op_Addition method for {type.FullName}.");
             return op_Addition;
         }
-        private static MethodInfo GetOpDivision<TType>()
+        private static Func<TType, long, TType> GetOpDivision<TType>()
         {
             var type = typeof(TType);
             if (type.IsNullable()) type = type.GetGenericArguments()[0];
-            var opDivision = GetOpMethod(type, "op_Division", new[]
+
+            var op_Division = GetOpMethod<TType, long, TType>("op_Division", new[]
             {
                 new[] { type, typeof(long) },
                 new[] { type, typeof(int) },
                 new[] { type, typeof(double) },
                 new[] { type, typeof(float) },
             });
-            if (opDivision is null) throw new InvalidOperationException($"There is no matching op_Division method for {type.FullName}.");
-            return opDivision;
+
+            if (op_Division is null) throw new InvalidOperationException($"There is no matching op_Division method for {type.FullName}.");
+            return op_Division;
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ using NStandard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace LinqSharp
 {
@@ -30,7 +31,7 @@ namespace LinqSharp
                         current = selector(enumerator.Current);
                         if (current is not null)
                         {
-                            sum = (TResult)op_Addition.Invoke(null, new object[] { sum, current });
+                            sum = op_Addition(sum, current);
                         }
                     }
                     return sum;
