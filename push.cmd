@@ -12,5 +12,5 @@ nuget push "LinqSharp.EFCore.SqlServer/LinqSharp.EFCore.SqlServer - EF2.x/bin/Re
 nuget push "LinqSharp.EFCore.SqlServer/LinqSharp.EFCore.SqlServer - EF3.0/bin/Release/LinqSharp.EFCore.SqlServer.3.0.5.nupkg" -source nuget.org
 nuget push "LinqSharp.EFCore.SqlServer/LinqSharp.EFCore.SqlServer - EF3.1/bin/Release/LinqSharp.EFCore.SqlServer.3.1.5.nupkg" -source nuget.org
 
-nuget push "dotnet-orm/bin/Release/dotnet-orm.0.2.6.nupkg" -source nuget.org
+nuget push "dotnet-orm/bin/Release/dotnet-orm.0.2.7.nupkg" -source nuget.org
 pause
