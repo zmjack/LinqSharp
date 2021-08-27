@@ -6,10 +6,12 @@
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using NStandard;
+using System.ComponentModel;
 using System.Linq;
 
 namespace LinqSharp.EFCore
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static partial class XIQueryable
     {
         /// <summary>
