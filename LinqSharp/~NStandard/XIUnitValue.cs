@@ -18,8 +18,7 @@ namespace LinqSharp
         private static T Default<T>() where T : struct, IUnitValue
         {
             var obj = new T();
-            var unit = obj.GetDefaultUnit();
-            obj.WithUnit(unit);
+            obj.Init();
             return obj;
         }
 
@@ -27,9 +26,9 @@ namespace LinqSharp
         {
             if (!source.Any()) return Default<T>();
 
-            var value = Enumerable.Sum(source, x => x.OriginalValue);
-            var unit = source.First().Unit;
-            return new T { OriginalValue = value, Unit = unit };
+            var clone = source.First();
+            clone.OriginalValue = Enumerable.Sum(source, x => x.OriginalValue);
+            return clone;
         }
         public static T? QSum<T>(this IEnumerable<T?> source) where T : struct, IUnitValue
         {
@@ -37,17 +36,18 @@ namespace LinqSharp
             var value = Enumerable.Sum(source, x => x?.OriginalValue);
             if (!value.HasValue) return Default<T>();
 
-            var unit = source.FirstOrDefault(x => x is not null)?.Unit ?? Default<T>().Unit;
-            return new T { OriginalValue = value.Value, Unit = unit };
+            var clone = source.FirstOrDefault(x => x.HasValue).Value;
+            clone.OriginalValue = value.Value;
+            return clone;
         }
 
         public static T QAverage<T>(this IEnumerable<T> source) where T : struct, IUnitValue
         {
             if (!source.Any()) throw new InvalidOperationException("Sequence contains no elements");
 
-            var value = Enumerable.Average(source, x => x.OriginalValue);
-            var unit = source.First().Unit;
-            return new T { OriginalValue = value, Unit = unit };
+            var clone = source.First();
+            clone.OriginalValue = Enumerable.Average(source, x => x.OriginalValue);
+            return clone;
         }
         public static T? QAverage<T>(this IEnumerable<T?> source) where T : struct, IUnitValue
         {
@@ -55,8 +55,9 @@ namespace LinqSharp
             var value = Enumerable.Average(source, x => x?.OriginalValue);
             if (!value.HasValue) return null;
 
-            var unit = source.FirstOrDefault(x => x is not null)?.Unit ?? Default<T>().Unit;
-            return new T { OriginalValue = value.Value, Unit = unit };
+            var clone = source.FirstOrDefault(x => x.HasValue).Value;
+            clone.OriginalValue = value.Value;
+            return clone;
         }
     }
 }
