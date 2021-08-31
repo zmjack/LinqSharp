@@ -143,10 +143,7 @@ namespace LinqSharp.EFCore
                 var record = records.FirstOrDefault(partPredicate);
 
                 if (record is not null)
-                {
                     options.Update(record, entity);
-                    @this.GetDbContext().Entry(record);
-                }
                 else @this.Add(entity);
             }
         }
