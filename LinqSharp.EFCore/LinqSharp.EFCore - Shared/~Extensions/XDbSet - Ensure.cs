@@ -12,21 +12,25 @@ namespace LinqSharp.EFCore
 {
     public static partial class XDbSet
     {
+        [Obsolete("Use AddOrUpdate instead. This method is slower than AddOrUpdate method, and maybe removed in the future.")]
         public static TEntity Ensure<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity> condition) where TEntity : class, new()
         {
             return Ensure(@this, new[] { condition }, null).First();
         }
 
+        [Obsolete("Use AddOrUpdate instead. This method is slower than AddOrUpdate method, and maybe removed in the future.")]
         public static TEntity Ensure<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity> condition, Action<QueryOptions<TEntity>> initOptions) where TEntity : class, new()
         {
             return Ensure(@this, new[] { condition }, initOptions).First();
         }
 
+        [Obsolete("Use AddOrUpdate instead. This method is slower than AddOrUpdateRange method, and maybe removed in the future.")]
         public static TEntity[] Ensure<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity>[] conditions) where TEntity : class, new()
         {
             return Ensure(@this, conditions, null);
         }
 
+        [Obsolete("Use AddOrUpdate instead. This method is slower than AddOrUpdateRange method, and maybe removed in the future.")]
         public static TEntity[] Ensure<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity>[] conditions, Action<QueryOptions<TEntity>> initOptions) where TEntity : class, new()
         {
             if (conditions.Length == 0) return new TEntity[0];

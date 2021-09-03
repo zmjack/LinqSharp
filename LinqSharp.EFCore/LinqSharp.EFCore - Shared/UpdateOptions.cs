@@ -12,12 +12,13 @@ namespace LinqSharp.EFCore
     {
         public delegate void UpdateDelegate(TEntity record, TEntity entity);
 
-        public UpdateDelegate Update { get; set; } = (record, entity) => XIEntity.InnerAccept(record, entity);
+        public UpdateDelegate Update { get; set; }
 
         /// <summary>
         /// If you want to optimize the search logic, you can specify the predicate.
         /// (Note that the predicate must contain all possible records.)
         /// </summary>
         public Expression<Func<TEntity, bool>> Predicate { get; set; }
+
     }
 }

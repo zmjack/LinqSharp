@@ -15,6 +15,8 @@ namespace LinqSharp.EFCore
 {
     public static partial class XDbSet
     {
+        private delegate bool UpdateLambdaDelegate<TEntity>(TEntity record, ref TEntity entity);
+
         private static Expression<Func<TEntity, bool>> GetAbsoluteAddOrUpdateLambda<TEntity>(string[] propNames, TEntity entity)
         {
             var record = Expression.Parameter(typeof(TEntity));
@@ -33,7 +35,6 @@ namespace LinqSharp.EFCore
                 else throw new InvalidOperationException("Right property must be PropertyInfo.");
 
                 var lambda = Expression.Lambda<Func<TEntity, bool>>(Expression.Equal(left, right), record);
-
                 return lambda;
             }).ToArray();
 
@@ -114,7 +115,7 @@ namespace LinqSharp.EFCore
         /// <param name="this"></param>
         /// <param name="keys">[Member or NewSelector]</param>
         /// <param name="entities"></param>
-        public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, IEnumerable<TEntity> entities)
+        public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, TEntity[] entities)
             where TEntity : class
         {
             AddOrUpdateRange(@this, keys, entities, null);
@@ -128,7 +129,7 @@ namespace LinqSharp.EFCore
         /// <param name="keys">[Member or NewSelector]</param>
         /// <param name="entities"></param>
         /// <param name="initOptions"></param>
-        public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, IEnumerable<TEntity> entities, Action<UpdateOptions<TEntity>> initOptions)
+        public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, TEntity[] entities, Action<UpdateOptions<TEntity>> initOptions)
             where TEntity : class
         {
             if (!entities.Any()) return;
@@ -153,13 +154,15 @@ namespace LinqSharp.EFCore
             else predicate = options.Predicate;
 
             var recordlist = @this.Where(predicate).ToList();
-            foreach (var entity in entities)
+            foreach (ref var entity in entities.AsSpan())
             {
-                var record = recordlist.FirstOrDefault(x => predicateBuilder(x, entity));
+                var _entity = entity;
+                var record = recordlist.FirstOrDefault(x => predicateBuilder(x, _entity));
                 if (record is null) @this.Add(entity);
                 else
                 {
-                    options.Update(record, entity);
+                    options.Update?.Invoke(record, entity);
+                    entity = record;
                     recordlist.Remove(record);
                 }
             }
