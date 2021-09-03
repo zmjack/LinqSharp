@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using NStandard;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -38,17 +39,25 @@ namespace LinqSharp
         public static TLambdaExpression LambdaJoin<TLambdaExpression>(this TLambdaExpression[] @this, Func<Expression, Expression, BinaryExpression> binary)
             where TLambdaExpression : LambdaExpression
         {
-            var parameter = @this.First().Parameters[0];
-            var lambda = Expression.Lambda(@this.Aggregate(null as Expression, (acc, exp) =>
+            if (@this.AllSame(x => x.Parameters.Count))
             {
-                if (acc is null) return exp.Body;
-                else
+                var parameters = @this.First().Parameters;
+                var lambda = Expression.Lambda(@this.Aggregate(null as Expression, (acc, exp) =>
                 {
-                    var rebindExp = RebindParameter(exp, exp.Parameters[0], parameter);
-                    return binary(acc, rebindExp.Body);
-                }
-            }), parameter) as TLambdaExpression;
-            return lambda;
+                    if (acc is null) return exp.Body;
+                    else
+                    {
+                        TLambdaExpression rebindExp = exp;
+                        foreach (var zipper in Zipper.Create(parameters, exp.Parameters))
+                        {
+                            rebindExp = RebindParameter(rebindExp, zipper.Item2, zipper.Item1);
+                        }
+                        return binary(acc, rebindExp.Body);
+                    }
+                }), parameters) as TLambdaExpression;
+                return lambda;
+            }
+            else return null;
         }
 
     }

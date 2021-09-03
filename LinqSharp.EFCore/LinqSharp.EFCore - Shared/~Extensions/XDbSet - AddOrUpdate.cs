@@ -15,34 +15,50 @@ namespace LinqSharp.EFCore
 {
     public static partial class XDbSet
     {
-        private static Expression<Func<TEntity, bool>> GetAddOrUpdateLambda<TEntity>(string[] propNames, TEntity entity)
+        private static Expression<Func<TEntity, bool>> GetAbsoluteAddOrUpdateLambda<TEntity>(string[] propNames, TEntity entity)
         {
-            var param = Expression.Parameter(typeof(TEntity));
+            var record = Expression.Parameter(typeof(TEntity));
             var entityExp = Expression.Constant(entity);
+
             var parts = propNames.Select(name =>
             {
-                var left = Expression.Property(param, name);
+                var left = Expression.Property(record, name);
 
                 var rightProperty = Expression.Property(entityExp, name);
-                object rightValue;
+                Expression right;
                 if (rightProperty.Member is PropertyInfo prop)
                 {
-                    if (prop.PropertyType.IsValueType)
-                    {
-                        var body = Expression.Convert(Expression.Property(entityExp, name), typeof(object));
-                        rightValue = Expression.Lambda<Func<object>>(body).Compile()();
-                    }
-                    else
-                    {
-                        var body = Expression.Property(entityExp, name);
-                        rightValue = Expression.Lambda<Func<object>>(body).Compile()();
-                    }
+                    right = Expression.Property(entityExp, name);
                 }
                 else throw new InvalidOperationException("Right property must be PropertyInfo.");
 
-                var right = Expression.Constant(rightValue);
-                var lambda = Expression.Lambda<Func<TEntity, bool>>(Expression.Equal(left, right), param);
+                var lambda = Expression.Lambda<Func<TEntity, bool>>(Expression.Equal(left, right), record);
 
+                return lambda;
+            }).ToArray();
+
+            var predicate = parts.LambdaJoin(Expression.AndAlso);
+            return predicate;
+        }
+
+        private static Expression<Func<TEntity, TEntity, bool>> GetAddOrUpdateLambda<TEntity>(string[] propNames)
+        {
+            var record = Expression.Parameter(typeof(TEntity), "record");
+            var entity = Expression.Parameter(typeof(TEntity), "entity");
+
+            var parts = propNames.Select(name =>
+            {
+                var left = Expression.Property(record, name);
+
+                var rightProperty = Expression.Property(entity, name);
+                Expression right;
+                if (rightProperty.Member is PropertyInfo prop)
+                {
+                    right = Expression.Property(entity, name);
+                }
+                else throw new InvalidOperationException("Right property must be PropertyInfo.");
+
+                var lambda = Expression.Lambda<Func<TEntity, TEntity, bool>>(Expression.Equal(left, right), record, entity);
                 return lambda;
             }).ToArray();
 
@@ -80,7 +96,7 @@ namespace LinqSharp.EFCore
             initOptions?.Invoke(options);
 
             var propNames = ExpressionEx.GetPropertyNames(keys);
-            var predicate = GetAddOrUpdateLambda(propNames, entity);
+            var predicate = GetAbsoluteAddOrUpdateLambda(propNames, entity);
 
             var record = @this.FirstOrDefault(predicate);
             if (record is not null)
@@ -121,30 +137,31 @@ namespace LinqSharp.EFCore
             initOptions?.Invoke(options);
 
             var propNames = ExpressionEx.GetPropertyNames(keys);
-            var parts = entities.Select(x => new
-            {
-                Entity = x,
-                Predicate = GetAddOrUpdateLambda(propNames, x),
-            });
+            var predicateBuilder = GetAddOrUpdateLambda<TEntity>(propNames).Compile();
 
             Expression<Func<TEntity, bool>> predicate;
             if (options.Predicate is null)
             {
+                var parts = entities.Select(x => new
+                {
+                    Entity = x,
+                    Predicate = GetAbsoluteAddOrUpdateLambda(propNames, x),
+                }).ToArray();
                 var lambdas = parts.Select(x => x.Predicate).ToArray();
                 predicate = lambdas.LambdaJoin(Expression.OrElse);
             }
             else predicate = options.Predicate;
 
-            var records = @this.Where(predicate).ToArray();
-            foreach (var part in parts)
+            var recordlist = @this.Where(predicate).ToList();
+            foreach (var entity in entities)
             {
-                var partPredicate = part.Predicate.Compile();
-                var entity = part.Entity;
-                var record = records.FirstOrDefault(partPredicate);
-
-                if (record is not null)
+                var record = recordlist.FirstOrDefault(x => predicateBuilder(x, entity));
+                if (record is null) @this.Add(entity);
+                else
+                {
                     options.Update(record, entity);
-                else @this.Add(entity);
+                    recordlist.Remove(record);
+                }
             }
         }
 

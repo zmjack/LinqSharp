@@ -80,5 +80,32 @@ namespace LinqSharp.EFCore.Test
             mysql.SaveChanges();
         }
 
+        [Fact]
+        public void TmpTest()
+        {
+            using var mysql = ApplicationDbContext.UseMySql();
+            var month = DateTime.Now.StartOfMonth();
+
+            var records = new LS_Name[5_000].Let(i =>
+            {
+                return new LS_Name { Name = i.ToString(), CreationTime = month.AddDays(i), };
+            });
+
+            PerfProbe.Perf.UseUdpClient("127.0.0.1", 26778);
+
+            PerfProbe.Perf.Set("AddOrUpdateRange");
+            mysql.LS_Names.AddOrUpdateRange(x => new { x.Name, x.CreationTime }, records, options =>
+            {
+            });
+
+            PerfProbe.Perf.Set("Save");
+            mysql.SaveChanges();
+            PerfProbe.Perf.End();
+
+            // Clear
+            //mysql.LS_Names.Delete(x => true);
+            //mysql.SaveChanges();
+        }
+
     }
 }
