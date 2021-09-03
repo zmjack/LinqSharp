@@ -42,5 +42,17 @@ namespace LinqSharp.EFCore.Test
             Assert.Equal(new[] { "a", "b", ":c" }, filled2.Select(x => x.NickName).ToArray());
         }
 
+        [Fact]
+        public void AllSameTest()
+        {
+            var items = new[]
+            {
+                new NameModel { Name = "A", NickName = "a", Tag = "01" },
+                new NameModel { Name = "B", NickName = "b", Tag = "01" },
+            };
+            Assert.True(items.AllSame(x => x.Tag));
+            Assert.False(items.AllSame(x => x.Name));
+        }
+
     }
 }
