@@ -76,48 +76,7 @@ namespace LinqSharp.EFCore
         public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, ref TEntity entity)
             where TEntity : class
         {
-            return AddOrUpdate(@this, keys, entity, null);
-        }
-
-        /// <summary>
-        /// Add an entity if not exsist, or update the exsist record.
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="keys">[Member or NewSelector]</param>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, TEntity entity)
-            where TEntity : class
-        {
             return AddOrUpdate(@this, keys, ref entity, null);
-        }
-
-        /// <summary>
-        /// Add an entity if not exsist, or update the exsist record.
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="keys"></param>
-        /// <param name="entity"></param>
-        /// <param name="initOptions"></param>
-        /// <returns></returns>
-        public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, TEntity entity, Action<UpdateOptions<TEntity>> initOptions)
-            where TEntity : class
-        {
-            var options = new UpdateOptions<TEntity>();
-            initOptions?.Invoke(options);
-
-            var propNames = ExpressionEx.GetPropertyNames(keys);
-            var predicate = GetAbsoluteAddOrUpdateLambda(propNames, entity);
-
-            var record = @this.FirstOrDefault(predicate);
-            if (record is not null)
-            {
-                options.Update?.Invoke(record, entity);
-                return @this.GetDbContext().Entry(record);
-            }
-            else return @this.Add(entity);
         }
 
         /// <summary>

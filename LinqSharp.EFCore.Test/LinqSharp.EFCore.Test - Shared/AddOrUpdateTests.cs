@@ -18,24 +18,15 @@ namespace LinqSharp.EFCore.Test
             {
                 mysql.LS_Names.Delete(x => true);
 
+                var item1 = new LS_Name { Name = "zmjack", CreationTime = now, Note = "Added" };
                 // AddOrUpdate
-                mysql.LS_Names
-                    .AddOrUpdate(x => new { x.Name, x.CreationTime }, new LS_Name { Name = "zmjack", CreationTime = now, Note = "Added" })
-                    .Then(entry =>
-                    {
-                        Assert.Equal(EntityState.Added, entry.State);
-                    });
+                var state1 = mysql.LS_Names.AddOrUpdate(x => new { x.Name, x.CreationTime }, ref item1);
+                Assert.Equal(EntityState.Added, state1.State);
                 mysql.SaveChanges();
 
-                var entry = mysql.LS_Names
-                    .AddOrUpdate(x => new { x.Name, x.CreationTime }, new LS_Name { Name = "zmjack", CreationTime = now, Note = "Modified" }, options =>
-                    {
-                        options.Update = (record, entity) => record.Accept(entity);
-                    })
-                    .Then(entry =>
-                    {
-                        Assert.Equal(EntityState.Modified, entry.State);
-                    });
+                var item2 = new LS_Name { Name = "zmjack", CreationTime = now, Note = "Modified" };
+                var state2 = mysql.LS_Names.AddOrUpdate(x => new { x.Name, x.CreationTime }, ref item2, options => options.Update = (record, entity) => record.Accept(entity));
+                Assert.Equal(EntityState.Modified, state2.State);
                 mysql.SaveChanges();
 
                 // AddOrUpdateRange
@@ -52,10 +43,7 @@ namespace LinqSharp.EFCore.Test
                 {
                     new LS_Name { Name = "zmjack", CreationTime = now, Note = "Modified - 3" },
                     new LS_Name { Name = "zmjack(2)", CreationTime = now, Note = "Modified - 3" },
-                }, options =>
-                {
-                    options.Update = (record, entity) => record.Note = entity.Note + " -- Changed";
-                });
+                }, options => options.Update = (record, entity) => record.Note = entity.Note + " -- Changed");
                 mysql.SaveChanges();
                 Assert.Equal(2, mysql.LS_Names.Count(x => x.Note.Contains("Changed")));
 
