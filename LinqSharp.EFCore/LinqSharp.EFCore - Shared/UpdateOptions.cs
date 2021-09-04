@@ -4,6 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace LinqSharp.EFCore
@@ -19,6 +20,5 @@ namespace LinqSharp.EFCore
         /// (Note that the predicate must contain all possible records.)
         /// </summary>
         public Expression<Func<TEntity, bool>> Predicate { get; set; }
-
     }
 }
