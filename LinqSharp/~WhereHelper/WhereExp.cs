@@ -10,13 +10,15 @@ namespace LinqSharp
 {
     public class WhereExp<TSource>
     {
-        public Expression<Func<TSource, bool>> Exp { get; private set; }
+        public Expression<Func<TSource, bool>> Expression { get; private set; }
+
+        public bool Empty => Expression is null;
 
         public WhereExp() { }
 
-        public WhereExp(Expression<Func<TSource, bool>> exp)
+        public WhereExp(Expression<Func<TSource, bool>> expression)
         {
-            Exp = exp;
+            Expression = expression;
         }
 
         public WhereExp<TSource> And(WhereExp<TSource> other) => this & other;
@@ -24,31 +26,31 @@ namespace LinqSharp
 
         public static WhereExp<TSource> operator &(WhereExp<TSource> left, WhereExp<TSource> right)
         {
-            if (left.Exp is null) return new WhereExp<TSource>(right.Exp);
+            if (left.Expression is null) return new WhereExp<TSource>(right.Expression);
 
-            var parameter = left.Exp.Parameters[0];
-            var leftExp = left.Exp.Body;
-            var rightExp = right.Exp.Body.RebindParameter(right.Exp.Parameters[0], parameter);
-            var exp = Expression.Lambda<Func<TSource, bool>>(Expression.AndAlso(leftExp, rightExp), parameter);
+            var parameter = left.Expression.Parameters[0];
+            var leftExp = left.Expression.Body;
+            var rightExp = right.Expression.Body.RebindParameter(right.Expression.Parameters[0], parameter);
+            var exp = System.Linq.Expressions.Expression.Lambda<Func<TSource, bool>>(System.Linq.Expressions.Expression.AndAlso(leftExp, rightExp), parameter);
             return new WhereExp<TSource>(exp);
         }
 
         public static WhereExp<TSource> operator |(WhereExp<TSource> left, WhereExp<TSource> right)
         {
-            if (left.Exp is null) return new WhereExp<TSource>(right.Exp);
+            if (left.Expression is null) return new WhereExp<TSource>(right.Expression);
 
-            var parameter = left.Exp.Parameters[0];
-            var leftExp = left.Exp.Body;
-            var rightExp = right.Exp.Body.RebindParameter(right.Exp.Parameters[0], parameter);
-            var exp = Expression.Lambda<Func<TSource, bool>>(Expression.OrElse(leftExp, rightExp), parameter);
+            var parameter = left.Expression.Parameters[0];
+            var leftExp = left.Expression.Body;
+            var rightExp = right.Expression.Body.RebindParameter(right.Expression.Parameters[0], parameter);
+            var exp = System.Linq.Expressions.Expression.Lambda<Func<TSource, bool>>(System.Linq.Expressions.Expression.OrElse(leftExp, rightExp), parameter);
             return new WhereExp<TSource>(exp);
         }
 
         public static WhereExp<TSource> operator !(WhereExp<TSource> operand)
         {
-            var parameter = operand.Exp.Parameters[0];
-            var opndExp = operand.Exp.Body;
-            var exp = Expression.Lambda<Func<TSource, bool>>(Expression.Not(opndExp), parameter);
+            var parameter = operand.Expression.Parameters[0];
+            var opndExp = operand.Expression.Body;
+            var exp = System.Linq.Expressions.Expression.Lambda<Func<TSource, bool>>(System.Linq.Expressions.Expression.Not(opndExp), parameter);
             return new WhereExp<TSource>(exp);
         }
 

@@ -36,7 +36,7 @@ namespace LinqSharp.EFCore
         }
 
         /// <summary>
-        /// Truncate table. (This method needs to run inside a BeginUnsafeScope.)
+        /// Truncate table. (This method needs to run inside a BeginDirectScope.)
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="this"></param>
@@ -51,7 +51,7 @@ namespace LinqSharp.EFCore
         }
 
         /// <summary>
-        /// Truncate table. (This method needs to run inside a BeginUnsafeScope.)
+        /// Truncate table. (This method needs to run inside a BeginDirectScope.)
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="this"></param>

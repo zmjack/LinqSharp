@@ -11,7 +11,11 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConflictWin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DatabaseProviderName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Functions\DbFuncRegister.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbSetCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Functions\IDbFuncProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Functions\DbFuncProvider.cs" />
+    <Compile Include="..\LinqSharp.EFCore - Shared\Functions\IDbFunc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Identifiers\IdentifierPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Identifiers\IdentifierUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DirectScope.cs" />
@@ -22,7 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UpdateOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbSet - AddOrUpdate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\MySqlFuncProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\MySqlFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QueryCondition.cs" />
     <Compile Include="..\LinqSharp.EFCore - Shared\QueryConditionUnit.cs" />
@@ -38,11 +42,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Translator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~internals\PropIndex.cs" />
     <Compile Include="..\LinqSharp.EFCore - Shared\LinqSharpEF.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\JetFuncProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\OracleFuncProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\PostgreSQLFuncProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\SqliteFuncProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~FuncProviders\SqlServerFuncProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\JetFuncProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\OracleFuncProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\PostgreSQLFuncProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\SqliteFuncProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\SqlServerFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\JsonProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RowChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\EntityAuditAttribute.cs" />
@@ -70,7 +74,7 @@
     <Compile Include="..\LinqSharp.EFCore - Shared\~KvEntity\KvEntityAccessor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)~FuncProviders\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Functions\Providers\" />
     <Folder Include="$(MSBuildThisFileDirectory)~IQueryable\" />
   </ItemGroup>
 </Project>

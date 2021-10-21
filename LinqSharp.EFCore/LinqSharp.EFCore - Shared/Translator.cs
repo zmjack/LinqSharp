@@ -17,7 +17,7 @@ using System.Data;
 
 namespace LinqSharp.EFCore
 {
-    internal static class Translator
+    public static class Translator
     {
 #if EFCore2
         public static ConstantExpression Constant(object value)

@@ -16,8 +16,8 @@ namespace LinqSharp
             var helper = new WhereHelperE<TSource>(@this);
             var whereExp = build(helper);
 
-            if (whereExp?.Exp != null)
-                return @this.Where(whereExp.Exp.Compile());
+            if (whereExp?.Expression != null)
+                return @this.Where(whereExp.Expression.Compile());
             else return @this;
         }
 

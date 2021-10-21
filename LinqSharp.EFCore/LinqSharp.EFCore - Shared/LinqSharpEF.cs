@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.EFCore.Functions.Providers;
 using LinqSharp.EFCore.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -165,20 +166,20 @@ namespace LinqSharp.EFCore
             var providerName = context.GetProviderName();
             switch (providerName)
             {
-                case DatabaseProviderName.Jet: JetFuncProvider.Register(modelBuilder); break;
+                case DatabaseProviderName.Jet: new JetFuncProvider(modelBuilder).UseAll(); break;
 
                 case DatabaseProviderName.MyCat:
-                case DatabaseProviderName.MySql: MySqlFuncProvider.Register(modelBuilder); break;
+                case DatabaseProviderName.MySql: new MySqlFuncProvider(modelBuilder).UseAll(); break;
 
-                case DatabaseProviderName.Oracle: OracleFuncProvider.Register(modelBuilder); break;
+                case DatabaseProviderName.Oracle: new OracleFuncProvider(modelBuilder).UseAll(); break;
 
-                case DatabaseProviderName.PostgreSQL: PostgreSQLFuncProvider.Register(modelBuilder); break;
+                case DatabaseProviderName.PostgreSQL: new PostgreSQLFuncProvider(modelBuilder).UseAll(); break;
 
-                case DatabaseProviderName.Sqlite: SqliteFuncProvider.Register(modelBuilder); break;
+                case DatabaseProviderName.Sqlite: new SqliteFuncProvider(modelBuilder).UseAll(); break;
 
                 case DatabaseProviderName.SqlServer:
                 case DatabaseProviderName.SqlServerCompact35:
-                case DatabaseProviderName.SqlServerCompact40: SqlServerFuncProvider.Register(modelBuilder); break;
+                case DatabaseProviderName.SqlServerCompact40: new SqlServerFuncProvider(modelBuilder).UseAll(); break;
 
                 case DatabaseProviderName.Cosmos:
                 case DatabaseProviderName.Firebird:
