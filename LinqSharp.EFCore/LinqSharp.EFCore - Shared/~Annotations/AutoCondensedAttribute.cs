@@ -6,18 +6,35 @@
 using Microsoft.EntityFrameworkCore;
 using NStandard;
 using System;
+using System.Linq;
 
 namespace LinqSharp.EFCore
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class AutoCondensedAttribute : AutoAttribute
     {
-        public AutoCondensedAttribute() : base(EntityState.Added, EntityState.Modified) { }
+        public bool ReserveNewLine { get; set; }
+
+        public AutoCondensedAttribute(bool reserveNewLine = false) : base(EntityState.Added, EntityState.Modified)
+        {
+            ReserveNewLine = reserveNewLine;
+        }
+
         public override object Format(object value)
         {
             if (value is null) return "";
             if (value is not string) throw new ArgumentException("The value must be string.");
-            return (value as string).Unique();
+            else
+            {
+                var str = value as string;
+                if (ReserveNewLine)
+                {
+                    //TODO: Optimizable
+                    var normalized = str.NormalizeNewLine();
+                    return (from part in normalized.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries) select part.Unique()).Join(Environment.NewLine);
+                }
+                else return str.Unique();
+            }
         }
     }
 }

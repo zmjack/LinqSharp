@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 #if !EFCore2
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 #endif
-using NStandard;
-using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;

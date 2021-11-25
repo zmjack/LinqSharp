@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KvEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NumbericTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SameOrDefaultTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DatabaseDepTests\TestDatabases.cs" />
     <Compile Include="..\LinqSharp.EFCore.Test - Shared\~DatabaseDepTests\MutilContextContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DatabaseDepTests\SqlServerTests.cs" />
