@@ -15,9 +15,8 @@ namespace LinqSharp.EFCore
     {
         public bool ReserveNewLine { get; set; }
 
-        public AutoCondensedAttribute(bool reserveNewLine = false) : base(EntityState.Added, EntityState.Modified)
+        public AutoCondensedAttribute() : base(EntityState.Added, EntityState.Modified)
         {
-            ReserveNewLine = reserveNewLine;
         }
 
         public override object Format(object value)
