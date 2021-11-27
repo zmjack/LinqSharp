@@ -54,5 +54,21 @@ namespace LinqSharp.EFCore.Test
             Assert.False(items.AllSame(x => x.Name));
         }
 
+        [Fact]
+        public void Tile()
+        {
+            var array = new[] { 1, 2, 3 };
+            var expected = array.Tile(3);
+            Assert.Equal(expected, new[] { 1, 2, 3, 1, 2, 3, 1, 2, 3 });
+        }
+
+        [Fact]
+        public void Repeat()
+        {
+            var array = new[] { 1, 2, 3 };
+            var expected = array.Repeat(3);
+            Assert.Equal(expected, new[] { 1, 1, 1, 2, 2, 2, 3, 3, 3 });
+        }
+
     }
 }
