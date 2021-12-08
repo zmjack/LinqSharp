@@ -16,6 +16,7 @@ namespace LinqSharp.Cli
         public string Index { get; set; }
         public bool Required { get; set; }
         public Type ReferenceType { get; set; }
+        public string ObsoleteLevel { get; set; }
 
     }
 }

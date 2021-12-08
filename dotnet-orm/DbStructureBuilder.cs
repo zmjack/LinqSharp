@@ -112,6 +112,23 @@ namespace LinqSharp.Cli
 
                 foreach (var field in table.TableFields)
                 {
+                    var noteBuilder = new StringBuilder();
+                    if (field.ObsoleteLevel is not null)
+                    {
+                        noteBuilder.AppendLine($"过时级别：{field.ObsoleteLevel}");
+                    }
+                    if (field.RuntimeType.IsEnum)
+                    {
+                        var type = field.RuntimeType;
+                        var values = type.GetFields().Where(x => x.Name != "value__").Select(x => new
+                        {
+                            Name = DataAnnotationEx.GetDisplayName(x),
+                            LongValue = Convert.ChangeType(Enum.Parse(type, x.Name), typeof(long)),
+                        });
+                        var note = values.Select(value => $"<li>{$"{value.LongValue}={value.Name}".For(StringFlow.HtmlEncode)}</li>").Join("");
+                        return $"<ul>{note}</ul>";
+                    }
+
                     appendLine(new[]
                     {
                         field.Name,
@@ -121,20 +138,7 @@ namespace LinqSharp.Cli
                         field.Index.For(StringFlow.HtmlEncode),
                         field.Required ? "Required" : "",
                         field.ReferenceType?.For(type => DbTables[type].Name),
-                        field.RuntimeType.For(type=>
-                        {
-                            if (type.IsEnum)
-                            {
-                                var values = type.GetFields().Where(x => x.Name != "value__").Select(x => new
-                                {
-                                    Name = DataAnnotationEx.GetDisplayName(x),
-                                    LongValue = Convert.ChangeType(Enum.Parse(type, x.Name), typeof(long)),
-                                });
-                                var note = values.Select(value => $"<li>{$"{value.LongValue}={value.Name}".For(StringFlow.HtmlEncode)}</li>").Join("");
-                                return $"<ul>{note}</ul>";
-                            }
-                            else return "";
-                        }),
+                        noteBuilder.ToString().Trim(),
                     });
                 }
                 sb.AppendLine("</table>");
@@ -179,6 +183,11 @@ namespace LinqSharp.Cli
                     {
                         var name = x.Property<string>("Name").Value;
                         return tableType.GetProperty(name).PropertyType;
+                    }),
+                    ObsoleteLevel = type.GetAttributeViaName("System.ObsoleteAttribute")?.GetReflector().For(x =>
+                    {
+                        var isError = x.Property<bool>("IsError").Value;
+                        return isError ? "已弃用" : "警告";
                     }),
                 }).ToArray();
 
