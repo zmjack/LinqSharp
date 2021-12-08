@@ -126,7 +126,7 @@ namespace LinqSharp.Cli
                             LongValue = Convert.ChangeType(Enum.Parse(type, x.Name), typeof(long)),
                         });
                         var note = values.Select(value => $"<li>{$"{value.LongValue}={value.Name}".For(StringFlow.HtmlEncode)}</li>").Join("");
-                        return $"<ul>{note}</ul>";
+                        noteBuilder.AppendLine($"<ul>{note}</ul>");
                     }
 
                     appendLine(new[]
@@ -138,7 +138,7 @@ namespace LinqSharp.Cli
                         field.Index.For(StringFlow.HtmlEncode),
                         field.Required ? "Required" : "",
                         field.ReferenceType?.For(type => DbTables[type].Name),
-                        noteBuilder.ToString().Trim(),
+                        noteBuilder.ToString(),
                     });
                 }
                 sb.AppendLine("</table>");
