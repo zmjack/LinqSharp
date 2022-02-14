@@ -77,24 +77,6 @@ namespace LinqSharp.EFCore.Test
         }
 
         [Fact]
-        public void WhereTest()
-        {
-            using (var mysql = ApplicationDbContext.UseMySql())
-            {
-                var query = mysql.Employees
-                    .WhereAfter(
-                        yearExp: x => x.Country,
-                        monthExp: x => x.EmployeeID,
-                        dayExp: x => x.EmployeeID,
-                        after: DateTime.Now);
-                var sql = query.ToSql();
-
-                //var result = query.ToArray();
-                //Assert.Single(result);
-            }
-        }
-
-        [Fact]
         public void OrderByCaseTest1()
         {
             //  RegionID    RegionDescription

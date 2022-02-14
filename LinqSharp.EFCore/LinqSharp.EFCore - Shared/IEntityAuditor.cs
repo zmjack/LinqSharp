@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LinqSharp.EFCore
 {
-    public interface IEntityAuditor<TDbContext, TEntity> : IEntity
+    public interface IEntityAuditor<TDbContext, TEntity>
         where TDbContext : DbContext
         where TEntity : class, new()
     {

@@ -488,7 +488,8 @@ namespace LinqSharp.EFCore
                     }
                 }
 
-                if (oldValue != finalValue) prop.SetValue(entry.Entity, finalValue);
+                if (oldValue != finalValue)
+                    prop.SetValue(entry.Entity, finalValue);
             }
         }
 

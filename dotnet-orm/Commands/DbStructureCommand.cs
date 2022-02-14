@@ -5,7 +5,6 @@
 
 using DotNetCli;
 using NStandard;
-using NStandard.Reference;
 using NStandard.Runtime;
 using System;
 using System.IO;
@@ -32,10 +31,11 @@ namespace LinqSharp.Cli
             if (!Directory.Exists(OutFolder)) Directory.CreateDirectory(OutFolder);
 
             var targetAssemblyName = Program.ProjectInfo.AssemblyName;
-            var assemblyContext = new AssemblyContext($"{TargetBinFolder}/{targetAssemblyName}.dll", DotNetFramework.Parse(Program.ProjectInfo.TargetFramework));
+            var assemblyContext = new AssemblyContext(DotNetFramework.Parse(Program.ProjectInfo.TargetFramework), Program.ProjectInfo.Sdk);
+            assemblyContext.LoadMain($"{TargetBinFolder}/{targetAssemblyName}.dll");
 
             var dbContextType = assemblyContext.GetType($"Microsoft.EntityFrameworkCore.DbContext,Microsoft.EntityFrameworkCore");
-            var types = assemblyContext.RootAssembly.GetTypesWhichExtends(dbContextType, true);
+            var types = assemblyContext.MainAssembly.GetTypesWhichExtends(dbContextType, true);
             foreach (var type in types)
             {
                 var outFile = $"{Path.GetFullPath($"{OutFolder}/{type.Name}.html")}";

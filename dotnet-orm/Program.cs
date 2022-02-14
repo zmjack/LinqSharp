@@ -6,6 +6,7 @@
 using DotNetCli;
 using NStandard;
 using System;
+using System.IO;
 using System.Reflection;
 
 namespace LinqSharp.Cli
@@ -14,12 +15,16 @@ namespace LinqSharp.Cli
     {
         public static readonly string CLI_VERSION = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public static CmdContainer CmdContainer;
-        public static ProjectInfo ProjectInfo => CmdContainer.ProjectInfo;
+        public static ProjectInfo ProjectInfo { get; private set; }
 
         static void Main(string[] args)
         {
-            CmdContainer = new CmdContainer("orm", ProjectInfo.GetCurrent());
-            CmdContainer.CacheCommands(Assembly.GetExecutingAssembly());
+            CmdContainer = new CmdContainer("orm", Assembly.GetExecutingAssembly(), ProjectInfo.GetFromDirectory(Directory.GetCurrentDirectory()));
+            if (CmdContainer.ProjectInfo.HasValue)
+            {
+                ProjectInfo = CmdContainer.ProjectInfo.Value;
+            }
+            else throw new InvalidOperationException("No project found.");
 
             PrintWelcome();
 

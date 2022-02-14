@@ -13,10 +13,10 @@ namespace LinqSharp
 {
     public static partial class XIEnumerable
     {
-        public static T Calculate<T>(this IEnumerable<T> source, Action<StructRef<T>, IEnumerable<T>> resultSetter) where T : struct
+        public static T Calculate<T>(this IEnumerable<T> source, Action<Ref<T>, IEnumerable<T>> resultSetter) where T : struct
         {
             var instance = Ref.New<T>();
-            if (instance.Ref is IUnitValue unitValue) unitValue.InitializeStruct();
+            if (instance.Struct is IUnitValue unitValue) unitValue.Initialize();
 
             if (!source.Any()) return instance;
 
@@ -24,10 +24,10 @@ namespace LinqSharp
             return instance;
         }
 
-        public static T? Calculate<T>(this IEnumerable<T?> source, Action<StructRef<T>, IEnumerable<T>> resultSetter) where T : struct
+        public static T? Calculate<T>(this IEnumerable<T?> source, Action<Ref<T>, IEnumerable<T>> resultSetter) where T : struct
         {
             var instance = Ref.New<T>();
-            if (instance.Ref is IUnitValue unitValue) unitValue.InitializeStruct();
+            if (instance.Struct is IUnitValue unitValue) unitValue.Initialize();
 
             if (!source.Any()) return instance;
             if (source.All(x => !x.HasValue)) return instance;

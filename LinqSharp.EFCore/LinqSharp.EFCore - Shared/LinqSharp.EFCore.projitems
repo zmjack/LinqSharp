@@ -15,7 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)DbSetCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\IDbFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\DbFuncProvider.cs" />
-    <Compile Include="..\LinqSharp.EFCore - Shared\Functions\IDbFunc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Identifiers\IdentifierPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Identifiers\IdentifierUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DirectScope.cs" />
