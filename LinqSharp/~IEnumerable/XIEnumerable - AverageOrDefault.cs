@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using NStandard.UnitValues;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,26 @@ namespace LinqSharp
 
         public static TResult AverageOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult @default = default) => source.Any() ? source.Average(selector) : @default;
         public static TSource AverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default) => source.Any() ? source.Average() : @default;
+
+        public static TSource QAverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default) where TSource : struct, IUnitValue, ISummable<TSource>
+        {
+            if (!source.Any()) return @default;
+
+            var result = new TSource();
+            result.QuickAverage(source);
+
+            return result;
+        }
+
+        public static TSource? QAverageOrDefault<TSource>(this IEnumerable<TSource?> source, TSource? @default = default) where TSource : struct, IUnitValue, ISummable<TSource>
+        {
+            if (!source.Any(x => x.HasValue)) return @default;
+
+            var result = new TSource();
+            result.QuickAverage(from item in source where item.HasValue select item.Value);
+
+            return result;
+        }
 
     }
 }

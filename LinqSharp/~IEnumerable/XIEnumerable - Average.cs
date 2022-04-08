@@ -3,8 +3,10 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using NStandard.UnitValues;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LinqSharp
 {
@@ -42,5 +44,24 @@ namespace LinqSharp
         }
         public static TSource Average<TSource>(this IEnumerable<TSource> source) => Average(source, x => x);
 
+        public static TUnitValue QAverage<TUnitValue>(this IEnumerable<TUnitValue> source) where TUnitValue : struct, IUnitValue, ISummable<TUnitValue>
+        {
+            if (!source.Any()) throw new InvalidOperationException("Sequence contains no elements");
+
+            var result = new TUnitValue();
+            result.QuickAverage(source);
+
+            return result;
+        }
+
+        public static TUnitValue? QAverage<TUnitValue>(this IEnumerable<TUnitValue?> source) where TUnitValue : struct, IUnitValue, ISummable<TUnitValue>
+        {
+            if (!source.Any(x => x.HasValue)) return null;
+
+            var result = new TUnitValue();
+            result.QuickAverage(from item in source where item.HasValue select item.Value);
+
+            return result;
+        }
     }
 }

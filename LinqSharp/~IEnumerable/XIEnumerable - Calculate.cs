@@ -11,31 +11,31 @@ using System.Linq;
 
 namespace LinqSharp
 {
-    public static partial class XIEnumerable
-    {
-        public static T Calculate<T>(this IEnumerable<T> source, Action<Ref<T>, IEnumerable<T>> resultSetter) where T : struct
-        {
-            var instance = Ref.New<T>();
-            if (instance.Struct is IUnitValue unitValue) unitValue.Initialize();
+    //public static partial class XIEnumerable
+    //{
+    //    public static T Calculate<T>(this IEnumerable<T> source, Action<Ref<T>, IEnumerable<T>> resultSetter) where T : struct
+    //    {
+    //        var instance = Ref.New<T>();
+    //        if (instance.Struct is IUnitValue unitValue) unitValue.Initialize();
 
-            if (!source.Any()) return instance;
+    //        if (!source.Any()) return instance;
 
-            resultSetter(instance, source);
-            return instance;
-        }
+    //        resultSetter(instance, source);
+    //        return instance;
+    //    }
 
-        public static T? Calculate<T>(this IEnumerable<T?> source, Action<Ref<T>, IEnumerable<T>> resultSetter) where T : struct
-        {
-            var instance = Ref.New<T>();
-            if (instance.Struct is IUnitValue unitValue) unitValue.Initialize();
+    //    public static T? Calculate<T>(this IEnumerable<T?> source, Action<Ref<T>, IEnumerable<T>> resultSetter) where T : struct
+    //    {
+    //        var instance = Ref.New<T>();
+    //        if (instance.Struct is IUnitValue unitValue) unitValue.Initialize();
 
-            if (!source.Any()) return instance;
-            if (source.All(x => !x.HasValue)) return instance;
+    //        if (!source.Any()) return instance;
+    //        if (source.All(x => !x.HasValue)) return instance;
 
-            resultSetter(instance, from item in source where item.HasValue let value = item.Value select value);
-            return instance;
-        }
+    //        resultSetter(instance, from item in source where item.HasValue let value = item.Value select value);
+    //        return instance;
+    //    }
 
-    }
+    //}
 
 }

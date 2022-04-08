@@ -3,8 +3,10 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using NStandard.UnitValues;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LinqSharp
 {
@@ -37,6 +39,26 @@ namespace LinqSharp
             return default;
         }
         public static TSource Sum<TSource>(this IEnumerable<TSource> source) => Sum(source, x => x);
+
+        public static TSource QSum<TSource>(this IEnumerable<TSource> source) where TSource : struct, IUnitValue, ISummable<TSource>
+        {
+            var result = new TSource();
+
+            if (!source.Any()) return result;
+            else result.QuickSum(source);
+
+            return result;
+        }
+
+        public static TSource? QSum<TSource>(this IEnumerable<TSource?> source) where TSource : struct, IUnitValue, ISummable<TSource>
+        {
+            var result = new TSource();
+
+            if (!source.Any()) return result;
+            else result.QuickSum(from item in source where item.HasValue select item.Value);
+
+            return result;
+        }
 
     }
 
