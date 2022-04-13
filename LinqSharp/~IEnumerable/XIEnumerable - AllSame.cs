@@ -6,9 +6,21 @@ namespace LinqSharp
 {
     public static partial class XIEnumerable
     {
+        public static bool AllSame<TSource>(this IEnumerable<TSource> enumerable)
+        {
+            if (!enumerable.Any()) return true;
+
+            var first = enumerable.First();
+            foreach (var element in enumerable)
+            {
+                if (!element.Equals(first)) return false;
+            }
+            return true;
+        }
+
         public static bool AllSame<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector)
         {
-            if (!enumerable.Any()) return default;
+            if (!enumerable.Any()) return true;
 
             var first = enumerable.First();
             var firstValue = selector(first);

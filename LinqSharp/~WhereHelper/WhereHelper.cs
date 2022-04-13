@@ -56,6 +56,11 @@ namespace LinqSharp
             var whereExps = enumerable.Select(e => exp(e)).ToArray();
             return Or(whereExps);
         }
+        public WhereExp<TSource> Or(IEnumerable<Expression<Func<TSource, bool>>> enumerable)
+        {
+            var whereExps = enumerable.Select(e => new WhereExp<TSource>(e)).ToArray();
+            return Or(whereExps);
+        }
 
         public WhereExp<TSource> StartEmpty() => new();
         public WhereExp<TSource> Where(Expression<Func<TSource, bool>> predicate) => new(predicate);

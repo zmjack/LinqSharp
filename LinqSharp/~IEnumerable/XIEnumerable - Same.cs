@@ -10,20 +10,19 @@ namespace LinqSharp
         {
             if (!enumerable.Any()) return default;
 
-            var firstValue = enumerable.First();
+            var first = enumerable.First();
             foreach (var element in enumerable)
             {
-                var selectValue = element;
-                if (selectValue is not null && firstValue is not null)
+                if (element is not null && first is not null)
                 {
-                    if (!selectValue.Equals(firstValue)) throw new InvalidOperationException($"{firstValue} and {selectValue} are not same.");
+                    if (!element.Equals(first)) throw new InvalidOperationException($"{first} and {element} are not same.");
                 }
                 else
                 {
-                    if (!(selectValue is null && firstValue is null)) throw new InvalidOperationException($"{firstValue} and {selectValue} are not same.");
+                    if (!(element is null && first is null)) throw new InvalidOperationException($"{first} and {element} are not same.");
                 }
             }
-            return firstValue;
+            return first;
         }
 
         public static TResult Same<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector)

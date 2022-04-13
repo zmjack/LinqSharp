@@ -19,6 +19,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Identifiers\IdentifierUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DirectScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BulkCopyEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\IncludeNavigation.cs" />
+    <Compile Include="..\LinqSharp.EFCore - Shared\PreQuery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbSet - CacheQuery.cs" />
     <Compile Include="..\LinqSharp.EFCore - Shared\LinqSharpEFRegister.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Provider.cs" />

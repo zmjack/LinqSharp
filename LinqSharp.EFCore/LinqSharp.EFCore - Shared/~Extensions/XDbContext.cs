@@ -5,6 +5,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
@@ -44,6 +46,27 @@ namespace LinqSharp.EFCore
 #pragma warning disable IDE0060 // Remove unused parameter
         public static DirectScope BeginDirectScope(this DbContext @this) => new();
 #pragma warning restore IDE0060 // Remove unused parameter
+
+        public static PreQuery<TDbContext, TEntity> CreatePreQuery<TDbContext, TEntity>(this TDbContext @this, Func<TDbContext, DbSet<TEntity>> dbSetSelector!!)
+            where TDbContext : DbContext
+            where TEntity : class
+        {
+            return new PreQuery<TDbContext, TEntity>(@this, dbSetSelector);
+        }
+
+        public static TEntity[] ExcuteQueries<TDbContext, TEntity>(this TDbContext @this, params PreQuery<TDbContext, TEntity>[] preQueriers!!)
+            where TDbContext : DbContext
+            where TEntity : class
+        {
+            return PreQuery.Excute(@this, preQueriers);
+        }
+
+        public static TEntity[] ExcuteQueries<TDbContext, TEntity>(this TDbContext @this, IEnumerable<PreQuery<TDbContext, TEntity>> preQueriers!!)
+            where TDbContext : DbContext
+            where TEntity : class
+        {
+            return PreQuery.Excute(@this, preQueriers);
+        }
 
     }
 }

@@ -4,11 +4,11 @@
 
 ### Function Provider Supports
 
-| .NET Function       |               Jet                |              MySql               |              Oracle              |            PostgreSQL            |              Sqlite              |            SqlServer             |
-| ------------------- | :------------------------------: | :------------------------------: | :------------------------------: | :------------------------------: | :------------------------------: | :------------------------------: |
-| DbFunc.**Random**   | <font color="limegreen">✔</font> | <font color="limegreen">✔</font> | <font color="limegreen">✔</font> | <font color="limegreen">✔</font> | <font color="limegreen">✔</font> | <font color="limegreen">✔</font> |
-| DbFunc.**Concat**   |    <font color="red">✘</font>    | <font color="limegreen">✔</font> | <font color="limegreen">✔</font> | <font color="limegreen">✔</font> |    <font color="red">✘</font>    | <font color="limegreen">✔</font> |
-| DbFunc.**DateTime** |    <font color="red">✘</font>    | <font color="limegreen">✔</font> |    <font color="red">✘</font>    |    <font color="red">✘</font>    |    <font color="red">✘</font>    | <font color="limegreen">✔</font> |
+| .NET Function       | Jet  | MySql | Oracle | PostgreSQL | Sqlite | SqlServer |
+| ------------------- | :--: | :---: | :----: | :--------: | :----: | :-------: |
+| DbFunc.**Random**   |  ✔️   |   ✔️   |   ✔️    |     ✔️      |   ✔️    |     ✔️     |
+| DbFunc.**Concat**   |  ❌   |   ✔️   |   ✔️    |     ✔️      |   ❌    |     ✔️     |
+| DbFunc.**DateTime** |  ❌   |   ✔️   |   ❌    |     ❌      |   ❌    |     ✔️     |
 
 <br/>
 

@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AuditorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GroupByCountTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
+    <Compile Include="..\LinqSharp.EFCore.Test - Shared\PreQueryTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KvEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NumbericTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JoinTests.cs" />

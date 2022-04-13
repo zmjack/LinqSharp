@@ -10,20 +10,19 @@ namespace LinqSharp
         {
             if (!enumerable.Any()) return default;
 
-            var firstValue = enumerable.First();
+            var first = enumerable.First();
             foreach (var element in enumerable)
             {
-                var selectValue = element;
-                if (selectValue is not null && firstValue is not null)
+                if (element is not null && first is not null)
                 {
-                    if (!selectValue.Equals(firstValue)) return default;
+                    if (!element.Equals(first)) return default;
                 }
                 else
                 {
-                    if (!(selectValue is null && firstValue is null)) return default;
+                    if (!(element is null && first is null)) return default;
                 }
             }
-            return firstValue;
+            return first;
         }
 
         public static TResult SameOrDefault<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector)
