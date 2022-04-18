@@ -38,8 +38,8 @@ namespace LinqSharp.EFCore.Test
         {
             using (var context = ApplicationDbContext.UseMySql())
             {
-                var accessor = context.AppRegistriesAccessor.GetEntityAccessor<AppRegistryAgent>("zmjack");
-                var appRegistry = accessor.Get("zmjack");
+                var accessor = context.GetAppRegistriesAccessor();
+                var appRegistry = accessor.Get<AppRegistryAgent>("zmjack");
                 appRegistry.Enable = true;
                 appRegistry.Name = "zmjack";
                 appRegistry.Age = 29;
@@ -49,8 +49,8 @@ namespace LinqSharp.EFCore.Test
 
             using (var context = ApplicationDbContext.UseMySql())
             {
-                var accessor = context.AppRegistriesAccessor.GetEntityAccessor<AppRegistryAgent>("zmjack");
-                var appRegistry = accessor.Get("zmjack");
+                var accessor = context.GetAppRegistriesAccessor();
+                var appRegistry = accessor.Get<AppRegistryAgent>("zmjack");
                 Assert.True(appRegistry.Enable);
                 Assert.Equal("zmjack", appRegistry.Name);
                 Assert.Equal(29, appRegistry.Age);

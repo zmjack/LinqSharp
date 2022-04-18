@@ -25,30 +25,6 @@ namespace LinqSharp.EFCore
         where TKvEntity : KvEntity, new()
     {
         private readonly DbSet<TKvEntity> DbSet;
-
-        public EntityAccessor(DbSet<TKvEntity> dbSet)
-        {
-            DbSet = dbSet;
-        }
-
-        public EntityAccessor<TEntityAgent, TKvEntity> GetEntityAccessor<TEntityAgent>() where TEntityAgent : EntityAgent, new()
-        {
-            return new EntityAccessor<TEntityAgent, TKvEntity>(DbSet);
-        }
-
-        public EntityAccessor<TEntityAgent, TKvEntity> GetEntityAccessor<TEntityAgent>(params string[] items) where TEntityAgent : EntityAgent, new()
-        {
-            var accessor = new EntityAccessor<TEntityAgent, TKvEntity>(DbSet);
-            accessor.Load(items);
-            return accessor;
-        }
-    }
-
-    public class EntityAccessor<TEntityAgent, TKvEntity>
-        where TEntityAgent : EntityAgent, new()
-        where TKvEntity : KvEntity, new()
-    {
-        public DbSet<TKvEntity> DbSet;
         public TKvEntity[] Rows;
 
         public EntityAccessor(DbSet<TKvEntity> dbSet)
@@ -56,7 +32,7 @@ namespace LinqSharp.EFCore
             DbSet = dbSet;
         }
 
-        public void Ensure(string[] items)
+        private void Ensure<TEntityAgent>(string[] items) where TEntityAgent : EntityAgent, new()
         {
             var defaultAgent = typeof(TEntityAgent).CreateInstance();
             var props = typeof(TEntityAgent).GetProperties().Where(x => x.GetMethod.IsVirtual).ToArray();
@@ -74,13 +50,13 @@ namespace LinqSharp.EFCore
             DbSet.AddOrUpdateRange(x => new { x.Item, x.Key }, entities);
         }
 
-        public void Load(params string[] items)
+        public void Load<TEntityAgent>(params string[] items) where TEntityAgent : EntityAgent, new()
         {
-            Ensure(items);
+            Ensure<TEntityAgent>(items);
             Rows = DbSet.Where(x => items.Contains(x.Item)).ToArray();
         }
 
-        public TEntityAgent Get(string item)
+        public TEntityAgent Get<TEntityAgent>(string item) where TEntityAgent : EntityAgent, new()
         {
             var registry = new TEntityAgent();
             var registryProxy = new EntityAgentProxy<TEntityAgent>();
@@ -90,6 +66,6 @@ namespace LinqSharp.EFCore
             else proxy.Load(DbSet, item);
             return proxy;
         }
-
     }
+
 }
