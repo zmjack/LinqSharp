@@ -61,12 +61,5 @@ namespace LinqSharp.EFCore
             return PreQuery.Excute(@this, preQueriers);
         }
 
-        public static TEntity[] ExcuteQueries<TDbContext, TEntity>(this TDbContext @this, IEnumerable<PreQuery<TDbContext, TEntity>> preQueriers!!)
-            where TDbContext : DbContext
-            where TEntity : class
-        {
-            return PreQuery.Excute(@this, preQueriers);
-        }
-
     }
 }

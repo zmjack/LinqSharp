@@ -70,9 +70,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbSet - Ensure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntityAgent.cs" />
-    <Compile Include="..\LinqSharp.EFCore - Shared\~KvEntity\KvEntityAgentProxy.cs" />
-    <Compile Include="..\LinqSharp.EFCore - Shared\~KvEntity\KvEntityAccessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\EntityAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\EntityAgentProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\EntityAccessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Functions\Providers\" />

@@ -53,7 +53,7 @@ namespace LinqSharp.EFCore.Navigation
         public IEnumerable<TEntity> Excute(bool useFreshSource = false)
         {
             PreQuerier.Navigation = this;
-            return PreQuerier.Excute(useFreshSource);
+            return PreQuerier.ToEnumerable(useFreshSource);
         }
     }
 

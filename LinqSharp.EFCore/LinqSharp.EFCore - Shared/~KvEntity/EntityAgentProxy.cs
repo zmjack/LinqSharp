@@ -13,8 +13,8 @@ using System.Reflection;
 namespace LinqSharp.EFCore
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class KvEntityAgentProxy<TKvEntityAgent> : IInterceptor
-       where TKvEntityAgent : KvEntityAgent
+    public class EntityAgentProxy<TKvEntityAgent> : IInterceptor
+       where TKvEntityAgent : EntityAgent
     {
         public void Intercept(IInvocation invocation)
         {

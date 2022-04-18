@@ -22,7 +22,7 @@
 - [表设计数据注解](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-1.md)
 - [字段标准化数据注解](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md)
 - [直接访问函数（清空表，批量导入）](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-direct-functions.md)
-- [预查询](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-pre-query.md)
+- <font color="orange">[试验]</font> [预查询](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-pre-query.md)
 - <font color="orange">[暂无文档]</font> 函数映射
 - <font color="orange">[暂无文档]</font> 列式存储代理
 - <font color="orange">[暂无文档]</font> 关联计算与审计

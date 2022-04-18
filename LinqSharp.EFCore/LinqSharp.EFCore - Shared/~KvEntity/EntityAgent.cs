@@ -12,7 +12,7 @@ using System.Linq;
 namespace LinqSharp.EFCore
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class KvEntityAgent
+    public abstract class EntityAgent
     {
         private string _Item;
         private KvEntity[] _ColumnStores;
@@ -38,13 +38,13 @@ namespace LinqSharp.EFCore
     /// Hint: Each custom properties must be virtual(public).
     /// </summary>
     /// <typeparam name="TSelf"></typeparam>
-    public abstract class KvEntityAgent<TSelf, TKvEntity> : KvEntityAgent
+    public abstract class KvEntityAgent<TSelf, TKvEntity> : EntityAgent
         where TSelf : KvEntityAgent<TSelf, TKvEntity>, new()
         where TKvEntity : KvEntity, new()
     {
         public static TSelf Connect(IEnumerable<TKvEntity> columnStores, string item)
         {
-            var proxy = new ProxyGenerator().CreateClassProxyWithTarget(new TSelf(), new KvEntityAgentProxy<TSelf>());
+            var proxy = new ProxyGenerator().CreateClassProxyWithTarget(new TSelf(), new EntityAgentProxy<TSelf>());
             proxy.Load(columnStores, item);
             return proxy;
         }

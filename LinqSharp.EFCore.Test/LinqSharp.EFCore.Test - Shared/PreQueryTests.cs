@@ -22,7 +22,7 @@ namespace LinqSharp.EFCore.Test
 
 			var result = mysql.ExcuteQueries(query1, query2, query3);
 
-			var a1 = query1.Excute();
+			var a1 = query1.ToEnumerable();
 		}
 
 		[Fact]
@@ -48,7 +48,7 @@ namespace LinqSharp.EFCore.Test
 
 			foreach (var preQuery in preQueries)
 			{
-				var a = preQuery.Excute();
+				var a = preQuery.ToEnumerable();
 			}
 		}
 

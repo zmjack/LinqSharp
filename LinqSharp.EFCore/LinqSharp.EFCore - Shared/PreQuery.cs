@@ -25,20 +25,20 @@ namespace LinqSharp.EFCore
 
         public static TEntity[] Excute<TDbContext, TEntity>(TDbContext context, params PreQuery<TDbContext, TEntity>[] preQueries!!) where TDbContext : DbContext where TEntity : class
         {
-            return Excute(context, preQueries.AsEnumerable());
-        }
-        public static TEntity[] Excute<TDbContext, TEntity>(TDbContext context, IEnumerable<PreQuery<TDbContext, TEntity>> preQueries!!) where TDbContext : DbContext where TEntity : class
-        {
             var entityType = typeof(TEntity);
 
-            var dbSets = preQueries.Select(x => x.DbSetSelector(context));
+            var dbSets = preQueries.Select(x => x.DbSetSelector(context)).ToArray();
             if (!dbSets.Any()) throw new InvalidOperationException($"Can not find any DbSet of {entityType.FullName}.");
             if (!dbSets.AllSame()) throw new InvalidOperationException("The DbSets defined by the selector is inconsistent.");
 
             var dbSet = dbSets.First();
             var navigations = from preQuerier in preQueries let navigation = preQuerier.Navigation where navigation is not null select navigation;
 
-            IQueryable<TEntity> queryable = dbSet;
+            IQueryable<TEntity> queryable;
+            if (preQueries.All(x => x.NoTracking))
+                queryable = dbSet.AsNoTracking();
+            else queryable = dbSet;
+
             foreach (var lists in navigations.SelectMany(x => x.PropertyPathLists))
             {
                 using var enumerator = lists.GetEnumerator();
@@ -104,6 +104,7 @@ namespace LinqSharp.EFCore
         public TEntity[] Source { get; internal set; }
         public IEnumerable<TEntity> Entities { get; internal set; }
         public string Name { get; private set; }
+        public bool NoTracking { get; private set; }
 
         public PreQuery(TDbContext context!!, Func<TDbContext, DbSet<TEntity>> dbSetSelector!!)
         {
@@ -123,6 +124,12 @@ namespace LinqSharp.EFCore
             return navigation.Include(navigationPropertyPath);
         }
 
+        public PreQuery<TDbContext, TEntity> AsNoTracking()
+        {
+            NoTracking = true;
+            return this;
+        }
+
         public PreQuery<TDbContext, TEntity> Where(Expression<Func<TEntity, bool>> predicate!!)
         {
             Predicate = predicate;
@@ -131,7 +138,7 @@ namespace LinqSharp.EFCore
             return this;
         }
 
-        public IEnumerable<TEntity> Excute(bool useFreshSource = false)
+        public IEnumerable<TEntity> ToEnumerable(bool useFreshSource = false)
         {
             if (useFreshSource || Source is null) PreQuery.Excute(Context, this);
             return Entities;
