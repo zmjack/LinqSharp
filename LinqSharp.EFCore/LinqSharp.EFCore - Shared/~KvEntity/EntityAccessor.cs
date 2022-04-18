@@ -72,26 +72,6 @@ namespace LinqSharp.EFCore
             if (entities.Length == 0) throw new InvalidOperationException($"No virtual properties could be found in `{typeof(TEntityAgent).FullName}`.");
 
             DbSet.AddOrUpdateRange(x => new { x.Item, x.Key }, entities);
-
-            //// TODO: Delete
-
-            //var ensureItems = props
-            //    .Where(x => x.GetMethod.IsVirtual)
-            //    .Select(x => new QueryCondition<TKvEntity>
-            //    {
-            //        [c => c.Item] = item,
-            //        [c => c.Key] = x.Name,
-            //    }).ToArray();
-
-            //if (ensureItems.Length == 0) throw new InvalidOperationException($"No virtual properties could be found in `{typeof(TKvEntityAgent).FullName}`.");
-            //DbSet.Ensure(ensureItems, option =>
-            //{
-            //    option.Set = entity =>
-            //    {
-            //        var prop = props.First(x => x.Name == entity.Key);
-            //        entity.Value = prop.GetValue(defaultAgent)?.ToString();
-            //    };
-            //});
         }
 
         public void Load(params string[] items)
