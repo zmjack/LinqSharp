@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0;net6.0</TargetFrameworks>
     <LangVersion>preview</LangVersion>
-    <Version>3.1.17</Version>
+    <Version>3.1.18</Version>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>

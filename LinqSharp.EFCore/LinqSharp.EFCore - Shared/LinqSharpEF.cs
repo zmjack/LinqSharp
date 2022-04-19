@@ -8,10 +8,10 @@ using LinqSharp.EFCore.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-#if EFCore2
-using Microsoft.EntityFrameworkCore.Query.Expressions;
-#else
+#if EFCORE3_0_OR_GREATER
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+#else
+using Microsoft.EntityFrameworkCore.Query.Expressions;
 #endif
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Caching.Memory;

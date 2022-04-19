@@ -6,50 +6,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-#if EFCore2
-using Microsoft.EntityFrameworkCore.Query.Expressions;
-#else
+#if EFCORE3_0_OR_GREATER
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.EntityFrameworkCore.Storage;
 using NStandard;
 using System.Data;
+#else
+using Microsoft.EntityFrameworkCore.Query.Expressions;
 #endif
 
 namespace LinqSharp.EFCore
 {
     public static class Translator
     {
-#if EFCore2
-        public static ConstantExpression Constant(object value)
-        {
-            return Expression.Constant(value);
-        }
-
-        public static SqlFragmentExpression Fragment(string sql)
-        {
-            return new SqlFragmentExpression(sql);
-        }
-
-        public static SqlFunctionExpression Function<TRet>(string name, params Expression[] arguments)
-        {
-            return Function<TRet>(name, arguments as IEnumerable<Expression>);
-        }
-        public static SqlFunctionExpression Function<TRet>(string name, IEnumerable<Expression> arguments)
-        {
-            var returnType = typeof(TRet);
-            return new SqlFunctionExpression(name, returnType, arguments);
-        }
-
-        public static SqlFunctionExpression Function<TRet>(string schema, string name, params Expression[] arguments)
-        {
-            return Function<TRet>(schema, name, arguments as IEnumerable<Expression>);
-        }
-        public static SqlFunctionExpression Function<TRet>(string schema, string name, IEnumerable<Expression> arguments)
-        {
-            var returnType = typeof(TRet);
-            return new SqlFunctionExpression(name, returnType, schema, arguments);
-        }
-#else
+#if EFCORE3_0_OR_GREATER
         private static RelationalTypeMapping GetTypeMapping(Type type)
         {
             RelationalTypeMapping typeMapping = type switch
@@ -82,7 +52,7 @@ namespace LinqSharp.EFCore
 
         public static SqlFragmentExpression Fragment(string sql)
         {
-#if EFCore30
+#if EFCORE3_0
             return typeof(SqlFragmentExpression).CreateInstance(sql) as SqlFragmentExpression;
 #else
             return new SqlFragmentExpression(sql);
@@ -109,6 +79,36 @@ namespace LinqSharp.EFCore
             var returnType = typeof(TRet);
             var typeMapping = GetTypeMapping(returnType);
             return SqlFunctionExpression.Create(schema, name, arguments, returnType, typeMapping);
+        }
+#else
+        public static ConstantExpression Constant(object value)
+        {
+            return Expression.Constant(value);
+        }
+
+        public static SqlFragmentExpression Fragment(string sql)
+        {
+            return new SqlFragmentExpression(sql);
+        }
+
+        public static SqlFunctionExpression Function<TRet>(string name, params Expression[] arguments)
+        {
+            return Function<TRet>(name, arguments as IEnumerable<Expression>);
+        }
+        public static SqlFunctionExpression Function<TRet>(string name, IEnumerable<Expression> arguments)
+        {
+            var returnType = typeof(TRet);
+            return new SqlFunctionExpression(name, returnType, arguments);
+        }
+
+        public static SqlFunctionExpression Function<TRet>(string schema, string name, params Expression[] arguments)
+        {
+            return Function<TRet>(schema, name, arguments as IEnumerable<Expression>);
+        }
+        public static SqlFunctionExpression Function<TRet>(string schema, string name, IEnumerable<Expression> arguments)
+        {
+            var returnType = typeof(TRet);
+            return new SqlFunctionExpression(name, returnType, schema, arguments);
         }
 #endif
     }

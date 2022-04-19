@@ -1,19 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <PackageId>LinqSharp.EFCore.SqlServer</PackageId>
+    <PackageId>LinqSharp.EFCore.MySql</PackageId>
     <Authors>zmjack</Authors>
-    <Product>LinqSharp.EFCore.SqlServer</Product>
+    <Product>LinqSharp.EFCore.MySql</Product>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>LinqSharp.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
-    <PackageTags>Linq EFCore SqlServer</PackageTags>
+    <PackageTags>Linq EFCore MySql</PackageTags>
     <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
-    <Version>3.1.6</Version>
+    <Version>5.0.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Expansion pack, including batch import function, etc.</Description>
   </PropertyGroup>
@@ -27,16 +27,12 @@
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.2" />
-  </ItemGroup>
-
-  <Import Project="..\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.projitems" Label="Shared" />
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF3.1\LinqSharp.EFCore - EF3.1.csproj" />
+    <PackageReference Include="MySqlConnector" Version="0.62.0" />
   </ItemGroup>
+
+  <Import Project="..\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql.projitems" Label="Shared" />
 
   <ItemGroup>
     <None Include="..\..\LICENSE.md">
@@ -47,6 +43,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF5.0\LinqSharp.EFCore - EF5.0.csproj" />
   </ItemGroup>
 
 </Project>

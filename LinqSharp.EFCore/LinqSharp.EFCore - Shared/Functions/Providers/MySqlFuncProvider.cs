@@ -4,7 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.EntityFrameworkCore;
-#if !EFCore2
+#if EFCORE3_0_OR_GREATER
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 #endif
 using System;
@@ -24,10 +24,10 @@ namespace LinqSharp.EFCore.Functions.Providers
 
         public override void UseConcat()
         {
-#if EFCore2
-            static Expression translator(MethodInfo method, Expression[] args) => Translator.Function<string>("CONCAT", args);
-#else
+#if EFCORE3_0_OR_GREATER
             static SqlExpression translator(MethodInfo method, SqlExpression[] args) => Translator.Function<string>("CONCAT", args);
+#else
+            static Expression translator(MethodInfo method, Expression[] args) => Translator.Function<string>("CONCAT", args);
 #endif
             _register.Register(() => DbFunc.Concat(default, default), translator);
             _register.Register(() => DbFunc.Concat(default, default, default), translator);

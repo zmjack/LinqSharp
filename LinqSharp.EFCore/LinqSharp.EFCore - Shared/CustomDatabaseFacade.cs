@@ -7,8 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
+#if EFCORE3_0_OR_GREATER
 using System.Threading;
 using System.Threading.Tasks;
+#endif
 
 namespace LinqSharp
 {
@@ -63,9 +65,12 @@ namespace LinqSharp
             public void Rollback() => facade.RollbackTransaction();
             public void Dispose() => facade.TransactionDisposing();
 
+#if EFCORE3_0_OR_GREATER
             public Task CommitAsync(CancellationToken cancellationToken = default) => Task.Run(() => facade.CommitTransaction());
             public Task RollbackAsync(CancellationToken cancellationToken = default) => Task.Run(() => facade.RollbackTransaction());
             public ValueTask DisposeAsync() => new(Task.Run(() => facade.TransactionDisposing()));
+#endif
+
         }
 
     }

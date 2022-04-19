@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConflictWin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CustomDatabaseFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DatabaseProviderName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\DbFuncRegister.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbSetCache.cs" />
@@ -28,7 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbSet - AddOrUpdate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\MySqlFuncProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QueryCondition.cs" />
     <Compile Include="..\LinqSharp.EFCore - Shared\QueryConditionUnit.cs" />
     <Compile Include="..\LinqSharp.EFCore - Shared\QueryOptions.cs" />

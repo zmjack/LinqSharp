@@ -35,7 +35,7 @@ namespace LinqSharp.EFCore.Data.Test
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<AppRegistry> AppRegistries { get; set; }
-        public EntityAccessor<AppRegistry> GetAppRegistriesAccessor() => EntityAccessor.Create(AppRegistries);
+        public EntityAccessor<ApplicationDbContext, AppRegistry> GetAppRegistriesAccessor() => EntityAccessor.Create(this, AppRegistries);
 
         public DbSet<TrackModel> TrackModels { get; set; }
         public DbSet<EntityMonitorModel> EntityMonitorModels { get; set; }

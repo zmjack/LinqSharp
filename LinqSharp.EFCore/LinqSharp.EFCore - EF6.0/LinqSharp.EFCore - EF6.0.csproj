@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <Version>3.0.71</Version>
+    <Version>6.0.0</Version>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
@@ -18,14 +18,17 @@
     <PackageIcon>LinqSharp.png</PackageIcon>
     <RootNamespace>LinqSharp</RootNamespace>
     <AssemblyName>LinqSharp.EFCore</AssemblyName>
+
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;EFCORE3_0;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER</DefineConstants>
+    <DefineConstants>TRACE;EFCORE6_0;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER;EFCORE6_0_OR_GREATER</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;EFCORE3_0;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER</DefineConstants>
+    <DefineConstants>TRACE;EFCORE6_0;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER;EFCORE6_0_OR_GREATER</DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
@@ -33,8 +36,8 @@
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NStandard" Version="0.8.45" />
   </ItemGroup>

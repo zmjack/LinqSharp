@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <Version>3.0.71</Version>
+    <Version>2.1.71</Version>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
@@ -21,21 +21,25 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;EFCORE3_0;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER</DefineConstants>
+    <DefineConstants>TRACE;EFCORE2_1;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;EFCORE3_0;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER</DefineConstants>
+    <DefineConstants>TRACE;EFCORE2_1;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER</DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CustomDatabaseFacade.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NStandard" Version="0.8.45" />
   </ItemGroup>
 

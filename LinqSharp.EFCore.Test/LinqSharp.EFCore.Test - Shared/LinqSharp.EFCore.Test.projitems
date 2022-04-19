@@ -9,7 +9,6 @@
     <Import_RootNamespace>LinqSharp.EFCore.Test</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)@Utility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AddOrUpdateTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BulkTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConcurrencyTests.cs" />
@@ -18,6 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)AuditorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GroupByCountTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Support\EFVersion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XDbContextTests.cs" />
     <Compile Include="..\LinqSharp.EFCore.Test - Shared\PreQueryTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KvEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NumbericTests.cs" />

@@ -1,17 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <PackageId>LinqSharp.EFCore.MySql</PackageId>
+    <PackageId>LinqSharp.EFCore.SqlServer</PackageId>
     <Authors>zmjack</Authors>
-    <Product>LinqSharp.EFCore.MySql</Product>
+    <Product>LinqSharp.EFCore.SqlServer</Product>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>LinqSharp.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
-    <PackageTags>Linq EFCore MySql</PackageTags>
+    <PackageTags>Linq EFCore SqlServer</PackageTags>
     <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
     <Version>2.1.6</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -19,24 +19,20 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;EFCore2</DefineConstants>
+    <DefineConstants>TRACE;EFCORE21;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;EFCore2</DefineConstants>
+    <DefineConstants>TRACE;EFCORE21;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER</DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySqlConnector" Version="0.62.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
-  <Import Project="..\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql.projitems" Label="Shared" />
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF2.x\LinqSharp.EFCore - EF2.x.csproj" />
-  </ItemGroup>
+  <Import Project="..\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.projitems" Label="Shared" />
 
   <ItemGroup>
     <None Include="..\..\LICENSE.md">
@@ -47,6 +43,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF2.1\LinqSharp.EFCore - EF2.1.csproj" />
   </ItemGroup>
 
 </Project>

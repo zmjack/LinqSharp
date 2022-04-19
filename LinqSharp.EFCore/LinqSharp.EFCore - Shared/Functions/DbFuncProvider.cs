@@ -4,7 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.EntityFrameworkCore;
-#if !EFCore2
+#if EFCORE3_0_OR_GREATER
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 #endif
 

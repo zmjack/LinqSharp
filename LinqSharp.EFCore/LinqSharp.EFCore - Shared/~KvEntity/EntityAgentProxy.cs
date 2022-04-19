@@ -13,8 +13,7 @@ using System.Reflection;
 namespace LinqSharp.EFCore
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class EntityAgentProxy<TKvEntityAgent> : IInterceptor
-       where TKvEntityAgent : EntityAgent
+    public class EntityAgentProxy<TKvEntityAgent> : IInterceptor where TKvEntityAgent : EntityAgent
     {
         public void Intercept(IInvocation invocation)
         {
@@ -35,9 +34,9 @@ namespace LinqSharp.EFCore
                         store = proxy.GetColumnStores().FirstOrDefault(x => x.Key == property);
                         proxyProperty = proxy.GetType().GetProperty(property);
 
-                        if (store != null)
-                            store.Value = value;
-                        else throw new KeyNotFoundException();
+                        if (store is null) throw new KeyNotFoundException();
+
+                        store.Value = value;
                         break;
 
                     case string name when name.StartsWith("get_"):

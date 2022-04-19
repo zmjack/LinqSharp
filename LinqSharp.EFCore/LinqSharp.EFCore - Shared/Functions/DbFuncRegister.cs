@@ -4,7 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.EntityFrameworkCore;
-#if !EFCore2
+#if EFCORE3_0_OR_GREATER
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 #endif
 using System;
@@ -16,10 +16,10 @@ namespace LinqSharp.EFCore.Functions
 {
     public class DbFuncRegister
     {
-#if EFCore2
-        public delegate Expression TranslatorDelegate(MethodInfo method, Expression[] args);
-#else
+#if EFCORE3_0_OR_GREATER
         public delegate SqlExpression TranslatorDelegate(MethodInfo method, SqlExpression[] args);
+#else
+        public delegate Expression TranslatorDelegate(MethodInfo method, Expression[] args);
 #endif
         public ModelBuilder ModelBuilder { get; }
 

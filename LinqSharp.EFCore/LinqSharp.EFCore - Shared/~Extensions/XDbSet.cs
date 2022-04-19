@@ -25,8 +25,6 @@ namespace LinqSharp.EFCore
             return context;
         }
 
-        public static string ToSql<TEntity>(this DbSet<TEntity> @this) where TEntity : class => LinqSharp.XIQueryable.ToSql(@this.Where(x => true));
-
         public static TEntity[] Delete<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> predicate)
             where TEntity : class
         {
@@ -79,16 +77,17 @@ namespace LinqSharp.EFCore
             if (!hasTruncateMethod) throw new NotSupportedException($"The database does not support the {nameof(Truncate)} method.");
 
             var idPair = Identifiers.IdentifierUtil.GetDelimitedIdentifiers(providerName);
-#if EFCore2
+
+#if EFCORE3_0_OR_GREATER
+            if (new[] { DatabaseProviderName.Sqlite }.Contains(providerName))
+                context.Database.ExecuteSqlRaw($"DELETE FROM {idPair?.Wrap(table) ?? table};");
+            else context.Database.ExecuteSqlRaw($"TRUNCATE TABLE {idPair?.Wrap(table) ?? table};");
+#else
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
             if (new[] { DatabaseProviderName.Sqlite }.Contains(providerName))
                 context.Database.ExecuteSqlCommand(new RawSqlString($"DELETE FROM {idPair?.Wrap(table) ?? table};"));
             else context.Database.ExecuteSqlCommand(new RawSqlString($"TRUNCATE TABLE {idPair?.Wrap(table) ?? table};"));
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
-#else
-            if (new[] { DatabaseProviderName.Sqlite }.Contains(providerName))
-                context.Database.ExecuteSqlRaw($"DELETE FROM {idPair?.Wrap(table) ?? table};");
-            else context.Database.ExecuteSqlRaw($"TRUNCATE TABLE {idPair?.Wrap(table) ?? table};");
 #endif
         }
 

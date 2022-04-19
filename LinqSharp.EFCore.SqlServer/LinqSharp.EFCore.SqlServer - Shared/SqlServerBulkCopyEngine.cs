@@ -3,10 +3,10 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-#if EFCore2
-using System.Data.SqlClient;
-#else
+#if EFCORE3_0_OR_GREATER
 using Microsoft.Data.SqlClient;
+#else
+using System.Data.SqlClient;
 #endif
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

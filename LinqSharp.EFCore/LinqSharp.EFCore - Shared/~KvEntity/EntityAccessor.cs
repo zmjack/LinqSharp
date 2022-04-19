@@ -14,25 +14,29 @@ namespace LinqSharp.EFCore
 {
     public static class EntityAccessor
     {
-        public static EntityAccessor<TKvEntity> Create<TKvEntity>(DbSet<TKvEntity> dbSet)
+        public static EntityAccessor<TDbContext, TKvEntity> Create<TDbContext, TKvEntity>(TDbContext context, DbSet<TKvEntity> dbSet)
+            where TDbContext : DbContext
             where TKvEntity : KvEntity, new()
         {
-            return new EntityAccessor<TKvEntity>(dbSet);
+            return new EntityAccessor<TDbContext, TKvEntity>(context, dbSet);
         }
     }
 
-    public class EntityAccessor<TKvEntity>
+    public class EntityAccessor<TDbContext, TKvEntity>
+        where TDbContext : DbContext
         where TKvEntity : KvEntity, new()
     {
+        private readonly TDbContext Context;
         private readonly DbSet<TKvEntity> DbSet;
-        public TKvEntity[] Rows;
+        private readonly List<TKvEntity> Rows = new();
 
-        public EntityAccessor(DbSet<TKvEntity> dbSet)
+        public EntityAccessor(TDbContext context, DbSet<TKvEntity> dbSet)
         {
+            Context = context;
             DbSet = dbSet;
         }
 
-        private void Ensure<TEntityAgent>(string[] items) where TEntityAgent : EntityAgent, new()
+        public void Ensure<TEntityAgent>(string[] items) where TEntityAgent : EntityAgent, new()
         {
             var defaultAgent = typeof(TEntityAgent).CreateInstance();
             var props = typeof(TEntityAgent).GetProperties().Where(x => x.GetMethod.IsVirtual).ToArray();
@@ -48,12 +52,19 @@ namespace LinqSharp.EFCore
             if (entities.Length == 0) throw new InvalidOperationException($"No virtual properties could be found in `{typeof(TEntityAgent).FullName}`.");
 
             DbSet.AddOrUpdateRange(x => new { x.Item, x.Key }, entities);
+            Context.SaveChanges();
         }
 
         public void Load<TEntityAgent>(params string[] items) where TEntityAgent : EntityAgent, new()
         {
             Ensure<TEntityAgent>(items);
-            Rows = DbSet.Where(x => items.Contains(x.Item)).ToArray();
+            var rows = DbSet.Where(x => items.Contains(x.Item)).ToArray();
+            Rows.AddRange(rows);
+        }
+
+        public void UnloadAll()
+        {
+            Rows.Clear();
         }
 
         public TEntityAgent Get<TEntityAgent>(string item) where TEntityAgent : EntityAgent, new()
@@ -62,7 +73,7 @@ namespace LinqSharp.EFCore
             var registryProxy = new EntityAgentProxy<TEntityAgent>();
             var proxy = new ProxyGenerator().CreateClassProxyWithTarget(registry, registryProxy);
 
-            if (Rows is not null) proxy.Load(Rows, item);
+            if (Rows.Any()) proxy.Load(Rows, item);
             else proxy.Load(DbSet, item);
             return proxy;
         }

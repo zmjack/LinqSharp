@@ -16,71 +16,91 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-orm", "dotnet-orm\do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp", "LinqSharp\LinqSharp.csproj", "{A87540D1-D6D8-4D7A-9F50-49F845F52E0C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.Dev - Shared", "LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.shproj", "{D0E01AC5-AAD3-41F6-B5D2-C5B024D7AB89}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.Dev", "LinqSharp.Dev - Shared\LinqSharp.Dev.shproj", "{D0E01AC5-AAD3-41F6-B5D2-C5B024D7AB89}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DbCreators", "DbCreators", "{2DA2AA16-9266-48CE-8EDE-088BBF83A70C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LinqSharp.EFCore.MySql", "LinqSharp.EFCore.MySql", "{4B7F020B-D473-4EBB-A08C-7FA16A47E2CF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LinqSharp.EFCore.Test", "LinqSharp.EFCore.Test", "{6519DE43-5391-45BE-9436-5366955616B1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6519DE43-5391-45BE-9436-5366955616B1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LinqSharp.EFCore", "LinqSharp.EFCore", "{4643D67F-F9F7-4E6C-B5FC-F4ABED43357B}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore - Shared", "LinqSharp.EFCore\LinqSharp.EFCore - Shared\LinqSharp.EFCore - Shared.shproj", "{C05E5C78-0DE2-4D86-A1CA-5421CD6B4F47}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF2.x", "LinqSharp.EFCore\LinqSharp.EFCore - EF2.x\LinqSharp.EFCore - EF2.x.csproj", "{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF3.0", "LinqSharp.EFCore\LinqSharp.EFCore - EF3.0\LinqSharp.EFCore - EF3.0.csproj", "{B89751A3-9DDB-4007-87B7-941AC3453C55}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF3.1", "LinqSharp.EFCore\LinqSharp.EFCore - EF3.1\LinqSharp.EFCore - EF3.1.csproj", "{DBE972EB-A93A-4242-A5F3-5432BFC4A315}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.MySql - EF2.x", "LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - EF2.x\LinqSharp.EFCore.MySql - EF2.x.csproj", "{59D00D40-290E-4BA1-8D0D-C2A936D66D56}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.MySql - EF3.0", "LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - EF3.0\LinqSharp.EFCore.MySql - EF3.0.csproj", "{FF03696C-70F6-4DC8-B254-3FDF8B55EBD1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.MySql - EF3.1", "LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - EF3.1\LinqSharp.EFCore.MySql - EF3.1.csproj", "{F18856E0-1DDF-47D8-82BD-547A599F58B1}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore.MySql - Shared", "LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql - Shared.shproj", "{40C448CA-BF56-4C65-9D86-FC58F187525E}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore.MySql", "LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql.shproj", "{40C448CA-BF56-4C65-9D86-FC58F187525E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbCreator.MySql", "LinqSharp.EFCore.Test\DbCreators\DbCreator.MySql\DbCreator.MySql.csproj", "{ABA8683F-B5CE-4AE5-BC35-7AE81C7127EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbCreator.SqlServer", "LinqSharp.EFCore.Test\DbCreators\DbCreator.SqlServer\DbCreator.SqlServer.csproj", "{00CADDF9-B8F8-43EF-92A4-542823B5F919}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.Test - EF2.x", "LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - EF2.x\LinqSharp.EFCore.Test - EF2.x.csproj", "{2470929C-EA74-4275-A258-34BB5B2B67FD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.Test - EF3.0", "LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - EF3.0\LinqSharp.EFCore.Test - EF3.0.csproj", "{59FE4CC4-7BCC-4CF3-83C4-B4DFC07E0714}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.Test - EF3.1", "LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - EF3.1\LinqSharp.EFCore.Test - EF3.1.csproj", "{DF9A0E49-A749-4114-B7E5-5A0FEA614C51}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore.Test - Shared", "LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test - Shared.shproj", "{78FA23E2-57BF-4B94-AAB1-1006FB087701}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore.Test", "LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.shproj", "{78FA23E2-57BF-4B94-AAB1-1006FB087701}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore.Test - SharedData", "LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.shproj", "{D679BDA0-C06D-4115-BAE2-400FB62AFAAE}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore.Test - Data", "LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - Data.shproj", "{D679BDA0-C06D-4115-BAE2-400FB62AFAAE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LinqSharp.EFCore.SqlServer", "LinqSharp.EFCore.SqlServer", "{539CC126-2D54-4390-BB41-BD2EF03842C0}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore.SqlServer - Shared", "LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.shproj", "{D3CD0FF5-3E05-4725-B1FF-EC50AECE68C6}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore.SqlServer", "LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer.shproj", "{D3CD0FF5-3E05-4725-B1FF-EC50AECE68C6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.SqlServer - EF3.1", "LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - EF3.1\LinqSharp.EFCore.SqlServer - EF3.1.csproj", "{E155AA07-9A80-463C-8E77-08C8214F024B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.SqlServer - EF3.0", "LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - EF3.0\LinqSharp.EFCore.SqlServer - EF3.0.csproj", "{30CDCB6C-627E-418E-A19E-DBA3847ADB28}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.SqlServer - EF2.x", "LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - EF2.x\LinqSharp.EFCore.SqlServer - EF2.x.csproj", "{059CA671-88D5-4522-BCC7-BF74DC0D5E76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF5.0", "LinqSharp.EFCore\LinqSharp.EFCore - EF5.0\LinqSharp.EFCore - EF5.0.csproj", "{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF2.1", "LinqSharp.EFCore\LinqSharp.EFCore - EF2.1\LinqSharp.EFCore - EF2.1.csproj", "{92E992F1-D231-4F26-9835-57050ECE9A69}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF6.0", "LinqSharp.EFCore\LinqSharp.EFCore - EF6.0\LinqSharp.EFCore - EF6.0.csproj", "{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.Test - EF2.1", "LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - EF2.1\LinqSharp.EFCore.Test - EF2.1.csproj", "{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.MySql - EF2.1", "LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - EF2.1\LinqSharp.EFCore.MySql - EF2.1.csproj", "{A612380E-B85B-4F62-9886-EC9EBECA7DA2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.SqlServer - EF2.1", "LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - EF2.1\LinqSharp.EFCore.SqlServer - EF2.1.csproj", "{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.Test - EF5.0", "LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - EF5.0\LinqSharp.EFCore.Test - EF5.0.csproj", "{707932BB-3060-47D8-A7FA-B13DBA117979}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.MySql - EF5.0", "LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - EF5.0\LinqSharp.EFCore.MySql - EF5.0.csproj", "{CE1C42D2-5312-4C70-89DB-82E50D437A83}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.SqlServer - EF5.0", "LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - EF5.0\LinqSharp.EFCore.SqlServer - EF5.0.csproj", "{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LTS", "LTS", "{34B2B130-D9AA-46F3-BA89-38437A29BF90}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.projitems*{059ca671-88d5-4522-bcc7-bf74dc0d5e76}*SharedItemsImports = 5
-		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{2470929c-ea74-4275-a258-34bb5b2b67fd}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems*{2470929c-ea74-4275-a258-34bb5b2b67fd}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems*{2470929c-ea74-4275-a258-34bb5b2b67fd}*SharedItemsImports = 5
+		LinqSharp.EFCore\LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems*{16bba3be-0bb9-43c0-8af4-053dd2ad6b95}*SharedItemsImports = 5
 		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.projitems*{30cdcb6c-627e-418e-a19e-dba3847adb28}*SharedItemsImports = 5
+		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.projitems*{3af1e2f6-b5e3-4e06-a0a3-04d4d4e01ddc}*SharedItemsImports = 5
+		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.projitems*{3c950a4e-ed2a-40fb-82b4-1d74e4e72434}*SharedItemsImports = 5
 		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql.projitems*{40c448ca-bf56-4c65-9d86-fc58f187525e}*SharedItemsImports = 13
-		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql.projitems*{59d00d40-290e-4ba1-8d0d-c2a936d66d56}*SharedItemsImports = 5
 		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{59fe4cc4-7bcc-4cf3-83c4-b4dfc07e0714}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems*{59fe4cc4-7bcc-4cf3-83c4-b4dfc07e0714}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems*{59fe4cc4-7bcc-4cf3-83c4-b4dfc07e0714}*SharedItemsImports = 5
+		LinqSharp.EFCore\LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems*{67630eaa-89d2-4771-8b6e-e9a2b05e14b2}*SharedItemsImports = 5
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{707932bb-3060-47d8-a7fa-b13dba117979}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems*{707932bb-3060-47d8-a7fa-b13dba117979}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems*{707932bb-3060-47d8-a7fa-b13dba117979}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems*{78fa23e2-57bf-4b94-aab1-1006fb087701}*SharedItemsImports = 13
+		LinqSharp.EFCore\LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems*{92e992f1-d231-4f26-9835-57050ece9a69}*SharedItemsImports = 5
+		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql.projitems*{a612380e-b85b-4f62-9886-ec9ebeca7da2}*SharedItemsImports = 5
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
 		LinqSharp.EFCore\LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems*{b89751a3-9ddb-4007-87b7-941ac3453c55}*SharedItemsImports = 5
 		LinqSharp.EFCore\LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems*{c05e5c78-0de2-4d86-a1ca-5421cd6b4f47}*SharedItemsImports = 13
+		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql.projitems*{ce1c42d2-5312-4c70-89db-82e50d437a83}*SharedItemsImports = 5
 		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{d0e01ac5-aad3-41f6-b5d2-c5b024d7ab89}*SharedItemsImports = 13
 		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.projitems*{d3cd0ff5-3e05-4725-b1ff-ec50aece68c6}*SharedItemsImports = 13
 		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems*{d679bda0-c06d-4115-bae2-400fb62afaae}*SharedItemsImports = 13
@@ -90,7 +110,6 @@ Global
 		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems*{df9a0e49-a749-4114-b7e5-5a0fea614c51}*SharedItemsImports = 5
 		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.projitems*{e155aa07-9a80-463c-8e77-08c8214f024b}*SharedItemsImports = 5
 		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql.projitems*{f18856e0-1ddf-47d8-82bd-547a599f58b1}*SharedItemsImports = 5
-		LinqSharp.EFCore\LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems*{f647f50b-08e6-4e82-bb9d-a8e64ece87e4}*SharedItemsImports = 5
 		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql.projitems*{ff03696c-70f6-4dc8-b254-3fdf8b55ebd1}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -126,18 +145,6 @@ Global
 		{A87540D1-D6D8-4D7A-9F50-49F845F52E0C}.Release|x64.Build.0 = Release|Any CPU
 		{A87540D1-D6D8-4D7A-9F50-49F845F52E0C}.Release|x86.ActiveCfg = Release|Any CPU
 		{A87540D1-D6D8-4D7A-9F50-49F845F52E0C}.Release|x86.Build.0 = Release|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Debug|x64.Build.0 = Debug|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Debug|x86.Build.0 = Debug|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Release|x64.ActiveCfg = Release|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Release|x64.Build.0 = Release|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Release|x86.ActiveCfg = Release|Any CPU
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4}.Release|x86.Build.0 = Release|Any CPU
 		{B89751A3-9DDB-4007-87B7-941AC3453C55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B89751A3-9DDB-4007-87B7-941AC3453C55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B89751A3-9DDB-4007-87B7-941AC3453C55}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -162,18 +169,6 @@ Global
 		{DBE972EB-A93A-4242-A5F3-5432BFC4A315}.Release|x64.Build.0 = Release|Any CPU
 		{DBE972EB-A93A-4242-A5F3-5432BFC4A315}.Release|x86.ActiveCfg = Release|Any CPU
 		{DBE972EB-A93A-4242-A5F3-5432BFC4A315}.Release|x86.Build.0 = Release|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Debug|x64.Build.0 = Debug|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Debug|x86.Build.0 = Debug|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Release|x64.ActiveCfg = Release|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Release|x64.Build.0 = Release|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Release|x86.ActiveCfg = Release|Any CPU
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56}.Release|x86.Build.0 = Release|Any CPU
 		{FF03696C-70F6-4DC8-B254-3FDF8B55EBD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FF03696C-70F6-4DC8-B254-3FDF8B55EBD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF03696C-70F6-4DC8-B254-3FDF8B55EBD1}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -222,18 +217,6 @@ Global
 		{00CADDF9-B8F8-43EF-92A4-542823B5F919}.Release|x64.Build.0 = Release|Any CPU
 		{00CADDF9-B8F8-43EF-92A4-542823B5F919}.Release|x86.ActiveCfg = Release|Any CPU
 		{00CADDF9-B8F8-43EF-92A4-542823B5F919}.Release|x86.Build.0 = Release|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Debug|x64.Build.0 = Debug|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Debug|x86.Build.0 = Debug|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Release|x64.ActiveCfg = Release|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Release|x64.Build.0 = Release|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Release|x86.ActiveCfg = Release|Any CPU
-		{2470929C-EA74-4275-A258-34BB5B2B67FD}.Release|x86.Build.0 = Release|Any CPU
 		{59FE4CC4-7BCC-4CF3-83C4-B4DFC07E0714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{59FE4CC4-7BCC-4CF3-83C4-B4DFC07E0714}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59FE4CC4-7BCC-4CF3-83C4-B4DFC07E0714}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -282,43 +265,146 @@ Global
 		{30CDCB6C-627E-418E-A19E-DBA3847ADB28}.Release|x64.Build.0 = Release|Any CPU
 		{30CDCB6C-627E-418E-A19E-DBA3847ADB28}.Release|x86.ActiveCfg = Release|Any CPU
 		{30CDCB6C-627E-418E-A19E-DBA3847ADB28}.Release|x86.Build.0 = Release|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Debug|x64.Build.0 = Debug|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Debug|x86.Build.0 = Debug|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Release|x64.ActiveCfg = Release|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Release|x64.Build.0 = Release|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Release|x86.ActiveCfg = Release|Any CPU
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76}.Release|x86.Build.0 = Release|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Debug|x64.Build.0 = Debug|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Debug|x86.Build.0 = Debug|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Release|x64.ActiveCfg = Release|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Release|x64.Build.0 = Release|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Release|x86.ActiveCfg = Release|Any CPU
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Release|x86.Build.0 = Release|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Debug|x64.Build.0 = Debug|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Debug|x86.Build.0 = Debug|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Release|x64.ActiveCfg = Release|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Release|x64.Build.0 = Release|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Release|x86.ActiveCfg = Release|Any CPU
+		{92E992F1-D231-4F26-9835-57050ECE9A69}.Release|x86.Build.0 = Release|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Debug|x64.Build.0 = Debug|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Debug|x86.Build.0 = Debug|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Release|x64.ActiveCfg = Release|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Release|x64.Build.0 = Release|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Release|x86.ActiveCfg = Release|Any CPU
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95}.Release|x86.Build.0 = Release|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Debug|x64.Build.0 = Debug|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Debug|x86.Build.0 = Debug|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Release|x64.ActiveCfg = Release|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Release|x64.Build.0 = Release|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Release|x86.ActiveCfg = Release|Any CPU
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F}.Release|x86.Build.0 = Release|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Debug|x64.Build.0 = Debug|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Debug|x86.Build.0 = Debug|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Release|x64.ActiveCfg = Release|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Release|x64.Build.0 = Release|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Release|x86.ActiveCfg = Release|Any CPU
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2}.Release|x86.Build.0 = Release|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Debug|x64.Build.0 = Debug|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Debug|x86.Build.0 = Debug|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Release|x64.ActiveCfg = Release|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Release|x64.Build.0 = Release|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Release|x86.ActiveCfg = Release|Any CPU
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434}.Release|x86.Build.0 = Release|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Debug|x64.Build.0 = Debug|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Debug|x86.Build.0 = Debug|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Release|x64.ActiveCfg = Release|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Release|x64.Build.0 = Release|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Release|x86.ActiveCfg = Release|Any CPU
+		{707932BB-3060-47D8-A7FA-B13DBA117979}.Release|x86.Build.0 = Release|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Debug|x64.Build.0 = Debug|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Debug|x86.Build.0 = Debug|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Release|x64.ActiveCfg = Release|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Release|x64.Build.0 = Release|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Release|x86.ActiveCfg = Release|Any CPU
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83}.Release|x86.Build.0 = Release|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Debug|x64.Build.0 = Debug|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Debug|x86.Build.0 = Debug|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Release|x64.ActiveCfg = Release|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Release|x64.Build.0 = Release|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Release|x86.ActiveCfg = Release|Any CPU
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2DA2AA16-9266-48CE-8EDE-088BBF83A70C} = {6519DE43-5391-45BE-9436-5366955616B1}
+		{4B7F020B-D473-4EBB-A08C-7FA16A47E2CF} = {34B2B130-D9AA-46F3-BA89-38437A29BF90}
 		{C05E5C78-0DE2-4D86-A1CA-5421CD6B4F47} = {4643D67F-F9F7-4E6C-B5FC-F4ABED43357B}
-		{F647F50B-08E6-4E82-BB9D-A8E64ECE87E4} = {4643D67F-F9F7-4E6C-B5FC-F4ABED43357B}
 		{B89751A3-9DDB-4007-87B7-941AC3453C55} = {4643D67F-F9F7-4E6C-B5FC-F4ABED43357B}
 		{DBE972EB-A93A-4242-A5F3-5432BFC4A315} = {4643D67F-F9F7-4E6C-B5FC-F4ABED43357B}
-		{59D00D40-290E-4BA1-8D0D-C2A936D66D56} = {4B7F020B-D473-4EBB-A08C-7FA16A47E2CF}
 		{FF03696C-70F6-4DC8-B254-3FDF8B55EBD1} = {4B7F020B-D473-4EBB-A08C-7FA16A47E2CF}
 		{F18856E0-1DDF-47D8-82BD-547A599F58B1} = {4B7F020B-D473-4EBB-A08C-7FA16A47E2CF}
 		{40C448CA-BF56-4C65-9D86-FC58F187525E} = {4B7F020B-D473-4EBB-A08C-7FA16A47E2CF}
 		{ABA8683F-B5CE-4AE5-BC35-7AE81C7127EE} = {2DA2AA16-9266-48CE-8EDE-088BBF83A70C}
 		{00CADDF9-B8F8-43EF-92A4-542823B5F919} = {2DA2AA16-9266-48CE-8EDE-088BBF83A70C}
-		{2470929C-EA74-4275-A258-34BB5B2B67FD} = {6519DE43-5391-45BE-9436-5366955616B1}
 		{59FE4CC4-7BCC-4CF3-83C4-B4DFC07E0714} = {6519DE43-5391-45BE-9436-5366955616B1}
 		{DF9A0E49-A749-4114-B7E5-5A0FEA614C51} = {6519DE43-5391-45BE-9436-5366955616B1}
 		{78FA23E2-57BF-4B94-AAB1-1006FB087701} = {6519DE43-5391-45BE-9436-5366955616B1}
 		{D679BDA0-C06D-4115-BAE2-400FB62AFAAE} = {6519DE43-5391-45BE-9436-5366955616B1}
+		{539CC126-2D54-4390-BB41-BD2EF03842C0} = {34B2B130-D9AA-46F3-BA89-38437A29BF90}
 		{D3CD0FF5-3E05-4725-B1FF-EC50AECE68C6} = {539CC126-2D54-4390-BB41-BD2EF03842C0}
 		{E155AA07-9A80-463C-8E77-08C8214F024B} = {539CC126-2D54-4390-BB41-BD2EF03842C0}
 		{30CDCB6C-627E-418E-A19E-DBA3847ADB28} = {539CC126-2D54-4390-BB41-BD2EF03842C0}
-		{059CA671-88D5-4522-BCC7-BF74DC0D5E76} = {539CC126-2D54-4390-BB41-BD2EF03842C0}
+		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2} = {4643D67F-F9F7-4E6C-B5FC-F4ABED43357B}
+		{92E992F1-D231-4F26-9835-57050ECE9A69} = {4643D67F-F9F7-4E6C-B5FC-F4ABED43357B}
+		{16BBA3BE-0BB9-43C0-8AF4-053DD2AD6B95} = {4643D67F-F9F7-4E6C-B5FC-F4ABED43357B}
+		{B5B74598-6DA2-42F5-8AAC-EB130DE84B8F} = {6519DE43-5391-45BE-9436-5366955616B1}
+		{A612380E-B85B-4F62-9886-EC9EBECA7DA2} = {4B7F020B-D473-4EBB-A08C-7FA16A47E2CF}
+		{3C950A4E-ED2A-40FB-82B4-1D74E4E72434} = {539CC126-2D54-4390-BB41-BD2EF03842C0}
+		{707932BB-3060-47D8-A7FA-B13DBA117979} = {6519DE43-5391-45BE-9436-5366955616B1}
+		{CE1C42D2-5312-4C70-89DB-82E50D437A83} = {4B7F020B-D473-4EBB-A08C-7FA16A47E2CF}
+		{3AF1E2F6-B5E3-4E06-A0A3-04D4D4E01DDC} = {539CC126-2D54-4390-BB41-BD2EF03842C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE8FFA56-A385-4D18-8E81-93227E276884}

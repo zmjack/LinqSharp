@@ -54,6 +54,10 @@ namespace LinqSharp.EFCore.Dev
             return $"UPDATE {WhereWrapper.TableName} SET {set} WHERE {WhereWrapper.WhereString}";
         }
 
+#if EFCORE3_0_OR_GREATER
+        public int Save() => WhereWrapper.DbContext.Database.ExecuteSqlRaw(ToSql());
+#else
         public int Save() => WhereWrapper.DbContext.Database.ExecuteSqlCommand(ToSql());
+#endif
     }
 }

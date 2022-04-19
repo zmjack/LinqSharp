@@ -22,6 +22,10 @@ namespace LinqSharp.EFCore.Dev
             return $"DELETE FROM {WhereWrapper.TableName} WHERE {WhereWrapper.WhereString};";
         }
 
+#if EFCORE3_0_OR_GREATER
+        public int Save() => WhereWrapper.DbContext.Database.ExecuteSqlRaw(ToSql());
+#else
         public int Save() => WhereWrapper.DbContext.Database.ExecuteSqlCommand(ToSql());
+#endif
     }
 }
