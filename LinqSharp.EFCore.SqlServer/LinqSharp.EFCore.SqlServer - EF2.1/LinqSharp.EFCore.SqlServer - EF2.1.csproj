@@ -32,8 +32,6 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
-  <Import Project="..\LinqSharp.EFCore.SqlServer - Shared\LinqSharp.EFCore.SqlServer - Shared.projitems" Label="Shared" />
-
   <ItemGroup>
     <None Include="..\..\LICENSE.md">
       <Pack>True</Pack>
@@ -48,5 +46,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF2.1\LinqSharp.EFCore - EF2.1.csproj" />
   </ItemGroup>
+
+  <Import Project="..\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems" Label="Shared" />
 
 </Project>

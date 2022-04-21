@@ -14,23 +14,21 @@ namespace LinqSharp.EFCore
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class EntityAgent
     {
-        private string _Item;
-        private KvEntity[] _ColumnStores;
-        private bool _ProxyLoaded;
+        private string _item;
+        private KvEntity[] _stores;
+        private bool _loaded;
 
-        public string GetItemString() => _Item;
-        public KvEntity[] GetColumnStores() => _ColumnStores;
-        public bool IsProxyLoaded() => _ProxyLoaded;
+        public string GetItemString() => _item;
+        public KvEntity[] GetColumnStores() => _stores;
+        public bool IsProxyLoaded() => _loaded;
 
-        public void Load<TKvEntity>(IEnumerable<TKvEntity> columnStores, string item)
+        public void Load<TKvEntity>(IEnumerable<TKvEntity> stores, string item)
             where TKvEntity : KvEntity
         {
-            if (GetType().Namespace != "Castle.Proxies")
-                throw new InvalidOperationException("This method can only be called in a proxy instance.");
-
-            _Item = item;
-            _ColumnStores = columnStores.Where(x => x.Item == item).ToArray();
-            _ProxyLoaded = true;
+            if (GetType().Namespace != "Castle.Proxies") throw new InvalidOperationException("This method can only be called in a proxy instance.");
+            _item = item;
+            _stores = stores.Where(x => x.Item == item).ToArray();
+            _loaded = true;
         }
     }
 

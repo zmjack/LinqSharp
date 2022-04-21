@@ -32,8 +32,6 @@
     <PackageReference Include="MySqlConnector" Version="0.62.0" />
   </ItemGroup>
 
-  <Import Project="..\LinqSharp.EFCore.MySql - Shared\LinqSharp.EFCore.MySql.projitems" Label="Shared" />
-
   <ItemGroup>
     <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF3.1\LinqSharp.EFCore - EF3.1.csproj" />
   </ItemGroup>
@@ -48,5 +46,7 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
+
+  <Import Project="..\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems" Label="Shared" />
 
 </Project>

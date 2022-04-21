@@ -14,7 +14,11 @@ namespace LinqSharp.EFCore.Data.Test
         public static ApplicationDbContext UseMySql(Action<MySqlDbContextOptionsBuilder> mySqlOptionsAction = null)
         {
             var connectionString = $"server=127.0.0.1;database={DatabaseName};AllowLoadLocalInfile=true";
+#if EFCORE5_0_OR_GREATER
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), mySqlOptionsAction).Options;
+#else
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(connectionString, mySqlOptionsAction).Options;
+#endif
             return new ApplicationDbContext(options);
         }
 

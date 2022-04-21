@@ -1,23 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <Version>3.1.71</Version>
+    <PackageId>LinqSharp.EFCore.MySql</PackageId>
     <Authors>zmjack</Authors>
-    <Company>linqsharp.net</Company>
-    <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
+    <Product>LinqSharp.EFCore.MySql</Product>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
-    <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageId>LinqSharp.EFCore</PackageId>
-    <PackageTags>Linq EntityFramework</PackageTags>
     <PackageIcon>LinqSharp.png</PackageIcon>
-    <RootNamespace>LinqSharp</RootNamespace>
-    <AssemblyName>LinqSharp.EFCore</AssemblyName>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
+    <PackageTags>Linq EFCore MySql</PackageTags>
+    <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
+    <Version>5.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Expansion pack, including batch import function, etc.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -31,12 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.4.0" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="NStandard" Version="0.8.45" />
+    <PackageReference Include="MySqlConnector" Version="0.62.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,9 +44,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LinqSharp\LinqSharp.csproj" />
+    <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF6.0\LinqSharp.EFCore - EF6.0.csproj" />
   </ItemGroup>
 
-  <Import Project="..\LinqSharp.EFCore\LinqSharp.EFCore.projitems" Label="Shared" />
+  <Import Project="..\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems" Label="Shared" />
 
 </Project>

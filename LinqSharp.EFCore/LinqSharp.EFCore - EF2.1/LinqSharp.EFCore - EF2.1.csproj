@@ -58,6 +58,6 @@
     <ProjectReference Include="..\..\LinqSharp\LinqSharp.csproj" />
   </ItemGroup>
 
-  <Import Project="..\LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems" Label="Shared" />
+  <Import Project="..\LinqSharp.EFCore\LinqSharp.EFCore.projitems" Label="Shared" />
 
 </Project>

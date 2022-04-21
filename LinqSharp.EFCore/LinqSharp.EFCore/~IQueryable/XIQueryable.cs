@@ -37,7 +37,11 @@ namespace LinqSharp.EFCore
                 .DeclaredField<RelationalQueryContextFactory>("_queryContextFactory");
             string factoryName;
 
-#if EFCORE3_0_OR_GREATER
+#if EFCORE6_0_OR_GREATER
+            factoryName = queryFactoryReflector.DeclaredProperty("RelationalDependencies").DeclaredProperty("RelationalQueryStringFactory").Value.ToString();
+#elif EFCORE5_0_OR_GREATER
+            factoryName = queryFactoryReflector.DeclaredField("_relationalDependencies").DeclaredProperty("RelationalQueryStringFactory").Value.ToString();
+#elif EFCORE3_0_OR_GREATER
             factoryName = queryFactoryReflector.DeclaredField("_relationalDependencies").DeclaredProperty("ExecutionStrategyFactory").Value.ToString();
 #else
             factoryName = queryFactoryReflector.DeclaredProperty("ExecutionStrategyFactory").Value.ToString();

@@ -14,24 +14,25 @@ namespace LinqSharp.EFCore.Test
                 var sql = query.ToSql();
                 string expectedSql;
 
-                if (EFVersion.AtLeast(3, 0))
-                {
-                    expectedSql = @"SELECT `s`.`Id`, `s`.`Age`, `s`.`Birthday`, `s`.`Name`, `s`.`State`
+#if EFCORE5_0_OR_GREATER
+                expectedSql = @"
+SELECT `s`.`Id`, `s`.`Age`, `s`.`Birthday`, `s`.`Name`, `s`.`State`
+FROM `SimpleModels` AS `s`
+ORDER BY RAND()
+LIMIT 2";
+#elif EFCORE3_0_OR_GREATER
+                expectedSql = @"SELECT `s`.`Id`, `s`.`Age`, `s`.`Birthday`, `s`.`Name`, `s`.`State`
 FROM `SimpleModels` AS `s`
 ORDER BY RAND()
 LIMIT @__p_0;
 ";
-                }
-                else if (EFVersion.AtLeast(2, 0))
-                {
-                    expectedSql = @"SELECT `x`.`Id`, `x`.`Age`, `x`.`Birthday`, `x`.`Name`, `x`.`State`
+#elif EFCORE2_1_OR_GREATER
+                expectedSql = @"SELECT `x`.`Id`, `x`.`Age`, `x`.`Birthday`, `x`.`Name`, `x`.`State`
 FROM `SimpleModels` AS `x`
 ORDER BY RAND()
 LIMIT 2;
 ";
-                }
-                else throw EFVersion.NotSupportedException;
-
+#endif
                 Assert.Equal(expectedSql, sql);
             }
         }

@@ -393,7 +393,7 @@ namespace LinqSharp.EFCore
 
                     // Because of some unknown bugs in EntityFramework, creating an index causes the first normal index to be dropped, which is defined with ForeignKeyAttribute.
                     // (The problem was found in EntityFrameworkCore 2.2.6)
-                    //TODO: Here is the temporary solution
+                    //TODO: Mitigation
                     if (prop.HasAttribute<ForeignKeyAttribute>() && !indexes.Any(x => x.Type == IndexType.Normal && x.Group is null))
                     {
                         list.Add(new PropIndex
@@ -438,7 +438,11 @@ namespace LinqSharp.EFCore
                     {
                         var metadataProperty = typeof(PropertyBuilder).GetProperty(nameof(PropertyBuilder.Metadata));
                         var metadata = metadataProperty.GetValue(propertyBuilder);
+#if EFCORE6_0_OR_GREATER
+                        var setValueComparerMethod = typeof(MutablePropertyExtensions).GetMethod(nameof(MutablePropertyExtensions.SetStructuralValueComparer));
+#else
                         var setValueComparerMethod = typeof(MutablePropertyExtensions).GetMethod(nameof(MutablePropertyExtensions.SetValueComparer));
+#endif
                         setValueComparerMethod.Invoke(null, new object[] { metadata, comparer });
                     }
                 }

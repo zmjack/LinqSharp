@@ -40,7 +40,7 @@ namespace LinqSharp.EFCore.Functions
                 }
             }
             else if (dbFunc.Body is MethodCallExpression call) method = call.Method;
-            else throw new ArgumentException(nameof(dbFunc), "Invalid expression.");
+            else throw new ArgumentException("Invalid expression.", nameof(dbFunc));
 
             ModelBuilder.HasDbFunction(method).HasTranslation(args => register(method, args.ToArray()));
         }

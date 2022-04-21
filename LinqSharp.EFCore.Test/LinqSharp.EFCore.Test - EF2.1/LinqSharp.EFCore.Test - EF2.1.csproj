@@ -39,9 +39,8 @@
     <ProjectReference Include="..\..\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - EF2.1\LinqSharp.EFCore.SqlServer - EF2.1.csproj" />
     <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF2.1\LinqSharp.EFCore - EF2.1.csproj" />
   </ItemGroup>
-
-  <Import Project="..\LinqSharp.EFCore.Test - Shared\LinqSharp.EFCore.Test.projitems" Label="Shared" />
-  <Import Project="..\LinqSharp.EFCore.Test - SharedData\LinqSharp.EFCore.Test - SharedData.projitems" Label="Shared" />
   <Import Project="..\..\LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems" Label="Shared" />
+  <Import Project="..\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems" Label="Shared" />
+  <Import Project="..\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems" Label="Shared" />
 
 </Project>

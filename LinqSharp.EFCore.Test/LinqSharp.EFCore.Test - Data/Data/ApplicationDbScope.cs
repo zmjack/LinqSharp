@@ -1,4 +1,8 @@
-﻿using MySql.Data.MySqlClient;
+﻿#if EFCORE5_0_OR_GREATER
+using MySqlConnector;
+#else
+using MySql.Data.MySqlClient;
+#endif
 using SQLib;
 
 namespace LinqSharp.EFCore.Data.Test

@@ -20,7 +20,6 @@
     <AssemblyName>LinqSharp.EFCore</AssemblyName>
 
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -37,7 +36,7 @@
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NStandard" Version="0.8.45" />
   </ItemGroup>
@@ -57,6 +56,6 @@
     <ProjectReference Include="..\..\LinqSharp\LinqSharp.csproj" />
   </ItemGroup>
 
-  <Import Project="..\LinqSharp.EFCore - Shared\LinqSharp.EFCore.projitems" Label="Shared" />
+  <Import Project="..\LinqSharp.EFCore\LinqSharp.EFCore.projitems" Label="Shared" />
 
 </Project>
