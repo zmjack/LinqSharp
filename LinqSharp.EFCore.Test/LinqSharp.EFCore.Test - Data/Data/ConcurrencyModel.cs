@@ -8,7 +8,7 @@ namespace LinqSharp.EFCore.Data.Test
         [Key]
         public Guid Id { get; set; }
 
-        [Index(IndexType.Unique)]
+        [IndexField(IndexType.Unique)]
         public int RandomNumber { get; set; }
 
         [ConcurrencyCheck]

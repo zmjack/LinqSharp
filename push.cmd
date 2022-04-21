@@ -1,8 +1,8 @@
 nuget push "LinqSharp/bin/Release/LinqSharp.3.1.18.nupkg" -source nuget.org
 
-nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF2.1/bin/Release/LinqSharp.EFCore.2.1.71.nupkg" -source nuget.org
-nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF3.0/bin/Release/LinqSharp.EFCore.3.0.71.nupkg" -source nuget.org
-nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF3.1/bin/Release/LinqSharp.EFCore.3.1.71.nupkg" -source nuget.org
+nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF2.1/bin/Release/LinqSharp.EFCore.2.1.80.nupkg" -source nuget.org
+nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF3.0/bin/Release/LinqSharp.EFCore.3.0.80.nupkg" -source nuget.org
+nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF3.1/bin/Release/LinqSharp.EFCore.3.1.80.nupkg" -source nuget.org
 rem nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF5.0/bin/Release/LinqSharp.EFCore.5.0.0.nupkg" -source nuget.org
 rem nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF5.0/bin/Release/LinqSharp.EFCore.6.0.0.nupkg" -source nuget.org
 
@@ -18,5 +18,5 @@ nuget push "LinqSharp.EFCore.SqlServer/LinqSharp.EFCore.SqlServer - EF3.1/bin/Re
 rem nuget push "LinqSharp.EFCore.SqlServer/LinqSharp.EFCore.SqlServer - EF5.0/bin/Release/LinqSharp.EFCore.SqlServer.5.0.0.nupkg" -source nuget.org
 rem nuget push "LinqSharp.EFCore.SqlServer/LinqSharp.EFCore.SqlServer - EF5.0/bin/Release/LinqSharp.EFCore.SqlServer.6.0.0.nupkg" -source nuget.org
 
-nuget push "dotnet-orm/bin/Release/dotnet-orm.0.3.7.nupkg" -source nuget.org
+nuget push "dotnet-orm/bin/Release/dotnet-orm.0.3.8.nupkg" -source nuget.org
 pause

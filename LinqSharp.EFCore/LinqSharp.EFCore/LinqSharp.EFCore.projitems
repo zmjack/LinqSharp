@@ -64,7 +64,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoUpperAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ConcurrencyWinAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\CPKeyAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\IndexAttribute.cs" />
+    <Compile Include="..\LinqSharp.EFCore\~Annotations\IndexFieldAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\NotAcceptableAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\PendingDeleteAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ProviderAttribute.cs" />

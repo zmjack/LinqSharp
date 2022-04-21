@@ -10,7 +10,7 @@ namespace LinqSharp.EFCore.Data.Test
         public Guid Id { get; set; }
 
         [StringLength(255)]
-        [Index(IndexType.Unique)]
+        [IndexField(IndexType.Unique)]
         [Column("UniqueCode")]
         public string Code { get; set; }
 

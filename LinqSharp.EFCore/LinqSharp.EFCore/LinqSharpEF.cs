@@ -381,7 +381,7 @@ namespace LinqSharp.EFCore
                 var _props = modelClass.GetProperties();
                 foreach (var prop in _props)
                 {
-                    var indexes = prop.GetCustomAttributes<IndexAttribute>();
+                    var indexes = prop.GetCustomAttributes<IndexFieldAttribute>();
                     foreach (var index in indexes)
                     {
                         list.Add(new PropIndex
@@ -398,7 +398,7 @@ namespace LinqSharp.EFCore
                     {
                         list.Add(new PropIndex
                         {
-                            Index = new IndexAttribute(IndexType.Normal),
+                            Index = new IndexFieldAttribute(IndexType.Normal),
                             Name = prop.Name,
                         });
                     }

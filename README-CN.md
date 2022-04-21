@@ -58,6 +58,13 @@ dotnet add package LinqSharp.EFCore
 
 <br/>
 
+# 最近更新
+
+- 为避免命名冲突，**IndexAttribute** 已被重命名为 **IndexFieldAttribute**.
+  - 自版本 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0 及未来版本
+
+<br/>
+
 ## 使用示例数据库尝试
 
 **Northwnd** 是 **SQL Server** 早期附带的示例数据库，描述了“公司销售网”的案例场景。

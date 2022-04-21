@@ -2,7 +2,7 @@
 {
     internal class PropIndex
     {
-        public IndexAttribute Index { get; set; }
+        public IndexFieldAttribute Index { get; set; }
         public string Name { get; set; }
     }
 }

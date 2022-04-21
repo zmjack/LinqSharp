@@ -9,16 +9,16 @@ namespace LinqSharp.EFCore.Data.Test
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [Index(IndexType.Normal)]
+        [IndexField(IndexType.Normal)]
         public int Int0 { get; set; }
 
-        [Index(IndexType.Unique)]
+        [IndexField(IndexType.Unique)]
         public int Int1 { get; set; }
 
-        [Index(IndexType.Unique, Group = "Int2_G1&Int3_G1")]
+        [IndexField(IndexType.Unique, Group = "Int2_G1&Int3_G1")]
         public int Int2_G1 { get; set; }
 
-        [Index(IndexType.Unique, Group = "Int2_G1&Int3_G1")]
+        [IndexField(IndexType.Unique, Group = "Int2_G1&Int3_G1")]
         public int Int3_G1 { get; set; }
 
     }

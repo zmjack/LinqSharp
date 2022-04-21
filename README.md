@@ -56,6 +56,13 @@ dotnet add package LinqSharp.EFCore
 
 <br/>
 
+# Recent
+
+- To avoid naming conflicts, **IndexAttribute** has been renamed to **IndexFieldAttribute**.
+  - After 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0
+
+<br/>
+
 ## Try using the sample database
 
 **Northwnd**, an early sample database shipped with SQL Server, describes a simple "enterprise sales network" scenario.
