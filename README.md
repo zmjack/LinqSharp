@@ -29,14 +29,10 @@ Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README-
 
 **Supported version of Entity Framework:** 
 
+- Entity Framework Core 6.0
+- Entity Framework Core 5.0
 - Entity Framework Core 3.1
-- Entity Framework Core 2.1+
-
-<br/>
-
- **Restricted supported version of Entity Framework: **
-
-- Entity Framework Core 3.0+ : 1 failed.
+- Entity Framework Core 2.1
 
 <br/>
 

@@ -31,14 +31,10 @@
 
 **支持的 Entity Framework 版本：**
 
+- Entity Framework Core 6.0
+- Entity Framework Core 5.0
 - Entity Framework Core 3.1
-- Entity Framework Core 2.1+
-
-<br/>
-
- **受限支持的 Entity Framework 版本：**
-
-- Entity Framework Core 3.0：1 项失败。
+- Entity Framework Core 2.1
 
 <br/>
 
