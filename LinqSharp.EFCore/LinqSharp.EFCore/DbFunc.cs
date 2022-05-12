@@ -3,24 +3,6 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-
-/* Unmerged change from project 'LinqSharp.EFCore - EF3.0'
-Before:
-using System;
-using LinqSharp.EFCore.Functions;
-After:
-using LinqSharp.EFCore.Functions;
-using System;
-*/
-
-/* Unmerged change from project 'LinqSharp.EFCore - EF3.1'
-Before:
-using System;
-using LinqSharp.EFCore.Functions;
-After:
-using LinqSharp.EFCore.Functions;
-using System;
-*/
 using System;
 
 namespace LinqSharp.EFCore

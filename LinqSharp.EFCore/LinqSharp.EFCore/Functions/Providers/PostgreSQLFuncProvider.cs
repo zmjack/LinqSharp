@@ -18,7 +18,7 @@ namespace LinqSharp.EFCore.Functions.Providers
 
         public override void UseRandom()
         {
-            _register.Register(() => DbFunc.Random(), (method, args) => Translator.Function<double>("RANDOM", args));
+            Register(() => DbFunc.Random(), (method, args) => Translator.Function<double>("RANDOM", args));
         }
 
         public override void UseConcat()
@@ -28,13 +28,13 @@ namespace LinqSharp.EFCore.Functions.Providers
 #else
             static Expression translator(MethodInfo method, Expression[] args) => Translator.Function<string>("CONCAT", args);
 #endif
-            _register.Register(() => DbFunc.Concat(default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default, default, default, default), translator);
         }
 
         public override void UseDateTime()

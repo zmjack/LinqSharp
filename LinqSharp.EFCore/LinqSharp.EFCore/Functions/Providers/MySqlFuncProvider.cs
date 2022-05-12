@@ -19,7 +19,7 @@ namespace LinqSharp.EFCore.Functions.Providers
 
         public override void UseRandom()
         {
-            _register.Register(() => DbFunc.Random(), (method, args) => Translator.Function<double>("RAND", args));
+            Register(() => DbFunc.Random(), (method, args) => Translator.Function<double>("RAND", args));
         }
 
         public override void UseConcat()
@@ -29,18 +29,18 @@ namespace LinqSharp.EFCore.Functions.Providers
 #else
             static Expression translator(MethodInfo method, Expression[] args) => Translator.Function<string>("CONCAT", args);
 #endif
-            _register.Register(() => DbFunc.Concat(default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default, default, default, default), translator);
         }
 
         public override void UseDateTime()
         {
-            _register.Register(() => DbFunc.DateTime(default, default, default), (method, args) =>
+            Register(() => DbFunc.DateTime(default, default, default), (method, args) =>
             {
                 var hyphen = Translator.Constant("-");
                 return
@@ -49,7 +49,7 @@ namespace LinqSharp.EFCore.Functions.Providers
                         Translator.Constant("%Y-%m-%d"));
             });
 
-            _register.Register(() => DbFunc.DateTime(default, default, default, default, default, default), (method, args) =>
+            Register(() => DbFunc.DateTime(default, default, default, default, default, default), (method, args) =>
             {
                 var hyphen = Translator.Constant("-");
                 var space = Translator.Constant(" ");
@@ -65,7 +65,7 @@ namespace LinqSharp.EFCore.Functions.Providers
 
         public override void UseToDouble()
         {
-            _register.Register(() => DbFunc.ToDouble(default), (method, args) =>
+            Register(() => DbFunc.ToDouble(default), (method, args) =>
             {
                 return Translator.Function<double>("CONVERT", args[0], Translator.Fragment("DECIMAL(16, 4)"));
             });

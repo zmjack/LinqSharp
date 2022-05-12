@@ -19,7 +19,7 @@ namespace LinqSharp.EFCore.Functions.Providers
 
         public override void UseRandom()
         {
-            _register.Register(() => DbFunc.Random(), (method, args) => Translator.Function<double>("DBMS_RANDOM", "RANDOM", args));
+            Register(() => DbFunc.Random(), (method, args) => Translator.Function<double>("DBMS_RANDOM", "RANDOM", args));
         }
 
         public override void UseConcat()
@@ -29,13 +29,13 @@ namespace LinqSharp.EFCore.Functions.Providers
 #else
             static Expression translator(MethodInfo method, Expression[] args) => args.Aggregate((a, b) => Translator.Function<string>("CONCAT", new[] { a, b }));
 #endif
-            _register.Register(() => DbFunc.Concat(default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default, default, default), translator);
-            _register.Register(() => DbFunc.Concat(default, default, default, default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default, default, default), translator);
+            Register(() => DbFunc.Concat(default, default, default, default, default, default, default, default), translator);
         }
 
         public override void UseDateTime()

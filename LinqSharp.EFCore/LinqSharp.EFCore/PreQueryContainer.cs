@@ -6,9 +6,44 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Linq;
+
+/* Unmerged change from project 'LinqSharp.EFCore - EF3.0'
+Before:
 using System.Text;
 using System.Linq;
+After:
+using System.Linq.Expressions;
+using System.Text;
+*/
+
+/* Unmerged change from project 'LinqSharp.EFCore - EF5.0'
+Before:
+using System.Text;
+using System.Linq;
+After:
+using System.Linq.Expressions;
+using System.Text;
+*/
+
+/* Unmerged change from project 'LinqSharp.EFCore - EF6.0'
+Before:
+using System.Text;
+using System.Linq;
+After:
+using System.Linq.Expressions;
+using System.Text;
+*/
+
+/* Unmerged change from project 'LinqSharp.EFCore - EF2.1'
+Before:
+using System.Text;
+using System.Linq;
+After:
+using System.Linq.Expressions;
+using System.Text;
+*/
+using System.Linq.Expressions;
 
 namespace LinqSharp.EFCore
 {

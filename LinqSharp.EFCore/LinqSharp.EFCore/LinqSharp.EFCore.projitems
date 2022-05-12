@@ -9,7 +9,9 @@
     <Import_RootNamespace>LinqSharp.EFCore</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ConflictWin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ConcurrencyResolvableAttribute.cs" />
+    <Compile Include="..\LinqSharp.EFCore\IConcurrencyResolvable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConcurrencyResolvingMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CustomDatabaseFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DatabaseProviderName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureConditionUnit.cs" />
@@ -29,11 +31,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)PreQueryContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QueryConditionUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QueryOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbSet - CacheQuery.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - CacheQuery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Provider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UpdateOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbSet - AddOrUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - AddOrUpdate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\MySqlFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QueryCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityAudit.cs" />
@@ -62,16 +64,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoLowerAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoTrimAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoUpperAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ConcurrencyWinAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ConcurrencyPolicyAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\CPKeyAttribute.cs" />
     <Compile Include="..\LinqSharp.EFCore\~Annotations\IndexFieldAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\NotAcceptableAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\PendingDeleteAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ProviderAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\UdFunctionAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbSet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\XDbSet - Ensure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - Ensure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\EntityAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\EntityAgentProxy.cs" />

@@ -4,15 +4,21 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.EntityFrameworkCore;
-#if EFCORE3_0_OR_GREATER
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using System.Linq.Expressions;
+using static LinqSharp.EFCore.Functions.DbFuncRegister;
+
+#if EFCORE6_0_OR_GREATER
+#elif EFCORE3_0_OR_GREATER
+using System;
+#elif EFCORE2_0_OR_GREATER
+using System;
 #endif
 
 namespace LinqSharp.EFCore.Functions
 {
     public abstract class DbFuncProvider : IDbFuncProvider
     {
-        protected readonly DbFuncRegister _register;
+        private readonly DbFuncRegister _register;
 
         public DbFuncProvider(ModelBuilder modelBuilder)
         {
@@ -32,5 +38,9 @@ namespace LinqSharp.EFCore.Functions
         public virtual void UseDateTime() { }
         public virtual void UseToDouble() { }
 
+        public void Register(Expression<Func<object>> dbFunc, TranslatorDelegate register)
+        {
+            _register.Register(dbFunc, register);
+        }
     }
 }

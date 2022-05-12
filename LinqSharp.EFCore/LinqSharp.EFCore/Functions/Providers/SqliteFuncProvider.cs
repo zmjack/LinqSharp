@@ -13,7 +13,7 @@ namespace LinqSharp.EFCore.Functions.Providers
 
         public override void UseRandom()
         {
-            _register.Register(() => DbFunc.Random(), (method, args) => Translator.Function<double>("RANDOM", args));
+            Register(() => DbFunc.Random(), (method, args) => Translator.Function<double>("RANDOM", args));
         }
 
         public override void UseConcat()

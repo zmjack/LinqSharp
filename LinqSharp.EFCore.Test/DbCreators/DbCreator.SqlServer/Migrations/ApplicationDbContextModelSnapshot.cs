@@ -15,7 +15,7 @@ namespace DbCreator.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.24")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -177,33 +177,20 @@ namespace DbCreator.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CheckClientWin")
+                    b.Property<int>("ClientWinValue")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DatabaseWinValue")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RowVersion")
                         .IsConcurrencyToken()
                         .HasColumnType("int");
 
-                    b.Property<int>("CheckCombine")
-                        .IsConcurrencyToken()
-                        .HasColumnType("int");
-
-                    b.Property<int>("CheckDefault")
-                        .IsConcurrencyToken()
-                        .HasColumnType("int");
-
-                    b.Property<int>("CheckStoreWin")
-                        .IsConcurrencyToken()
-                        .HasColumnType("int");
-
-                    b.Property<int>("CheckThrow")
-                        .IsConcurrencyToken()
-                        .HasColumnType("int");
-
-                    b.Property<int>("RandomNumber")
+                    b.Property<int>("Value")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RandomNumber")
-                        .IsUnique();
 
                     b.ToTable("ConcurrencyModels");
                 });
@@ -837,7 +824,7 @@ namespace DbCreator.Migrations
                             b1.Property<Guid>("SimpleRowId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<int?>("Age")
+                            b1.Property<int>("Age")
                                 .HasColumnType("int");
 
                             b1.Property<string>("Name")

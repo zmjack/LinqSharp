@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace LinqSharp.EFCore.Data.Test
 {
-    public class ApplicationDbContext : NorthwndContext
+    public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableContext
     {
+        public int MaxConcurrencyRetry => 2;
+
         public const string DatabaseName = "linqsharp";
 
         public static ApplicationDbContext UseMySql(Action<MySqlDbContextOptionsBuilder> mySqlOptionsAction = null)
@@ -61,7 +63,8 @@ namespace LinqSharp.EFCore.Data.Test
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             UseNorthwndPrefix(modelBuilder, "@Northwnd.");
-            LinqSharpEF.OnModelCreating(this, base.OnModelCreating, modelBuilder);
+            base.OnModelCreating(modelBuilder);
+            LinqSharpEF.OnModelCreating(this, modelBuilder);
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

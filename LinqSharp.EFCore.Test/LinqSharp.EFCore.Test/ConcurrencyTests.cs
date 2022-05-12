@@ -1,7 +1,10 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
+using NStandard;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test
@@ -10,71 +13,62 @@ namespace LinqSharp.EFCore.Test
     {
         private readonly Random Random = new();
 
-        [Fact]
-        public void CheckDefaultTest()
+        private void SetValue(ConcurrencyModel model, int value)
+        {
+            model.Value = value;
+            model.DatabaseWinValue = value;
+            model.ClientWinValue = value;
+            model.RowVersion = value * 100;
+        }
+
+        private ApplicationDbContext[] GetConcurrencyContexts(int conflict, out Guid id)
         {
             var num = Random.Next();
+            using var defaultContext = ApplicationDbContext.UseMySql();
 
-            using (var context1 = ApplicationDbContext.UseMySql())
-            using (var context2 = ApplicationDbContext.UseMySql())
+            defaultContext.ConcurrencyModels.Add(new ConcurrencyModel
             {
-                context1.ConcurrencyModels.Add(new ConcurrencyModel
-                {
-                    RandomNumber = num,
-                    CheckDefault = 0,
-                });
-                context1.SaveChanges();
+                Value = num,
+                RowVersion = 0,
+            });
+            defaultContext.SaveChanges();
 
-                var record1 = context1.ConcurrencyModels.First(x => x.RandomNumber == num);
-                record1.CheckDefault = 1;
+            var defaultRecord = defaultContext.ConcurrencyModels.First(x => x.Value == num);
+            var _id = defaultRecord.Id;
+            SetValue(defaultRecord, 1);
 
-                var record2 = context2.ConcurrencyModels.First(x => x.RandomNumber == num);
-                record2.CheckDefault = 2;
+            var contexts = new ApplicationDbContext[conflict].Let(i =>
+            {
+                var context = ApplicationDbContext.UseMySql();
+                var record = context.ConcurrencyModels.Find(_id);
+                SetValue(record, 2 * (i + 1));
+                return context;
+            });
+            defaultContext.SaveChanges();
 
-                context1.SaveChanges();
+            id = _id;
 
-                Assert.ThrowsAny<DbUpdateConcurrencyException>(() => context2.SaveChanges());
-            }
+            return contexts;
         }
 
         [Fact]
-        public void CheckThrowTest()
+        public void ResolveTest()
         {
-            using (var context1 = ApplicationDbContext.UseMySql())
-            using (var context2 = ApplicationDbContext.UseMySql())
-            {
+            var contexts = GetConcurrencyContexts(3, out var id);
+            var tasks = contexts.Select(x => Task.Run(() => x.SaveChanges())).ToArray();
 
-            }
-        }
+            Task.WaitAll(tasks);
 
-        [Fact]
-        public void CheckStoreWinTest()
-        {
-            using (var context1 = ApplicationDbContext.UseMySql())
-            using (var context2 = ApplicationDbContext.UseMySql())
-            {
+            using var queryContext = ApplicationDbContext.UseMySql();
+            var record = queryContext.ConcurrencyModels.Find(id);
 
-            }
-        }
+            Assert.Equal(0, record.RowVersion % 2);
+            Assert.Equal(0, record.Value % 2);
+            Assert.Equal(1, record.DatabaseWinValue);
+            Assert.Equal(0, record.ClientWinValue % 2);
 
-        [Fact]
-        public void CheckClientWinTest()
-        {
-            using (var context1 = ApplicationDbContext.UseMySql())
-            using (var context2 = ApplicationDbContext.UseMySql())
-            {
-
-            }
-        }
-
-        [Fact]
-        public void CheckCombineTest()
-        {
-            using (var context1 = ApplicationDbContext.UseMySql())
-            using (var context2 = ApplicationDbContext.UseMySql())
-            {
-
-            }
+            queryContext.ConcurrencyModels.Remove(record);
+            queryContext.SaveChanges();
         }
 
     }

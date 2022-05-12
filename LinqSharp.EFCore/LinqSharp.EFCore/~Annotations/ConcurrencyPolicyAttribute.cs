@@ -7,13 +7,15 @@ using System;
 
 namespace LinqSharp.EFCore
 {
+
+    [AttributeUsage(AttributeTargets.Property)]
     public class ConcurrencyPolicyAttribute : Attribute
     {
-        public ConflictWin ConflictWin { get; set; }
+        public ConcurrencyResolvingMode Mode { get; set; }
 
-        public ConcurrencyPolicyAttribute(ConflictWin conflictWin)
+        public ConcurrencyPolicyAttribute(ConcurrencyResolvingMode mode)
         {
-            ConflictWin = conflictWin;
+            Mode = mode;
         }
 
     }

@@ -3,14 +3,16 @@ using System;
 using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DbCreator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220506190627_202205070300")]
+    partial class _202205070300
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,11 +177,11 @@ namespace DbCreator.Migrations
                     b.Property<int>("ClientWinValue")
                         .HasColumnType("int");
 
-                    b.Property<int>("DatabaseWinValue")
+                    b.Property<int>("ConcurrencyCheck")
+                        .IsConcurrencyToken()
                         .HasColumnType("int");
 
-                    b.Property<int>("RowVersion")
-                        .IsConcurrencyToken()
+                    b.Property<int>("DatabaseWinValue")
                         .HasColumnType("int");
 
                     b.Property<int>("Value")

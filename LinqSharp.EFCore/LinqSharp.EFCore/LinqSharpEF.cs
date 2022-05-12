@@ -19,6 +19,7 @@ using NStandard;
 using NStandard.Caching;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
@@ -29,48 +30,51 @@ namespace LinqSharp.EFCore
 {
     public static partial class LinqSharpEF
     {
-        private const string SaveChangesName = "Int32 SaveChanges(Boolean)";
-        private const string SaveChangesAsyncName = "System.Threading.Tasks.Task`1[System.Int32] SaveChangesAsync(Boolean, System.Threading.CancellationToken)";
         private static readonly MemoryCache ComplexTypesCache = new(new MemoryCacheOptions());
+        private static readonly MemoryCache ConcurrencyResolvingCache = new(new MemoryCacheOptions());
+        private static readonly MemoryCache ConcurrencyResolvableEntityCache = new(new MemoryCacheOptions());
 
-        public static int HandleConcurrencyExceptionRetryCount = 1;
-        public static CacheSet<Type, Dictionary<ConflictWin, string[]>> ConcurrencyWins = new()
+        public static Dictionary<ConcurrencyResolvingMode, string[]> GetConcurrencyResolvingDict(Type type)
         {
-            CacheMethodBuilder = type => () =>
+            return ConcurrencyResolvingCache.GetOrCreate(type, entry =>
             {
-                var storeWins = new List<string>();
-                var clientWins = new List<string>();
-                var combines = new List<string>();
-                var throws = new List<string>();
+                var databaseWinList = new List<string>();
+                var checkList = new List<string>();
 
                 foreach (var prop in type.GetProperties())
                 {
-                    var attr = prop.GetCustomAttribute<ConcurrencyPolicyAttribute>();
-                    if (attr != null)
+                    var timestampAttr = prop.GetCustomAttribute<TimestampAttribute>();
+                    if (timestampAttr is not null)
                     {
-                        switch (attr.ConflictWin)
-                        {
-                            case ConflictWin.Store: storeWins.Add(prop.Name); break;
-                            case ConflictWin.Client: storeWins.Add(prop.Name); break;
-                            case ConflictWin.Combine: combines.Add(prop.Name); break;
-                        }
+                        checkList.Add(prop.Name);
+                        continue;
                     }
-                    else
+
+                    var concurrencyCheckAttr = prop.GetCustomAttribute<ConcurrencyCheckAttribute>();
+                    if (concurrencyCheckAttr is not null)
                     {
-                        throws.Add(prop.Name);
+                        checkList.Add(prop.Name);
+                        continue;
+                    }
+
+                    var policyAttr = prop.GetCustomAttribute<ConcurrencyPolicyAttribute>();
+                    if (policyAttr is not null)
+                    {
+                        if (policyAttr.Mode == ConcurrencyResolvingMode.DatabaseWins)
+                        {
+                            databaseWinList.Add(prop.Name);
+                        }
                     }
                 }
 
-                var dict = new Dictionary<ConflictWin, string[]>
-                {
-                    [ConflictWin.Store] = storeWins.ToArray(),
-                    [ConflictWin.Client] = clientWins.ToArray(),
-                    [ConflictWin.Combine] = combines.ToArray(),
-                    [ConflictWin.Throw] = throws.ToArray(),
-                };
-                return dict;
-            }
-        };
+                var dict = new Dictionary<ConcurrencyResolvingMode, string[]>();
+                if (databaseWinList.Any()) dict.Add(ConcurrencyResolvingMode.DatabaseWins, databaseWinList.ToArray());
+                if (checkList.Any()) dict.Add(ConcurrencyResolvingMode.Check, checkList.ToArray());
+
+                if (dict.Keys.Any()) return dict;
+                else return null;
+            });
+        }
 
         public static ValueConverter<TModel, TProvider> BuildConverter<TModel, TProvider>(Provider<TModel, TProvider> field)
         {
@@ -82,83 +86,92 @@ namespace LinqSharp.EFCore
             return field.GetValueComparer();
         }
 
-        public static void OnModelCreating(DbContext context, Action<ModelBuilder> baseOnModelCreating, ModelBuilder modelBuilder)
+        public static void OnModelCreating(DbContext context, ModelBuilder modelBuilder)
         {
             ApplyProviderFunctions(context, modelBuilder);
             ApplyUdFunctions(context, modelBuilder);
             ApplyAnnotations(context, modelBuilder);
             ApplyComplexTypes(context, modelBuilder);
-            baseOnModelCreating(modelBuilder);
         }
 
-        private static TRet HandleConcurrencyException<TRet>(DbUpdateConcurrencyException ex, Func<TRet> saveChanges)
+        private static TRet HandleConcurrencyException<TRet>(DbUpdateConcurrencyException exception, Func<TRet> base_SaveChanges, int maxRetry)
         {
-            for (int retry = 0; retry < HandleConcurrencyExceptionRetryCount; retry++)
+            var entries = exception.Entries;
+            var resolvablesByTypeGroups = entries.GroupBy(x => x.Entity.GetType()).Where(entriesByType =>
+            {
+                var entityType = entriesByType.Key;
+                var isResolvable = ConcurrencyResolvableEntityCache.GetOrCreate(entityType, entry =>
+                {
+                    return entityType.GetCustomAttribute<ConcurrencyResolvableAttribute>() is not null;
+                });
+                return isResolvable;
+            });
+
+            for (int retry = 0; retry < maxRetry; retry++)
+            {
+                foreach (var entriesByType in resolvablesByTypeGroups)
+                {
+                    var entityType = entriesByType.Key;
+                    var resolvingDict = GetConcurrencyResolvingDict(entityType);
+                    if (resolvingDict is null) goto throw_exception;
+
+                    foreach (var entry in entriesByType)
+                    {
+                        var storeValues = entry.GetDatabaseValues();
+
+                        foreach (var propName in resolvingDict[ConcurrencyResolvingMode.DatabaseWins])
+                        {
+                            entry.CurrentValues[propName] = storeValues[propName];
+                        }
+
+                        foreach (var propName in resolvingDict[ConcurrencyResolvingMode.Check])
+                        {
+                            entry.OriginalValues[propName] = storeValues[propName];
+                        }
+                    }
+                }
+
+                try { return base_SaveChanges(); }
+                catch (DbUpdateConcurrencyException ex) { exception = ex; }
+                catch (Exception) { throw; }
+            }
+
+        throw_exception:
+            throw exception;
+        }
+
+        public static int SaveChanges(DbContext context, Func<bool, int> base_SaveChanges, bool acceptAllChangesOnSuccess)
+        {
+            IntelliTrack(context, acceptAllChangesOnSuccess);
+            if (context is IConcurrencyResolvableContext resolvable)
             {
                 try
                 {
-                    var entries = ex.Entries;
-                    foreach (var entry in entries)
-                    {
-                        var storeValues = entry.GetDatabaseValues();
-                        var originalValues = entry.OriginalValues.Clone();
-
-                        //entry.OriginalValues.SetValues(storeValues);
-
-                        var entityType = entry.Entity.GetType();
-                        var wins = ConcurrencyWins[entityType].Value;
-
-                        foreach (var propName in wins[ConflictWin.Store])
-                        {
-                            entry.OriginalValues[propName] = storeValues[propName];
-                            entry.Property(propName).IsModified = false;
-                        }
-
-                        foreach (var propName in wins[ConflictWin.Combine])
-                        {
-                            if (!Equals(originalValues[propName], storeValues[propName]))
-                            {
-                                entry.OriginalValues[propName] = storeValues[propName];
-                                entry.Property(propName).IsModified = false;
-                            }
-                        }
-                    }
-
-                    return saveChanges();
+                    return base_SaveChanges(acceptAllChangesOnSuccess);
                 }
-                catch (DbUpdateConcurrencyException _ex) { ex = _ex; }
-                catch (Exception _ex) { throw _ex; }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    return HandleConcurrencyException(ex, () => base_SaveChanges(acceptAllChangesOnSuccess), resolvable.MaxConcurrencyRetry);
+                }
             }
-
-            throw ex;
+            else return base_SaveChanges(acceptAllChangesOnSuccess);
         }
 
-        public static int SaveChanges(DbContext context, Func<bool, int> baseSaveChanges, bool acceptAllChangesOnSuccess)
+        public static Task<int> SaveChangesAsync(DbContext context, Func<bool, CancellationToken, Task<int>> base_SaveChangesAsync, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             IntelliTrack(context, acceptAllChangesOnSuccess);
-            return baseSaveChanges(acceptAllChangesOnSuccess);
-            //try
-            //{
-            //    return baseSaveChanges(acceptAllChangesOnSuccess);
-            //}
-            //catch (DbUpdateConcurrencyException ex)
-            //{
-            //    return HandleConcurrencyException(ex, () => baseSaveChanges(acceptAllChangesOnSuccess));
-            //}
-        }
-
-        public static Task<int> SaveChangesAsync(DbContext context, Func<bool, CancellationToken, Task<int>> baseSaveChangesAsync, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-        {
-            IntelliTrack(context, acceptAllChangesOnSuccess);
-            return baseSaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-            //try
-            //{
-            //    return baseSaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-            //}
-            //catch (DbUpdateConcurrencyException ex)
-            //{
-            //    return HandleConcurrencyException(ex, () => baseSaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken));
-            //}
+            if (context is IConcurrencyResolvableContext resolvable)
+            {
+                try
+                {
+                    return base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    return HandleConcurrencyException(ex, () => base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken), resolvable.MaxConcurrencyRetry);
+                }
+            }
+            else return base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         public static void ApplyProviderFunctions(DbContext context, ModelBuilder modelBuilder)
