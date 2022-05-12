@@ -23,8 +23,6 @@ namespace LinqSharp
 
             var opMethod = typeOpMethods.GetOrCreate($"[{objType.FullName}].{name}({objType.FullName}, {rightType.FullName})", entry =>
             {
-                entry.SlidingExpiration = TimeSpan.FromMinutes(20);
-
                 var objTypeFinal = objType;
                 if (objTypeFinal.IsNullable())
                 {

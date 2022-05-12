@@ -31,7 +31,6 @@ namespace LinqSharp.EFCore
             var type = typeof(TEntity);
             var map = _columnCahce.GetOrCreate($"{dbContext.GetType().FullName}::{type.FullName}", entry =>
             {
-                entry.SlidingExpiration = TimeSpan.FromMinutes(20);
                 var columnNames = GetDatabaseColumnNames<TEntity>(dbContext);
                 var entityTypes = dbContext.Model.GetEntityTypes();
                 var entityType = entityTypes.First(x => x.ClrType == typeof(TEntity));

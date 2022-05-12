@@ -240,8 +240,6 @@ namespace LinqSharp.EFCore
         {
             var types = ComplexTypesCache.GetOrCreate(context.GetType().FullName, entry =>
             {
-                entry.SlidingExpiration = TimeSpan.FromMinutes(20);
-
                 var typeList = new HashSet<Type>();
                 var dbSetTypes = context.GetType().GetProperties().Where(x => x.PropertyType.IsType(typeof(DbSet<>)));
                 foreach (var dbSetType in dbSetTypes)
@@ -250,7 +248,7 @@ namespace LinqSharp.EFCore
                     var fields = prop.Where(x => x.CanRead && x.CanWrite && !x.PropertyType.IsBasicType(true));
                     foreach (var field in fields)
                     {
-                        var type = field.PropertyType.For(p => p.IsNullable() ? p.GetElementType() : p);
+                        var type = field.PropertyType.For(p => p.IsNullable() ? p.GetGenericArguments()[0] : p);
                         if (type.GetCustomAttributes().Any(x => x.GetType().FullName == "System.ComponentModel.DataAnnotations.Schema.ComplexTypeAttribute"))
                         {
                             typeList.Add(type);

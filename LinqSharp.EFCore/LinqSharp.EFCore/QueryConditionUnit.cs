@@ -24,7 +24,6 @@ namespace LinqSharp.EFCore
             {
                 return PropAccessCache.GetOrCreate(PropName, entry =>
                 {
-                    entry.SlidingExpiration = TimeSpan.FromMinutes(20);
                     return typeof(TEntity).GetProperty(PropName);
                 });
             }
