@@ -5,6 +5,7 @@
 
 using Castle.DynamicProxy;
 using NStandard;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -54,8 +55,22 @@ namespace LinqSharp.EFCore
                             {
                                 try
                                 {
-                                    var ret = ConvertEx.ChangeType(store.Value, proxyProperty.PropertyType);
-                                    invocation.ReturnValue = ret;
+#if NET6_0_OR_GREATER
+                                    //TODO: DateOnly and TimeOnly can not use Convert.
+                                    object returnValue = proxyProperty.PropertyType switch
+                                    {
+                                        Type type when type == typeof(DateOnly) => DateOnly.TryParse(store.Value, out var date) ? date : default,
+                                        Type type when type == typeof(TimeOnly) => TimeOnly.TryParse(store.Value, out var time) ? time : default,
+
+                                        Type type when type == typeof(DateOnly?) => DateOnly.TryParse(store.Value, out var date) ? (DateOnly?)date : default,
+                                        Type type when type == typeof(TimeOnly?) => TimeOnly.TryParse(store.Value, out var time) ? (TimeOnly?)time : default,
+
+                                        _ => ConvertEx.ChangeType(store.Value, proxyProperty.PropertyType),
+                                    };
+#else
+                                    var returnValue = ConvertEx.ChangeType(store.Value, proxyProperty.PropertyType);
+#endif
+                                    invocation.ReturnValue = returnValue;
                                 }
                                 catch
                                 {
