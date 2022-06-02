@@ -22,7 +22,7 @@ namespace LinqSharp
             Expression = expression;
         }
 
-        public WhereExp<TSource> Default(WhereExp<TSource> @default) => Expression is not null ? this : @default;
+        public WhereExp<TSource> DefaultIfEmpty(WhereExp<TSource> @default) => Expression is not null ? this : @default;
 
         public WhereExp<TSource> And(WhereExp<TSource> other) => this & other;
         public WhereExp<TSource> Or(WhereExp<TSource> other) => this | other;
