@@ -218,12 +218,12 @@ namespace LinqSharp.EFCore.Test
         //}
 
         [Fact]
-        public void NullTest()
+        public void EmptyTest()
         {
             using (var mysql = ApplicationDbContext.UseMySql())
             {
                 var expected = new[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-                var actual = mysql.Categories.XWhere(h => null).Select(x => x.CategoryID).ToArray();
+                var actual = mysql.Categories.XWhere(h => h.Empty).Select(x => x.CategoryID).ToArray();
                 Assert.Equal(expected, actual);
             }
         }

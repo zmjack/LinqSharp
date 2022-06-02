@@ -15,15 +15,19 @@ namespace LinqSharp
     {
         internal readonly ParameterExpression DefaultParameter = Expression.Parameter(typeof(TSource));
 
+        public WhereExp<TSource> Empty => WhereExp<TSource>.Empty.Value;
+        public WhereExp<TSource> False => WhereExp<TSource>.False.Value;
+        public WhereExp<TSource> True => WhereExp<TSource>.True.Value;
+
         public WhereExp<TSource> And(IEnumerable<WhereExp<TSource>> whereExps)
         {
             if (whereExps.Any()) return whereExps.Aggregate((x, y) => x & y);
-            else return null;
+            else return Empty;
         }
         public WhereExp<TSource> And(params WhereExp<TSource>[] whereExps)
         {
             if (whereExps.Any()) return whereExps.Aggregate((x, y) => x & y);
-            else return null;
+            else return Empty;
         }
         public WhereExp<TSource> And<T>(IEnumerable<T> enumerable, Func<T, Expression<Func<TSource, bool>>> exp)
         {
@@ -39,12 +43,12 @@ namespace LinqSharp
         public WhereExp<TSource> Or(IEnumerable<WhereExp<TSource>> whereExps)
         {
             if (whereExps.Any()) return whereExps.Aggregate((x, y) => x | y);
-            else return null;
+            else return Empty;
         }
         public WhereExp<TSource> Or(params WhereExp<TSource>[] whereExps)
         {
             if (whereExps.Any()) return whereExps.Aggregate((x, y) => x | y);
-            else return null;
+            else return Empty;
         }
         public WhereExp<TSource> Or<T>(IEnumerable<T> enumerable, Func<T, Expression<Func<TSource, bool>>> exp)
         {
@@ -62,7 +66,6 @@ namespace LinqSharp
             return Or(whereExps);
         }
 
-        public WhereExp<TSource> StartEmpty() => new();
         public WhereExp<TSource> Where(Expression<Func<TSource, bool>> predicate) => new(predicate);
 
         public PropertyUnit<TSource> Property(string property, Type propertyType) => new(DefaultParameter, property, propertyType);

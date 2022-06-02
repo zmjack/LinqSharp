@@ -54,7 +54,7 @@ namespace LinqSharp.EFCore.Test
         [Fact]
         public void ResolveTest()
         {
-            var contexts = GetConcurrencyContexts(3, out var id);
+            var contexts = GetConcurrencyContexts(2, out var id);
             var tasks = contexts.Select(x => Task.Run(() => x.SaveChanges())).ToArray();
 
             Task.WaitAll(tasks);
