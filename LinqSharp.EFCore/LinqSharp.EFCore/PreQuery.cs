@@ -28,8 +28,8 @@ namespace LinqSharp.EFCore
             var entityType = typeof(TEntity);
 
             var dbSets = preQueries.Select(x => x.DbSetSelector(context)).ToArray();
-            if (!dbSets.Any()) throw new InvalidOperationException($"Can not find any DbSet of {entityType.FullName}.");
-            if (!dbSets.AllSame()) throw new InvalidOperationException("The DbSets defined by the selector is inconsistent.");
+            if (!dbSets.Any()) return Array.Empty<TEntity>();
+            if (!dbSets.AllSame()) throw new InvalidOperationException("The DbSets are inconsistent.");
 
             var dbSet = dbSets.First();
             var navigations = from preQuerier in preQueries let navigation = preQuerier.Navigation where navigation is not null select navigation;
