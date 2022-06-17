@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AddOrUpdateTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BulkTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CacheableTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConcurrencyTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbFunctionTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnsureTests.cs" />

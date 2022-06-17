@@ -1,6 +1,11 @@
 {
   "profiles": {
-    "TypeSharp.Cli": {
+    "WSL": {
+      "commandName": "WSL2",
+      "environmentVariables": {},
+      "distributionName": ""
+    },
+    "LinqSharp.Cli": {
       "commandName": "Project"
     }
   }

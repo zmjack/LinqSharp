@@ -48,12 +48,6 @@ namespace LinqSharp.EFCore.Navigation
             PreQuerier.Navigation = this;
             return PreQuerier.Where(predicate);
         }
-
-        public IEnumerable<TEntity> Excute(bool useFreshSource = false)
-        {
-            PreQuerier.Navigation = this;
-            return PreQuerier.ToEnumerable(useFreshSource);
-        }
     }
 
     public class IncludeNavigation<TDbContext, TEntity, TPreviousProperty, TProperty> : IncludeNavigation<TDbContext, TEntity>

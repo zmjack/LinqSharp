@@ -14,7 +14,7 @@ namespace LinqSharp.EFCore
     {
         [Obsolete("Use AddOrUpdate instead. This method is slower than AddOrUpdate method, and maybe removed in the future.")]
         public static TEntity Ensure<TEntity>(this DbSet<TEntity> @this, QueryCondition<TEntity> condition) where TEntity : class, new()
-        {
+        {            
             return Ensure(@this, new[] { condition }, null).First();
         }
 

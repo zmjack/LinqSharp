@@ -5,9 +5,12 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Caching.Memory;
+using NStandard;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 namespace LinqSharp.EFCore
 {
@@ -46,19 +49,42 @@ namespace LinqSharp.EFCore
         public static DirectScope BeginDirectScope(this DbContext @this) => new();
 #pragma warning restore IDE0060 // Remove unused parameter
 
-        public static PreQuery<TDbContext, TEntity> CreatePreQuery<TDbContext, TEntity>(this TDbContext @this, Func<TDbContext, DbSet<TEntity>> dbSetSelector!!)
-            where TDbContext : DbContext
-            where TEntity : class
-        {
-            return new PreQuery<TDbContext, TEntity>(@this, dbSetSelector);
-        }
+        private static readonly MemoryCache CacheablePropertiesCache = new(new MemoryCacheOptions());
+        private static readonly MemoryCache CacheableQueryMethodCache = new(new MemoryCacheOptions());
 
-        public static TEntity[] ExcuteQueries<TDbContext, TEntity>(this TDbContext @this, params PreQuery<TDbContext, TEntity>[] preQueriers!!)
-            where TDbContext : DbContext
-            where TEntity : class
+        public static void ApplyCache<TDbContext, TDataSource>(this TDbContext @this, ICacheable<TDataSource>[] cacheables) where TDbContext : DbContext where TDataSource : class, new()
         {
-            return PreQuery.Excute(@this, preQueriers);
-        }
+            // TODO: Use direct function to optimize.
+            var props = CacheablePropertiesCache.GetOrCreate($"{typeof(TDbContext)}|{typeof(TDataSource)}", entry =>
+            {
+                var a = $"{typeof(TDbContext)}|{typeof(TDataSource)}";
+                return typeof(TDataSource).GetProperties().Where(x =>
+                {
+                    var dbContextType = typeof(TDbContext);
+                    var expectedDbContextType = x.PropertyType.GetGenericArguments()[0];
+                    return (dbContextType.IsType(expectedDbContextType) || dbContextType.IsExtend(expectedDbContextType)) && x.PropertyType.IsType(typeof(PreQuery<,>));
+                }).ToArray();
+            });
 
+            foreach (var prop in props)
+            {
+                var preQueryType = prop.PropertyType;
+                var args = preQueryType.GetGenericArguments();
+                var dbContextType = args[0];
+                var entityType = args[1];
+                var queryMethod = CacheableQueryMethodCache.GetOrCreate($"{typeof(TDbContext)}|{entityType}", entry =>
+                {
+                    return typeof(PreQuery).GetMethod(nameof(PreQuery.Execute), BindingFlags.Public | BindingFlags.Static).MakeGenericMethod(dbContextType, entityType);
+                });
+
+                var preQueries = Array.CreateInstance(preQueryType, cacheables.Count());
+                foreach (var kv in cacheables.AsKvPairs())
+                {
+                    var preQuery = prop.GetValue(kv.Value.Source);
+                    preQueries.SetValue(preQuery, kv.Key);
+                }
+                queryMethod.Invoke(null, new object[] { @this, preQueries });
+            }
+        }
     }
 }
