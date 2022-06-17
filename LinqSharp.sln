@@ -85,44 +85,6 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore", "LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.shproj", "{C05E5C78-0DE2-4D86-A1CA-5421CD6B4F47}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{0fae00f4-226c-4627-9b09-7fa7c0bc46a4}*SharedItemsImports = 5
-		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{16bba3be-0bb9-43c0-8af4-053dd2ad6b95}*SharedItemsImports = 5
-		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{30cdcb6c-627e-418e-a19e-dba3847adb28}*SharedItemsImports = 5
-		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{3af1e2f6-b5e3-4e06-a0a3-04d4d4e01ddc}*SharedItemsImports = 5
-		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{3c950a4e-ed2a-40fb-82b4-1d74e4e72434}*SharedItemsImports = 5
-		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{40c448ca-bf56-4c65-9d86-fc58f187525e}*SharedItemsImports = 13
-		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{59fe4cc4-7bcc-4cf3-83c4-b4dfc07e0714}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{59fe4cc4-7bcc-4cf3-83c4-b4dfc07e0714}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{59fe4cc4-7bcc-4cf3-83c4-b4dfc07e0714}*SharedItemsImports = 5
-		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{67630eaa-89d2-4771-8b6e-e9a2b05e14b2}*SharedItemsImports = 5
-		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{707932bb-3060-47d8-a7fa-b13dba117979}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{707932bb-3060-47d8-a7fa-b13dba117979}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{707932bb-3060-47d8-a7fa-b13dba117979}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{78fa23e2-57bf-4b94-aab1-1006fb087701}*SharedItemsImports = 13
-		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{92e992f1-d231-4f26-9835-57050ece9a69}*SharedItemsImports = 5
-		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{a612380e-b85b-4f62-9886-ec9ebeca7da2}*SharedItemsImports = 5
-		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
-		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{b89751a3-9ddb-4007-87b7-941ac3453c55}*SharedItemsImports = 5
-		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{c05e5c78-0de2-4d86-a1ca-5421cd6b4f47}*SharedItemsImports = 13
-		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{c7ad9eca-f129-4824-a1c5-d2b065f5185e}*SharedItemsImports = 5
-		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{ce1c42d2-5312-4c70-89db-82e50d437a83}*SharedItemsImports = 5
-		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{d0e01ac5-aad3-41f6-b5d2-c5b024d7ab89}*SharedItemsImports = 13
-		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{d3cd0ff5-3e05-4725-b1ff-ec50aece68c6}*SharedItemsImports = 13
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{d679bda0-c06d-4115-bae2-400fb62afaae}*SharedItemsImports = 13
-		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{dae82f55-3477-46a4-881f-3230d975b113}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{dae82f55-3477-46a4-881f-3230d975b113}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{dae82f55-3477-46a4-881f-3230d975b113}*SharedItemsImports = 5
-		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{dbe972eb-a93a-4242-a5f3-5432bfc4a315}*SharedItemsImports = 5
-		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{df9a0e49-a749-4114-b7e5-5a0fea614c51}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{df9a0e49-a749-4114-b7e5-5a0fea614c51}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{df9a0e49-a749-4114-b7e5-5a0fea614c51}*SharedItemsImports = 5
-		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{e155aa07-9a80-463c-8e77-08c8214f024b}*SharedItemsImports = 5
-		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{f18856e0-1ddf-47d8-82bd-547a599f58b1}*SharedItemsImports = 5
-		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{ff03696c-70f6-4dc8-b254-3fdf8b55ebd1}*SharedItemsImports = 5
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -458,5 +420,43 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE8FFA56-A385-4D18-8E81-93227E276884}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{0fae00f4-226c-4627-9b09-7fa7c0bc46a4}*SharedItemsImports = 5
+		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{16bba3be-0bb9-43c0-8af4-053dd2ad6b95}*SharedItemsImports = 5
+		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{30cdcb6c-627e-418e-a19e-dba3847adb28}*SharedItemsImports = 5
+		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{3af1e2f6-b5e3-4e06-a0a3-04d4d4e01ddc}*SharedItemsImports = 5
+		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{3c950a4e-ed2a-40fb-82b4-1d74e4e72434}*SharedItemsImports = 5
+		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{40c448ca-bf56-4c65-9d86-fc58f187525e}*SharedItemsImports = 13
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{59fe4cc4-7bcc-4cf3-83c4-b4dfc07e0714}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{59fe4cc4-7bcc-4cf3-83c4-b4dfc07e0714}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{59fe4cc4-7bcc-4cf3-83c4-b4dfc07e0714}*SharedItemsImports = 5
+		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{67630eaa-89d2-4771-8b6e-e9a2b05e14b2}*SharedItemsImports = 5
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{707932bb-3060-47d8-a7fa-b13dba117979}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{707932bb-3060-47d8-a7fa-b13dba117979}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{707932bb-3060-47d8-a7fa-b13dba117979}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{78fa23e2-57bf-4b94-aab1-1006fb087701}*SharedItemsImports = 13
+		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{92e992f1-d231-4f26-9835-57050ece9a69}*SharedItemsImports = 5
+		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{a612380e-b85b-4f62-9886-ec9ebeca7da2}*SharedItemsImports = 5
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
+		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{b89751a3-9ddb-4007-87b7-941ac3453c55}*SharedItemsImports = 5
+		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{c05e5c78-0de2-4d86-a1ca-5421cd6b4f47}*SharedItemsImports = 13
+		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{c7ad9eca-f129-4824-a1c5-d2b065f5185e}*SharedItemsImports = 5
+		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{ce1c42d2-5312-4c70-89db-82e50d437a83}*SharedItemsImports = 5
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{d0e01ac5-aad3-41f6-b5d2-c5b024d7ab89}*SharedItemsImports = 13
+		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{d3cd0ff5-3e05-4725-b1ff-ec50aece68c6}*SharedItemsImports = 13
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{d679bda0-c06d-4115-bae2-400fb62afaae}*SharedItemsImports = 13
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{dae82f55-3477-46a4-881f-3230d975b113}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{dae82f55-3477-46a4-881f-3230d975b113}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{dae82f55-3477-46a4-881f-3230d975b113}*SharedItemsImports = 5
+		LinqSharp.EFCore\LinqSharp.EFCore\LinqSharp.EFCore.projitems*{dbe972eb-a93a-4242-a5f3-5432bfc4a315}*SharedItemsImports = 5
+		LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems*{df9a0e49-a749-4114-b7e5-5a0fea614c51}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems*{df9a0e49-a749-4114-b7e5-5a0fea614c51}*SharedItemsImports = 5
+		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems*{df9a0e49-a749-4114-b7e5-5a0fea614c51}*SharedItemsImports = 5
+		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.projitems*{e155aa07-9a80-463c-8e77-08c8214f024b}*SharedItemsImports = 5
+		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{f18856e0-1ddf-47d8-82bd-547a599f58b1}*SharedItemsImports = 5
+		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.projitems*{ff03696c-70f6-4dc8-b254-3fdf8b55ebd1}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
