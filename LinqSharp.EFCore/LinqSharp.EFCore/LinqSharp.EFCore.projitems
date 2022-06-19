@@ -9,7 +9,7 @@
     <Import_RootNamespace>LinqSharp.EFCore</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)IPreQueryable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ICacheable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ConcurrencyResolvableAttribute.cs" />
     <Compile Include="..\LinqSharp.EFCore\IConcurrencyResolvable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConcurrencyResolvingMode.cs" />

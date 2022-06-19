@@ -92,6 +92,14 @@ namespace LinqSharp.EFCore
         }
     }
 
+    public static class PreQuery<TDbContext> where TDbContext : DbContext
+    {
+        public static PreQuery<TDbContext, TEntity> Create<TEntity>(Func<TDbContext, DbSet<TEntity>> dbSetSelector!!) where TEntity : class
+        {
+            return new PreQuery<TDbContext, TEntity>(dbSetSelector);
+        }
+    }
+
     public class PreQuery<TDbContext, TEntity>
         where TDbContext : DbContext
         where TEntity : class
