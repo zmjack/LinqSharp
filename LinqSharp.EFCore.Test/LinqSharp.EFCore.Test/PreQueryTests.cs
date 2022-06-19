@@ -2,6 +2,8 @@
 using Northwnd;
 using System.Linq;
 using Xunit;
+using LinqSharp.EFCore.Navigation;
+using System.Collections.Generic;
 
 namespace LinqSharp.EFCore.Test
 {
@@ -9,19 +11,6 @@ namespace LinqSharp.EFCore.Test
     {
         [Fact]
         public void Test1()
-        {
-            using var mysql = ApplicationDbContext.UseMySql();
-
-            var query1 = new PreQuery<ApplicationDbContext, AuditLevel>(x => x.AuditLevels).Include(x => x.RootLink).Where(x => x.RootLink.TotalQuantity == 1);
-            var query2 = new PreQuery<ApplicationDbContext, AuditLevel>(x => x.AuditLevels).Include(x => x.Values).Where(x => x.ValueCount == 2);
-            var query3 = new PreQuery<ApplicationDbContext, AuditLevel>(x => x.AuditLevels).Include(x => x.Values).Where(x => x.Values.Any(x => x.Quantity == 3));
-
-            var result = PreQuery.Execute(mysql, query1, query2, query3);
-            var a1 = query1.Result;
-        }
-
-        [Fact]
-        public void Test2()
         {
             using var mysql = ApplicationDbContext.UseMySql();
             (string CategoryName, int Year)[] queryParams = new[]
@@ -39,6 +28,25 @@ namespace LinqSharp.EFCore.Test
                         x.ProductLink.CategoryLink.CategoryName == p.CategoryName
                         && x.OrderLink.OrderDate.Value.Year == p.Year);
             }).ToArray();
+            var query = PreQuery.Execute(mysql, preQueries);
+
+            Assert.Equal(240, query.Length);
+            Assert.Equal(78, preQueries[0].Result.Length);
+            Assert.Equal(162, preQueries[1].Result.Length);
+        }
+
+        [Fact]
+        public void Test3()
+        {
+            using var mysql = ApplicationDbContext.UseMySql();
+            /// TODO: Use interface creation to optimize calls.
+            var preQueries = new[]
+            {
+                new PreQuery<ApplicationDbContext, Order>(x => x.Orders)
+                    .Include(x => x.OrderDetails).ThenInclude<ICollection<OrderDetail>, OrderDetail, Product>(x => x.ProductLink)
+                    .Include(x => x.OrderDetails)
+                    .Where(x => true),
+            };
             var query = PreQuery.Execute(mysql, preQueries);
 
             foreach (var preQuery in preQueries)

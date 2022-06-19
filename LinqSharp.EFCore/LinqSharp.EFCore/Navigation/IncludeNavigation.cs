@@ -9,15 +9,16 @@ namespace LinqSharp.EFCore.Navigation
         where TDbContext : DbContext
         where TEntity : class
     {
-        internal PreQuery<TDbContext, TEntity> PreQuerier;
-        internal List<List<PropertyPath>> PropertyPathLists { get; set; } = new();
+        public PreQuery<TDbContext, TEntity> PreQuerier;
+        public List<List<PropertyPath>> PropertyPathLists { get; protected set; } = new();
         public Expression<Func<TEntity, bool>> Predicate { get; protected set; }
 
         public struct PropertyPath
         {
-            public Type PreviousPropertyType { get; set; }
-            public Type PropertyType { get; set; }
-            public LambdaExpression NavigationPropertyPath { get; set; }
+            public Type PreviousProperty { get; set; }
+            public Type PropertyElement { get; set; }
+            public Type Property { get; set; }
+            public LambdaExpression Path { get; set; }
         }
 
         public IncludeNavigation(PreQuery<TDbContext, TEntity> preQuerier)
@@ -25,10 +26,10 @@ namespace LinqSharp.EFCore.Navigation
             PreQuerier = preQuerier;
         }
 
-        public IncludeNavigation<TDbContext, TEntity, TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationPropertyPath)
+        public IncludeNavigation<TDbContext, TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationPropertyPath)
             where TProperty : class
         {
-            var nav = new IncludeNavigation<TDbContext, TEntity, TEntity, TProperty>(PreQuerier, PropertyPathLists)
+            var nav = new IncludeNavigation<TDbContext, TEntity, TProperty>(PreQuerier, PropertyPathLists)
             {
                 LastPropertyPathList = new List<PropertyPath>()
             };
@@ -36,9 +37,9 @@ namespace LinqSharp.EFCore.Navigation
 
             nav.LastPropertyPathList.Add(new PropertyPath
             {
-                PreviousPropertyType = typeof(TEntity),
-                PropertyType = typeof(TProperty),
-                NavigationPropertyPath = navigationPropertyPath,
+                PreviousProperty = typeof(TEntity),
+                Property = typeof(TProperty),
+                Path = navigationPropertyPath,
             });
             return nav;
         }
@@ -50,10 +51,9 @@ namespace LinqSharp.EFCore.Navigation
         }
     }
 
-    public class IncludeNavigation<TDbContext, TEntity, TPreviousProperty, TProperty> : IncludeNavigation<TDbContext, TEntity>
+    public class IncludeNavigation<TDbContext, TEntity, TProperty> : IncludeNavigation<TDbContext, TEntity>
         where TDbContext : DbContext
         where TEntity : class
-        where TPreviousProperty : class
         where TProperty : class
     {
         internal List<PropertyPath> LastPropertyPathList;
@@ -63,14 +63,29 @@ namespace LinqSharp.EFCore.Navigation
             PropertyPathLists = includes;
         }
 
-        public IncludeNavigation<TDbContext, TEntity, TProperty, TIncludeProperty> ThenInclude<TIncludeProperty>(Expression<Func<TProperty, TIncludeProperty>> navigationPropertyPath) where TIncludeProperty : class
+        public IncludeNavigation<TDbContext, TEntity, TIncludeProperty> ThenInclude<TIncludeProperty>(Expression<Func<TProperty, TIncludeProperty>> navigationPropertyPath) where TIncludeProperty : class
         {
-            var navigation = new IncludeNavigation<TDbContext, TEntity, TProperty, TIncludeProperty>(PreQuerier, PropertyPathLists);
+            var navigation = new IncludeNavigation<TDbContext, TEntity, TIncludeProperty>(PreQuerier, PropertyPathLists);
             LastPropertyPathList.Add(new PropertyPath
             {
-                PreviousPropertyType = typeof(TProperty),
-                PropertyType = typeof(TIncludeProperty),
-                NavigationPropertyPath = navigationPropertyPath,
+                PreviousProperty = typeof(TProperty),
+                PropertyElement = null,
+                Property = typeof(TIncludeProperty),
+                Path = navigationPropertyPath,
+            });
+            navigation.LastPropertyPathList = LastPropertyPathList;
+            return navigation;
+        }
+
+        public IncludeNavigation<TDbContext, TEntity, TIncludeProperty> ThenInclude<TPreviousProperty, TElement, TIncludeProperty>(Expression<Func<TElement, TIncludeProperty>> navigationPropertyPath) where TIncludeProperty : class where TPreviousProperty : IEnumerable<TElement>
+        {
+            var navigation = new IncludeNavigation<TDbContext, TEntity, TIncludeProperty>(PreQuerier, PropertyPathLists);
+            LastPropertyPathList.Add(new PropertyPath
+            {
+                PreviousProperty = typeof(TProperty),
+                PropertyElement = typeof(TElement),
+                Property = typeof(TIncludeProperty),
+                Path = navigationPropertyPath,
             });
             navigation.LastPropertyPathList = LastPropertyPathList;
             return navigation;

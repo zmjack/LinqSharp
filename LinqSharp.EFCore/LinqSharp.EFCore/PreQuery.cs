@@ -48,11 +48,10 @@ namespace LinqSharp.EFCore
                 if (enumerator.MoveNext())
                 {
                     var firstNavigation = enumerator.Current;
-                    var pathType = typeof(Expression<>).MakeGenericType(typeof(Func<,>).MakeGenericType(firstNavigation.PreviousPropertyType, firstNavigation.PreviousPropertyType));
 
                     var includeMethodDefinition = IncludeCache.GetOrCreate(entityType, entry => typeof(EntityFrameworkQueryableExtensions).GetMethodViaQualifiedName(IncludeMethodName));
-                    var includeMethod = includeMethodDefinition.MakeGenericMethod(firstNavigation.PreviousPropertyType, firstNavigation.PropertyType);
-                    queryable = includeMethod.Invoke(null, new object[] { queryable, firstNavigation.NavigationPropertyPath }) as IQueryable<TEntity>;
+                    var includeMethod = includeMethodDefinition.MakeGenericMethod(firstNavigation.PreviousProperty, firstNavigation.Property);
+                    queryable = includeMethod.Invoke(null, new object[] { queryable, firstNavigation.Path }) as IQueryable<TEntity>;
 
                     if (enumerator.MoveNext())
                     {
@@ -63,11 +62,11 @@ namespace LinqSharp.EFCore
                         void ExcuteThenInclude()
                         {
                             MethodInfo thenIncludeMethod;
-                            if (navigation.PropertyType.IsImplement<IEnumerable>())
-                                thenIncludeMethod = thenIncludeMethodDefinition_Enumerable.MakeGenericMethod(entityType, navigation.PreviousPropertyType, navigation.PropertyType);
-                            else thenIncludeMethod = thenIncludeMethodDefinition.MakeGenericMethod(entityType, navigation.PreviousPropertyType, navigation.PropertyType);
+                            if (navigation.PreviousProperty.IsImplement<IEnumerable>())
+                                thenIncludeMethod = thenIncludeMethodDefinition_Enumerable.MakeGenericMethod(entityType, navigation.PropertyElement, navigation.Property);
+                            else thenIncludeMethod = thenIncludeMethodDefinition.MakeGenericMethod(entityType, navigation.PreviousProperty, navigation.Property);
 
-                            queryable = thenIncludeMethod.Invoke(null, new object[] { queryable, navigation.NavigationPropertyPath }) as IQueryable<TEntity>;
+                            queryable = thenIncludeMethod.Invoke(null, new object[] { queryable, navigation.Path }) as IQueryable<TEntity>;
                         }
                         ExcuteThenInclude();
 
@@ -119,7 +118,7 @@ namespace LinqSharp.EFCore
             return this;
         }
 
-        public IncludeNavigation<TDbContext, TEntity, TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationPropertyPath) where TProperty : class
+        public IncludeNavigation<TDbContext, TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationPropertyPath) where TProperty : class
         {
             var navigation = new IncludeNavigation<TDbContext, TEntity>(this);
             return navigation.Include(navigationPropertyPath);
