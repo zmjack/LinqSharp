@@ -132,7 +132,9 @@ namespace LinqSharp.EFCore
 
         public PreQuery<TDbContext, TEntity> Where(Expression<Func<TEntity, bool>> predicate!!)
         {
-            Predicate = predicate;
+            if (Predicate is null) Predicate = predicate;
+            else Predicate = new[] { Predicate, predicate }.LambdaJoin(Expression.AndAlso);
+
             LocalPredicate = predicate.Compile();
             HasFiltered = true;
             return this;
