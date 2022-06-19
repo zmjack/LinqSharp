@@ -8,6 +8,7 @@ namespace LinqSharp.EFCore
     public interface ICacheable<TDataSource> where TDataSource : class, new()
     {
         public TDataSource Source { get; }
+        public void OnCache();
     }
 
 }

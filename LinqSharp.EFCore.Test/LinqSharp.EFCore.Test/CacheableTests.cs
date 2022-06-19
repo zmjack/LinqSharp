@@ -10,6 +10,9 @@ namespace LinqSharp.EFCore.Test
         public class NameContainer : ICacheable<NameContainer.PreQueries>
         {
             public PreQueries Source { get; }
+            public void OnCache()
+            {
+            }
 
             public class PreQueries
             {

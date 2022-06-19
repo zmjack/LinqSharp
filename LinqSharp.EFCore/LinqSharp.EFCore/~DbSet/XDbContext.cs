@@ -52,12 +52,11 @@ namespace LinqSharp.EFCore
         private static readonly MemoryCache CacheablePropertiesCache = new(new MemoryCacheOptions());
         private static readonly MemoryCache CacheableQueryMethodCache = new(new MemoryCacheOptions());
 
-        public static void ApplyCache<TDbContext, TDataSource>(this TDbContext @this, ICacheable<TDataSource>[] cacheables) where TDbContext : DbContext where TDataSource : class, new()
+        public static void ApplyCache<TDbContext, TDataSource>(this TDbContext @this, params ICacheable<TDataSource>[] cacheables) where TDbContext : DbContext where TDataSource : class, new()
         {
             // TODO: Use direct function to optimize.
             var props = CacheablePropertiesCache.GetOrCreate($"{typeof(TDbContext)}|{typeof(TDataSource)}", entry =>
             {
-                var a = $"{typeof(TDbContext)}|{typeof(TDataSource)}";
                 return typeof(TDataSource).GetProperties().Where(x =>
                 {
                     var dbContextType = typeof(TDbContext);
@@ -85,6 +84,12 @@ namespace LinqSharp.EFCore
                 }
                 queryMethod.Invoke(null, new object[] { @this, preQueries });
             }
+
+            foreach (var cacheable in cacheables)
+            {
+                cacheable.OnCache();
+            }
+
         }
     }
 }
