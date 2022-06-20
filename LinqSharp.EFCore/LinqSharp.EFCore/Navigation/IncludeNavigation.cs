@@ -16,7 +16,7 @@ namespace LinqSharp.EFCore.Navigation
         public struct PropertyPath
         {
             public Type PreviousProperty { get; set; }
-            public Type PropertyElement { get; set; }
+            public Type PreviousElement { get; set; }
             public Type Property { get; set; }
             public LambdaExpression Path { get; set; }
         }
@@ -69,7 +69,7 @@ namespace LinqSharp.EFCore.Navigation
             LastPropertyPathList.Add(new PropertyPath
             {
                 PreviousProperty = typeof(TProperty),
-                PropertyElement = null,
+                PreviousElement = null,
                 Property = typeof(TIncludeProperty),
                 Path = navigationPropertyPath,
             });
@@ -83,7 +83,7 @@ namespace LinqSharp.EFCore.Navigation
             LastPropertyPathList.Add(new PropertyPath
             {
                 PreviousProperty = typeof(TProperty),
-                PropertyElement = typeof(TElement),
+                PreviousElement = typeof(TElement),
                 Property = typeof(TIncludeProperty),
                 Path = navigationPropertyPath,
             });

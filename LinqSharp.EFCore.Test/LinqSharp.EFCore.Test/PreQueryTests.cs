@@ -22,7 +22,7 @@ namespace LinqSharp.EFCore.Test
             var preQueries = queryParams.Select(p =>
             {
                 return new PreQuery<ApplicationDbContext, OrderDetail>(x => x.OrderDetails)
-                    .Include(x => x.ProductLink).ThenInclude(x => x.CategoryLink)
+                    .Include(x => x.ProductLink.CategoryLink)
                     .Include(x => x.OrderLink)
                     .Where(x =>
                         x.ProductLink.CategoryLink.CategoryName == p.CategoryName

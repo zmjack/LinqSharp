@@ -20,10 +20,20 @@ namespace LinqSharp.EFCore
     {
         private static readonly MemoryCache IncludeCache = new(new MemoryCacheOptions());
         private static readonly MemoryCache ThenIncludeCache = new(new MemoryCacheOptions());
-        private static readonly MemoryCache EnumerableThenIncludeCache = new(new MemoryCacheOptions());
-        private const string IncludeMethodName = "Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,TProperty] Include[TEntity,TProperty](System.Linq.IQueryable`1[TEntity], System.Linq.Expressions.Expression`1[System.Func`2[TEntity,TProperty]])";
-        private const string ThenIncludeMethodName = "Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,TProperty] ThenInclude[TEntity,TPreviousProperty,TProperty](Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,TPreviousProperty], System.Linq.Expressions.Expression`1[System.Func`2[TPreviousProperty,TProperty]])";
-        private const string ThenIncludeMethodName_Enumerable = "Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,TProperty] ThenInclude[TEntity,TPreviousProperty,TProperty](Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,System.Collections.Generic.IEnumerable`1[TPreviousProperty]], System.Linq.Expressions.Expression`1[System.Func`2[TPreviousProperty,TProperty]])";
+        private static readonly MemoryCache ThenInclude_EnumerableCache = new(new MemoryCacheOptions());
+
+        private static readonly Lazy<MethodInfo> Lazy_IncludeMethod = new(() =>
+        {
+            return typeof(EntityFrameworkQueryableExtensions).GetMethodViaQualifiedName("Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,TProperty] Include[TEntity,TProperty](System.Linq.IQueryable`1[TEntity], System.Linq.Expressions.Expression`1[System.Func`2[TEntity,TProperty]])");
+        });
+        private static readonly Lazy<MethodInfo> Lazy_ThenIncludeMethod = new(() =>
+        {
+            return typeof(EntityFrameworkQueryableExtensions).GetMethodViaQualifiedName("Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,TProperty] ThenInclude[TEntity,TPreviousProperty,TProperty](Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,TPreviousProperty], System.Linq.Expressions.Expression`1[System.Func`2[TPreviousProperty,TProperty]])");
+        });
+        private static readonly Lazy<MethodInfo> Lazy_ThenIncludeMethod_Enumerable = new(() =>
+        {
+            return typeof(EntityFrameworkQueryableExtensions).GetMethodViaQualifiedName("Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,TProperty] ThenInclude[TEntity,TPreviousProperty,TProperty](Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,System.Collections.Generic.IEnumerable`1[TPreviousProperty]], System.Linq.Expressions.Expression`1[System.Func`2[TPreviousProperty,TProperty]])");
+        });
 
         public static TEntity[] Execute<TDbContext, TEntity>(TDbContext context, params PreQuery<TDbContext, TEntity>[] preQueries!!) where TDbContext : DbContext where TEntity : class
         {
@@ -48,32 +58,29 @@ namespace LinqSharp.EFCore
                 if (enumerator.MoveNext())
                 {
                     var firstNavigation = enumerator.Current;
-
-                    var includeMethodDefinition = IncludeCache.GetOrCreate(entityType, entry => typeof(EntityFrameworkQueryableExtensions).GetMethodViaQualifiedName(IncludeMethodName));
-                    var includeMethod = includeMethodDefinition.MakeGenericMethod(firstNavigation.PreviousProperty, firstNavigation.Property);
+                    var includeMethod = IncludeCache.GetOrCreate($"{entityType}|{firstNavigation.Property}", entry => Lazy_IncludeMethod.Value.MakeGenericMethod(entityType, firstNavigation.Property));
                     queryable = includeMethod.Invoke(null, new object[] { queryable, firstNavigation.Path }) as IQueryable<TEntity>;
 
-                    if (enumerator.MoveNext())
+                    while (enumerator.MoveNext())
                     {
                         var navigation = enumerator.Current;
-                        var thenIncludeMethodDefinition = ThenIncludeCache.GetOrCreate(entityType, entry => typeof(EntityFrameworkQueryableExtensions).GetMethodViaQualifiedName(ThenIncludeMethodName));
-                        var thenIncludeMethodDefinition_Enumerable = EnumerableThenIncludeCache.GetOrCreate(entityType, entry => typeof(EntityFrameworkQueryableExtensions).GetMethodViaQualifiedName(ThenIncludeMethodName_Enumerable));
 
-                        void ExcuteThenInclude()
+                        MethodInfo thenIncludeMethod;
+                        if (navigation.PreviousProperty.IsImplement<IEnumerable>())
                         {
-                            MethodInfo thenIncludeMethod;
-                            if (navigation.PreviousProperty.IsImplement<IEnumerable>())
-                                thenIncludeMethod = thenIncludeMethodDefinition_Enumerable.MakeGenericMethod(entityType, navigation.PropertyElement, navigation.Property);
-                            else thenIncludeMethod = thenIncludeMethodDefinition.MakeGenericMethod(entityType, navigation.PreviousProperty, navigation.Property);
-
-                            queryable = thenIncludeMethod.Invoke(null, new object[] { queryable, navigation.Path }) as IQueryable<TEntity>;
+                            thenIncludeMethod = ThenInclude_EnumerableCache.GetOrCreate($"{entityType}|{navigation.PreviousElement}|{navigation.Property}", entry =>
+                            {
+                                return Lazy_ThenIncludeMethod_Enumerable.Value.MakeGenericMethod(entityType, navigation.PreviousElement, navigation.Property);
+                            });
                         }
-                        ExcuteThenInclude();
-
-                        while (enumerator.MoveNext())
+                        else
                         {
-                            ExcuteThenInclude();
+                            thenIncludeMethod = ThenIncludeCache.GetOrCreate($"{entityType}|{navigation.PreviousProperty}|{navigation.Property}", entry =>
+                            {
+                                return Lazy_ThenIncludeMethod.Value.MakeGenericMethod(entityType, navigation.PreviousProperty, navigation.Property);
+                            });
                         }
+                        queryable = thenIncludeMethod.Invoke(null, new object[] { queryable, navigation.Path }) as IQueryable<TEntity>;
                     }
                 }
             }
