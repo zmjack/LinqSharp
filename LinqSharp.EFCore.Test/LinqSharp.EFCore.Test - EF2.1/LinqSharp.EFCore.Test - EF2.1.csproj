@@ -23,7 +23,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="Northwnd" Version="2.0.2" />
-    <PackageReference Include="NStandard" Version="0.9.0" />
+    <PackageReference Include="NStandard" Version="0.9.13" />
     <PackageReference Include="PerfProbe" Version="1.3.6" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
     <PackageReference Include="SQLib" Version="0.8.9" />

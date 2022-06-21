@@ -59,9 +59,13 @@ namespace LinqSharp.EFCore
             {
                 return typeof(TDataSource).GetProperties().Where(x =>
                 {
-                    var dbContextType = typeof(TDbContext);
-                    var expectedDbContextType = x.PropertyType.GetGenericArguments()[0];
-                    return (dbContextType.IsType(expectedDbContextType) || dbContextType.IsExtend(expectedDbContextType)) && x.PropertyType.IsType(typeof(PreQuery<,>));
+                    if (x.PropertyType.IsType(typeof(PreQuery<,>)))
+                    {
+                        var dbContextType = typeof(TDbContext);
+                        var expectedDbContextType = x.PropertyType.GetGenericArguments()[0];
+                        return dbContextType.IsType(expectedDbContextType) || dbContextType.IsExtend(expectedDbContextType);
+                    }
+                    else return false;
                 }).ToArray();
             });
 

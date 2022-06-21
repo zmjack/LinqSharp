@@ -4,6 +4,10 @@
 
 <br/>
 
+目前正在进行的工作：优化 **预查询** 性能及调用结构。
+
+<br/>
+
 **LinqSharp** 是个开源 **LINQ** 扩展库，它允许您编写简单代码来生成复杂查询，包括查询扩展和动态查询生成。
 
 **LinqSharp.EFCore** 是对 **EntityFramework** 的增强库，提供更多数据注解、数据库函数及自定义储存规则等。
@@ -22,7 +26,7 @@
 - [表设计数据注解](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-1.md)
 - [字段标准化数据注解](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md)
 - [直接访问函数（清空表，批量导入）](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-direct-functions.md)
-- <font color="orange">[试验]</font> [预查询](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-pre-query.md)
+- <font color="orange">[试验（文档可能并不准确）]</font> [预查询](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-pre-query.md)
 - <font color="orange">[暂无文档]</font> 函数映射
 - <font color="orange">[暂无文档]</font> 列式存储代理
 - <font color="orange">[暂无文档]</font> 关联计算与审计
