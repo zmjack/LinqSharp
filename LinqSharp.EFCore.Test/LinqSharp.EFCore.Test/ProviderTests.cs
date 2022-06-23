@@ -26,7 +26,7 @@ namespace LinqSharp.EFCore.Test
             };
             context.LS_Providers.Add(item);
             context.SaveChanges();
-            Assert.Equal("MDQxNg==", GetPassword());
+            Assert.Equal("MAA0ADEANgA=", GetPassword());
             Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":null}", GetNameModel());
 
             var record = context.LS_Providers.First();
@@ -36,7 +36,7 @@ namespace LinqSharp.EFCore.Test
 
             item.Password = "120416";
             context.SaveChanges();
-            Assert.Equal("MTIwNDE2", GetPassword());
+            Assert.Equal("MQAyADAANAAxADYA", GetPassword());
 
             item.NameModel.Tag = "Hi there.";
             context.SaveChanges();
