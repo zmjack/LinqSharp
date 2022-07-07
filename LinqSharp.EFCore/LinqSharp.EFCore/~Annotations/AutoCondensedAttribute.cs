@@ -21,7 +21,7 @@ namespace LinqSharp.EFCore
 
         public override object Format(object value)
         {
-            if (value is null) return "";
+            if (value is null) return null;
             if (value is not string) throw new ArgumentException("The value must be string.");
             else
             {
