@@ -14,6 +14,7 @@ namespace LinqSharp.EFCore
     public class AutoCondensedAttribute : AutoAttribute
     {
         public bool ReserveNewLine { get; set; }
+        public bool Nullable { get; set; }
 
         public AutoCondensedAttribute() : base(EntityState.Added, EntityState.Modified)
         {
@@ -21,19 +22,17 @@ namespace LinqSharp.EFCore
 
         public override object Format(object value)
         {
-            if (value is null) return null;
+            if (value is null) return Nullable ? null : string.Empty;
             if (value is not string) throw new ArgumentException("The value must be string.");
-            else
+
+            if (ReserveNewLine)
             {
-                var str = value as string;
-                if (ReserveNewLine)
-                {
-                    //TODO: Optimizable
-                    var normalized = str.NormalizeNewLine();
-                    return (from part in normalized.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries) select part.Unique()).Join(Environment.NewLine);
-                }
-                else return str.Unique();
+                //TODO: Optimizable
+                var normalized = (value as string).NormalizeNewLine();
+                var parts = from part in normalized.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries) select part.Unique();
+                return parts.Join(Environment.NewLine);
             }
+            else return (value as string).Unique();
         }
     }
 }
