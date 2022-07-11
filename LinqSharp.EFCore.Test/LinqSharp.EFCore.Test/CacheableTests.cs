@@ -41,9 +41,12 @@ namespace LinqSharp.EFCore.Test
 
                 var containers = new[] { "A", "C" }.Select(n => new NameContainer(n)).ToArray();
                 containers.Feed(mysql);
-                Assert.Equal(2, containers.SelectMany(x => x.Source.LS_Names.Result).Count());
-            }
+                Assert.Equal(new[] { "A", "C" }, containers.SelectMany(x => x.Source.LS_Names.Result).Select(x => x.Name));
 
+                var container_b = new NameContainer("B");
+                container_b.Feed(mysql);
+                Assert.Equal("B", container_b.Source.LS_Names.Result.First().Name);
+            }
         }
 
     }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 using NStandard;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
@@ -19,11 +20,13 @@ namespace LinqSharp.EFCore
         public void OnCache();
     }
 
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XICacheable
     {
         private static readonly MemoryCache CacheablePropertiesCache = new(new MemoryCacheOptions());
         private static readonly MemoryCache CacheableQueryMethodCache = new(new MemoryCacheOptions());
 
+        public static void Feed<TDataSource>(this ICacheable<TDataSource> cacheable, params DbContext[] contexts) where TDataSource : class, new() => Feed(new[] { cacheable }, contexts);
         public static void Feed<TDataSource>(this ICacheable<TDataSource>[] cacheables, params DbContext[] contexts) where TDataSource : class, new()
         {
             foreach (var context in contexts)
