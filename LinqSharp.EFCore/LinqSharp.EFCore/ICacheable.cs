@@ -24,7 +24,7 @@ namespace LinqSharp.EFCore
         private static readonly MemoryCache CacheablePropertiesCache = new(new MemoryCacheOptions());
         private static readonly MemoryCache CacheableQueryMethodCache = new(new MemoryCacheOptions());
 
-        public static void Feed<TDataSource>(this IEnumerable<ICacheable<TDataSource>> cacheables, params DbContext[] contexts) where TDataSource : class, new()
+        public static void Feed<TDataSource>(this ICacheable<TDataSource>[] cacheables, params DbContext[] contexts) where TDataSource : class, new()
         {
             foreach (var context in contexts)
             {

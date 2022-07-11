@@ -10,6 +10,7 @@ using NStandard;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -65,6 +66,7 @@ namespace LinqSharp.EFCore
         }
     }
 
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XPreQuery
     {
         private static readonly MemoryCache IncludeCache = new(new MemoryCacheOptions());
@@ -94,7 +96,7 @@ namespace LinqSharp.EFCore
             return Feed(preQueries, context);
         }
 
-        public static TEntity[] Feed<TDbContext, TEntity>(this IEnumerable<PreQuery<TDbContext, TEntity>> preQueries, TDbContext context) where TDbContext : DbContext where TEntity : class
+        public static TEntity[] Feed<TDbContext, TEntity>(this PreQuery<TDbContext, TEntity>[] preQueries, TDbContext context) where TDbContext : DbContext where TEntity : class
         {
             var entityType = typeof(TEntity);
 
