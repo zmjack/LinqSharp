@@ -48,52 +48,5 @@ namespace LinqSharp.EFCore
 #pragma warning disable IDE0060 // Remove unused parameter
         public static DirectScope BeginDirectScope(this DbContext @this) => new();
 #pragma warning restore IDE0060 // Remove unused parameter
-
-        private static readonly MemoryCache CacheablePropertiesCache = new(new MemoryCacheOptions());
-        private static readonly MemoryCache CacheableQueryMethodCache = new(new MemoryCacheOptions());
-
-        public static void ApplyCache<TDbContext, TDataSource>(this TDbContext @this, params ICacheable<TDataSource>[] cacheables) where TDbContext : DbContext where TDataSource : class, new()
-        {
-            // TODO: Use direct function to optimize.
-            var props = CacheablePropertiesCache.GetOrCreate($"{typeof(TDbContext)}|{typeof(TDataSource)}", entry =>
-            {
-                return typeof(TDataSource).GetProperties().Where(x =>
-                {
-                    if (x.PropertyType.IsType(typeof(PreQuery<,>)))
-                    {
-                        var dbContextType = typeof(TDbContext);
-                        var expectedDbContextType = x.PropertyType.GetGenericArguments()[0];
-                        return dbContextType.IsType(expectedDbContextType) || dbContextType.IsExtend(expectedDbContextType);
-                    }
-                    else return false;
-                }).ToArray();
-            });
-
-            foreach (var prop in props)
-            {
-                var preQueryType = prop.PropertyType;
-                var args = preQueryType.GetGenericArguments();
-                var dbContextType = args[0];
-                var entityType = args[1];
-                var queryMethod = CacheableQueryMethodCache.GetOrCreate($"{typeof(TDbContext)}|{entityType}", entry =>
-                {
-                    return typeof(PreQuery).GetMethod(nameof(PreQuery.Execute), BindingFlags.Public | BindingFlags.Static).MakeGenericMethod(dbContextType, entityType);
-                });
-
-                var preQueries = Array.CreateInstance(preQueryType, cacheables.Count());
-                foreach (var kv in cacheables.AsKvPairs())
-                {
-                    var preQuery = prop.GetValue(kv.Value.Source);
-                    preQueries.SetValue(preQuery, kv.Key);
-                }
-                queryMethod.Invoke(null, new object[] { @this, preQueries });
-            }
-
-            foreach (var cacheable in cacheables)
-            {
-                cacheable.OnCache();
-            }
-
-        }
     }
 }

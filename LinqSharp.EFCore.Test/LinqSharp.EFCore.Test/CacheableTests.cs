@@ -40,10 +40,7 @@ namespace LinqSharp.EFCore.Test
                 mysql.SaveChanges();
 
                 var containers = new[] { "A", "C" }.Select(n => new NameContainer(n)).ToArray();
-                mysql.ApplyCache(containers);
-
-                mysql.ApplyCache(containers);
-
+                containers.Feed(mysql);
                 Assert.Equal(2, containers.SelectMany(x => x.Source.LS_Names.Result).Count());
             }
 
