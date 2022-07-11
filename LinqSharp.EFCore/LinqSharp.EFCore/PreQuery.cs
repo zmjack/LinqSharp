@@ -84,7 +84,17 @@ namespace LinqSharp.EFCore
             return typeof(EntityFrameworkQueryableExtensions).GetMethodViaQualifiedName("Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,TProperty] ThenInclude[TEntity,TPreviousProperty,TProperty](Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,System.Collections.Generic.IEnumerable`1[TPreviousProperty]], System.Linq.Expressions.Expression`1[System.Func`2[TPreviousProperty,TProperty]])");
         });
 
-        public static TEntity[] Feed<TDbContext, TEntity>(this PreQuery<TDbContext, TEntity>[] preQueries, TDbContext context) where TDbContext : DbContext where TEntity : class
+        public static TEntity[] Feed<TDbContext, TEntity>(this PreQuery<TDbContext, TEntity> preQuery, TDbContext context) where TDbContext : DbContext where TEntity : class
+        {
+            return Feed(new[] { preQuery }, context);
+        }
+
+        internal static TEntity[] InnerFeed<TDbContext, TEntity>(PreQuery<TDbContext, TEntity>[] preQueries, TDbContext context) where TDbContext : DbContext where TEntity : class
+        {
+            return Feed(preQueries, context);
+        }
+
+        public static TEntity[] Feed<TDbContext, TEntity>(this IEnumerable<PreQuery<TDbContext, TEntity>> preQueries, TDbContext context) where TDbContext : DbContext where TEntity : class
         {
             var entityType = typeof(TEntity);
 
