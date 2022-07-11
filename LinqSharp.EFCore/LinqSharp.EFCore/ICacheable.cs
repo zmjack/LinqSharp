@@ -53,7 +53,7 @@ namespace LinqSharp.EFCore
                     var entityType = args[1];
                     var queryMethod = CacheableQueryMethodCache.GetOrCreate($"{preQueryContextType},{entityType}", entry =>
                     {
-                        return typeof(PreQuery).GetMethod(nameof(PreQuery.Execute), BindingFlags.Public | BindingFlags.Static).MakeGenericMethod(preQueryContextType, entityType);
+                        return typeof(XPreQuery).GetMethod(nameof(XPreQuery.Feed), BindingFlags.Public | BindingFlags.Static).MakeGenericMethod(preQueryContextType, entityType);
                     });
 
                     var preQueries = Array.CreateInstance(preQueryType, cacheables.Count());
@@ -62,7 +62,7 @@ namespace LinqSharp.EFCore
                         var preQuery = prop.GetValue(kv.Value.Source);
                         preQueries.SetValue(preQuery, kv.Key);
                     }
-                    queryMethod.Invoke(null, new object[] { context, preQueries });
+                    queryMethod.Invoke(null, new object[] { preQueries, context });
                 }
             }
 

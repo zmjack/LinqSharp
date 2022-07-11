@@ -28,7 +28,7 @@ namespace LinqSharp.EFCore.Test
                         x.ProductLink.CategoryLink.CategoryName == p.CategoryName
                         && x.OrderLink.OrderDate.Value.Year == p.Year);
             }).ToArray();
-            var query = PreQuery.Execute(mysql, preQueries);
+            var query = preQueries.Feed(mysql);
 
             Assert.Equal(240, query.Length);
             Assert.Equal(78, preQueries[0].Result.Length);
@@ -47,7 +47,7 @@ namespace LinqSharp.EFCore.Test
                     .Include(x => x.OrderDetails)
                     .Where(x => true),
             };
-            var query = PreQuery.Execute(mysql, preQueries);
+            var query = preQueries.Feed(mysql);
 
             foreach (var preQuery in preQueries)
             {

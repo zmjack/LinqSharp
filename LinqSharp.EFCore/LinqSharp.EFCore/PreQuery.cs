@@ -16,7 +16,56 @@ using System.Reflection;
 
 namespace LinqSharp.EFCore
 {
-    public static class PreQuery
+    public class PreQuery<TDbContext, TEntity>
+        where TDbContext : DbContext
+        where TEntity : class
+    {
+        public Func<TDbContext, DbSet<TEntity>> DbSetSelector { get; private set; }
+        public Expression<Func<TEntity, bool>> Predicate { get; private set; }
+        public Func<TEntity, bool> LocalPredicate { get; private set; }
+        public bool HasFiltered { get; private set; }
+        public string Name { get; private set; }
+        public bool NoTracking { get; private set; }
+        public IncludeNavigation<TDbContext, TEntity> Navigation { get; internal set; }
+
+        public TEntity[] Source { get; internal set; }
+        public TEntity[] Result { get; internal set; }
+
+        public PreQuery(Func<TDbContext, DbSet<TEntity>> dbSetSelector!!)
+        {
+            DbSetSelector = dbSetSelector;
+        }
+
+        public PreQuery<TDbContext, TEntity> As(string name)
+        {
+            Name = name;
+            return this;
+        }
+
+        public IncludeNavigation<TDbContext, TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationPropertyPath) where TProperty : class
+        {
+            var navigation = new IncludeNavigation<TDbContext, TEntity>(this);
+            return navigation.Include(navigationPropertyPath);
+        }
+
+        public PreQuery<TDbContext, TEntity> AsNoTracking()
+        {
+            NoTracking = true;
+            return this;
+        }
+
+        public PreQuery<TDbContext, TEntity> Where(Expression<Func<TEntity, bool>> predicate!!)
+        {
+            if (Predicate is null) Predicate = predicate;
+            else Predicate = new[] { Predicate, predicate }.LambdaJoin(Expression.AndAlso);
+
+            LocalPredicate = predicate.Compile();
+            HasFiltered = true;
+            return this;
+        }
+    }
+
+    public static class XPreQuery
     {
         private static readonly MemoryCache IncludeCache = new(new MemoryCacheOptions());
         private static readonly MemoryCache ThenIncludeCache = new(new MemoryCacheOptions());
@@ -35,7 +84,7 @@ namespace LinqSharp.EFCore
             return typeof(EntityFrameworkQueryableExtensions).GetMethodViaQualifiedName("Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,TProperty] ThenInclude[TEntity,TPreviousProperty,TProperty](Microsoft.EntityFrameworkCore.Query.IIncludableQueryable`2[TEntity,System.Collections.Generic.IEnumerable`1[TPreviousProperty]], System.Linq.Expressions.Expression`1[System.Func`2[TPreviousProperty,TProperty]])");
         });
 
-        public static TEntity[] Execute<TDbContext, TEntity>(TDbContext context, params PreQuery<TDbContext, TEntity>[] preQueries!!) where TDbContext : DbContext where TEntity : class
+        public static TEntity[] Feed<TDbContext, TEntity>(this PreQuery<TDbContext, TEntity>[] preQueries, TDbContext context) where TDbContext : DbContext where TEntity : class
         {
             var entityType = typeof(TEntity);
 
@@ -99,61 +148,4 @@ namespace LinqSharp.EFCore
         }
     }
 
-    public static class PreQuery<TDbContext> where TDbContext : DbContext
-    {
-        public static PreQuery<TDbContext, TEntity> Create<TEntity>(Func<TDbContext, DbSet<TEntity>> dbSetSelector!!) where TEntity : class
-        {
-            return new PreQuery<TDbContext, TEntity>(dbSetSelector);
-        }
-    }
-
-    public class PreQuery<TDbContext, TEntity>
-        where TDbContext : DbContext
-        where TEntity : class
-    {
-        public Func<TDbContext, DbSet<TEntity>> DbSetSelector { get; private set; }
-        public Expression<Func<TEntity, bool>> Predicate { get; private set; }
-        public Func<TEntity, bool> LocalPredicate { get; private set; }
-        public bool HasFiltered { get; private set; }
-        public string Name { get; private set; }
-        public bool NoTracking { get; private set; }
-        public IncludeNavigation<TDbContext, TEntity> Navigation { get; internal set; }
-
-        public TEntity[] Source { get; internal set; }
-        public TEntity[] Result { get; internal set; }
-
-        public PreQuery(Func<TDbContext, DbSet<TEntity>> dbSetSelector!!)
-        {
-            DbSetSelector = dbSetSelector;
-        }
-
-        public PreQuery<TDbContext, TEntity> As(string name)
-        {
-            Name = name;
-            return this;
-        }
-
-        public IncludeNavigation<TDbContext, TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationPropertyPath) where TProperty : class
-        {
-            var navigation = new IncludeNavigation<TDbContext, TEntity>(this);
-            return navigation.Include(navigationPropertyPath);
-        }
-
-        public PreQuery<TDbContext, TEntity> AsNoTracking()
-        {
-            NoTracking = true;
-            return this;
-        }
-
-        public PreQuery<TDbContext, TEntity> Where(Expression<Func<TEntity, bool>> predicate!!)
-        {
-            if (Predicate is null) Predicate = predicate;
-            else Predicate = new[] { Predicate, predicate }.LambdaJoin(Expression.AndAlso);
-
-            LocalPredicate = predicate.Compile();
-            HasFiltered = true;
-            return this;
-        }
-
-    }
 }
