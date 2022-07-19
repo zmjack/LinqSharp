@@ -4,15 +4,29 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
+using System.Reflection;
 #if EFCORE5_0_OR_GREATER
 using System.Text.Json;
 #else
 using Newtonsoft.Json;
+using System;
+using System.Reflection;
 #endif
 
 namespace LinqSharp.EFCore.Providers
 {
-    public class JsonProvider<TModel> : Provider<TModel, string>
+    [AttributeUsage(AttributeTargets.Property)]
+    public class JsonProviderAttribute : SpecialProviderAttribute
+    {
+        public override Attribute GetTargetProvider(PropertyInfo property)
+        {
+            return Activator.CreateInstance(typeof(JsonProviderAttribute<>).MakeGenericType(property.PropertyType)) as Attribute;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class JsonProviderAttribute<TModel> : ProviderAttribute<TModel, string>
     {
         public override TModel ReadFromProvider(string value)
         {

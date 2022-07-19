@@ -22,8 +22,15 @@ namespace LinqSharp.EFCore
         public KvEntity[] GetColumnStores() => _stores;
         public bool IsProxyLoaded() => _loaded;
 
-        public void Load<TKvEntity>(IEnumerable<TKvEntity> stores, string item)
-            where TKvEntity : KvEntity
+        public void Load<TKvEntity>(IEnumerable<TKvEntity> stores, string item) where TKvEntity : KvEntity
+        {
+            if (GetType().Namespace != "Castle.Proxies") throw new InvalidOperationException("This method can only be called in a proxy instance.");
+            _item = item;
+            _stores = stores.Where(x => x.Item == item).ToArray();
+            _loaded = true;
+        }
+
+        public void Load<TKvEntity>(IQueryable<TKvEntity> stores, string item) where TKvEntity : KvEntity
         {
             if (GetType().Namespace != "Castle.Proxies") throw new InvalidOperationException("This method can only be called in a proxy instance.");
             _item = item;

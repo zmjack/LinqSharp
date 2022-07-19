@@ -52,10 +52,12 @@ namespace DbCreator.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Item")
+                        .IsRequired()
                         .HasColumnType("nvarchar(127)")
                         .HasMaxLength(127);
 
                     b.Property<string>("Key")
+                        .IsRequired()
                         .HasColumnType("nvarchar(127)")
                         .HasMaxLength(127);
 
@@ -65,8 +67,7 @@ namespace DbCreator.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Item", "Key")
-                        .IsUnique()
-                        .HasFilter("[Item] IS NOT NULL AND [Key] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("AppRegistries");
                 });
@@ -257,6 +258,10 @@ namespace DbCreator.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("JsonModel")
+                        .HasColumnType("nvarchar(127)")
+                        .HasMaxLength(127);
 
                     b.Property<string>("NameModel")
                         .HasColumnType("nvarchar(127)")

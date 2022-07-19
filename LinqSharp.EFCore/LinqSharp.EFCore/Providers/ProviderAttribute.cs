@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 #if EFCORE5_0_OR_GREATER
 using System.Text.Json;
 #else
@@ -7,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace LinqSharp.EFCore.Providers
 {
-    public abstract class Provider<TModel, TProvider>
+    public abstract class ProviderAttribute<TModel, TProvider> : Attribute
     {
         public abstract TProvider WriteToProvider(TModel model);
         public abstract TModel ReadFromProvider(TProvider value);

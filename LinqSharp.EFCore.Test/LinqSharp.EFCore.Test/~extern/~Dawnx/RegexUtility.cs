@@ -16,8 +16,7 @@ namespace Dawnx.Utilities
         /// <returns></returns>
         public static string IPRange(string expression)
         {
-            if (expression.Count(".") != 3)
-                throw new FormatException("IPv4 range expression must have 4 parts.");
+            if (expression.Count(".") != 3) throw new FormatException("IPv4 range expression must have 4 parts.");
 
             var parts = expression.Split('.').Select(x => x.Trim());
             var regexParts = new string[4];

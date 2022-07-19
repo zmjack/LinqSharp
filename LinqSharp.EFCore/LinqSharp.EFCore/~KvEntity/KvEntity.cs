@@ -14,10 +14,12 @@ namespace LinqSharp.EFCore
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        [Required]
         [IndexField(IndexType.Unique, Group = "Item&Key")]
         [StringLength(127)]
         public string Item { get; set; }
 
+        [Required]
         [IndexField(IndexType.Unique, Group = "Item&Key")]
         [StringLength(127)]
         public string Key { get; set; }

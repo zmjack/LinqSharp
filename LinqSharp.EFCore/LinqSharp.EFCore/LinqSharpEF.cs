@@ -76,12 +76,12 @@ namespace LinqSharp.EFCore
             });
         }
 
-        public static ValueConverter<TModel, TProvider> BuildConverter<TModel, TProvider>(Provider<TModel, TProvider> field)
+        public static ValueConverter<TModel, TProvider> BuildConverter<TModel, TProvider>(ProviderAttribute<TModel, TProvider> field)
         {
             return new ValueConverter<TModel, TProvider>(v => field.WriteToProvider(v), v => field.ReadFromProvider(v));
         }
 
-        public static ValueComparer<TModel> BuildComparer<TModel, TProvider>(Provider<TModel, TProvider> field)
+        public static ValueComparer<TModel> BuildComparer<TModel, TProvider>(ProviderAttribute<TModel, TProvider> field)
         {
             return field.GetValueComparer();
         }
@@ -429,18 +429,29 @@ namespace LinqSharp.EFCore
 
         private static void ApplyProviders(object entityTypeBuilder, Type modelClass)
         {
+            //TODO: Optimizable
             var propertyMethod = entityTypeBuilder.GetType().GetMethodViaQualifiedName("Microsoft.EntityFrameworkCore.Metadata.Builders.PropertyBuilder Property(System.String)");
 
             var modelProps = modelClass.GetProperties();
             foreach (var modelProp in modelProps)
             {
-                var attr = modelProp.GetCustomAttribute<ProviderAttribute>();
-                if (attr != null)
+                var providerAttr = modelProp.GetCustomAttributes().FirstOrDefault(x => x.GetType().IsExtend(typeof(ProviderAttribute<,>)));
+
+                if (providerAttr is null)
+                {
+                    var specialProviderAttr = modelProp.GetCustomAttributes().FirstOrDefault(x => x.GetType().IsExtend(typeof(SpecialProviderAttribute)));
+                    if (specialProviderAttr is null) continue;
+
+                    providerAttr = (specialProviderAttr as SpecialProviderAttribute).GetTargetProvider(modelProp);
+                }
+
+                if (providerAttr is not null)
                 {
                     var propertyBuilder = propertyMethod.Invoke(entityTypeBuilder, new object[] { modelProp.Name }) as PropertyBuilder;
                     var hasConversionMethod = typeof(PropertyBuilder).GetMethod(nameof(PropertyBuilder.HasConversion), new[] { typeof(ValueConverter) });
+                    var providerAttrType = providerAttr.GetType();
 
-                    dynamic provider = Activator.CreateInstance(attr.ProviderType);
+                    dynamic provider = Activator.CreateInstance(providerAttrType);
                     var converter = LinqSharpEF.BuildConverter(provider);
                     hasConversionMethod.Invoke(propertyBuilder, new object[] { converter });
 

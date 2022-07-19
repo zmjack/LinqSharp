@@ -57,8 +57,26 @@ dotnet add package LinqSharp.EFCore
 
 # Recent
 
+- Simplify the code writing for **Provider**.
+  - After 2.1.104 | 3.0.104 | 3.1.104 | 5.0.4 | 6.0.4 .
+
+  Old：
+
+  ```csharp
+  [Provider(typeof(JsonProvider<NameModel>))]
+  public NameModel NameModel { get; set; }
+  ```
+
+  New：
+
+  ```csharp
+  [JsonProvider]
+  public NameModel NameModel { get; set; }
+  ```
+
 - To avoid naming conflicts, **IndexAttribute** has been renamed to **IndexFieldAttribute**.
-  - After 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0
+  
+  - After 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0 .
 
 <br/>
 

@@ -16,10 +16,10 @@ namespace LinqSharp.EFCore.Data.Test
 
         public string TypeName { get; set; }
 
-        [Provider(typeof(JsonProvider<string[]>))]
+        [JsonProvider]
         public string[] Key { get; set; }
 
-        [Provider(typeof(JsonProvider<RowChangeInfo>))]
+        [JsonProvider]
         public RowChangeInfo ChangeValues { get; set; }
 
     }

@@ -13,17 +13,22 @@ namespace LinqSharp.EFCore.Data.Test
         public Guid Id { get; set; }
 
         [StringLength(127)]
-        [Provider(typeof(PasswordProvider))]
+        [PasswordProvider]
         public string Password { get; set; }
 
         [StringLength(127)]
-        [Provider(typeof(JsonProvider<NameModel>))]
+        [JsonProvider]
         public NameModel NameModel { get; set; }
 
-        public class PasswordProvider : Provider<string, string>
+        [StringLength(127)]
+        [JsonProvider]
+        public object JsonModel { get; set; }
+
+        public class PasswordProvider : ProviderAttribute<string, string>
         {
             public override string ReadFromProvider(string value) => value.For(StringFlow.BytesFromBase64).String();
             public override string WriteToProvider(string model) => model.Bytes().For(BytesFlow.Base64);
         }
+
     }
 }

@@ -59,8 +59,29 @@ dotnet add package LinqSharp.EFCore
 
 # 最近更新
 
-- 为避免命名冲突，**IndexAttribute** 已被重命名为 **IndexFieldAttribute**.
-  - 自版本 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0 及未来版本
+### LinqSharp.EFCore
+
+- 简化转储器写法。
+
+  - 2.1.104 | 3.0.104 | 3.1.104 | 5.0.4 | 6.0.4 及未来版本。
+
+  旧写法：
+
+  ```csharp
+  [Provider(typeof(JsonProvider<NameModel>))]
+  public NameModel NameModel { get; set; }
+  ```
+
+  新写法：
+
+  ```csharp
+  [JsonProvider]
+  public NameModel NameModel { get; set; }
+  ```
+
+- 为避免命名冲突，**IndexAttribute** 已被重命名为 **IndexFieldAttribute**。
+  
+  - 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0 及未来版本。
 
 <br/>
 

@@ -36,22 +36,27 @@ namespace LinqSharp.EFCore
             DbSet = dbSet;
         }
 
-        public void Ensure<TEntityAgent>(string[] items) where TEntityAgent : EntityAgent, new()
+        private void Ensure<TEntityAgent>(string[] items) where TEntityAgent : EntityAgent, new()
         {
             var defaultAgent = typeof(TEntityAgent).CreateInstance();
             var props = typeof(TEntityAgent).GetProperties().Where(x => x.GetMethod.IsVirtual).ToArray();
-            var entities = (from item in items
-                            from prop in props
-                            select new TKvEntity
-                            {
-                                Item = item,
-                                Key = prop.Name,
-                                Value = props.First(x => x.Name == x.Name).GetValue(defaultAgent)?.ToString(),
-                            }).ToArray();
+            var entities = (
+                from item in items
+                from prop in props
+                select new TKvEntity
+                {
+                    Item = item,
+                    Key = prop.Name,
+                    Value = props.First(x => x.Name == x.Name).GetValue(defaultAgent)?.ToString(),
+                }
+            ).ToArray();
 
             if (entities.Length == 0) throw new InvalidOperationException($"No virtual properties could be found in `{typeof(TEntityAgent).FullName}`.");
 
-            DbSet.AddOrUpdateRange(x => new { x.Item, x.Key }, entities);
+            DbSet.AddOrUpdateRange(x => new { x.Item, x.Key }, entities, options =>
+            {
+                options.Predicate = x => items.Contains(x.Item);
+            });
             Context.SaveChanges();
         }
 
@@ -67,7 +72,7 @@ namespace LinqSharp.EFCore
             Rows.Clear();
         }
 
-        public TEntityAgent Get<TEntityAgent>(string item) where TEntityAgent : EntityAgent, new()
+        public TEntityAgent GetItem<TEntityAgent>(string item) where TEntityAgent : EntityAgent, new()
         {
             var registry = new TEntityAgent();
             var registryProxy = new EntityAgentProxy<TEntityAgent>();

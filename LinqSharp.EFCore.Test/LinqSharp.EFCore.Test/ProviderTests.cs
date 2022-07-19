@@ -15,6 +15,7 @@ namespace LinqSharp.EFCore.Test
 
             string GetPassword() => db.SqlQuery($"SELECT Password FROM LS_Providers;").First()[nameof(LS_Provider.Password)].ToString();
             string GetNameModel() => db.SqlQuery($"SELECT NameModel FROM LS_Providers;").First()[nameof(LS_Provider.NameModel)].ToString();
+            string GetJsonModel() => db.SqlQuery($"SELECT JsonModel FROM LS_Providers;").First()[nameof(LS_Provider.JsonModel)].ToString();
 
             context.LS_Providers.Delete(x => true);
             context.SaveChanges();
@@ -22,12 +23,15 @@ namespace LinqSharp.EFCore.Test
             var item = new LS_Provider
             {
                 Password = "0416",
-                NameModel = new NameModel { Name = "Jack", NickName = "zmjack" }
+                NameModel = new NameModel { Name = "Jack", NickName = "zmjack" },
+                JsonModel = new NameModel { Name = "Jack", NickName = "zmjack" },
             };
             context.LS_Providers.Add(item);
             context.SaveChanges();
+
             Assert.Equal("MAA0ADEANgA=", GetPassword());
             Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":null}", GetNameModel());
+            Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":null}", GetJsonModel());
 
             var record = context.LS_Providers.First();
             Assert.Equal("0416", record.Password);
