@@ -26,5 +26,45 @@ namespace LinqSharp
             return @this.Concat(fillItems);
         }
 
+        public static IEnumerable<TSource> PadLeft<TSource>(this IEnumerable<TSource> @this, int totalWidth)
+        {
+            return PadLeft(@this, totalWidth, () => default);
+        }
+        public static IEnumerable<TSource> PadLeft<TSource>(this IEnumerable<TSource> @this, int totalWidth, Func<TSource> createPaddingItem)
+        {
+            if (totalWidth < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(totalWidth), "Non-negative number required.");
+            }
+            int count = @this.Count();
+            int num = totalWidth - count;
+            if (num <= 0)
+            {
+                return @this;
+            }
+
+            return new TSource[num].Let(createPaddingItem).Concat(@this);
+        }
+
+        public static IEnumerable<TSource> PadRight<TSource>(this IEnumerable<TSource> @this, int totalWidth)
+        {
+            return PadRight(@this, totalWidth, () => default);
+        }
+        public static IEnumerable<TSource> PadRight<TSource>(this IEnumerable<TSource> @this, int totalWidth, Func<TSource> createPaddingItem)
+        {
+            if (totalWidth < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(totalWidth), "Non-negative number required.");
+            }
+            int count = @this.Count();
+            int num = totalWidth - count;
+            if (num <= 0)
+            {
+                return @this;
+            }
+
+            return @this.Concat(new TSource[num].Let(createPaddingItem));
+        }
+
     }
 }

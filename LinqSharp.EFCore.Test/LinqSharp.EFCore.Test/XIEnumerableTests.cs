@@ -43,6 +43,22 @@ namespace LinqSharp.EFCore.Test
         }
 
         [Fact]
+        public void PadLeftTest()
+        {
+            var array = new[] { 1, 2, 3 };
+            var expected = array.PadLeft(5);
+            Assert.Equal(expected, new[] { 0, 0, 1, 2, 3 });
+        }
+
+        [Fact]
+        public void PadRightTest()
+        {
+            var array = new[] { 1, 2, 3 };
+            var expected = array.PadRight(5);
+            Assert.Equal(expected, new[] { 1, 2, 3, 0, 0 });
+        }
+
+        [Fact]
         public void AllSameTest()
         {
             var items = new[]
