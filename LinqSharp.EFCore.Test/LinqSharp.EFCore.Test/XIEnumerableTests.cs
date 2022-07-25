@@ -46,7 +46,7 @@ namespace LinqSharp.EFCore.Test
         public void PadLeftTest()
         {
             var array = new[] { 1, 2, 3 };
-            var expected = array.PadLeft(5);
+            var expected = array.PadFirst(5);
             Assert.Equal(expected, new[] { 0, 0, 1, 2, 3 });
         }
 
@@ -54,7 +54,7 @@ namespace LinqSharp.EFCore.Test
         public void PadRightTest()
         {
             var array = new[] { 1, 2, 3 };
-            var expected = array.PadRight(5);
+            var expected = array.PadLast(5);
             Assert.Equal(expected, new[] { 1, 2, 3, 0, 0 });
         }
 
