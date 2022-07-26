@@ -107,10 +107,7 @@ namespace LinqSharp.EFCore
             var dbSet = dbSets.First();
             var navigations = from preQuerier in preQueries let navigation = preQuerier.Navigation where navigation is not null select navigation;
 
-            IQueryable<TEntity> queryable;
-            if (preQueries.All(x => x.NoTracking))
-                queryable = dbSet.AsNoTracking();
-            else queryable = dbSet;
+            IQueryable<TEntity> queryable = preQueries.All(x => x.NoTracking) ? dbSet.AsNoTracking() : dbSet;
 
             foreach (var lists in navigations.SelectMany(x => x.PropertyPathLists))
             {
