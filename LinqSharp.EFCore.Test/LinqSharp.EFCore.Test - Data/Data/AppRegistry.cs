@@ -11,7 +11,7 @@ namespace LinqSharp.EFCore.Data.Test
 
         public virtual DateTime? Birthday { get; set; }
 
-        public virtual string NickName { get; set; } = "haha";
+        public virtual string NickName { get; set; } = "NickName";
 
         public virtual string Address { get; set; }
 

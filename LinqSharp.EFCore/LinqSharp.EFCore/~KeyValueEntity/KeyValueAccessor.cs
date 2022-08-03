@@ -5,6 +5,7 @@
 
 using Castle.DynamicProxy;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using NStandard;
 using System;
 using System.Collections.Generic;
@@ -26,39 +27,52 @@ namespace LinqSharp.EFCore
         where TDbContext : DbContext
         where TKeyValueEntity : KeyValueEntity, new()
     {
-        private readonly TDbContext Context;
-        private readonly DbSet<TKeyValueEntity> DbSet;
-        private readonly Dictionary<string, TKeyValueEntity[]> ItemDictionary = new();
+        private static readonly MemoryCache _agentProperties = new(new MemoryCacheOptions());
+        private readonly TDbContext _context;
+        private readonly DbSet<TKeyValueEntity> _dbSet;
+        private readonly Dictionary<string, TKeyValueEntity[]> _itemDictionary = new();
 
         public KeyValueAccessor(TDbContext context, DbSet<TKeyValueEntity> dbSet)
         {
-            Context = context;
-            DbSet = dbSet;
+            _context = context;
+            _dbSet = dbSet;
         }
 
-        private TKeyValueEntity[] Ensure<TEntityAgent>(string item) where TEntityAgent : KeyValueAgent<TEntityAgent, TKeyValueEntity>, new()
+        public void Load<TEntityAgent>(params string[] items) where TEntityAgent : KeyValueAgent<TEntityAgent, TKeyValueEntity>, new()
         {
-            var defaultAgent = typeof(TEntityAgent).CreateInstance();
-            var props = typeof(TEntityAgent).GetProperties().Where(x => x.GetMethod.IsVirtual).ToArray();
+            if (!items.Any()) throw new ArgumentException("Items can not be empty.", nameof(items));
+
+            var agentType = typeof(TEntityAgent);
+            var defaultAgent = agentType.CreateInstance();
+
+            var props = _agentProperties.GetOrCreate(agentType, entry =>
+            {
+                return agentType.GetProperties().Where(x => x.GetMethod.IsVirtual).ToArray();
+            });
             var entities = (
+                from item in items
                 from prop in props
                 select new TKeyValueEntity
                 {
                     Item = item,
                     Key = prop.Name,
-                    Value = props.First(x => x.Name == x.Name).GetValue(defaultAgent)?.ToString(),
+                    Value = props.First(x => x.Name == prop.Name).GetValue(defaultAgent)?.ToString(),
                 }
             ).ToArray();
 
-            if (entities.Length == 0) throw new InvalidOperationException($"No virtual properties could be found in `{typeof(TEntityAgent).FullName}`.");
+            if (entities.Length == 0) throw new InvalidOperationException($"No virtual properties could be found in `{agentType.FullName}`.");
 
-            DbSet.AddOrUpdateRange(x => new { x.Item, x.Key }, entities, options =>
+            _dbSet.AddOrUpdateRange(x => new { x.Item, x.Key }, entities, options =>
             {
-                options.Predicate = x => x.Item == item;
+                options.Predicate = x => items.Contains(x.Item);
             });
-            Context.SaveChanges();
+            _context.SaveChanges();
 
-            return entities;
+            var groups = entities.GroupBy(x => x.Item);
+            foreach (var group in groups)
+            {
+                _itemDictionary[group.Key] = group.ToArray();
+            }
         }
 
         public TKeyValueAgent GetItem<TKeyValueAgent>(string item) where TKeyValueAgent : KeyValueAgent<TKeyValueAgent, TKeyValueEntity>, new()
@@ -67,12 +81,12 @@ namespace LinqSharp.EFCore
             var registryProxy = new KeyValueAgentProxy<TKeyValueAgent, TKeyValueEntity>();
             var proxy = new ProxyGenerator().CreateClassProxyWithTarget(registry, registryProxy);
 
-            if (!ItemDictionary.ContainsKey(item))
+            if (!_itemDictionary.ContainsKey(item))
             {
-                ItemDictionary[item] = Ensure<TKeyValueAgent>(item);
+                Load<TKeyValueAgent>(item);
             }
 
-            proxy.Load(ItemDictionary[item], item);
+            proxy.SetEntities(_itemDictionary[item], item);
             return proxy;
         }
     }

@@ -33,7 +33,11 @@ namespace LinqSharp.EFCore
             }
             else if (invocation.Method.Name.StartsWith("get_"))
             {
-                if (entity is null) return;
+                if (entity is null)
+                {
+                    invocation.Proceed();
+                    return;
+                }
 
                 var proxyProperty = proxy.GetType().GetProperty(property);
                 if (entity.Value is null)

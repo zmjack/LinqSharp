@@ -23,7 +23,7 @@ namespace LinqSharp.EFCore
         internal string _item;
         internal KeyValueEntity[] _entities;
 
-        internal void Load(TKeyValueEntity[] keyValueEntities, string item)
+        internal void SetEntities(TKeyValueEntity[] keyValueEntities, string item)
         {
             if (GetType().Namespace != "Castle.Proxies") throw new InvalidOperationException("This method can only be called in a proxy instance.");
             _item = item;
@@ -35,7 +35,7 @@ namespace LinqSharp.EFCore
         public static TSelf Attach(IEnumerable<TKeyValueEntity> keyValueEntities, string item)
         {
             var proxy = new ProxyGenerator().CreateClassProxyWithTarget(new TSelf(), new KeyValueAgentProxy<TSelf, TKeyValueEntity>());
-            proxy.Load(keyValueEntities.Where(x => x.Item == item).ToArray(), item);
+            proxy.SetEntities(keyValueEntities.Where(x => x.Item == item).ToArray(), item);
             return proxy;
         }
     }

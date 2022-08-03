@@ -26,7 +26,7 @@ namespace LinqSharp.EFCore.Test
 
             Assert.Equal("Person1", zmjack.GetItemName());
             Assert.Equal(999, zmjack.Age);
-            Assert.Null(zmjack.NickName);
+            Assert.Equal("NickName", zmjack.NickName);
             Assert.False(zmjack.Enable);
             Assert.Null(zmjack.Address);
 
@@ -40,23 +40,25 @@ namespace LinqSharp.EFCore.Test
             using (var context = ApplicationDbContext.UseMySql())
             {
                 var accessor = context.GetAppRegistriesAccessor();
-                var appRegistry = accessor.GetItem<AppRegistryAgent>("zmjack");
-                appRegistry.Enable = true;
-                appRegistry.Name = "zmjack";
-                appRegistry.Age = 29;
-                appRegistry.Birthday = new DateTime(1991, 1, 1);
+                var zmjack = accessor.GetItem<AppRegistryAgent>("zmjack");
+                zmjack.Enable = true;
+                zmjack.Name = "zmjack";
+                zmjack.Age = 29;
+                zmjack.NickName = "zmjack";
+                zmjack.Birthday = new DateTime(1991, 1, 1);
                 context.SaveChanges();
             }
 
             using (var context = ApplicationDbContext.UseMySql())
             {
                 var accessor = context.GetAppRegistriesAccessor();
-                var appRegistry = accessor.GetItem<AppRegistryAgent>("zmjack");
-                Assert.True(appRegistry.Enable);
-                Assert.Equal("zmjack", appRegistry.Name);
-                Assert.Equal(29, appRegistry.Age);
-                Assert.Equal(new DateTime(1991, 1, 1), appRegistry.Birthday);
-                Assert.Null(appRegistry.Address);
+                var zmjack = accessor.GetItem<AppRegistryAgent>("zmjack");
+                Assert.True(zmjack.Enable);
+                Assert.Equal("zmjack", zmjack.Name);
+                Assert.Equal(29, zmjack.Age);
+                Assert.Equal("zmjack", zmjack.NickName);
+                Assert.Equal(new DateTime(1991, 1, 1), zmjack.Birthday);
+                Assert.Null(zmjack.Address);
             }
         }
 
