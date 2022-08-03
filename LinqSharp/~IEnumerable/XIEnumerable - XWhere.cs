@@ -11,9 +11,9 @@ namespace LinqSharp
 {
     public static partial class XIEnumerable
     {
-        public static IEnumerable<TSource> XWhere<TSource>(this IEnumerable<TSource> @this, Func<WhereHelperE<TSource>, WhereExp<TSource>> build)
+        public static IEnumerable<TSource> XWhere<TSource>(this IEnumerable<TSource> @this, Func<WhereHelper<TSource>, WhereExp<TSource>> build)
         {
-            var helper = new WhereHelperE<TSource>(@this);
+            var helper = new WhereHelper<TSource>();
             var whereExp = build(helper);
 
             if (whereExp.Expression is not null)

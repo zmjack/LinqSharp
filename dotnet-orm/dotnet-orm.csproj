@@ -20,7 +20,7 @@
     <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
-    <Version>0.6.0.3</Version>
+    <Version>0.6.1</Version>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageType>DotnetCliTool</PackageType>
@@ -48,7 +48,7 @@
   <ItemGroup>
     <PackageReference Include="DotNetCli" Version="0.2.1" />
     <PackageReference Include="Ink" Version="0.8.1" />
-    <PackageReference Include="NStandard" Version="0.9.14" />
+    <PackageReference Include="NStandard" Version="0.9.16" />
     <PackageReference Include="NStandard.Runtime" Version="0.9.0" />
   </ItemGroup>
 

@@ -2,8 +2,8 @@
 
 namespace LinqSharp.EFCore.Data.Test
 {
-    public class AppRegistry : KvEntity { }
-    public class AppRegistryAgent : KvEntityAgent<AppRegistryAgent, AppRegistry>
+    public class AppRegistry : KeyValueEntity { }
+    public class AppRegistryAgent : KeyValueAgent<AppRegistryAgent, AppRegistry>
     {
         public virtual string Name { get; set; }
 

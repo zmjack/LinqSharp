@@ -74,10 +74,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - Ensure.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\KvEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\EntityAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\EntityAgentProxy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~KvEntity\EntityAccessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~KeyValueEntity\KeyValueEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~KeyValueEntity\KeyValueAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~KeyValueEntity\KeyValueAgentProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~KeyValueEntity\KeyValueAccessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Functions\Providers\" />

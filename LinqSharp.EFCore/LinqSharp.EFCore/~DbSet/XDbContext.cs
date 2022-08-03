@@ -5,12 +5,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Caching.Memory;
-using NStandard;
-using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 
 namespace LinqSharp.EFCore
 {

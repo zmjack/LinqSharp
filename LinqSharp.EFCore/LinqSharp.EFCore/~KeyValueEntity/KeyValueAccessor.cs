@@ -12,38 +12,37 @@ using System.Linq;
 
 namespace LinqSharp.EFCore
 {
-    public static class EntityAccessor
+    public static class KeyValueAccessor
     {
-        public static EntityAccessor<TDbContext, TKvEntity> Create<TDbContext, TKvEntity>(TDbContext context, DbSet<TKvEntity> dbSet)
+        public static KeyValueAccessor<TDbContext, TKeyValueEntity> Create<TDbContext, TKeyValueEntity>(TDbContext context, DbSet<TKeyValueEntity> dbSet)
             where TDbContext : DbContext
-            where TKvEntity : KvEntity, new()
+            where TKeyValueEntity : KeyValueEntity, new()
         {
-            return new EntityAccessor<TDbContext, TKvEntity>(context, dbSet);
+            return new KeyValueAccessor<TDbContext, TKeyValueEntity>(context, dbSet);
         }
     }
 
-    public class EntityAccessor<TDbContext, TKvEntity>
+    public class KeyValueAccessor<TDbContext, TKeyValueEntity>
         where TDbContext : DbContext
-        where TKvEntity : KvEntity, new()
+        where TKeyValueEntity : KeyValueEntity, new()
     {
         private readonly TDbContext Context;
-        private readonly DbSet<TKvEntity> DbSet;
-        private readonly List<TKvEntity> Rows = new();
+        private readonly DbSet<TKeyValueEntity> DbSet;
+        private readonly Dictionary<string, TKeyValueEntity[]> ItemDictionary = new();
 
-        public EntityAccessor(TDbContext context, DbSet<TKvEntity> dbSet)
+        public KeyValueAccessor(TDbContext context, DbSet<TKeyValueEntity> dbSet)
         {
             Context = context;
             DbSet = dbSet;
         }
 
-        private void Ensure<TEntityAgent>(string[] items) where TEntityAgent : EntityAgent, new()
+        private TKeyValueEntity[] Ensure<TEntityAgent>(string item) where TEntityAgent : KeyValueAgent<TEntityAgent, TKeyValueEntity>, new()
         {
             var defaultAgent = typeof(TEntityAgent).CreateInstance();
             var props = typeof(TEntityAgent).GetProperties().Where(x => x.GetMethod.IsVirtual).ToArray();
             var entities = (
-                from item in items
                 from prop in props
-                select new TKvEntity
+                select new TKeyValueEntity
                 {
                     Item = item,
                     Key = prop.Name,
@@ -55,31 +54,25 @@ namespace LinqSharp.EFCore
 
             DbSet.AddOrUpdateRange(x => new { x.Item, x.Key }, entities, options =>
             {
-                options.Predicate = x => items.Contains(x.Item);
+                options.Predicate = x => x.Item == item;
             });
             Context.SaveChanges();
+
+            return entities;
         }
 
-        public void Load<TEntityAgent>(params string[] items) where TEntityAgent : EntityAgent, new()
+        public TKeyValueAgent GetItem<TKeyValueAgent>(string item) where TKeyValueAgent : KeyValueAgent<TKeyValueAgent, TKeyValueEntity>, new()
         {
-            Ensure<TEntityAgent>(items);
-            var rows = DbSet.Where(x => items.Contains(x.Item)).ToArray();
-            Rows.AddRange(rows);
-        }
-
-        public void UnloadAll()
-        {
-            Rows.Clear();
-        }
-
-        public TEntityAgent GetItem<TEntityAgent>(string item) where TEntityAgent : EntityAgent, new()
-        {
-            var registry = new TEntityAgent();
-            var registryProxy = new EntityAgentProxy<TEntityAgent>();
+            var registry = new TKeyValueAgent();
+            var registryProxy = new KeyValueAgentProxy<TKeyValueAgent, TKeyValueEntity>();
             var proxy = new ProxyGenerator().CreateClassProxyWithTarget(registry, registryProxy);
 
-            if (Rows.Any()) proxy.Load(Rows, item);
-            else proxy.Load(DbSet, item);
+            if (!ItemDictionary.ContainsKey(item))
+            {
+                ItemDictionary[item] = Ensure<TKeyValueAgent>(item);
+            }
+
+            proxy.Load(ItemDictionary[item], item);
             return proxy;
         }
     }

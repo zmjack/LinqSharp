@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 
 namespace LinqSharp
 {
-    public abstract partial class WhereHelper<TSource>
+    public partial class WhereHelper<TSource>
     {
         internal readonly ParameterExpression DefaultParameter = Expression.Parameter(typeof(TSource));
 

@@ -19,7 +19,7 @@ namespace LinqSharp.Strategies
             TRet[] orderValues)
         {
             var valueLenth = orderValues.Length;
-            var lambdaExp = orderValues.Reverse().AsKvPairs().Aggregate(null as Expression, (acc, kv) =>
+            var lambdaExp = orderValues.Reverse().AsKeyValuePairs().Aggregate(null as Expression, (acc, kv) =>
             {
                 var compareExp = Expression.Equal(memberExp.Body, Expression.Constant(kv.Value));
 

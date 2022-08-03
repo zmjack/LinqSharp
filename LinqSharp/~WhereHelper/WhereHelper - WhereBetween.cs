@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 
 namespace LinqSharp
 {
-    public abstract partial class WhereHelper<TSource>
+    public partial class WhereHelper<TSource>
     {
         #region Return DateTime
         public WhereExp<TSource> WhereBetween(

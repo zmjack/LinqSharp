@@ -2,7 +2,6 @@
 using Northwnd;
 using System.Linq;
 using Xunit;
-using LinqSharp.EFCore.Navigation;
 using System.Collections.Generic;
 
 namespace LinqSharp.EFCore.Test

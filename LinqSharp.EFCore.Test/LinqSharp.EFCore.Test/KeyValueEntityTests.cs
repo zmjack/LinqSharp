@@ -6,31 +6,32 @@ using Xunit;
 
 namespace LinqSharp.EFCore.Test
 {
-    public class KvEntityTests
+    public class KeyValueEntityTests
     {
         [Fact]
         public void AppRegistryTest()
         {
-            var regs = new AppRegistry[]
+            var registries = new AppRegistry[]
             {
                 new AppRegistry { Item = "Person1", Key = "Name", Value = "zmjack" },
                 new AppRegistry { Item = "Person1", Key = "Age", Value = "28" },
                 new AppRegistry { Item = "Person1", Key = "Enable", Value = "unknown" },
+
                 new AppRegistry { Item = "Person2", Key = "Name", Value = "ashe" },
                 new AppRegistry { Item = "Person2", Key = "Age", Value = "27" },
             };
 
-            var zmjack = AppRegistryAgent.Connect(regs, "Person1");
+            var zmjack = AppRegistryAgent.Attach(registries, "Person1");
             zmjack.Age = 999;
 
-            Assert.Equal("Person1", zmjack.GetItemString());
+            Assert.Equal("Person1", zmjack.GetItemName());
             Assert.Equal(999, zmjack.Age);
-            Assert.Equal("haha", zmjack.NickName);
+            Assert.Null(zmjack.NickName);
             Assert.False(zmjack.Enable);
             Assert.Null(zmjack.Address);
 
             Assert.Throws<KeyNotFoundException>(() => zmjack.NickName = "new");
-            Assert.Equal("999", regs.FirstOrDefault(x => x.Key == nameof(AppRegistryAgent.Age))?.Value);
+            Assert.Equal("999", registries.FirstOrDefault(x => x.Key == nameof(AppRegistryAgent.Age))?.Value);
         }
 
         [Fact]

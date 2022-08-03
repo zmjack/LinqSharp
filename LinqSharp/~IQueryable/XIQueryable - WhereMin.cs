@@ -13,7 +13,17 @@ namespace LinqSharp
     {
         public static IQueryable<TSource> WhereMin<TSource, TResult>(this IQueryable<TSource> sources, Expression<Func<TSource, TResult>> selector)
         {
-            return sources.XWhere(h => h.WhereMin(selector));
+            return sources.XWhere(h =>
+            {
+                if (sources.Any())
+                {
+                    var min = sources.Min(selector);
+                    var whereExp = Expression.Lambda<Func<TSource, bool>>(
+                        Expression.Equal(selector.Body, Expression.Constant(min, typeof(TResult))), selector.Parameters);
+                    return new WhereExp<TSource>(whereExp);
+                }
+                else return new WhereExp<TSource>(x => false);
+            });
         }
 
     }

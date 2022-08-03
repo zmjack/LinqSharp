@@ -13,7 +13,17 @@ namespace LinqSharp
     {
         public static IQueryable<TSource> WhereMax<TSource, TResult>(this IQueryable<TSource> sources, Expression<Func<TSource, TResult>> selector)
         {
-            return sources.XWhere(h => h.WhereMax(selector));
+            return sources.XWhere(h =>
+            {
+                if (sources.Any())
+                {
+                    var min = sources.Max(selector);
+                    var whereExp = Expression.Lambda<Func<TSource, bool>>(
+                        Expression.Equal(selector.Body, Expression.Constant(min, typeof(TResult))), selector.Parameters);
+                    return new WhereExp<TSource>(whereExp);
+                }
+                else return new WhereExp<TSource>(x => false);
+            });
         }
 
     }

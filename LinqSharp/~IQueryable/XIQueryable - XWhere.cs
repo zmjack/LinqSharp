@@ -10,9 +10,9 @@ namespace LinqSharp
 {
     public static partial class XIQueryable
     {
-        public static IQueryable<TSource> XWhere<TSource>(this IQueryable<TSource> @this, Func<WhereHelperQ<TSource>, WhereExp<TSource>> build)
+        public static IQueryable<TSource> XWhere<TSource>(this IQueryable<TSource> @this, Func<WhereHelper<TSource>, WhereExp<TSource>> build)
         {
-            var helper = new WhereHelperQ<TSource>(@this);
+            var helper = new WhereHelper<TSource>();
             var whereExp = build(helper);
 
             if (whereExp.Expression is not null)

@@ -1,9 +1,7 @@
 ﻿using LinqSharp.EFCore.Data.Test;
-using Microsoft.EntityFrameworkCore;
 using NStandard;
 using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 

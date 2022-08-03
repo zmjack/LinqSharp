@@ -21,7 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Support\EFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XDbContextTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PreQueryTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)KvEntityTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KeyValueEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NumbericTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JoinTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QSum_And_QAverageTests.cs" />
