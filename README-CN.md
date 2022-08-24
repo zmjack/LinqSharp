@@ -62,7 +62,7 @@ dotnet add package LinqSharp.EFCore
 #### 2.1.106 | 3.0.106 | 3.1.106 | 5.0.6 | 6.0.6 及未来版本。
 
 - 更改方法名 **XWhere** 到 **Filter**。
-- 允许创建独立的筛选器 **IQueryFilter**，并在 **Filter** 方法中进行查询。
+- 允许创建独立筛选器 **IQueryFilter**，并在 **Filter** 方法中进行查询。
 
 ---
 
