@@ -12,78 +12,78 @@ namespace LinqSharp
     public partial class WhereHelper<TSource>
     {
         #region Return DateTime
-        public WhereExp<TSource> WhereBetween(
+        public WhereExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
             Expression<Func<TSource, DateTime>> endExp)
         {
             var strategy = new WhereBetweenStrategy<TSource>(memberExp, startExp, endExp);
-            return new WhereExp<TSource>(strategy.StrategyExpression);
+            return new WhereExpression<TSource>(strategy.StrategyExpression);
         }
 
-        public WhereExp<TSource> WhereBetween(
+        public WhereExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             DateTime start,
             Expression<Func<TSource, DateTime>> endExp)
         {
             var strategy = new WhereBetweenStrategy<TSource>(memberExp, start, endExp);
-            return new WhereExp<TSource>(strategy.StrategyExpression);
+            return new WhereExpression<TSource>(strategy.StrategyExpression);
         }
 
-        public WhereExp<TSource> WhereBetween(
+        public WhereExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
             DateTime end)
         {
             var strategy = new WhereBetweenStrategy<TSource>(memberExp, startExp, end);
-            return new WhereExp<TSource>(strategy.StrategyExpression);
+            return new WhereExpression<TSource>(strategy.StrategyExpression);
         }
 
-        public WhereExp<TSource> WhereBetween(
+        public WhereExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             DateTime start,
             DateTime end)
         {
             var strategy = new WhereBetweenStrategy<TSource>(memberExp, start, end);
-            return new WhereExp<TSource>(strategy.StrategyExpression);
+            return new WhereExpression<TSource>(strategy.StrategyExpression);
         }
         #endregion
 
         #region Return DateTime?
-        public WhereExp<TSource> WhereBetween(
+        public WhereExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
             Expression<Func<TSource, DateTime>> endExp)
         {
             var strategy = new WhereBetweenStrategy<TSource>(memberExp, startExp, endExp);
-            return new WhereExp<TSource>(strategy.StrategyExpression);
+            return new WhereExpression<TSource>(strategy.StrategyExpression);
         }
 
-        public WhereExp<TSource> WhereBetween(
+        public WhereExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             DateTime start,
             Expression<Func<TSource, DateTime>> endExp)
         {
             var strategy = new WhereBetweenStrategy<TSource>(memberExp, start, endExp);
-            return new WhereExp<TSource>(strategy.StrategyExpression);
+            return new WhereExpression<TSource>(strategy.StrategyExpression);
         }
 
-        public WhereExp<TSource> WhereBetween(
+        public WhereExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
             DateTime end)
         {
             var strategy = new WhereBetweenStrategy<TSource>(memberExp, startExp, end);
-            return new WhereExp<TSource>(strategy.StrategyExpression);
+            return new WhereExpression<TSource>(strategy.StrategyExpression);
         }
 
-        public WhereExp<TSource> WhereBetween(
+        public WhereExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             DateTime start,
             DateTime end)
         {
             var strategy = new WhereBetweenStrategy<TSource>(memberExp, start, end);
-            return new WhereExp<TSource>(strategy.StrategyExpression);
+            return new WhereExpression<TSource>(strategy.StrategyExpression);
         }
         #endregion
 

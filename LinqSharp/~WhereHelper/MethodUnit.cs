@@ -6,13 +6,26 @@
 using Microsoft.Extensions.Caching.Memory;
 using NStandard;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace LinqSharp
 {
     public static class MethodUnit
     {
+        private static readonly MemoryCache GenericCache = new(new MemoryCacheOptions());
         private static readonly MemoryCache Cache = new(new MemoryCacheOptions());
+
+        public static MethodInfo GenericOfType => GenericCache.GetOrCreate($"${nameof(Enumerable)}.{nameof(Enumerable.OfType)}", entry =>
+        {
+            var generic = typeof(Enumerable).GetMethodViaQualifiedName("System.Collections.Generic.IEnumerable`1[TResult] OfType[TResult](System.Collections.IEnumerable)");
+            return generic;
+        });
+        public static MethodInfo GenericContains => GenericCache.GetOrCreate($"${nameof(Enumerable)}.{nameof(Enumerable.Contains)}", entry =>
+        {
+            var generic = typeof(Enumerable).GetMethodViaQualifiedName("Boolean Contains[TSource](System.Collections.Generic.IEnumerable`1[TSource], TSource)");
+            return generic;
+        });
 
         public static MethodInfo StringConcat => Cache.GetOrCreate(nameof(StringConcat), entry => typeof(string).GetMethodViaQualifiedName("System.String Concat(System.String, System.String)"));
         public static MethodInfo StringEquals => Cache.GetOrCreate(nameof(StringEquals), entry => typeof(string).GetMethodViaQualifiedName("Boolean Equals(System.String)"));

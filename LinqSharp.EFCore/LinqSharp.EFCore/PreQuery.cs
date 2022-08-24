@@ -31,8 +31,10 @@ namespace LinqSharp.EFCore
         public TEntity[] Source { get; internal set; }
         public TEntity[] Result { get; internal set; }
 
-        public PreQuery(Func<TDbContext, DbSet<TEntity>> dbSetSelector!!)
+        public PreQuery(Func<TDbContext, DbSet<TEntity>> dbSetSelector)
         {
+            if (dbSetSelector is null) throw new ArgumentNullException(nameof(dbSetSelector));
+
             DbSetSelector = dbSetSelector;
         }
 
@@ -54,8 +56,10 @@ namespace LinqSharp.EFCore
             return this;
         }
 
-        public PreQuery<TDbContext, TEntity> Where(Expression<Func<TEntity, bool>> predicate!!)
+        public PreQuery<TDbContext, TEntity> Where(Expression<Func<TEntity, bool>> predicate)
         {
+            if (predicate is null) throw new ArgumentNullException(nameof(predicate));
+
             if (Predicate is null) Predicate = predicate;
             else Predicate = new[] { Predicate, predicate }.LambdaJoin(Expression.AndAlso);
 
@@ -144,7 +148,7 @@ namespace LinqSharp.EFCore
 
             TEntity[] entities;
             if (preQueries.All(x => x.HasFiltered))
-                entities = queryable.XWhere(h => h.Or(from preQuery in preQueries let predicate = preQuery.Predicate where predicate is not null select predicate)).ToArray();
+                entities = queryable.Filter(h => h.Or(from preQuery in preQueries let predicate = preQuery.Predicate where predicate is not null select predicate)).ToArray();
             else entities = queryable.ToArray();
 
             foreach (var preQuery in preQueries)

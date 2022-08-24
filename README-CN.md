@@ -59,11 +59,16 @@ dotnet add package LinqSharp.EFCore
 
 # 最近更新
 
-### LinqSharp.EFCore
+#### 2.1.106 | 3.0.106 | 3.1.106 | 5.0.6 | 6.0.6 及未来版本。
+
+- 更改方法名 **XWhere** 到 **Filter**。
+- 允许创建独立的筛选器 **IQueryFilter**，并在 **Filter** 方法中进行查询。
+
+---
+
+#### 2.1.104 | 3.0.104 | 3.1.104 | 5.0.4 | 6.0.4 及未来版本。
 
 - 简化转储器写法。
-
-  - 2.1.104 | 3.0.104 | 3.1.104 | 5.0.4 | 6.0.4 及未来版本。
 
   旧写法：
 
@@ -79,9 +84,11 @@ dotnet add package LinqSharp.EFCore
   public NameModel NameModel { get; set; }
   ```
 
+---
+
+#### 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0 及未来版本。
+
 - 为避免命名冲突，**IndexAttribute** 已被重命名为 **IndexFieldAttribute**。
-  
-  - 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0 及未来版本。
 
 <br/>
 

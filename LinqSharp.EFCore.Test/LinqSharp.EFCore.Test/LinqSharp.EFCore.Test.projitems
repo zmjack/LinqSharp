@@ -38,7 +38,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AutoTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XExpressionTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XIEnumerableTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XWhereTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FilterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~extern\~Dawnx\RegexUtility.cs" />
   </ItemGroup>
   <ItemGroup>

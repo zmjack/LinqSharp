@@ -44,8 +44,10 @@ namespace LinqSharp.EFCore.Navigation
             return nav;
         }
 
-        public PreQuery<TDbContext, TEntity> Where(Expression<Func<TEntity, bool>> predicate!!)
+        public PreQuery<TDbContext, TEntity> Where(Expression<Func<TEntity, bool>> predicate)
         {
+            if (predicate is null) throw new ArgumentNullException(nameof(predicate));
+
             PreQuerier.Navigation = this;
             return PreQuerier.Where(predicate);
         }

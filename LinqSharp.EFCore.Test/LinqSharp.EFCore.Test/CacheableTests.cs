@@ -32,21 +32,19 @@ namespace LinqSharp.EFCore.Test
         public void Test1()
         {
             using var mysql = ApplicationDbContext.UseMySql();
-            using (var trans = mysql.Database.BeginTransaction())
-            {
-                mysql.LS_Names.Add(new LS_Name { Name = "A" });
-                mysql.LS_Names.Add(new LS_Name { Name = "B" });
-                mysql.LS_Names.Add(new LS_Name { Name = "C" });
-                mysql.SaveChanges();
+            using var trans = mysql.Database.BeginTransaction();
+            mysql.LS_Names.Add(new LS_Name { Name = "A" });
+            mysql.LS_Names.Add(new LS_Name { Name = "B" });
+            mysql.LS_Names.Add(new LS_Name { Name = "C" });
+            mysql.SaveChanges();
 
-                var containers = new[] { "A", "C" }.Select(n => new NameContainer(n)).ToArray();
-                containers.Feed(mysql);
-                Assert.Equal(new[] { "A", "C" }, containers.SelectMany(x => x.Source.LS_Names.Result).Select(x => x.Name));
+            var containers = new[] { "A", "C" }.Select(n => new NameContainer(n)).ToArray();
+            containers.Feed(mysql);
+            Assert.Equal(new[] { "A", "C" }, containers.SelectMany(x => x.Source.LS_Names.Result).Select(x => x.Name));
 
-                var container_b = new NameContainer("B");
-                container_b.Feed(mysql);
-                Assert.Equal("B", container_b.Source.LS_Names.Result.First().Name);
-            }
+            var container_b = new NameContainer("B");
+            container_b.Feed(mysql);
+            Assert.Equal("B", container_b.Source.LS_Names.Result.First().Name);
         }
 
     }

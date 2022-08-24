@@ -57,26 +57,38 @@ dotnet add package LinqSharp.EFCore
 
 # Recent
 
+#### After 2.1.106 | 3.0.106 | 3.1.106 | 5.0.6 | 6.0.6
+
+- Change the method name **XWhere** to **Filter**.
+- Allows to create a stand-alone filter **IQueryFilter** and query in the **Filter** method.
+
+---
+
+#### After 2.1.104 | 3.0.104 | 3.1.104 | 5.0.4 | 6.0.4
+
 - Simplify the code writing for **Provider**.
-  - After 2.1.104 | 3.0.104 | 3.1.104 | 5.0.4 | 6.0.4 .
-
-  Old：
-
+  
+- After 2.1.104 | 3.0.104 | 3.1.104 | 5.0.4 | 6.0.4 .
+  
+Old：
+  
   ```csharp
   [Provider(typeof(JsonProvider<NameModel>))]
   public NameModel NameModel { get; set; }
-  ```
-
-  New：
-
+```
+  
+New：
+  
   ```csharp
   [JsonProvider]
   public NameModel NameModel { get; set; }
-  ```
+```
+
+---
+
+#### After 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0
 
 - To avoid naming conflicts, **IndexAttribute** has been renamed to **IndexFieldAttribute**.
-  
-  - After 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0 .
 
 <br/>
 

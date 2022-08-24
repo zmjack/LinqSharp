@@ -13,12 +13,12 @@ namespace LinqSharp
     {
         public static IQueryable<TEntity> Search<TEntity>(this IQueryable<TEntity> @this, string searchString, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
         {
-            return @this.XWhere(h => h.Search(searchString, searchMembers, option));
+            return @this.Filter(h => h.Search(searchString, searchMembers, option));
         }
 
         public static IQueryable<TEntity> Search<TEntity>(this IQueryable<TEntity> @this, string[] searchStrings, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
         {
-            return @this.XWhere(h => h.Search(searchStrings, searchMembers, option));
+            return @this.Filter(h => h.Search(searchStrings, searchMembers, option));
         }
 
     }
