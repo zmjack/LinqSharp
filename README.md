@@ -57,6 +57,10 @@ dotnet add package LinqSharp.EFCore
 
 # Recent
 
+#### After 2.1.107 | 3.0.107 | 3.1.107 | 5.0.7 | 6.0.7
+
+- The **Pad** method no longer pads at the end, but sorts according to the specified **Keys** sequence.
+
 #### After 2.1.106 | 3.0.106 | 3.1.106 | 5.0.6 | 6.0.6
 
 - Change the method name **XWhere** to **Filter**.
@@ -70,19 +74,20 @@ dotnet add package LinqSharp.EFCore
   
 - After 2.1.104 | 3.0.104 | 3.1.104 | 5.0.4 | 6.0.4 .
   
+
 Old：
-  
+
   ```csharp
   [Provider(typeof(JsonProvider<NameModel>))]
   public NameModel NameModel { get; set; }
-```
-  
+  ```
+
 New：
-  
+
   ```csharp
   [JsonProvider]
   public NameModel NameModel { get; set; }
-```
+  ```
 
 ---
 

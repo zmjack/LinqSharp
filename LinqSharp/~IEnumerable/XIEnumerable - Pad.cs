@@ -21,9 +21,18 @@ namespace LinqSharp
         /// <returns></returns>
         public static IEnumerable<TSource> Pad<TSource, TKey>(this IEnumerable<TSource> @this, Func<TSource, TKey> keySelector, TKey[] keys, Func<TKey, TSource> initItem)
         {
-            var exsistKeys = @this.Select(x => keySelector(x)).ToArray();
-            var fillItems = keys.Where(x => !exsistKeys.Contains(x)).Select(x => initItem(x)).ToArray();
-            return @this.Concat(fillItems);
+            var dictionary = (
+                from item in @this
+                let key = keySelector(item)
+                where keys.Contains(key)
+                select new { Key = key, Value = item }
+            ).ToDictionary(x => x.Key, x => x.Value);
+
+            foreach (var key in keys)
+            {
+                if (dictionary.ContainsKey(key)) yield return dictionary[key];
+                else yield return initItem(key);
+            }
         }
 
         public static IEnumerable<TSource> PadFirst<TSource>(this IEnumerable<TSource> @this, int totalWidth)

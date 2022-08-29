@@ -25,21 +25,21 @@ namespace LinqSharp.EFCore.Test
             var items = new[]
             {
                 new NameModel { Name = "A", NickName = "a", Tag = "01" },
-                new NameModel { Name = "B", NickName = "b", Tag = "01" },
+                new NameModel { Name = "C", NickName = "c", Tag = "01" },
             };
 
-            var filled1 = items.Pad(x => x.Name, new[] { "A", "B", "C" }, key => new NameModel { Name = key, NickName = ":c" });
+            var filled1 = items.Pad(x => x.Name, new[] { "A", "B", "C" }, key => new NameModel { Name = key, NickName = $":{key.ToLower()}" });
             Assert.Equal(new[] { "A", "B", "C" }, filled1.Select(x => x.Name).ToArray());
-            Assert.Equal(new[] { "a", "b", ":c" }, filled1.Select(x => x.NickName).ToArray());
+            Assert.Equal(new[] { "a", ":b", "c" }, filled1.Select(x => x.NickName).ToArray());
 
             var filled2 = items.Pad(x => new { x.Name, x.Tag }, new[]
             {
                 new { Name = "A", Tag = "01" },
                 new { Name = "B", Tag = "01" },
-                new { Name = "B", Tag = "02" },
-            }, key => new NameModel { Name = key.Name, NickName = ":c", Tag = key.Tag });
-            Assert.Equal(new[] { "A", "B", "B" }, filled2.Select(x => x.Name).ToArray());
-            Assert.Equal(new[] { "a", "b", ":c" }, filled2.Select(x => x.NickName).ToArray());
+                new { Name = "C", Tag = "01" },
+            }, key => new NameModel { Name = key.Name, NickName = $":{key.Name.ToLower()}", Tag = key.Tag });
+            Assert.Equal(new[] { "A", "B", "C" }, filled2.Select(x => x.Name).ToArray());
+            Assert.Equal(new[] { "a", ":b", "c" }, filled2.Select(x => x.NickName).ToArray());
         }
 
         [Fact]
