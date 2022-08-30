@@ -19,7 +19,10 @@ namespace LinqSharp.EFCore
         {
             if (modifiedOnly)
             {
-                entries = entries.Where(x => x.IsModified).Where(x => (x.OriginalValue == null && x.CurrentValue == null) || (x.OriginalValue?.Equals(x.CurrentValue) ?? false));
+                entries = from entry in entries
+                          where entry.IsModified
+                          where (entry.OriginalValue is not null && entry.CurrentValue is not null) && !(entry.OriginalValue?.Equals(entry.CurrentValue) ?? false)
+                          select entry;
             }
 
             if (entries.Any()) IsValid = true;
