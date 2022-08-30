@@ -6,14 +6,21 @@
 using Castle.DynamicProxy.Contributors;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LinqSharp.EFCore
 {
     public class RowChangeInfo : Dictionary<string, FieldChangeInfo>
     {
         public RowChangeInfo() { }
-        public RowChangeInfo(IEnumerable<PropertyEntry> entries)
+        public RowChangeInfo(IEnumerable<PropertyEntry> entries) : this(entries, false) { }
+        public RowChangeInfo(IEnumerable<PropertyEntry> entries, bool modifiedOnly)
         {
+            if (modifiedOnly)
+            {
+                entries = entries.Where(x => x.IsModified).Where(x => (x.OriginalValue == null && x.CurrentValue == null) || (x.OriginalValue?.Equals(x.CurrentValue) ?? false));
+            }
+
             foreach (var entry in entries)
             {
                 Add(entry.Metadata.PropertyInfo.Name, new FieldChangeInfo
