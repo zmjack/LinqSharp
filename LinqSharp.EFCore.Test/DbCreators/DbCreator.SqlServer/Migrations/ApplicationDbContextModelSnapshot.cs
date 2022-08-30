@@ -259,6 +259,10 @@ namespace DbCreator.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("DictionaryModel")
+                        .HasColumnType("nvarchar(127)")
+                        .HasMaxLength(127);
+
                     b.Property<string>("JsonModel")
                         .HasColumnType("nvarchar(127)")
                         .HasMaxLength(127);

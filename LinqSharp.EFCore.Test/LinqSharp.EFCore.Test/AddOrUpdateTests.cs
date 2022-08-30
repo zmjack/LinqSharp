@@ -15,7 +15,11 @@ namespace LinqSharp.EFCore.Test
         {
             var now = DateTime.Now;
             using var mysql = ApplicationDbContext.UseMySql();
-            mysql.LS_Names.Delete(x => true);
+
+            using (mysql.BeginDirectScope())
+            {
+                mysql.LS_Names.Truncate();
+            }
 
             var item1 = new LS_Name { Name = "zmjack", CreationTime = now, Note = "Added" };
             // AddOrUpdate
@@ -40,15 +44,17 @@ namespace LinqSharp.EFCore.Test
 
             mysql.LS_Names.AddOrUpdateRange(x => new { x.Name, x.CreationTime }, new[]
             {
-                    new LS_Name { Name = "zmjack", CreationTime = now, Note = "Modified - 3" },
-                    new LS_Name { Name = "zmjack(2)", CreationTime = now, Note = "Modified - 3" },
-                }, options => options.Update = (record, entity) => record.Note = entity.Note + " -- Changed");
+                new LS_Name { Name = "zmjack", CreationTime = now, Note = "Modified - 3" },
+                new LS_Name { Name = "zmjack(2)", CreationTime = now, Note = "Modified - 3" },
+            }, options => options.Update = (record, entity) => record.Note = entity.Note + " -- Changed");
             mysql.SaveChanges();
             Assert.Equal(2, mysql.LS_Names.Count(x => x.Note.Contains("Changed")));
 
             // Clear
-            mysql.LS_Names.Delete(x => true);
-            mysql.SaveChanges();
+            using (mysql.BeginDirectScope())
+            {
+                mysql.LS_Names.Truncate();
+            }
         }
 
         [Fact]

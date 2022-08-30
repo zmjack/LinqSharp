@@ -1,5 +1,6 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using LinqSharp.EFCore.Models.Test;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -16,15 +17,22 @@ namespace LinqSharp.EFCore.Test
             string GetPassword() => db.SqlQuery($"SELECT Password FROM LS_Providers;").First()[nameof(LS_Provider.Password)].ToString();
             string GetNameModel() => db.SqlQuery($"SELECT NameModel FROM LS_Providers;").First()[nameof(LS_Provider.NameModel)].ToString();
             string GetJsonModel() => db.SqlQuery($"SELECT JsonModel FROM LS_Providers;").First()[nameof(LS_Provider.JsonModel)].ToString();
+            string GetDictionaryModel() => db.SqlQuery($"SELECT DictionaryModel FROM LS_Providers;").First()[nameof(LS_Provider.DictionaryModel)].ToString();
 
-            context.LS_Providers.Delete(x => true);
-            context.SaveChanges();
+            using (context.BeginDirectScope())
+            {
+                context.LS_Providers.Truncate();
+            }
 
             var item = new LS_Provider
             {
                 Password = "0416",
                 NameModel = new NameModel { Name = "Jack", NickName = "zmjack" },
                 JsonModel = new NameModel { Name = "Jack", NickName = "zmjack" },
+                DictionaryModel = new Dictionary<string, string>
+                {
+                    ["Field"] = "Field Value",
+                },
             };
             context.LS_Providers.Add(item);
             context.SaveChanges();
@@ -32,6 +40,7 @@ namespace LinqSharp.EFCore.Test
             Assert.Equal("MAA0ADEANgA=", GetPassword());
             Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":null}", GetNameModel());
             Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":null}", GetJsonModel());
+            Assert.Equal(@"{""Field"":""Field Value""}", GetDictionaryModel());
 
             var record = context.LS_Providers.First();
             Assert.Equal("0416", record.Password);
@@ -46,7 +55,11 @@ namespace LinqSharp.EFCore.Test
             context.SaveChanges();
             Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":""Hi there.""}", GetNameModel());
 
-            context.LS_Providers.Delete(x => true);
+            using (context.BeginDirectScope())
+            {
+                context.LS_Providers.Truncate();
+            }
+
             context.SaveChanges();
         }
     }

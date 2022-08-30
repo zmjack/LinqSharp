@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using Castle.DynamicProxy.Contributors;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
 
@@ -10,6 +11,7 @@ namespace LinqSharp.EFCore
 {
     public class RowChangeInfo : Dictionary<string, FieldChangeInfo>
     {
+        public RowChangeInfo() { }
         public RowChangeInfo(IEnumerable<PropertyEntry> entries)
         {
             foreach (var entry in entries)
