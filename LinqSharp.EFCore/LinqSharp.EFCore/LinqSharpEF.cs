@@ -306,11 +306,10 @@ namespace LinqSharp.EFCore
 
                 var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
                 var audits = Array.CreateInstance(auditType, entriesByType.Count());
-                foreach (var kv in entriesByType.AsKvPairs())
+                foreach (var kv in entriesByType.AsKeyValuePairs())
                     audits.SetValue(EntityAudit.Parse(kv.Value), kv.Key);
 
-                auditorCaches[attr.EntityAuditorType].Value
-                    .DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.BeforeAudit)).Call(context, audits);
+                auditorCaches[attr.EntityAuditorType].Value.DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.BeforeAudit)).Call(context, audits);
             }
 
             // Resolve OnAuditing
@@ -322,11 +321,10 @@ namespace LinqSharp.EFCore
 
                 var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
                 var audits = Array.CreateInstance(auditType, entriesByType.Count());
-                foreach (var kv in entriesByType.AsKvPairs())
+                foreach (var kv in entriesByType.AsKeyValuePairs())
                     audits.SetValue(EntityAudit.Parse(kv.Value), kv.Key);
 
-                auditorCaches[attr.EntityAuditorType].Value
-                    .DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.OnAuditing)).Call(context, audits);
+                auditorCaches[attr.EntityAuditorType].Value.DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.OnAuditing)).Call(context, audits);
             }
 
             // Resolve OnAudited
@@ -349,7 +347,7 @@ namespace LinqSharp.EFCore
             foreach (var entriesByType in auditEntriesByTypes)
             {
                 var attr = entriesByType.Key.GetCustomAttribute<EntityAuditAttribute>();
-                foreach (var kv in entriesByType.AsKvPairs())
+                foreach (var kv in entriesByType.AsKeyValuePairs())
                     predictor.Add(EntityAudit.Parse(kv.Value));
             }
 

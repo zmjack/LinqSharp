@@ -59,7 +59,7 @@ namespace LinqSharp.EFCore
                     });
 
                     var preQueries = Array.CreateInstance(preQueryType, cacheables.Count());
-                    foreach (var kv in cacheables.AsKvPairs())
+                    foreach (var kv in cacheables.AsKeyValuePairs())
                     {
                         var preQuery = prop.GetValue(kv.Value.Source);
                         preQueries.SetValue(preQuery, kv.Key);

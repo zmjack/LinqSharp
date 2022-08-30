@@ -20,7 +20,7 @@ namespace Dawnx.Utilities
 
             var parts = expression.Split('.').Select(x => x.Trim());
             var regexParts = new string[4];
-            foreach (var part in parts.AsKvPairs())
+            foreach (var part in parts.AsKeyValuePairs())
             {
                 switch (part.Value)
                 {

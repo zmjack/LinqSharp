@@ -29,7 +29,7 @@ namespace LinqSharp
         {
             var dataView = Create(bindings, selector);
             var values = dataView.Values.ToArray();
-            foreach (var kv in values.AsKvPairs())
+            foreach (var kv in values.AsKeyValuePairs())
                 windowSetter(kv.Value, new DataWindow<TModel>(values, kv.Key));
             return dataView;
         }
@@ -45,7 +45,7 @@ namespace LinqSharp
         public void SetDataWindows(Action<TModel, DataWindow<TModel>> windowSetter)
         {
             var values = _dict.Values.ToArray();
-            foreach (var kv in values.AsKvPairs())
+            foreach (var kv in values.AsKeyValuePairs())
                 windowSetter(kv.Value, new DataWindow<TModel>(values, kv.Key));
         }
 
