@@ -22,9 +22,10 @@ namespace LinqSharp.EFCore
                 entries = entries.Where(x => x.IsModified).Where(x => (x.OriginalValue == null && x.CurrentValue == null) || (x.OriginalValue?.Equals(x.CurrentValue) ?? false));
             }
 
+            if (entries.Any()) IsValid = true;
+
             foreach (var entry in entries)
             {
-                IsValid = true;
                 Add(entry.Metadata.PropertyInfo.Name, new FieldChangeInfo
                 {
                     Display = DataAnnotationEx.GetDisplayName(entry.Metadata.PropertyInfo),
