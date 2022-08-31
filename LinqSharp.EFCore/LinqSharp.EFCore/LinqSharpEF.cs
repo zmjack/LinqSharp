@@ -433,11 +433,11 @@ namespace LinqSharp.EFCore
             var modelProps = modelClass.GetProperties();
             foreach (var modelProp in modelProps)
             {
-                var providerAttr = modelProp.GetCustomAttributes().FirstOrDefault(x => x.GetType().IsExtend(typeof(ProviderAttribute<,>)));
+                var providerAttr = modelProp.GetCustomAttributes().FirstOrDefault(x => x.GetType().IsExtend(typeof(ProviderAttribute<,>), true));
 
                 if (providerAttr is null)
                 {
-                    var specialProviderAttr = modelProp.GetCustomAttributes().FirstOrDefault(x => x.GetType().IsExtend(typeof(SpecialProviderAttribute)));
+                    var specialProviderAttr = modelProp.GetCustomAttributes().FirstOrDefault(x => x.GetType().IsExtend(typeof(SpecialProviderAttribute), true));
                     if (specialProviderAttr is null) continue;
 
                     providerAttr = (specialProviderAttr as SpecialProviderAttribute).GetTargetProvider(modelProp);
@@ -447,9 +447,10 @@ namespace LinqSharp.EFCore
                 {
                     var propertyBuilder = propertyMethod.Invoke(entityTypeBuilder, new object[] { modelProp.Name }) as PropertyBuilder;
                     var hasConversionMethod = typeof(PropertyBuilder).GetMethod(nameof(PropertyBuilder.HasConversion), new[] { typeof(ValueConverter) });
+                    
                     var providerAttrType = providerAttr.GetType();
-
                     dynamic provider = Activator.CreateInstance(providerAttrType);
+
                     var converter = LinqSharpEF.BuildConverter(provider);
                     hasConversionMethod.Invoke(propertyBuilder, new object[] { converter });
 

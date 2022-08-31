@@ -29,8 +29,8 @@ namespace LinqSharp.EFCore.Test
             };
 
             var filled1 = items.Pad(x => x.Name, new[] { "A", "B", "C" }, key => new NameModel { Name = key, NickName = $":{key.ToLower()}" });
-            Assert.Equal(new[] { "A", "B", "C" }, filled1.Select(x => x.Name).ToArray());
-            Assert.Equal(new[] { "a", ":b", "c" }, filled1.Select(x => x.NickName).ToArray());
+            Assert.Equal(new[] { "A", "C", "B" }, filled1.Select(x => x.Name).ToArray());
+            Assert.Equal(new[] { "a", "c", ":b" }, filled1.Select(x => x.NickName).ToArray());
 
             var filled2 = items.Pad(x => new { x.Name, x.Tag }, new[]
             {
@@ -38,8 +38,8 @@ namespace LinqSharp.EFCore.Test
                 new { Name = "B", Tag = "01" },
                 new { Name = "C", Tag = "01" },
             }, key => new NameModel { Name = key.Name, NickName = $":{key.Name.ToLower()}", Tag = key.Tag });
-            Assert.Equal(new[] { "A", "B", "C" }, filled2.Select(x => x.Name).ToArray());
-            Assert.Equal(new[] { "a", ":b", "c" }, filled2.Select(x => x.NickName).ToArray());
+            Assert.Equal(new[] { "A", "C", "B" }, filled2.Select(x => x.Name).ToArray());
+            Assert.Equal(new[] { "a", "c", ":b" }, filled2.Select(x => x.NickName).ToArray());
         }
 
         [Fact]

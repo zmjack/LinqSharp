@@ -21,7 +21,7 @@ namespace LinqSharp.EFCore
             {
                 entries = from entry in entries
                           where entry.IsModified
-                          where (entry.OriginalValue is not null && entry.CurrentValue is not null) && !(entry.OriginalValue?.Equals(entry.CurrentValue) ?? false)
+                          where !(entry.OriginalValue is null && entry.CurrentValue is null) && !(entry.OriginalValue?.Equals(entry.CurrentValue) ?? false)
                           select entry;
             }
 

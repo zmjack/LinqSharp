@@ -16,6 +16,15 @@ using System.Reflection;
 
 namespace LinqSharp.EFCore.Providers
 {
+    public static class JsonProvider
+    {
+#if EFCORE5_0_OR_GREATER
+        public static JsonSerializerOptions DefaultOptions { get; set; } = null;
+#else
+        public static JsonSerializerSettings DefaultOptions { get; set; } = null;
+#endif
+    }
+
     [AttributeUsage(AttributeTargets.Property)]
     public class JsonProviderAttribute : SpecialProviderAttribute
     {
@@ -31,18 +40,18 @@ namespace LinqSharp.EFCore.Providers
         public override TModel ReadFromProvider(string value)
         {
 #if EFCORE5_0_OR_GREATER
-            return JsonSerializer.Deserialize<TModel>(value);
+            return JsonSerializer.Deserialize<TModel>(value, JsonProvider.DefaultOptions);
 #else
-            return JsonConvert.DeserializeObject<TModel>(value);
+            return JsonConvert.DeserializeObject<TModel>(value, JsonProvider.DefaultOptions);
 #endif
         }
 
         public override string WriteToProvider(TModel model)
         {
 #if EFCORE5_0_OR_GREATER
-            return JsonSerializer.Serialize(model);
+            return JsonSerializer.Serialize(model, JsonProvider.DefaultOptions);
 #else
-            return JsonConvert.SerializeObject(model);
+            return JsonConvert.SerializeObject(model, JsonProvider.DefaultOptions);
 #endif
         }
 
