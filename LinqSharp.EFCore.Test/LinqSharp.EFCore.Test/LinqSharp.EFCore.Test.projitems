@@ -19,7 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GroupByCountTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Support\EFVersion.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XDbContextTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DbContextExtensionsTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PreQueryTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyValueEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NumbericTests.cs" />
@@ -36,8 +36,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)SelectXTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToSqlTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AutoTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XExpressionTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XIEnumerableTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExpressionExtensionsTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEnumerableExtensionsTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FilterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~extern\~Dawnx\RegexUtility.cs" />
   </ItemGroup>

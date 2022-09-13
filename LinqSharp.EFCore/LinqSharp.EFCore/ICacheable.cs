@@ -20,7 +20,7 @@ namespace LinqSharp.EFCore
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class XICacheable
+    public static class ICacheableExtensions
     {
         private static readonly MemoryCache CacheablePropertiesCache = new(new MemoryCacheOptions());
         private static readonly MemoryCache CacheableQueryMethodCache = new(new MemoryCacheOptions());
@@ -55,7 +55,7 @@ namespace LinqSharp.EFCore
                     var entityType = args[1];
                     var queryMethod = CacheableQueryMethodCache.GetOrCreate($"{preQueryContextType},{entityType}", entry =>
                     {
-                        return typeof(XPreQuery).GetMethod(nameof(XPreQuery.InnerFeed), BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(preQueryContextType, entityType);
+                        return typeof(PreQueryExtensions).GetMethod(nameof(PreQueryExtensions.InnerFeed), BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(preQueryContextType, entityType);
                     });
 
                     var preQueries = Array.CreateInstance(preQueryType, cacheables.Count());

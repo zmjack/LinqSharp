@@ -9,12 +9,12 @@
     <Import_RootNamespace>LinqSharp.Dev___Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)XIEnumerable - Linq.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XIEnumerable - WhereAfter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XIEnumerable - WhereBefore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XIQueryable - Linq.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XIQueryable - WhereAfter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XIQueryable - WhereBefore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEnumerableExtensions - Linq.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEnumerableExtensions - WhereAfter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEnumerableExtensions - WhereBefore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IQueryableExtensions - Linq.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IQueryableExtensions - WhereAfter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IQueryableExtensions - WhereBefore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~EFCore.Dev\DeleteWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~EFCore.Dev\UpdateWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~EFCore.Dev\WhereWrapper.cs" />

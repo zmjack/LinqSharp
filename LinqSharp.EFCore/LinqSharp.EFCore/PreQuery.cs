@@ -70,7 +70,7 @@ namespace LinqSharp.EFCore
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class XPreQuery
+    public static class PreQueryExtensions
     {
         private static readonly MemoryCache IncludeCache = new(new MemoryCacheOptions());
         private static readonly MemoryCache ThenIncludeCache = new(new MemoryCacheOptions());

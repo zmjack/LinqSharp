@@ -32,11 +32,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)PreQuery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QueryConditionUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QueryOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - CacheQuery.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbSetExtensions - CacheQuery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\ProviderAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UpdateOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - AddOrUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbSetExtensions - AddOrUpdate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\MySqlFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QueryCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityAudit.cs" />
@@ -57,8 +57,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Providers\JsonProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RowChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\EntityAuditAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~IQueryable\XIQueryable - Random.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~IQueryable\XIQueryable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~IQueryable\IQueryableExtensions - Random.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~IQueryable\IQueryableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoCondensedAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoCreationTimeAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoLastWriteTimeAttribute.cs" />
@@ -71,9 +71,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\NotAcceptableAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\PendingDeleteAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\UdFunctionAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\XDbSet - Ensure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbContextExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbSetExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbSetExtensions - Ensure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KeyValueEntity\KeyValueEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KeyValueEntity\KeyValueAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~KeyValueEntity\KeyValueAgentProxy.cs" />

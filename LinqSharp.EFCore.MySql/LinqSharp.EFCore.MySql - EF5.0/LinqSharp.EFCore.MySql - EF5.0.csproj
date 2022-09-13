@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
     <PackageTags>Linq EFCore MySql</PackageTags>
     <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
-    <Version>5.0.1</Version>
+    <Version>5.0.8</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Expansion pack, including batch import function, etc.</Description>
   </PropertyGroup>

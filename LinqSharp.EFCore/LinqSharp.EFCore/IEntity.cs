@@ -27,7 +27,7 @@ namespace LinqSharp.EFCore
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class XIEntity
+    public static class IEntityExtensions
     {
         internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, IEnumerable<PropertyInfo> properties)
         {

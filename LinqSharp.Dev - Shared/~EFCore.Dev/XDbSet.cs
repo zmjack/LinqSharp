@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 namespace LinqSharp.EFCore.Dev
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class XDbSet
+    public static class DbSetExtensions
     {
         [Obsolete("The API is part of the experimental feature and may be modified or removed in the future.")]
         public static UpdateWrapper<TEntity> TryUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> expression) where TEntity : class
