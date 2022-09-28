@@ -28,6 +28,8 @@ namespace LinqSharp.EFCore
         public static void Feed<TDataSource>(this ICacheable<TDataSource> cacheable, params DbContext[] contexts) where TDataSource : class, new() => Feed(new[] { cacheable }, contexts);
         public static void Feed<TDataSource>(this ICacheable<TDataSource>[] cacheables, params DbContext[] contexts) where TDataSource : class, new()
         {
+            if (contexts.Any(x => x is null)) throw new ArgumentNullException("Any context can not be null.");
+
             foreach (var context in contexts)
             {
                 var contextType = context.GetType();

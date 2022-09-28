@@ -23,7 +23,7 @@ namespace LinqSharp.EFCore.Test
             {
                 Source = new PreQueries
                 {
-                    LS_Names = new PreQuery<ApplicationDbContext, LS_Name>(x => x.LS_Names).Where(x => x.Name == name),
+                    LS_Names = new PreQuery<ApplicationDbContext, LS_Name>(x => x.LS_Names).Where(x => x.Name == name).Where(x => x.Note == "note"),
                 };
             }
         }
@@ -33,9 +33,9 @@ namespace LinqSharp.EFCore.Test
         {
             using var mysql = ApplicationDbContext.UseMySql();
             using var trans = mysql.Database.BeginTransaction();
-            mysql.LS_Names.Add(new LS_Name { Name = "A" });
-            mysql.LS_Names.Add(new LS_Name { Name = "B" });
-            mysql.LS_Names.Add(new LS_Name { Name = "C" });
+            mysql.LS_Names.Add(new LS_Name { Name = "A", Note = "note" });
+            mysql.LS_Names.Add(new LS_Name { Name = "B", Note = "note" });
+            mysql.LS_Names.Add(new LS_Name { Name = "C", Note = "note" });
             mysql.SaveChanges();
 
             var containers = new[] { "A", "C" }.Select(n => new NameContainer(n)).ToArray();

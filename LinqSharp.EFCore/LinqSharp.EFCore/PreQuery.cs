@@ -22,7 +22,6 @@ namespace LinqSharp.EFCore
     {
         public Func<TDbContext, DbSet<TEntity>> DbSetSelector { get; private set; }
         public Expression<Func<TEntity, bool>> Predicate { get; private set; }
-        public Func<TEntity, bool> LocalPredicate { get; private set; }
         public bool HasFiltered { get; private set; }
         public string Name { get; private set; }
         public bool NoTracking { get; private set; }
@@ -56,16 +55,43 @@ namespace LinqSharp.EFCore
             return this;
         }
 
+        private void JoinPredicate(Expression<Func<TEntity, bool>> predicate)
+        {
+            if (predicate is null) throw new ArgumentNullException(nameof(predicate));
+
+            if (Predicate is null) Predicate = predicate;
+            else
+            {
+                Predicate = new[] { Predicate, predicate }.LambdaJoin(Expression.AndAlso);
+            }
+
+            HasFiltered = true;
+        }
+
         public PreQuery<TDbContext, TEntity> Where(Expression<Func<TEntity, bool>> predicate)
         {
             if (predicate is null) throw new ArgumentNullException(nameof(predicate));
 
             if (Predicate is null) Predicate = predicate;
-            else Predicate = new[] { Predicate, predicate }.LambdaJoin(Expression.AndAlso);
+            else
+            {
+                Predicate = new[] { Predicate, predicate }.LambdaJoin(Expression.AndAlso);
+            }
 
-            LocalPredicate = predicate.Compile();
             HasFiltered = true;
             return this;
+        }
+
+        public PreQuery<TDbContext, TEntity> Filter(Func<WhereHelper<TEntity>, WhereExpression<TEntity>> build)
+        {
+            var helper = new WhereHelper<TEntity>();
+            var whereExp = build(helper);
+
+            if (whereExp.Expression is not null)
+            {
+                return Where(whereExp.Expression);
+            }
+            else return this;
         }
     }
 
@@ -153,8 +179,10 @@ namespace LinqSharp.EFCore
 
             foreach (var preQuery in preQueries)
             {
+                var predicate = preQuery.Predicate.Compile();
+
                 preQuery.Source = entities;
-                preQuery.Result = preQuery.HasFiltered ? entities.Where(preQuery.LocalPredicate).ToArray() : entities;
+                preQuery.Result = preQuery.HasFiltered ? entities.Where(predicate).ToArray() : entities;
             }
             return entities;
         }
