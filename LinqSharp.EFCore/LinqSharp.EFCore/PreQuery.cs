@@ -55,19 +55,6 @@ namespace LinqSharp.EFCore
             return this;
         }
 
-        private void JoinPredicate(Expression<Func<TEntity, bool>> predicate)
-        {
-            if (predicate is null) throw new ArgumentNullException(nameof(predicate));
-
-            if (Predicate is null) Predicate = predicate;
-            else
-            {
-                Predicate = new[] { Predicate, predicate }.LambdaJoin(Expression.AndAlso);
-            }
-
-            HasFiltered = true;
-        }
-
         public PreQuery<TDbContext, TEntity> Where(Expression<Func<TEntity, bool>> predicate)
         {
             if (predicate is null) throw new ArgumentNullException(nameof(predicate));
