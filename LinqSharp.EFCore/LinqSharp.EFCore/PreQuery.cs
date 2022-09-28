@@ -80,6 +80,11 @@ namespace LinqSharp.EFCore
             }
             else return this;
         }
+
+        public override string ToString()
+        {
+            return Predicate?.ToString() ?? "<Empty expression>";
+        }
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]

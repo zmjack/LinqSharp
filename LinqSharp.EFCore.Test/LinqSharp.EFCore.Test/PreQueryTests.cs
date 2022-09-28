@@ -47,11 +47,7 @@ namespace LinqSharp.EFCore.Test
                     .Where(x => true),
             };
             var query = preQueries.Feed(mysql);
-
-            foreach (var preQuery in preQueries)
-            {
-                var a = preQuery.Result;
-            }
+            Assert.Equal("x => True", preQueries[0].ToString());
         }
     }
 
