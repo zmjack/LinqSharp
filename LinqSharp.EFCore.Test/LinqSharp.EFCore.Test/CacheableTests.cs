@@ -29,7 +29,7 @@ namespace LinqSharp.EFCore.Test
         }
 
         [Fact]
-        public void Test1()
+        public void CacheableTest()
         {
             using var mysql = ApplicationDbContext.UseMySql();
             using var trans = mysql.Database.BeginTransaction();
@@ -43,6 +43,49 @@ namespace LinqSharp.EFCore.Test
             Assert.Equal(new[] { "A", "C" }, containers.SelectMany(x => x.Source.LS_Names.Result).Select(x => x.Name));
 
             var container_b = new NameContainer("B");
+            container_b.Feed(mysql);
+            Assert.Equal("B", container_b.Source.LS_Names.Result.First().Name);
+        }
+
+        public class NameContainerWithFilter : ICacheable<NameContainerWithFilter.PreQueries>
+        {
+            public PreQueries Source { get; }
+            public void OnCache()
+            {
+            }
+
+            public class PreQueries
+            {
+                public PreQuery<ApplicationDbContext, LS_Name> LS_Names { get; set; }
+            }
+
+            public NameContainerWithFilter(string name)
+            {
+                Source = new PreQueries
+                {
+                    LS_Names = new PreQuery<ApplicationDbContext, LS_Name>(x => x.LS_Names).Filter(h =>
+                    {
+                        return h.Where(x => x.Name == name) & h.Where(x => x.Note == "note");
+                    }),
+                };
+            }
+        }
+
+        [Fact]
+        public void CacheableFilterTest()
+        {
+            using var mysql = ApplicationDbContext.UseMySql();
+            using var trans = mysql.Database.BeginTransaction();
+            mysql.LS_Names.Add(new LS_Name { Name = "A", Note = "note" });
+            mysql.LS_Names.Add(new LS_Name { Name = "B", Note = "note" });
+            mysql.LS_Names.Add(new LS_Name { Name = "C", Note = "note" });
+            mysql.SaveChanges();
+
+            var containers = new[] { "A", "C" }.Select(n => new NameContainerWithFilter(n)).ToArray();
+            containers.Feed(mysql);
+            Assert.Equal(new[] { "A", "C" }, containers.SelectMany(x => x.Source.LS_Names.Result).Select(x => x.Name));
+
+            var container_b = new NameContainerWithFilter("B");
             container_b.Feed(mysql);
             Assert.Equal("B", container_b.Source.LS_Names.Result.First().Name);
         }
