@@ -26,7 +26,7 @@ namespace LinqSharp.EFCore.Data.Test
 
         public static ApplicationDbContext UseSqlServer(Action<SqlServerDbContextOptionsBuilder> sqlServerOptionsAction = null)
         {
-            var connectionString = $@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;database={DatabaseName}";
+            var connectionString = $@"Data Source=(localdb)\ProjectModels;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;database={DatabaseName}";
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer(connectionString, sqlServerOptionsAction).Options;
             return new ApplicationDbContext(options);
         }

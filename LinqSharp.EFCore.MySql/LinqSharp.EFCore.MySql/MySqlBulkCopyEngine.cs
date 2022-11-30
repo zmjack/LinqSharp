@@ -4,7 +4,11 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.EntityFrameworkCore;
+#if EFCORE5_0_OR_GREATER
+using MySqlConnector;
+#else
 using MySql.Data.MySqlClient;
+#endif
 using System.Collections.Generic;
 using System.Data;
 

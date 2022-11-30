@@ -10,6 +10,7 @@ namespace LinqSharp.EFCore.Test
         public void Test1()
         {
             using (var context = ApplicationDbContext.UseMySql())
+            using (var trans = context.Database.BeginTransaction())
             {
                 var root = new AuditRoot { LimitQuantity = 20 };
                 context.AuditRoots.Add(root);
@@ -37,15 +38,9 @@ namespace LinqSharp.EFCore.Test
                 context.SaveChanges();
 
                 Assert.Equal(16, root.TotalQuantity);
-            }
 
-            using (var context = ApplicationDbContext.UseMySql())
-            {
-                var root = context.AuditRoots.First();
-                context.AuditRoots.Remove(root);
-                context.SaveChanges();
+                trans.Rollback();
             }
-
         }
 
     }

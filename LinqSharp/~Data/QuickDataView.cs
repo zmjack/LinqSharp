@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace LinqSharp
 {
+    [Obsolete("Use IEnumerableExtensions.FullJoin instead.")]
     public class QuickDataView
     {
         public static QuickDataView<TKey, TModel> Create<TKey, TModel>(DataBinding<TKey>[] bindings, Func<TKey, Dictionary<string, object>, TModel> selector)
@@ -35,6 +36,7 @@ namespace LinqSharp
         }
     }
 
+    [Obsolete("Use IEnumerableExtensions.FullJoin instead.")]
     public class QuickDataView<TKey, TModel> : IDictionary<TKey, TModel>
     {
         public QuickDataView(Dictionary<TKey, TModel> dict)

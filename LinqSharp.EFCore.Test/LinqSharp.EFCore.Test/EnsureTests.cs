@@ -73,6 +73,8 @@ namespace LinqSharp.EFCore.Test
         public void EnsureManyTest2()
         {
             using var context = ApplicationDbContext.UseMySql();
+            var count = context.AuditRoots.Count();
+
             using var trans = context.Database.BeginTransaction();
             var conditions = new int[1000].Let(i => i).Select(i => new QueryCondition<AuditRoot>
             {

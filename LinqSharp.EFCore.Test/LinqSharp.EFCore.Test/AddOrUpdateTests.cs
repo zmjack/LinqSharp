@@ -35,9 +35,9 @@ namespace LinqSharp.EFCore.Test
             // AddOrUpdateRange
             mysql.LS_Names.AddOrUpdateRange(x => new { x.Name, x.CreationTime }, new[]
             {
-                    new LS_Name { Name = "zmjack", CreationTime = now, Note = "Unchanged" },
-                    new LS_Name { Name = "zmjack(2)", CreationTime = now, Note = "Added" },
-                });
+                new LS_Name { Name = "zmjack", CreationTime = now, Note = "Unchanged" },
+                new LS_Name { Name = "zmjack(2)", CreationTime = now, Note = "Added" },
+            });
             mysql.SaveChanges();
             Assert.Equal(2, mysql.LS_Names.Count());
             Assert.Equal(1, mysql.LS_Names.Count(x => x.Note == "Modified"));

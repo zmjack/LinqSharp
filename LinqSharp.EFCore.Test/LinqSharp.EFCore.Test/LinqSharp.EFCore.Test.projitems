@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AuditorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GroupByCountTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)QuickDataViewTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Support\EFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbContextExtensionsTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PreQueryTests.cs" />

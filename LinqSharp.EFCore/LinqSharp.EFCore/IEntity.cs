@@ -29,27 +29,33 @@ namespace LinqSharp.EFCore
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class IEntityExtensions
     {
+        internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, string[] properties)
+        {
+            var type = typeof(TEntity);
+            var props = type.GetProperties().Where(x => properties.Contains(x.Name));
+            return InnerAccept(entity, model, props);
+        }
+
         internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, IEnumerable<PropertyInfo> properties)
         {
-            foreach (var prop in properties) prop.SetValue(entity, prop.GetValue(model));
+            foreach (var prop in properties)
+            {
+                prop.SetValue(entity, prop.GetValue(model));
+            }
             return entity;
         }
 
+        private static readonly Type AutoAttributeType = typeof(AutoAttribute);
         internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model)
         {
             var type = typeof(TEntity);
             var props = type.GetProperties()
                 .Where(x => x.CanRead && x.CanWrite)
-                .Where(x => !x.GetCustomAttributes(false).For(attrs =>
+                .Where(x =>
                 {
-                    return attrs.Any(attr => attr is NotAcceptableAttribute)
-                        || attrs.Any(attr => new[]
-                        {
-                            nameof(KeyAttribute),
-                            nameof(AutoCreationTimeAttribute),
-                            nameof(AutoLastWriteTimeAttribute)
-                        }.Contains(attr.GetType().Name));
-                }))
+                    var attrs = x.GetCustomAttributes(false).OfType<Attribute>();
+                    return !attrs.Any(attr => attr is KeyAttribute || attr is NotAcceptableAttribute || attr.GetType().BaseType == AutoAttributeType);
+                })
                 .Where(x => x.PropertyType.IsBasicType(true) || x.PropertyType.IsValueType)
                 .ToArray();
 
@@ -58,7 +64,7 @@ namespace LinqSharp.EFCore
 
         /// <summary>
         /// Accept all property values which are can be read and write from another model.
-        ///     (Only ValueTypes, exclude 'KeyAttribute' and attributes which are start with 'Track')
+        ///     (Only ValueTypes, exclude 'KeyAttribute' and attributes which are extends <see cref="AutoAttribute"/>.)
         /// </summary>
         /// <typeparam name="TEntity">Instance of IEntity</typeparam>
         /// <param name="this">Source model</param>
@@ -88,9 +94,29 @@ namespace LinqSharp.EFCore
         }
 
         /// <summary>
+        /// Accept the specified property values from another model.
+        /// </summary>
+        /// <typeparam name="TEntity">Instance of IEntity</typeparam>
+        /// <param name="this">Source model</param>
+        /// <param name="model">The model which provide values</param>
+        /// <param name="includes_MemberOrNewExp">Specifies properties that are applied to the source model.
+        /// <para>A lambda expression representing the property(s) (x => x.Url).</para>
+        /// <para>
+        ///     If the value is made up of multiple properties then specify an anonymous
+        ///     type including the properties (x => new { x.Title, x.BlogId }).
+        /// </para>
+        /// </param>
+        /// <returns></returns>
+        public static TEntity Accept<TEntity>(this TEntity @this, TEntity model, string[] properties)
+            where TEntity : class, IEntity
+        {
+            return InnerAccept(@this, model, properties);
+        }
+
+        /// <summary>
         /// Accept all property values which are can be read and write from another model,
         ///     but exclude the specified properties.
-        ///     (Only ValueTypes, exclude 'KeyAttribute' and attributes which are start with 'Track')
+        ///     (Only ValueTypes, exclude 'KeyAttribute' and attributes which are extends <see cref="AutoAttribute"/>.)
         /// </summary>
         /// <typeparam name="TEntity">Instance of IEntity</typeparam>
         /// <param name="this">Source model</param>
@@ -103,6 +129,7 @@ namespace LinqSharp.EFCore
         /// </para>
         /// </param>
         /// <returns></returns>
+        [Obsolete("It is planned to be deleted, because it is easy to produce unpredictable errors when adding fields.")]
         public static TEntity AcceptBut<TEntity>(this TEntity @this, TEntity model, Expression<Func<TEntity, object>> excludes_MemberOrNewExp)
             where TEntity : class, IEntity
         {

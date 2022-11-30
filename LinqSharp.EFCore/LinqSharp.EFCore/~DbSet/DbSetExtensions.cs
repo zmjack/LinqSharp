@@ -34,7 +34,9 @@ namespace LinqSharp.EFCore
         }
 
         /// <summary>
-        /// Truncate table. (This method needs to run inside a BeginDirectScope.)
+        /// Bulk insert into table.
+        /// <para>[Warning] This method will not throw any exception.</para>
+        /// <para>( Need BeginDirectScope. )</para>
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="this"></param>
@@ -49,7 +51,8 @@ namespace LinqSharp.EFCore
         }
 
         /// <summary>
-        /// Truncate table. (This method needs to run inside a BeginDirectScope.)
+        /// Truncate table.
+        /// <para>( Need BeginDirectScope. )</para>
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="this"></param>

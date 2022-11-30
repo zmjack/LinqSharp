@@ -26,7 +26,7 @@ namespace LinqSharp.EFCore
             }
         }
 
-        public static bool AllowUnsafeCode = false;
+        public static bool AllowUnsafeCode { get; set; } = false;
 
     }
 }

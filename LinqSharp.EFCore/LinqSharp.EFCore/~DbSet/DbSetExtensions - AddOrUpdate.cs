@@ -151,6 +151,7 @@ namespace LinqSharp.EFCore
             }
             else predicate = options.Predicate;
 
+            var update = options.Update;
             var recordlist = @this.Where(predicate).ToList();
             foreach (ref var entity in entities.AsSpan())
             {
@@ -159,7 +160,7 @@ namespace LinqSharp.EFCore
                 if (record is null) @this.Add(entity);
                 else
                 {
-                    options.Update?.Invoke(record, entity);
+                    update?.Invoke(record, entity);
                     entity = record;
                     recordlist.Remove(record);
                 }

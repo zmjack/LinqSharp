@@ -18,26 +18,68 @@ namespace LinqSharp.EFCore.Test
             LinqSharpEFRegister.RegisterBulkCopyEngine(DatabaseProviderName.SqlServer, new SqlServerBulkCopyEngine());
         }
 
-        [Fact]
-        public void BulkInsertTest()
+        private void InsertTest(ApplicationDbContext context)
         {
-            using var context = ApplicationDbContext.UseSqlServer();
-            var count = 1000;
+            var count = 10;
+            var guid = Guid.NewGuid();
 
-            var models = new BulkTestModel[count].Let(i => new BulkTestModel
+            var models = new BulkTestModel[count].Let(i =>
             {
-                Id = Guid.NewGuid(),
-                Code = Path.GetRandomFileName(),
-                Name = Path.GetRandomFileName().Bytes().For(BytesFlow.Base58),
+                var guid = Guid.NewGuid();
+                return new BulkTestModel
+                {
+                    Id = guid,
+                    Code = $"{guid} code",
+                    Name = guid.ToString().Bytes().For(BytesFlow.Base58),
+                };
             });
 
             using (context.BeginDirectScope())
             {
-                context.BulkTestModels.Truncate();      // Clear table
+                context.BulkTestModels.Truncate();
+            }
+
+            context.BulkTestModels.AddRange(models);
+            context.SaveChanges();
+            Assert.Equal(count, context.BulkTestModels.Count());
+        }
+
+        private void BulkInsertTest(ApplicationDbContext context)
+        {
+            var count = 100;
+            var guid = Guid.NewGuid();
+
+            var models = new BulkTestModel[count].Let(i =>
+            {
+                var guid = Guid.NewGuid();
+                return new BulkTestModel
+                {
+                    Id = guid,
+                    Code = $"{guid} code",
+                    Name = guid.ToString().Bytes().For(BytesFlow.Base58),
+                };
+            });
+
+            using (context.BeginDirectScope())
+            {
+                context.BulkTestModels.Truncate();
                 context.BulkTestModels.BulkInsert(models);
                 Assert.Equal(count, context.BulkTestModels.Count());
             }
+        }
 
+        [Fact]
+        public void BulkInsert_SqlServerTest()
+        {
+            using var context = ApplicationDbContext.UseSqlServer();
+            BulkInsertTest(context);
+        }
+
+        [Fact]
+        public void BulkInsert_MySqlTest()
+        {
+            using var context = ApplicationDbContext.UseMySql();
+            BulkInsertTest(context);
         }
 
     }
