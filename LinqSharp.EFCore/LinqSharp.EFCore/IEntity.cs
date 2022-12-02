@@ -29,22 +29,6 @@ namespace LinqSharp.EFCore
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class IEntityExtensions
     {
-        internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, string[] properties)
-        {
-            var type = typeof(TEntity);
-            var props = type.GetProperties().Where(x => properties.Contains(x.Name));
-            return InnerAccept(entity, model, props);
-        }
-
-        internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, IEnumerable<PropertyInfo> properties)
-        {
-            foreach (var prop in properties)
-            {
-                prop.SetValue(entity, prop.GetValue(model));
-            }
-            return entity;
-        }
-
         private static readonly Type AutoAttributeType = typeof(AutoAttribute);
         internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model)
         {
@@ -60,6 +44,22 @@ namespace LinqSharp.EFCore
                 .ToArray();
 
             return InnerAccept(entity, model, props);
+        }
+
+        internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, string[] properties)
+        {
+            var type = typeof(TEntity);
+            var props = type.GetProperties().Where(x => properties.Contains(x.Name));
+            return InnerAccept(entity, model, props);
+        }
+
+        internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, IEnumerable<PropertyInfo> properties)
+        {
+            foreach (var prop in properties)
+            {
+                prop.SetValue(entity, prop.GetValue(model));
+            }
+            return entity;
         }
 
         /// <summary>
