@@ -16,23 +16,23 @@ namespace LinqSharp.EFCore
         public bool ReserveNewLine { get; set; }
         public bool Nullable { get; set; }
 
-        public AutoCondensedAttribute() : base(EntityState.Added, EntityState.Modified)
-        {
-        }
+        public AutoCondensedAttribute() : base(EntityState.Added, EntityState.Modified) { }
 
-        public override object Format(object value)
+        public override object Format(object entity, Type propertyType, object value)
         {
+            if (propertyType != typeof(string)) throw Exception_NotSupportedTypes(propertyType, nameof(propertyType));
+
             if (value is null) return Nullable ? null : string.Empty;
-            if (value is not string) throw new ArgumentException("The value must be string.");
 
+            var @string = value as string;
             if (ReserveNewLine)
             {
                 //TODO: Optimizable
-                var normalized = (value as string).NormalizeNewLine();
+                var normalized = @string.NormalizeNewLine();
                 var parts = from part in normalized.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries) select part.Unique();
                 return parts.Join(Environment.NewLine);
             }
-            else return (value as string).Unique();
+            else return @string.Unique();
         }
     }
 }

@@ -4,12 +4,12 @@
 
 <br/>
 
-## 数据注解
+## 数据特性
 
 **LinqSharp.EFCore** 为 **CodeFirst** 模型提供了更多且易于使用的数据注解：
 
 - 表设计数据注解
-- **字段标准化数据注解**（本文）
+- **字段标准化数据特性**（本文）
 
 表设计数据注解，是调用 **Flunt API** 的替代方案，方便编写 **CodeFirst** 模型。
 
@@ -37,30 +37,47 @@ public class ApplicationDbContext : DbContext
 
 目前内置标记包括：
 
-- **AutoCondensed**（使用紧凑字符串）
-- **AutoCreationTime**（自动设置创建时间）
-- **AutoLastWriteTime**（自动设置修改时间）
-- **AutoLower**（转换为小写字母）
-- **AutoUpper**（转换为大写字母）
-- **AutoTrim**（去除字符串边界空格）
+| 类名                  | 说明           | 支持的属性                | 生效规则        |
+| --------------------- | -------------- | ------------------------- | --------------- |
+| **AutoCreationTime**  | 使用创建时间   | DateTime / DateTimeOffset | Added           |
+| **AutoLastWriteTime** | 自动修改时间   | DateTime / DateTimeOffset | Added, Modified |
+| **AutoCondensed**     | 使用紧凑字符串 | string                    | Added, Modified |
+| **AutoLower**         | 转换为小写字母 | string                    | Added, Modified |
+| **AutoUpper**         | 转换为大写字母 | string                    | Added, Modified |
+| **AutoTrim**          | 去除边界空格   | string                    | Added, Modified |
 
+如果需要自定义，应创建 **AutoAttribute** 的子类型。
+
+例如，设计一个 **Attribute**，用于转换奇数值（若 `value` 为偶数，返回原值，否则返回 `valule * 2`）：
+
+```c#
+// If `value` is odd, return `value * 2`, otherwise return `value`.
+public class AutoEvenAttribute : AutoAttribute
+{
+    public AutoEvenAttribute() : base(EntityState.Added, EntityState.Modified) { }
+
+    public override object Format(object entity, Type propertyType, object value)
+    {
+        if (propertyType != typeof(int))
+        {
+            throw Exception_NotSupportedTypes(propertyType, nameof(propertyType));
+        }
+
+        if (value is int @int && @int % 2 == 1)
+            return @int * 2;
+        else return 0;
+    }
+}
+```
 <br/>
 
-其中，**AutoCreationTime** 仅在新增条目时生效。
-
-例如：
+举例模型定义：
 
 ```csharp
-public class TrackModel : IEntity<TrackModel>
+public class Model : IEntity<TrackModel>
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
-
-    [AutoCreationTime]
-    public DateTime CreationTime { get; set; }
-
-    [AutoLastWriteTime]
-    public DateTime LastWriteTime { get; set; }
 
     [AutoTrim]
     public string ForTrim { get; set; }
@@ -73,42 +90,44 @@ public class TrackModel : IEntity<TrackModel>
 
     [AutoCondensed]
     public string ForCondensed { get; set; }
+    
+    [AutoEven]
+    public int ForEven { get; set; }
 }
 ```
 
-测试代码：
+创建实例模型：
 
 ```csharp
-using var context = ApplicationDbContext.UseMySql();
-var now = DateTime.Now;
-
-var model = new TrackModel
+var model = new Model
 {
     ForTrim = "   127.0.0.1 ",
     ForLower = "LinqSharp",
     ForUpper = "LinqSharp",
-    ForCondensed = "  Welcome to  use   LinqSharp  ",
+    ForCondensed = "  Welcome to  use   LinqSharp  ",    
+    ForEven = 101,
 };
-context.TrackModels.Add(model);
-context.SaveChanges();
-
-Assert.Equal("127.0.0.1", model.ForTrim);
-Assert.Equal("linqsharp", model.ForLower);
-Assert.Equal("LINQSHARP", model.ForUpper);
-Assert.Equal("Welcome to use LinqSharp", model.ForCondensed);
-Assert.Equal(now.StartOfDay(), model.CreationTime.StartOfDay());
-Assert.Equal(now.StartOfDay(), model.LastWriteTime.StartOfDay());
-
-Thread.Sleep(10);
-context.TrackModels.Update(model);
-context.SaveChanges();
-Assert.True(model.LastWriteTime > model.CreationTime);
-
-context.TrackModels.Remove(model);
-context.SaveChanges();
 ```
 
-<br/>
+在 **SaveChanges** 后，**Model** 中的属性将被设置为：
 
-同时，使用 **AutoAttribute** 也可以创建自定义标记，例如：
+```c#
+var model = new Model
+{
+    // "   127.0.0.1 " -> "127.0.0.1"
+    ForTrim = "127.0.0.1",
+    
+    // "LinqSharp" -> "linqsharp"
+    ForLower = "linqsharp",
+    
+    // "LinqSharp" -> "LINQSHARP"
+    ForUpper = "LINQSHARP",
+    
+    // "  Welcome to  use   LinqSharp  " -> "Welcome to use LinqSharp"
+    ForCondensed = "Welcome to use LinqSharp",
+    
+    // 101 -> 202
+    ForEven = 202,
+};
+```
 

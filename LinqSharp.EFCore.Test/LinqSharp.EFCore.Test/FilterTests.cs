@@ -1,5 +1,4 @@
-﻿using LinqSharp.Dev;
-using LinqSharp.EFCore.Data.Test;
+﻿using LinqSharp.EFCore.Data.Test;
 using Northwnd;
 using NStandard;
 using System;

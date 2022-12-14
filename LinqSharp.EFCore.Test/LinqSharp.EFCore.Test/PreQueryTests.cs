@@ -1,8 +1,8 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using Northwnd;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using System.Collections.Generic;
 
 namespace LinqSharp.EFCore.Test
 {

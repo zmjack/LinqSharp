@@ -20,6 +20,7 @@ namespace LinqSharp.EFCore.Test
                 ForLower = "LinqSharp",
                 ForUpper = "LinqSharp",
                 ForCondensed = "  Welcome to  use   LinqSharp  ",
+                ForEven = 101,
             };
             context.TrackModels.Add(model);
             context.SaveChanges();
@@ -28,6 +29,7 @@ namespace LinqSharp.EFCore.Test
             Assert.Equal("linqsharp", model.ForLower);
             Assert.Equal("LINQSHARP", model.ForUpper);
             Assert.Equal("Welcome to use LinqSharp", model.ForCondensed);
+            Assert.Equal(202, model.ForEven);
             Assert.Equal(now.StartOfDay(), model.CreationTime.StartOfDay());
             Assert.Equal(now.StartOfDay(), model.LastWriteTime.StartOfDay());
 

@@ -326,6 +326,9 @@ namespace DbCreator.Migrations
                     b.Property<string>("ForCondensed")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ForEven")
+                        .HasColumnType("int");
+
                     b.Property<string>("ForLower")
                         .HasColumnType("nvarchar(max)");
 

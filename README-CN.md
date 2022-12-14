@@ -17,16 +17,16 @@
 **LinqSharp** 可为 **LINQ** 提供如下方面的增强：
 
 - [查询扩展](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/query.md)
-- [动态 LINQ](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/xwhere.md)
+- [动态 LINQ](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/filter.md)
 
 
 
 **LinqSharp.EFCore** 可为 **Entity Frameowk** 提供如下方面的增强：
 
-- [表设计数据注解](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-1.md)
-- [字段标准化数据注解](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md)
+- [表设计数据特性](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-1.md)
+- [数据格式化特性](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md)
 - [直接访问函数（清空表，批量导入）](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-direct-functions.md)
-- <font color="orange">[试验（文档可能并不准确）]</font> [预查询](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-pre-query.md)
+- <font color="orange">[试验]</font> [预查询](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-pre-query.md)
 - <font color="orange">[暂无文档]</font> 函数映射
 - <font color="orange">[暂无文档]</font> 列式存储代理
 - <font color="orange">[暂无文档]</font> 关联计算与审计
@@ -59,14 +59,27 @@ dotnet add package LinqSharp.EFCore
 
 # 最近更新
 
-#### 2.1.106 | 3.0.106 | 3.1.106 | 5.0.6 | 6.0.6 及未来版本。
+#### 版本：(2.1|3.0|3.1).114+ | (5.0|6.0).14+
+
+- 部分 **AutoAttribute** 成员方法已更新：
+
+  ```c#
+  /*
+  public abstract object Format(object entity, object value);
+  */
+  public abstract object Format(object entity, Type propertyType, object value);
+  ```
+
+---
+
+#### 版本：(2.1|3.0|3.1).106+ | (5.0|6.0).6+
 
 - 更改方法名 **XWhere** 到 **Filter**。
 - 允许创建独立筛选器 **IQueryFilter**，并在 **Filter** 方法中进行查询。
 
 ---
 
-#### 2.1.104 | 3.0.104 | 3.1.104 | 5.0.4 | 6.0.4 及未来版本。
+#### 版本：(2.1|3.0|3.1).104+ | (5.0|6.0).4+
 
 - 简化转储器写法。
 
@@ -86,7 +99,7 @@ dotnet add package LinqSharp.EFCore
 
 ---
 
-#### 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0 及未来版本。
+#### 版本：(2.1|3.0|3.1).80+ | (5.0|6.0).0+
 
 - 为避免命名冲突，**IndexAttribute** 已被重命名为 **IndexFieldAttribute**。
 

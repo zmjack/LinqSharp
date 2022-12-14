@@ -447,7 +447,7 @@ namespace LinqSharp.EFCore
                 {
                     var propertyBuilder = propertyMethod.Invoke(entityTypeBuilder, new object[] { modelProp.Name }) as PropertyBuilder;
                     var hasConversionMethod = typeof(PropertyBuilder).GetMethod(nameof(PropertyBuilder.HasConversion), new[] { typeof(ValueConverter) });
-                    
+
                     var providerAttrType = providerAttr.GetType();
                     dynamic provider = Activator.CreateInstance(providerAttrType);
 
@@ -474,47 +474,38 @@ namespace LinqSharp.EFCore
         {
             if (!new[] { EntityState.Added, EntityState.Modified }.Contains(entry.State)) return;
 
-            var now = DateTime.Now;
-            var nowOffset = DateTimeOffset.Now;
+            var nowTag = new NowTag
+            {
+                Now = DateTime.Now,
+                NowOffset = DateTimeOffset.Now,
+            };
 
             foreach (var prop in properties)
             {
                 var propertyType = prop.PropertyType;
-                var oldValue = prop.GetValue(entry.Entity);
-                var finalValue = oldValue;
+                var originValue = prop.GetValue(entry.Entity);
+                var finalValue = originValue;
                 var attrs = prop.GetCustomAttributes<AutoAttribute>();
 
                 foreach (var attr in attrs)
                 {
-                    if (attr is AutoCreationTimeAttribute)
+                    if (!attr.States.Contains(entry.State)) continue;
+
+
+                    if (attr is SpecialAutoAttribute<NowTag> attr_NowTag)
                     {
-                        if (entry.State == EntityState.Added)
-                        {
-                            if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?)) { finalValue = now; break; }
-                            else if (propertyType == typeof(DateTimeOffset) || propertyType == typeof(DateTimeOffset?)) { finalValue = nowOffset; break; }
-                        }
-                    }
-                    else if (attr is AutoLastWriteTimeAttribute)
-                    {
-                        if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
-                        {
-                            if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?)) { finalValue = now; break; }
-                            else if (propertyType == typeof(DateTimeOffset) || propertyType == typeof(DateTimeOffset?)) { finalValue = nowOffset; break; }
-                        }
+                        finalValue = attr_NowTag.Format(entry.Entity, propertyType, nowTag);
                     }
                     else
                     {
-                        if (attr.States.Contains(entry.State))
-                        {
-                            if (oldValue is null) finalValue = attr.Format(null);
-                            else if (oldValue is string str) finalValue = attr.Format(str);
-                            else throw new ArgumentException($"Can not resolve AutoAttribute for property({prop.Name}).");
-                        }
+                        finalValue = attr.Format(entry.Entity, propertyType, originValue);
                     }
                 }
 
-                if (oldValue != finalValue)
+                if (originValue != finalValue)
+                {
                     prop.SetValue(entry.Entity, finalValue);
+                }
             }
         }
 

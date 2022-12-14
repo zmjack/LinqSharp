@@ -4,7 +4,7 @@ Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README-
 
 <br/>
 
-Current work in progress: Optimize PreQuery queries.
+Current work in progress: Optimize **PreQuery** queries.
 
 <br/>
 
@@ -17,7 +17,7 @@ Current work in progress: Optimize PreQuery queries.
 **LinqSharp** provides enhancements to **LINQ** in the following ways:
 
 - <font color="orange">[No documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/query.md)]</font> Query extension
-- <font color="orange">[No documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/xwhere.md)]</font> Dynamic LINQ
+- <font color="orange">[No documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/filter.md)]</font> Dynamic LINQ
 
 
 
@@ -57,14 +57,25 @@ dotnet add package LinqSharp.EFCore
 
 # Recent
 
-#### After 2.1.106 | 3.0.106 | 3.1.106 | 5.0.6 | 6.0.6
+#### Version: (2.1|3.0|3.1).114+ | (5.0|6.0).14+
+
+- Some methods in **AutoAttribute** has been changed:
+
+  ```c#
+  /*
+  public abstract object Format(object entity, object value);
+  */
+  public abstract object Format(object entity, Type propertyType, object value);
+  ```
+
+#### Version: (2.1|3.0|3.1).106+ | (5.0|6.0).6+
 
 - Change the method name **XWhere** to **Filter**.
 - Allows to create a stand-alone filter **IQueryFilter** and query in the **Filter** method.
 
 ---
 
-#### After 2.1.104 | 3.0.104 | 3.1.104 | 5.0.4 | 6.0.4
+#### Version: (2.1|3.0|3.1).104+ | (5.0|6.0).4+
 
 - Simplify the code writing for **Provider**.
   
@@ -87,7 +98,7 @@ New：
 
 ---
 
-#### After 2.1.80 | 3.0.80 | 3.1.80 | 5.0.0 | 6.0.0
+#### Version: (2.1|3.0|3.1).80+ | (5.0|6.0).0+
 
 - To avoid naming conflicts, **IndexAttribute** has been renamed to **IndexFieldAttribute**.
 
@@ -148,32 +159,3 @@ WHERE "x"."CompanyName" = 'Speedy Express';
 
 <br/>
 
-### Function Provider Supports
-
-| .NET Function       | Jet  | MySql | Oracle | PostgreSQL | Sqlite | SqlServer |
-| ------------------- | :--: | :---: | :----: | :--------: | :----: | :-------: |
-| DbFunc.**Random**   |  ✔️   |   ✔️   |   ✔️    |     ✔️      |   ✔️    |     ✔️     |
-| DbFunc.**Concat**   |  ❌   |   ✔️   |   ✔️    |     ✔️      |   ❌    |     ✔️     |
-| DbFunc.**DateTime** |  ❌   |   ✔️   |   🔘    |     🔘      |   ❌    |     ✔️     |
-
-<br/>
-
-For example, **EntityFramework** can not translate this expression:
-
-```c#
-.Where(x => new DateTime(x.Year, x.Month, x.Day) > DateTime.Now);
-```
-
-So, we provide another function to support this:
-
-```c#
-.Where(x => DbFunc.DateTime(x.Year, x.Month, x.Day) > DateTime.Now);
-```
-
-If use **MySQL**, the generated SQL is:
-
-```mysql
-WHERE STR_TO_DATE(CONCAT(`x`.`Year`, '-', `x`.`Month`, '-', `x`.`Day`), '%Y-%m-%d') > CURRENT_TIMESTAMP();
-```
-
-<br/>

@@ -11,6 +11,9 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ICacheable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\SpecialProviderAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoTags\IAutoTag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoTags\NowTag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\SpecialAutoAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ConcurrencyResolvableAttribute.cs" />
     <Compile Include="..\LinqSharp.EFCore\IConcurrencyResolvable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConcurrencyResolvingMode.cs" />
@@ -67,7 +70,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoUpperAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ConcurrencyPolicyAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\CPKeyAttribute.cs" />
-    <Compile Include="..\LinqSharp.EFCore\~Annotations\IndexFieldAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Annotations\IndexFieldAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\NotAcceptableAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\PendingDeleteAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\UdFunctionAttribute.cs" />
@@ -81,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Functions\Providers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)~Annotations\" />
     <Folder Include="$(MSBuildThisFileDirectory)~IQueryable\" />
   </ItemGroup>
 </Project>

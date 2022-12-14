@@ -27,15 +27,22 @@ namespace LinqSharp.EFCore.Data.Test
 
         [AutoCondensed]
         public string ForCondensed { get; set; }
+
+        [AutoEven]
+        public int ForEven { get; set; }
     }
 
-    public class CustomAttribute : AutoAttribute
+    public class AutoEvenAttribute : AutoAttribute
     {
-        public CustomAttribute() : base(EntityState.Added, EntityState.Modified) { }
+        public AutoEvenAttribute() : base(EntityState.Added, EntityState.Modified) { }
 
-        public override object Format(object value)
+        public override object Format(object entity, Type propertyType, object value)
         {
-            throw new NotImplementedException();
+            if (propertyType != typeof(int)) throw Exception_NotSupportedTypes(propertyType, nameof(propertyType));
+
+            if (value is int @int && @int % 2 == 1)
+                return @int * 2;
+            else return 0;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using LinqSharp.EFCore.Models.Test;
 using LinqSharp.EFCore.Providers;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NStandard;
 using NStandard.Flows;
 using System;

@@ -12,11 +12,11 @@ namespace LinqSharp.EFCore
     public class AutoTrimAttribute : AutoAttribute
     {
         public AutoTrimAttribute() : base(EntityState.Added, EntityState.Modified) { }
-        public override object Format(object value)
+        public override object Format(object entity, Type propertyType, object value)
         {
-            if (value is null) return null;
-            if (value is not string) throw new ArgumentException("The value must be string.");
-            return (value as string).Trim();
+            if (propertyType != typeof(string)) throw Exception_NotSupportedTypes(propertyType, nameof(propertyType));
+
+            return (value as string)?.Trim();
         }
     }
 }

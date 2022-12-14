@@ -4,7 +4,6 @@ using LinqSharp.EFCore.SqlServer;
 using NStandard;
 using NStandard.Flows;
 using System;
-using System.IO;
 using System.Linq;
 using Xunit;
 

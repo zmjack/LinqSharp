@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.Strategies;
-using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;

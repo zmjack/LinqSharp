@@ -38,7 +38,7 @@ var query = sqlite.Employees.Where(x =>
 
 ### 静态查询拆分
 
-**XWhere** 是 **LinqSharp** 提供的动态查询方法。
+**Filter** 是 **LinqSharp** 提供的动态查询方法。
 
 首先了解如何将静态查询表达式拆分为动态查询。例如，
 
@@ -50,10 +50,10 @@ var query = sqlite.Employees.Where(
       || (x.TitleOfCourtesy == "Ms." && x.City == "Seattle"));
 ```
 
-使用 **XWhere** 改写为：
+使用 **Filter** 改写为：
 
 ```csharp
-var query = sqlite.Employees.XWhere(h =>
+var query = sqlite.Employees.Filter(h =>
 {
     return
         h.Or(
@@ -68,7 +68,7 @@ var query = sqlite.Employees.XWhere(h =>
 
 ### 动态查询示例
 
-- **XWhere**：动态构建查询树。
+- **Filter**：动态构建查询树。
 
 按照上节给出的场景举例：
 
@@ -78,10 +78,10 @@ var query = sqlite.Employees.XWhere(h =>
 var searches = new[] { ("Mr.", "London"), ("Ms.", "Seattle") };
 ```
 
-2、在 **XWhere** 函数中将 **searches** 转换成单元表达式 **parts**，然后使用 **Or** 方法连接每个 **part**：
+2、在 **Filter** 函数中将 **searches** 转换成单元表达式 **parts**，然后使用 **Or** 方法连接每个 **part**：
 
 ```csharp
-var query = sqlite.Employees.XWhere(h =>
+var query = sqlite.Employees.Filter(h =>
 {
     var parts = searches.Select(s =>
         h.Where(x => x.TitleOfCourtesy == s.Item1 && x.City == s.Item2));
@@ -92,7 +92,7 @@ var query = sqlite.Employees.XWhere(h =>
 更简单些，我们可以使用 **h.Or** 方法的另一个重载来编写代码：
 
 ```csharp
-var query = sqlite.Employees.XWhere(h =>
+var query = sqlite.Employees.Filter(h =>
 {
     return h.Or(searches,
         s => x => x.TitleOfCourtesy == s.Item1 && x.City == s.Item2);
@@ -102,7 +102,7 @@ var query = sqlite.Employees.XWhere(h =>
 或者，使用 **for / foreach** 构建：
 
 ```csharp
-var query = sqlite.Employees.XWhere(h =>
+var query = sqlite.Employees.Filter(h =>
 {
     var exp = h.CreateEmpty();
     foreach (var s in searches)
@@ -137,12 +137,12 @@ OR
 
 #### 运算符
 
-**XWhere** 也支持使用 **运算符** 或 **连接函数** 来合并表达式单元，并且支持 **LinqSharp** 扩展（**Search** 函数等）。
+**Filter** 也支持使用 **运算符** 或 **连接函数** 来合并表达式单元，并且支持 **LinqSharp** 扩展（**Search** 函数等）。
 
 使用 **连接函数**：
 
 ```csharp
-var query = sqlite.Employees.XWhere(h =>
+var query = sqlite.Employees.Filter(h =>
 {
     return h.Or(
         h.Where(x => x.TitleOfCourtesy == "Mr." && x.City == "London"),
@@ -153,7 +153,7 @@ var query = sqlite.Employees.XWhere(h =>
 使用 **运算符**：
 
 ```csharp
-var query = sqlite.Employees.XWhere(h =>
+var query = sqlite.Employees.Filter(h =>
 {
     return h.Where(x => x.TitleOfCourtesy == "Mr." && x.City == "London")
          | h.Where(x => x.TitleOfCourtesy == "Ms." && x.City == "Seattle");
@@ -184,7 +184,7 @@ var query = sqlite.Employees.XWhere(h =>
 在上述案例中，假设我们在使用 **Where** 的同时还使用 **Search**，我们将混合使用 **运算符** 和 **连接函数** 来构建：
 
 ```csharp
-var query = sqlite.Employees.XWhere(h =>
+var query = sqlite.Employees.Filter(h =>
 {
     return h.Or(
         h.Where(x => x.TitleOfCourtesy == "Mr." && x.City == "London"),
@@ -229,7 +229,7 @@ OR
 固定条件下，可以使用以下语句：
 
 ```csharp
-var query = sqlite.Employees.XWhere(h =>
+var query = sqlite.Employees.Filter(h =>
 {
     return h.Or(
         h.Where(x => x.City == "London"),
@@ -240,7 +240,7 @@ var query = sqlite.Employees.XWhere(h =>
 使用 **Property** 方法将 **字段名参数化**：
 
 ```csharp
-var query = sqlite.Employees.XWhere(h =>
+var query = sqlite.Employees.Filter(h =>
 {
     return h.Or(
         h.Property("City") == "London",
@@ -267,7 +267,7 @@ var query = sqlite.Employees
 
 ```csharp
 var query = sqlite.Employees
-    .XWhere(h => h.Property("City") + "!!" == "London!!");
+    .Filter(h => h.Property("City") + "!!" == "London!!");
 ```
 
 它们将生成完全一样的 SQL：
@@ -296,7 +296,7 @@ var searches = new[] { ("City", "London"), ("FirstName", "Andrew") };
 2、在 **Employees** 表中进行查询：
 
 ```csharp
-var query = sqlite.Employees.XWhere(h =>
+var query = sqlite.Employees.Filter(h =>
 {
     return h.And(searches, s => h.Property(s.Item1) == s.Item2);
 });
