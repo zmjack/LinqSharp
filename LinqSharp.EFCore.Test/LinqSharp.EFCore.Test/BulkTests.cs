@@ -13,8 +13,8 @@ namespace LinqSharp.EFCore.Test
     {
         static BulkTests()
         {
-            LinqSharpEFRegister.RegisterBulkCopyEngine(DatabaseProviderName.MySql, new MySqlBulkCopyEngine());
-            LinqSharpEFRegister.RegisterBulkCopyEngine(DatabaseProviderName.SqlServer, new SqlServerBulkCopyEngine());
+            LinqSharpEFRegister.RegisterBulkCopyEngine(ProviderName.MySql, new MySqlBulkCopyEngine());
+            LinqSharpEFRegister.RegisterBulkCopyEngine(ProviderName.SqlServer, new SqlServerBulkCopyEngine());
         }
 
         private void InsertTest(ApplicationDbContext context)

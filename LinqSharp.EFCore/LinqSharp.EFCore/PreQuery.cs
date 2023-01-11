@@ -90,9 +90,9 @@ namespace LinqSharp.EFCore
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class PreQueryExtensions
     {
-        private static readonly MemoryCache IncludeCache = new(new MemoryCacheOptions());
-        private static readonly MemoryCache ThenIncludeCache = new(new MemoryCacheOptions());
-        private static readonly MemoryCache ThenInclude_EnumerableCache = new(new MemoryCacheOptions());
+        private static readonly MemoryCache Include_Cache = new(new MemoryCacheOptions());
+        private static readonly MemoryCache ThenInclude_Cache = new(new MemoryCacheOptions());
+        private static readonly MemoryCache Enumerable_ThenInclude_Cache = new(new MemoryCacheOptions());
 
         private static readonly Lazy<MethodInfo> Lazy_IncludeMethod = new(() =>
         {
@@ -137,7 +137,7 @@ namespace LinqSharp.EFCore
                 if (enumerator.MoveNext())
                 {
                     var firstNavigation = enumerator.Current;
-                    var includeMethod = IncludeCache.GetOrCreate($"{entityType}|{firstNavigation.Property}", entry => Lazy_IncludeMethod.Value.MakeGenericMethod(entityType, firstNavigation.Property));
+                    var includeMethod = Include_Cache.GetOrCreate($"{entityType}|{firstNavigation.Property}", entry => Lazy_IncludeMethod.Value.MakeGenericMethod(entityType, firstNavigation.Property));
                     queryable = includeMethod.Invoke(null, new object[] { queryable, firstNavigation.Path }) as IQueryable<TEntity>;
 
                     while (enumerator.MoveNext())
@@ -147,14 +147,14 @@ namespace LinqSharp.EFCore
                         MethodInfo thenIncludeMethod;
                         if (navigation.PreviousProperty.IsImplement<IEnumerable>())
                         {
-                            thenIncludeMethod = ThenInclude_EnumerableCache.GetOrCreate($"{entityType}|{navigation.PreviousElement}|{navigation.Property}", entry =>
+                            thenIncludeMethod = Enumerable_ThenInclude_Cache.GetOrCreate($"{entityType}|{navigation.PreviousElement}|{navigation.Property}", entry =>
                             {
                                 return Lazy_ThenIncludeMethod_Enumerable.Value.MakeGenericMethod(entityType, navigation.PreviousElement, navigation.Property);
                             });
                         }
                         else
                         {
-                            thenIncludeMethod = ThenIncludeCache.GetOrCreate($"{entityType}|{navigation.PreviousProperty}|{navigation.Property}", entry =>
+                            thenIncludeMethod = ThenInclude_Cache.GetOrCreate($"{entityType}|{navigation.PreviousProperty}|{navigation.Property}", entry =>
                             {
                                 return Lazy_ThenIncludeMethod.Value.MakeGenericMethod(entityType, navigation.PreviousProperty, navigation.Property);
                             });

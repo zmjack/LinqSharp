@@ -6,7 +6,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace LinqSharp.EFCore
+namespace LinqSharp.EFCore.Query
 {
     public class UpdateOptions<TEntity> where TEntity : class
     {

@@ -8,7 +8,7 @@ using System;
 namespace LinqSharp.EFCore
 {
     [Flags]
-    public enum LinqSharpAnnotation
+    public enum EntityAnnotation
     {
         Index = 1,
         Provider = 2,

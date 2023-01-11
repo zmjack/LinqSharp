@@ -25,6 +25,5 @@ namespace LinqSharp.EFCore.Data.Test
         public DateTime? Birthday { get; set; }
 
         public EState State { get; set; }
-
     }
 }

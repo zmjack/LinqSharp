@@ -6,16 +6,16 @@
 
 ## 数据特性
 
-**LinqSharp.EFCore** 为 **CodeFirst** 模型提供了更多且易于使用的数据注解：
+**LinqSharp.EFCore** 为 **CodeFirst** 模型提供了更多且易于使用的数据特性：
 
-- 表设计数据注解
+- 表设计数据特性
 - **字段标准化数据特性**（本文）
 
-表设计数据注解，是调用 **Flunt API** 的替代方案，方便编写 **CodeFirst** 模型。
+表设计数据特性，是调用 **Flunt API** 的替代方案，方便编写 **CodeFirst** 模型。
 
 <br/>
 
-### 字段标准化数据注解
+### 字段标准化数据特性
 
 重写 **DbContext** 下的 **OnModelCreating** 方法以启用 **LinqSharp** 扩展功能：
 

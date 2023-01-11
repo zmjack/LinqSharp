@@ -15,7 +15,7 @@ using System.Data;
 using Microsoft.EntityFrameworkCore.Query.Expressions;
 #endif
 
-namespace LinqSharp.EFCore
+namespace LinqSharp.EFCore.Query
 {
     public static class Translator
     {

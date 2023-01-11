@@ -3,13 +3,14 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-namespace LinqSharp.EFCore
+namespace LinqSharp.EFCore.Infrastructure
 {
-    public class FieldChangeInfo
+    public interface IFacade
     {
-        public string Display { get; set; }
-        public bool IsModified { get; set; }
-        public object Origin { get; set; }
-        public object Current { get; set; }
+        void UpdateState();
+
+        void CommitTransaction();
+        void RollbackTransaction();
+        void TransactionDisposing();
     }
 }

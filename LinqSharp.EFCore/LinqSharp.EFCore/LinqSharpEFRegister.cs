@@ -9,10 +9,10 @@ namespace LinqSharp.EFCore
 {
     public static class LinqSharpEFRegister
     {
-        private static readonly Dictionary<DatabaseProviderName, BulkCopyEngine> BulkCopyEngineDict = new();
-        public static void RegisterBulkCopyEngine(DatabaseProviderName name, BulkCopyEngine engine) => BulkCopyEngineDict[name] = engine;
-        public static void UnregisterBulkCopyEngine(DatabaseProviderName name) => BulkCopyEngineDict.Remove(name);
-        public static bool TryGetBulkCopyEngine(DatabaseProviderName name, out BulkCopyEngine engine)
+        private static readonly Dictionary<ProviderName, BulkCopyEngine> BulkCopyEngineDict = new();
+        public static void RegisterBulkCopyEngine(ProviderName name, BulkCopyEngine engine) => BulkCopyEngineDict[name] = engine;
+        public static void UnregisterBulkCopyEngine(ProviderName name) => BulkCopyEngineDict.Remove(name);
+        public static bool TryGetBulkCopyEngine(ProviderName name, out BulkCopyEngine engine)
         {
             if (BulkCopyEngineDict.ContainsKey(name))
             {

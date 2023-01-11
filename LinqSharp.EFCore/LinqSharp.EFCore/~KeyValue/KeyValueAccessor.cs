@@ -4,6 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Castle.DynamicProxy;
+using LinqSharp.EFCore.Agent;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using NStandard;

@@ -59,9 +59,15 @@ dotnet add package LinqSharp.EFCore
 
 # 最近更新
 
+#### 版本：(2.1|3.0|3.1).116+ | (5.0|6.0).16+
+
+- <font color=red>**【重大改变】**</font>已移除 **CustomDatabaseFacade**。
+- 提供 **EntityMonitoringFacade** 用于监视表 **CRUD**，以方便编写其他对接操作。
+- <font color=red>**【重大改变】**</font>已移除 **Ensure** 相关方法，建议使用 **AddOrUpdate** 相关方法代替。
+
 #### 版本：(2.1|3.0|3.1).114+ | (5.0|6.0).14+
 
-- 部分 **AutoAttribute** 成员方法已更新：
+- **AutoAttribute** 成员方法更新：
 
   ```c#
   /*

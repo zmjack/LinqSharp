@@ -3,6 +3,8 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.EFCore.Infrastructure;
+using LinqSharp.EFCore.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -65,31 +67,31 @@ namespace LinqSharp.EFCore
             var providerName = context.GetProviderName();
             var hasTruncateMethod = new[]
             {
-                DatabaseProviderName.Firebird,
-                DatabaseProviderName.IBM,
-                DatabaseProviderName.Jet,
-                DatabaseProviderName.MyCat,
-                DatabaseProviderName.MySql,
-                DatabaseProviderName.Oracle,
-                DatabaseProviderName.PostgreSQL,
-                DatabaseProviderName.Sqlite,
-                DatabaseProviderName.SqlServer,
-                DatabaseProviderName.SqlServerCompact35,
-                DatabaseProviderName.SqlServerCompact40,
+                ProviderName.Firebird,
+                ProviderName.IBM,
+                ProviderName.Jet,
+                ProviderName.MyCat,
+                ProviderName.MySql,
+                ProviderName.Oracle,
+                ProviderName.PostgreSQL,
+                ProviderName.Sqlite,
+                ProviderName.SqlServer,
+                ProviderName.SqlServerCompact35,
+                ProviderName.SqlServerCompact40,
             }.Contains(providerName);
             if (!hasTruncateMethod) throw new NotSupportedException($"The database does not support the {nameof(Truncate)} method.");
 
-            var idPair = Identifiers.IdentifierUtil.GetDelimitedIdentifiers(providerName);
+            var identifiers = new Identifiers(providerName);
 
 #if EFCORE3_0_OR_GREATER
-            if (new[] { DatabaseProviderName.Sqlite }.Contains(providerName))
-                context.Database.ExecuteSqlRaw($"DELETE FROM {idPair?.Wrap(table) ?? table};");
-            else context.Database.ExecuteSqlRaw($"TRUNCATE TABLE {idPair?.Wrap(table) ?? table};");
+            if (new[] { ProviderName.Sqlite }.Contains(providerName))
+                context.Database.ExecuteSqlRaw($"DELETE FROM {identifiers.Content(table) ?? table};");
+            else context.Database.ExecuteSqlRaw($"TRUNCATE TABLE {identifiers.Content(table) ?? table};");
 #else
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-            if (new[] { DatabaseProviderName.Sqlite }.Contains(providerName))
-                context.Database.ExecuteSqlCommand(new RawSqlString($"DELETE FROM {idPair?.Wrap(table) ?? table};"));
-            else context.Database.ExecuteSqlCommand(new RawSqlString($"TRUNCATE TABLE {idPair?.Wrap(table) ?? table};"));
+            if (new[] { ProviderName.Sqlite }.Contains(providerName))
+                context.Database.ExecuteSqlCommand(new RawSqlString($"DELETE FROM {identifiers.Content(table) ?? table};"));
+            else context.Database.ExecuteSqlCommand(new RawSqlString($"TRUNCATE TABLE {identifiers.Content(table) ?? table};"));
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
 #endif
         }

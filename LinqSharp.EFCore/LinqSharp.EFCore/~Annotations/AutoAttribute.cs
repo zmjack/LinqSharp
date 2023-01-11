@@ -6,7 +6,6 @@
 using Microsoft.EntityFrameworkCore;
 using NStandard;
 using System;
-using System.Globalization;
 using System.Linq;
 
 namespace LinqSharp.EFCore

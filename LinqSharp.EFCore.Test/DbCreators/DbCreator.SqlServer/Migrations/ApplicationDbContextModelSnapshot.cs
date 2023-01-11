@@ -369,6 +369,21 @@ namespace DbCreator.Migrations
                     b.ToTable("YearMonthModels");
                 });
 
+            modelBuilder.Entity("LinqSharp.EFCore.Test.FacadeModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FacadeModels");
+                });
+
             modelBuilder.Entity("Northwnd.Category", b =>
                 {
                     b.Property<int>("CategoryID")

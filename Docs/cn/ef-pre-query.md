@@ -31,18 +31,18 @@
 };
 ```
 
-- 使用 **XWhere** 进行查询：
+- 使用 **Filter** 进行查询：
   
 
     ```csharp
     var query = this.OrderDetails
         .Include(x => x.OrderLink)
         .Include(x => x.ProductLink).ThenInclude(x => x.CategoryLink)
-        .XWhere(h => h.Or(queryParams.Select(p =>
+        .Filter(h => h.Or(queryParams.Select(p =>
         {
             return h.Where(x => 
-    			x.ProductLink.CategoryLink.CategoryName == p.CategoryName 
-    			&& x.OrderLink.OrderDate.Value.Year == p.Year);
+                x.ProductLink.CategoryLink.CategoryName == p.CategoryName 
+             && x.OrderLink.OrderDate.Value.Year == p.Year);
         })));
     ```
 
@@ -55,8 +55,8 @@
             .Include(x => x.OrderLink)
             .Include(x => x.ProductLink).ThenInclude(x => x.CategoryLink)
             .Where(x =>
-            	x.ProductLink.CategoryLink.CategoryName == p.CategoryName
-                && x.OrderLink.OrderDate.Value.Year == p.Year);
+                x.ProductLink.CategoryLink.CategoryName == p.CategoryName
+             && x.OrderLink.OrderDate.Value.Year == p.Year);
     }).ToArray();
     var query = this.ExcuteQueries(preQueries);
     ```
@@ -101,7 +101,7 @@ WHERE
 基于这种特殊的查询方式，
 
 - **PreQuery** 可以获得合并后的查询结果；
-- 也可以使每个独立 **PreQuery** 获得各自独立的查询结果（**XWhere** 只能查询合并结果）；
+- 也可以使每个独立 **PreQuery** 获得各自独立的查询结果（**Filter** 只能查询合并结果）；
 - 这对于设计数据计算容器非常有帮助。
 
 <br/>
@@ -136,24 +136,26 @@ WHERE
 | ---------------- | ---------------- | ---------- |
 | Greater than 60  | UnitPrice >= 60  | 5          |
 | Greater than 100 | UnitPrice >= 100 | 2          |
-| All              | Above            | 5          |
+| \<All\>          | Above            | 5          |
 
 ```csharp
 var preQueries = new[]
 {
-	this.CreatePreQuery(x => x.Products)
+    this.CreatePreQuery(x => x.Products)
         .As("Greater than 60")
         .Where(x => x.UnitPrice >= 60),
     
-	this.CreatePreQuery(x => x.Products)
+    this.CreatePreQuery(x => x.Products)
         .As("Greater than 100")
         .Where(x => x.UnitPrice >= 100),
 };
 
+// Calling this function will submit the query
 this.ExcuteQueries(preQueries).Dump("All");
+
 foreach (var preQuery in preQueries)
 {
-	preQuery.Excute().OrderBy(x => x.UnitPrice).Dump(preQuery.Name);
+    preQuery.Excute().OrderBy(x => x.UnitPrice).Dump(preQuery.Name);
 }
 ```
 
@@ -163,3 +165,4 @@ FROM `@Northwnd.Products` AS `@`
 WHERE (`@`.`UnitPrice` >= 60.0) OR (`@`.`UnitPrice` >= 100.0)
 ```
 
+<br/>

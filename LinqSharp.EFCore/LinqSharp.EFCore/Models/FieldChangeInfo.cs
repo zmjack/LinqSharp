@@ -3,10 +3,13 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-namespace LinqSharp.EFCore
+namespace LinqSharp.EFCore.Models
 {
-    public interface IConcurrencyResolvableContext
+    public class FieldChangeInfo
     {
-        public int MaxConcurrencyRetry { get; }
+        public string Display { get; set; }
+        public bool IsModified { get; set; }
+        public object Origin { get; set; }
+        public object Current { get; set; }
     }
 }

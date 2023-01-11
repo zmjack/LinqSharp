@@ -4,20 +4,20 @@
 
 <br/>
 
-## 数据注解
+## 数据特性
 
-**LinqSharp.EFCore** 为 **CodeFirst** 模型提供了更多且易于使用的数据注解：
+**LinqSharp.EFCore** 为 **CodeFirst** 模型提供了更多且易于使用的数据特性：
 
-- **表设计数据注解**（本文）
-- 字段标准化数据注解
+- **表设计数据特性**（本文）
+- 字段标准化数据特性
 
-表设计数据注解，是调用 **Flunt API** 的替代方案，方便编写 **CodeFirst** 模型。
+表设计数据特性，是调用 **Flunt API** 的替代方案，方便编写 **CodeFirst** 模型。
 
 <br/>
 
-### 表设计数据注解
+### 表设计数据特性
 
-表设计数据注解解析的内部实现是对 **Flunt API** 进行调用。
+表设计数据特性解析的内部实现是对 **Flunt API** 进行调用。
 
 因此，使用相关功能实现，需要重写 **DbContext** 下的 **OnModelCreating** 方法：
 
@@ -37,9 +37,9 @@ public class ApplicationDbContext : DbContext
 
 索引，是对数据库表中一列或多列值进行排序，以达到快速访问数据库表中的特定数据的能力。
 
-**Entity Framework** 没有提供索引的数据注解，但在 **Flunt API** 提供了相应功能。
+**Entity Framework** 没有提供索引的数据特性，但在 **Flunt API** 提供了相应功能。
 
-为了简化设计，**LinqSharp** 提供了 **IndexAttribute** 的数据注解实现。
+为了简化设计，**LinqSharp** 提供了 **IndexAttribute** 的数据特性实现。
 
 <br/>
 
@@ -159,10 +159,15 @@ public class LS_Provider
 
     public class PasswordProvider : IProvider<string, string>
     {
-        public override string ReadFromProvider(string value) 
-            => value.Flow(StringFlow.FromBase64);
-        public override string WriteToProvider(string model) 
-            => model.Flow(StringFlow.Base64);
+        public override string ReadFromProvider(string value)
+        {
+            return value.Flow(StringFlow.FromBase64);
+        }
+        
+        public override string WriteToProvider(string model)
+        {
+            return model.Flow(StringFlow.Base64);
+        }
     }
 }
 ```
@@ -181,10 +186,15 @@ public class LS_Provider
 ```csharp
 public class JsonProvider<TModel> : IProvider<TModel, string>
 {
-    public override TModel ReadFromProvider(string value) 
-        => (TModel)JsonConvert.DeserializeObject(value, typeof(TModel));
-    public override string WriteToProvider(TModel model) 
-        => JsonConvert.SerializeObject(model);
+    public override TModel ReadFromProvider(string value)
+    {
+        return (TModel)JsonConvert.DeserializeObject(value, typeof(TModel));
+    }
+    
+    public override string WriteToProvider(TModel model)
+    {
+        return JsonConvert.SerializeObject(model);
+    }
 }
 ```
 

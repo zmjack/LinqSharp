@@ -4,6 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 #if EFCORE3_0_OR_GREATER
+using LinqSharp.EFCore.Query;
 using Microsoft.Data.SqlClient;
 #else
 using System.Data.SqlClient;

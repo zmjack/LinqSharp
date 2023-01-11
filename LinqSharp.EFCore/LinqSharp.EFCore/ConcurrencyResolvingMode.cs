@@ -3,6 +3,8 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using System.ComponentModel.DataAnnotations;
+
 namespace LinqSharp.EFCore
 {
     public enum ConcurrencyResolvingMode
@@ -18,7 +20,7 @@ namespace LinqSharp.EFCore
         DatabaseWins = 1,
 
         /// <summary>
-        /// Store Win.
+        /// [Warning] Do not specify manually. If property is one of <see cref="ConcurrencyCheckAttribute" /> or <see cref="TimestampAttribute", it will be set automatically.
         /// </summary>
         Check = 0x100,
     }

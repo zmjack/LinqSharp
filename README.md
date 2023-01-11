@@ -57,6 +57,12 @@ dotnet add package LinqSharp.EFCore
 
 # Recent
 
+#### Version: (2.1|3.0|3.1).116+ | (5.0|6.0).16+
+
+- <font color=red>**\[Breaking Change\]**</font> The **CustomDatabaseFacade** has been removed.
+- Provide **EntityMonitoringFacade** for monitoring table **CRUD** to facilitate writing other docking operations.
+- <font color=red>**\[Breaking Change\]**</font> The **Ensure** methods have been removed, and **AddOrUpdate** methods are recommended to be used instead.
+
 #### Version: (2.1|3.0|3.1).114+ | (5.0|6.0).14+
 
 - Some methods in **AutoAttribute** has been changed:

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace LinqSharp.EFCore
+namespace LinqSharp.EFCore.Agent
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class KeyValueAgentProxy<TKeyValueAgent, TKeyValueEntity> : IInterceptor

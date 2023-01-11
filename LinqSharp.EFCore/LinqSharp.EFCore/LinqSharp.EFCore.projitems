@@ -10,6 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ICacheable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Facades\EntityMonitoringFacade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\IFacadeState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\IFacade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Transaction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\SpecialProviderAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoTags\IAutoTag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoTags\NowTag.cs" />
@@ -17,40 +21,32 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\ConcurrencyResolvableAttribute.cs" />
     <Compile Include="..\LinqSharp.EFCore\IConcurrencyResolvable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConcurrencyResolvingMode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CustomDatabaseFacade.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DatabaseProviderName.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EnsureConditionUnit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EnsureOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Facade.cs" />
+    <Compile Include="..\LinqSharp.EFCore\ProviderName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\DbFuncRegister.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DbSetCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\IDbFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\DbFuncProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Identifiers\IdentifierPair.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Identifiers\IdentifierUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DirectScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Identifiers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Query\DirectScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BulkCopyEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LinqSharpEF.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LinqSharpEFRegister.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\IncludeNavigation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PreQuery.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)QueryConditionUnit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)QueryOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbSetExtensions - CacheQuery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\ProviderAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UpdateOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Query\UpdateOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\AutoAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbSetExtensions - AddOrUpdate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\MySqlFuncProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)QueryCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityAudit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuditPredictor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FieldChangeInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FieldChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityAuditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IUdFunctionContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LinqSharpAnnotation.cs" />
+    <Compile Include="..\LinqSharp.EFCore\EntityAnnotation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbFunc.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Translator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Query\Translator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~internals\PropIndex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\JetFuncProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functions\Providers\OracleFuncProvider.cs" />
@@ -76,14 +72,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Annotations\UdFunctionAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbContextExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbSetExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbSetExtensions - Ensure.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~KeyValueEntity\KeyValueEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~KeyValueEntity\KeyValueAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~KeyValueEntity\KeyValueAgentProxy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~KeyValueEntity\KeyValueAccessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~KeyValue\KeyValueEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgentProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~KeyValue\KeyValueAccessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Functions\Providers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Agent\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Query\" />
     <Folder Include="$(MSBuildThisFileDirectory)~Annotations\" />
     <Folder Include="$(MSBuildThisFileDirectory)~IQueryable\" />
   </ItemGroup>

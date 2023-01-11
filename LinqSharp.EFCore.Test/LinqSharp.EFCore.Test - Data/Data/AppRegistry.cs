@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LinqSharp.EFCore.Agent;
+using System;
 
 namespace LinqSharp.EFCore.Data.Test
 {

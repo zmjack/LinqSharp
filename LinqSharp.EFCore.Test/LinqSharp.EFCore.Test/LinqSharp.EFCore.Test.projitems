@@ -14,8 +14,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)CacheableTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConcurrencyTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbFunctionTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EnsureTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuditorTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FacadeTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GroupByCountTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QuickDataViewTests.cs" />

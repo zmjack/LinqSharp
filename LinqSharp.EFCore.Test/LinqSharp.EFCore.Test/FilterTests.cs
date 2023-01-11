@@ -166,10 +166,10 @@ namespace LinqSharp.EFCore.Test
             using var mysql = ApplicationDbContext.UseMySql();
             var searches = new[]
             {
-                    new SearchModel { Link = "", PropName = nameof(Category.CategoryName), Method = "contains", Value = "Con" },
-                    new SearchModel { Link = "|", PropName = nameof(Category.Description), Method = "equals", Value = "Cheeses" },
-                    new SearchModel { Link = "&", PropName = nameof(Category.Description), Method = "contains", Value = "fish" },
-                };
+                new SearchModel { Link = "", PropName = nameof(Category.CategoryName), Method = "contains", Value = "Con" },
+                new SearchModel { Link = "|", PropName = nameof(Category.Description), Method = "equals", Value = "Cheeses" },
+                new SearchModel { Link = "&", PropName = nameof(Category.Description), Method = "contains", Value = "fish" },
+            };
             var operators = searches.Select(x => x.Link).Skip(1);
 
             // No priority

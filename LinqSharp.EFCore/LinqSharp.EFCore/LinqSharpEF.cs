@@ -4,6 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Functions.Providers;
+using LinqSharp.EFCore.Infrastructure;
 using LinqSharp.EFCore.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -143,6 +144,9 @@ namespace LinqSharp.EFCore
         public static int SaveChanges(DbContext context, Func<bool, int> base_SaveChanges, bool acceptAllChangesOnSuccess)
         {
             IntelliTrack(context, acceptAllChangesOnSuccess);
+
+            if (context.Database is IFacade facade) facade.UpdateState();
+
             if (context is IConcurrencyResolvableContext resolvable)
             {
                 try
@@ -160,6 +164,9 @@ namespace LinqSharp.EFCore
         public static Task<int> SaveChangesAsync(DbContext context, Func<bool, CancellationToken, Task<int>> base_SaveChangesAsync, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             IntelliTrack(context, acceptAllChangesOnSuccess);
+
+            if (context.Database is IFacade facade) facade.UpdateState();
+
             if (context is IConcurrencyResolvableContext resolvable)
             {
                 try
@@ -179,25 +186,25 @@ namespace LinqSharp.EFCore
             var providerName = context.GetProviderName();
             switch (providerName)
             {
-                case DatabaseProviderName.Jet: new JetFuncProvider(modelBuilder).UseAll(); break;
+                case ProviderName.Jet: new JetFuncProvider(modelBuilder).UseAll(); break;
 
-                case DatabaseProviderName.MyCat:
-                case DatabaseProviderName.MySql: new MySqlFuncProvider(modelBuilder).UseAll(); break;
+                case ProviderName.MyCat:
+                case ProviderName.MySql: new MySqlFuncProvider(modelBuilder).UseAll(); break;
 
-                case DatabaseProviderName.Oracle: new OracleFuncProvider(modelBuilder).UseAll(); break;
+                case ProviderName.Oracle: new OracleFuncProvider(modelBuilder).UseAll(); break;
 
-                case DatabaseProviderName.PostgreSQL: new PostgreSQLFuncProvider(modelBuilder).UseAll(); break;
+                case ProviderName.PostgreSQL: new PostgreSQLFuncProvider(modelBuilder).UseAll(); break;
 
-                case DatabaseProviderName.Sqlite: new SqliteFuncProvider(modelBuilder).UseAll(); break;
+                case ProviderName.Sqlite: new SqliteFuncProvider(modelBuilder).UseAll(); break;
 
-                case DatabaseProviderName.SqlServer:
-                case DatabaseProviderName.SqlServerCompact35:
-                case DatabaseProviderName.SqlServerCompact40: new SqlServerFuncProvider(modelBuilder).UseAll(); break;
+                case ProviderName.SqlServer:
+                case ProviderName.SqlServerCompact35:
+                case ProviderName.SqlServerCompact40: new SqlServerFuncProvider(modelBuilder).UseAll(); break;
 
-                case DatabaseProviderName.Cosmos:
-                case DatabaseProviderName.Firebird:
-                case DatabaseProviderName.IBM:
-                case DatabaseProviderName.OpenEdge:
+                case ProviderName.Cosmos:
+                case ProviderName.Firebird:
+                case ProviderName.IBM:
+                case ProviderName.OpenEdge:
                 default: throw new NotSupportedException();
             }
         }
@@ -219,7 +226,7 @@ namespace LinqSharp.EFCore
             }
         }
 
-        public static void ApplyAnnotations(DbContext context, ModelBuilder modelBuilder, LinqSharpAnnotation annotation = LinqSharpAnnotation.All)
+        public static void ApplyAnnotations(DbContext context, ModelBuilder modelBuilder, EntityAnnotation annotation = EntityAnnotation.All)
         {
             var entityMethod = modelBuilder.GetType().GetMethodViaQualifiedName("Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder`1[TEntity] Entity[TEntity]()");
             var dbSetProps = context.GetType().GetProperties().Where(x => x.ToString().StartsWith("Microsoft.EntityFrameworkCore.DbSet`1"));
@@ -230,9 +237,9 @@ namespace LinqSharp.EFCore
                 var entityMethod1 = entityMethod.MakeGenericMethod(modelClass);
                 var entityTypeBuilder = entityMethod1.Invoke(modelBuilder, new object[0]);
 
-                if ((annotation & LinqSharpAnnotation.Index) == LinqSharpAnnotation.Index) ApplyIndexes(entityTypeBuilder, modelClass);
-                if ((annotation & LinqSharpAnnotation.Provider) == LinqSharpAnnotation.Provider) ApplyProviders(entityTypeBuilder, modelClass);
-                if ((annotation & LinqSharpAnnotation.CompositeKey) == LinqSharpAnnotation.CompositeKey) ApplyCompositeKey(entityTypeBuilder, modelClass);
+                if (annotation.HasFlag(EntityAnnotation.Index)) ApplyIndexes(entityTypeBuilder, modelClass);
+                if (annotation.HasFlag(EntityAnnotation.Provider)) ApplyProviders(entityTypeBuilder, modelClass);
+                if (annotation.HasFlag(EntityAnnotation.CompositeKey)) ApplyCompositeKey(entityTypeBuilder, modelClass);
             }
         }
 

@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LinqSharp.EFCore.Facades;
+using LinqSharp.EFCore.Test;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Northwnd;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,7 +41,33 @@ namespace LinqSharp.EFCore.Data.Test
             return new ApplicationDbContext(options);
         }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        private readonly EntityMonitoringFacade _facade;
+        public override DatabaseFacade Database => _facade;
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+            _facade = new EntityMonitoringFacade(this);
+            _facade.OnCommitted += Facade_OnCommitted;
+            _facade.OnRollbacked += Facade_OnRollbacked;
+            _facade.OnDisposing += Facade_OnDisposing;
+        }
+
+        public Guid? LastChanged;
+        private void Facade_OnCommitted(EntityMonitoringFacade.FacadeState state)
+        {
+            var addedEntries = state.Entries<FacadeModel>(EntityState.Added, EntityState.Modified);
+            LastChanged = (addedEntries.First().Entity as FacadeModel).Id;
+        }
+
+        private void Facade_OnRollbacked(EntityMonitoringFacade.FacadeState state)
+        {
+            LastChanged = Guid.Empty;
+        }
+
+        private void Facade_OnDisposing(EntityMonitoringFacade.FacadeState state)
+        {
+            LastChanged = null;
+        }
 
         public DbSet<AppRegistry> AppRegistries { get; set; }
         public KeyValueAccessor<ApplicationDbContext, AppRegistry> GetAppRegistriesAccessor() => KeyValueAccessor.Create(this, AppRegistries);
@@ -59,10 +88,12 @@ namespace LinqSharp.EFCore.Data.Test
 
         public DbSet<BulkTestModel> BulkTestModels { get; set; }
         public DbSet<SimpleRow> SimpleRows { get; set; }
+        public DbSet<FacadeModel> FacadeModels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             UseNorthwndPrefix(modelBuilder, "@Northwnd.");
+
             base.OnModelCreating(modelBuilder);
             LinqSharpEF.OnModelCreating(this, modelBuilder);
         }

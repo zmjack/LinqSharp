@@ -29,7 +29,7 @@ namespace LinqSharp.EFCore
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DatabaseProviderName GetProviderName<TEntity>(this IQueryable<TEntity> @this)
+        public static ProviderName GetProviderName<TEntity>(this IQueryable<TEntity> @this)
             where TEntity : class
         {
             var queryFactoryReflector = @this.Provider.GetReflector()
@@ -49,20 +49,20 @@ namespace LinqSharp.EFCore
 
             return factoryName switch
             {
-                string name when name.Contains(DatabaseProviderName.Cosmos.ToString()) => DatabaseProviderName.Cosmos,
-                string name when name.Contains(DatabaseProviderName.Firebird.ToString()) => DatabaseProviderName.Firebird,
-                string name when name.Contains(DatabaseProviderName.IBM.ToString()) => DatabaseProviderName.IBM,
-                string name when name.Contains(DatabaseProviderName.Jet.ToString()) => DatabaseProviderName.Jet,
-                string name when name.Contains(DatabaseProviderName.MyCat.ToString()) => DatabaseProviderName.MyCat,
-                string name when name.Contains(DatabaseProviderName.MySql.ToString()) => DatabaseProviderName.MySql,
-                string name when name.Contains(DatabaseProviderName.OpenEdge.ToString()) => DatabaseProviderName.OpenEdge,
-                string name when name.Contains(DatabaseProviderName.Oracle.ToString()) => DatabaseProviderName.Oracle,
-                string name when name.Contains(DatabaseProviderName.PostgreSQL.ToString()) => DatabaseProviderName.PostgreSQL,
-                string name when name.Contains(DatabaseProviderName.Sqlite.ToString()) => DatabaseProviderName.Sqlite,
-                string name when name.Contains(DatabaseProviderName.SqlServer.ToString()) => DatabaseProviderName.SqlServer,
-                string name when name.Contains(DatabaseProviderName.SqlServerCompact35.ToString()) => DatabaseProviderName.SqlServerCompact35,
-                string name when name.Contains(DatabaseProviderName.SqlServerCompact40.ToString()) => DatabaseProviderName.SqlServerCompact40,
-                _ => DatabaseProviderName.Unknown,
+                string name when name.Contains(ProviderName.Cosmos.ToString()) => ProviderName.Cosmos,
+                string name when name.Contains(ProviderName.Firebird.ToString()) => ProviderName.Firebird,
+                string name when name.Contains(ProviderName.IBM.ToString()) => ProviderName.IBM,
+                string name when name.Contains(ProviderName.Jet.ToString()) => ProviderName.Jet,
+                string name when name.Contains(ProviderName.MyCat.ToString()) => ProviderName.MyCat,
+                string name when name.Contains(ProviderName.MySql.ToString()) => ProviderName.MySql,
+                string name when name.Contains(ProviderName.OpenEdge.ToString()) => ProviderName.OpenEdge,
+                string name when name.Contains(ProviderName.Oracle.ToString()) => ProviderName.Oracle,
+                string name when name.Contains(ProviderName.PostgreSQL.ToString()) => ProviderName.PostgreSQL,
+                string name when name.Contains(ProviderName.Sqlite.ToString()) => ProviderName.Sqlite,
+                string name when name.Contains(ProviderName.SqlServer.ToString()) => ProviderName.SqlServer,
+                string name when name.Contains(ProviderName.SqlServerCompact35.ToString()) => ProviderName.SqlServerCompact35,
+                string name when name.Contains(ProviderName.SqlServerCompact40.ToString()) => ProviderName.SqlServerCompact40,
+                _ => ProviderName.Unknown,
             };
         }
 
