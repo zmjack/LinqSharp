@@ -24,6 +24,8 @@ namespace LinqSharp.EFCore.Facades
             /// <returns></returns>
             public IEnumerable<EntityEntry> Entries<T>(params EntityState[] originEntityStates)
             {
+                if (!originEntityStates.Any()) throw new ArgumentException("The argument can not be empty.", nameof(originEntityStates));
+
                 var type = typeof(T);
                 foreach (var state in originEntityStates)
                 {
@@ -46,6 +48,7 @@ namespace LinqSharp.EFCore.Facades
         public override void UpdateState()
         {
             State._entityEntries = _context.ChangeTracker.Entries()
+                .Where(x => x.State != EntityState.Unchanged && x.State != EntityState.Detached)
                 .GroupBy(x => (x.Entity.GetType(), x.State))
                 .ToDictionary(g => g.Key, g => g.AsEnumerable().ToArray());
             State.Updated = true;
