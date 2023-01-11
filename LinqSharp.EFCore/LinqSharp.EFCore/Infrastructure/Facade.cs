@@ -19,7 +19,9 @@ namespace LinqSharp.EFCore.Infrastructure
         private static InvalidOperationException Exception_NotUpdated() => new InvalidOperationException("The state has not been updated. (Did you forget to call the LinqSharp.SaveChanges method in DbContext.SaveChanges ?)");
 
         protected DbContext _context;
-        protected readonly TState State = new();
+
+        public bool EnableWithoutTransaction { get; }
+        public readonly TState State = new();
 
         public delegate void StateDelegate(TState state);
 
@@ -27,9 +29,10 @@ namespace LinqSharp.EFCore.Infrastructure
         public event StateDelegate OnRollbacked;
         public event StateDelegate OnDisposing;
 
-        public Facade(DbContext context) : base(context)
+        public Facade(DbContext context, bool enableWithoutTransaction) : base(context)
         {
             _context = context;
+            EnableWithoutTransaction = enableWithoutTransaction;
         }
 
         private IDbContextTransaction baseTransaction;
@@ -64,6 +67,11 @@ namespace LinqSharp.EFCore.Infrastructure
         void IFacade.TransactionDisposing()
         {
             OnDisposing(State);
+        }
+
+        public void Trigger_OnCommitted()
+        {
+            OnCommitted?.Invoke(State);
         }
 
     }

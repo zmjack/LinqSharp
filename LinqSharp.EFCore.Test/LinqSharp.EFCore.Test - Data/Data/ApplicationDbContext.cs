@@ -46,22 +46,33 @@ namespace LinqSharp.EFCore.Data.Test
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            _facade = new EntityMonitoringFacade(this);
+            _facade = new EntityMonitoringFacade(this, true);
             _facade.OnCommitted += Facade_OnCommitted;
             _facade.OnRollbacked += Facade_OnRollbacked;
             _facade.OnDisposing += Facade_OnDisposing;
         }
 
-        public Guid? LastChanged;
+        public string LastChanged;
         private void Facade_OnCommitted(EntityMonitoringFacade.FacadeState state)
         {
-            var addedEntries = state.Entries<FacadeModel>(EntityState.Added, EntityState.Modified);
-            LastChanged = (addedEntries.First().Entity as FacadeModel).Id;
+            var addedOrUpdatedEntries = state.Entries<FacadeModel>(EntityState.Added, EntityState.Modified);
+            if (addedOrUpdatedEntries.Any())
+            {
+                var first = addedOrUpdatedEntries.First().Entity as FacadeModel;
+                LastChanged = $"Added or Updated: {first.Id} with {first.Name}";
+            }
+
+            var deletedEntries = state.Entries<FacadeModel>(EntityState.Deleted);
+            if (deletedEntries.Any())
+            {
+                var first = deletedEntries.First().Entity as FacadeModel;
+                LastChanged = $"Deleted: {first.Id} with {first.Name}";
+            }
         }
 
         private void Facade_OnRollbacked(EntityMonitoringFacade.FacadeState state)
         {
-            LastChanged = Guid.Empty;
+            LastChanged = "Rollbacked";
         }
 
         private void Facade_OnDisposing(EntityMonitoringFacade.FacadeState state)

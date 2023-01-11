@@ -7,10 +7,14 @@ namespace LinqSharp.EFCore.Infrastructure
 {
     public interface IFacade
     {
+        public bool EnableWithoutTransaction { get; }
+
         void UpdateState();
 
         void CommitTransaction();
         void RollbackTransaction();
         void TransactionDisposing();
+
+        void Trigger_OnCommitted();
     }
 }

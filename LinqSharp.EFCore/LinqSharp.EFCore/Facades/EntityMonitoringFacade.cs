@@ -13,32 +13,41 @@ namespace LinqSharp.EFCore.Facades
         {
             public bool Updated { get; internal set; }
 
-            internal Dictionary<Type, IEnumerable<EntityEntry>> _entityEntries;
+            internal Dictionary<(Type, EntityState), EntityEntry[]> _entityEntries;
 
             /// <summary>
             /// Returns entries of the specified states.
             /// <para>The return value is always non-null.</para>
             /// </summary>
             /// <typeparam name="T"></typeparam>
-            /// <param name="entityStates"></param>
+            /// <param name="originEntityStates"></param>
             /// <returns></returns>
-            public IEnumerable<EntityEntry> Entries<T>(params EntityState[] entityStates)
+            public IEnumerable<EntityEntry> Entries<T>(params EntityState[] originEntityStates)
             {
                 var type = typeof(T);
-
-                if (_entityEntries.ContainsKey(type))
-                    return _entityEntries[type];
-                else return Array.Empty<EntityEntry>();
+                foreach (var state in originEntityStates)
+                {
+                    var key = (type, state);
+                    if (_entityEntries.ContainsKey(key))
+                    {
+                        foreach (var entry in _entityEntries[key])
+                        {
+                            yield return entry;
+                        }
+                    }
+                }
             }
         }
 
-        public EntityMonitoringFacade(DbContext context) : base(context)
+        public EntityMonitoringFacade(DbContext context, bool enableWithoutTransaction) : base(context, enableWithoutTransaction)
         {
         }
 
         public override void UpdateState()
         {
-            State._entityEntries = _context.ChangeTracker.Entries().GroupBy(x => x.Entity.GetType()).ToDictionary(g => g.Key, g => g.AsEnumerable());
+            State._entityEntries = _context.ChangeTracker.Entries()
+                .GroupBy(x => (x.Entity.GetType(), x.State))
+                .ToDictionary(g => g.Key, g => g.AsEnumerable().ToArray());
             State.Updated = true;
         }
 

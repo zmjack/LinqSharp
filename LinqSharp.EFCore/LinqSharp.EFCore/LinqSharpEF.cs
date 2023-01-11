@@ -143,42 +143,62 @@ namespace LinqSharp.EFCore
 
         public static int SaveChanges(DbContext context, Func<bool, int> base_SaveChanges, bool acceptAllChangesOnSuccess)
         {
+            int @return;
+
             IntelliTrack(context, acceptAllChangesOnSuccess);
 
-            if (context.Database is IFacade facade) facade.UpdateState();
+            if (context.Database is IFacade) (context.Database as IFacade).UpdateState();
 
             if (context is IConcurrencyResolvableContext resolvable)
             {
                 try
                 {
-                    return base_SaveChanges(acceptAllChangesOnSuccess);
+                    @return = base_SaveChanges(acceptAllChangesOnSuccess);
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
-                    return HandleConcurrencyException(ex, () => base_SaveChanges(acceptAllChangesOnSuccess), resolvable.MaxConcurrencyRetry);
+                    @return = HandleConcurrencyException(ex, () => base_SaveChanges(acceptAllChangesOnSuccess), resolvable.MaxConcurrencyRetry);
                 }
             }
-            else return base_SaveChanges(acceptAllChangesOnSuccess);
+            else @return = base_SaveChanges(acceptAllChangesOnSuccess);
+
+            if (context.Database is IFacade facade && context.Database.CurrentTransaction is null && facade.EnableWithoutTransaction)
+            {
+                facade.Trigger_OnCommitted();
+            }
+
+            return @return;
         }
 
-        public static Task<int> SaveChangesAsync(DbContext context, Func<bool, CancellationToken, Task<int>> base_SaveChangesAsync, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public static async Task<int> SaveChangesAsync(DbContext context, Func<bool, CancellationToken, Task<int>> base_SaveChangesAsync, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
+            Task<int> @return;
+
             IntelliTrack(context, acceptAllChangesOnSuccess);
 
-            if (context.Database is IFacade facade) facade.UpdateState();
+            if (context.Database is IFacade) (context.Database as IFacade).UpdateState();
 
             if (context is IConcurrencyResolvableContext resolvable)
             {
                 try
                 {
-                    return base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+                    @return = base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
-                    return HandleConcurrencyException(ex, () => base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken), resolvable.MaxConcurrencyRetry);
+                    @return = HandleConcurrencyException(ex, () => base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken), resolvable.MaxConcurrencyRetry);
                 }
             }
-            else return base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            else @return = base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+
+            var result = await @return;
+
+            if (context.Database is IFacade facade && facade.EnableWithoutTransaction && context.Database.CurrentTransaction is null)
+            {
+                facade.Trigger_OnCommitted();
+            }
+
+            return result;
         }
 
         public static void ApplyProviderFunctions(DbContext context, ModelBuilder modelBuilder)
