@@ -66,7 +66,7 @@ namespace LinqSharp.EFCore.Infrastructure
 
         void IFacade.TransactionDisposing()
         {
-            OnDisposing(State);
+            OnDisposing?.Invoke(State);
         }
 
         public void Trigger_OnCommitted()
