@@ -19,16 +19,17 @@ namespace LinqSharp.Strategies
             TRet[] orderValues)
         {
             var valueLenth = orderValues.Length;
-            var lambdaExp = orderValues.Reverse().AsKeyValuePairs().Aggregate(null as Expression, (acc, kv) =>
+            var lambdaExp = orderValues.Reverse().AsIndexValuePairs().Aggregate(null as Expression, (acc, pair) =>
             {
-                var compareExp = Expression.Equal(memberExp.Body, Expression.Constant(kv.Value));
+                var (index, value) = pair;
+                var compareExp = Expression.Equal(memberExp.Body, Expression.Constant(value));
 
                 if (acc is null)
                 {
                     return
                         Expression.Condition(
                             compareExp,
-                            Expression.Constant(valueLenth - 1 - kv.Key),
+                            Expression.Constant(valueLenth - 1 - index),
                             Expression.Constant(valueLenth));
                 }
                 else
@@ -36,7 +37,7 @@ namespace LinqSharp.Strategies
                     return
                         Expression.Condition(
                             compareExp,
-                            Expression.Constant(valueLenth - 1 - kv.Key),
+                            Expression.Constant(valueLenth - 1 - index),
                             acc);
                 }
             }) ?? Expression.Constant(0);

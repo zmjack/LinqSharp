@@ -46,7 +46,7 @@ namespace LinqSharp
                 return @this;
             }
 
-            return new TSource[num].Let(createPaddingItem).Concat(@this);
+            return new TSource[num].Let(i => createPaddingItem()).Concat(@this);
         }
 
         public static IEnumerable<TSource> PadLast<TSource>(this IEnumerable<TSource> @this, int totalWidth)
@@ -66,7 +66,7 @@ namespace LinqSharp
                 return @this;
             }
 
-            return @this.Concat(new TSource[num].Let(createPaddingItem));
+            return @this.Concat(new TSource[num].Let(i => createPaddingItem()));
         }
 
     }

@@ -48,9 +48,9 @@ namespace LinqSharp
                     else
                     {
                         TLambdaExpression rebindExp = exp;
-                        foreach (var zipper in Zipper.Create(parameters, exp.Parameters))
+                        foreach (var (item1, item2) in Any.Zip(exp.Parameters, parameters))
                         {
-                            rebindExp = RebindParameter(rebindExp, zipper.Item2, zipper.Item1);
+                            rebindExp = RebindParameter(rebindExp, item1, item2);
                         }
                         return binary(acc, rebindExp.Body);
                     }

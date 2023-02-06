@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Caching.Memory;
 using NStandard;
 using NStandard.Caching;
+using NStandard.Reflection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -333,8 +334,10 @@ namespace LinqSharp.EFCore
 
                 var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
                 var audits = Array.CreateInstance(auditType, entriesByType.Count());
-                foreach (var kv in entriesByType.AsKeyValuePairs())
-                    audits.SetValue(EntityAudit.Parse(kv.Value), kv.Key);
+                foreach (var (index, value) in entriesByType.AsIndexValuePairs())
+                {
+                    audits.SetValue(EntityAudit.Parse(value), index);
+                }
 
                 auditorCaches[attr.EntityAuditorType].Value.DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.BeforeAudit)).Call(context, audits);
             }
@@ -348,8 +351,10 @@ namespace LinqSharp.EFCore
 
                 var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
                 var audits = Array.CreateInstance(auditType, entriesByType.Count());
-                foreach (var kv in entriesByType.AsKeyValuePairs())
-                    audits.SetValue(EntityAudit.Parse(kv.Value), kv.Key);
+                foreach (var (index, value) in entriesByType.AsIndexValuePairs())
+                {
+                    audits.SetValue(EntityAudit.Parse(value), index);
+                }
 
                 auditorCaches[attr.EntityAuditorType].Value.DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.OnAuditing)).Call(context, audits);
             }
@@ -374,8 +379,10 @@ namespace LinqSharp.EFCore
             foreach (var entriesByType in auditEntriesByTypes)
             {
                 var attr = entriesByType.Key.GetCustomAttribute<EntityAuditAttribute>();
-                foreach (var kv in entriesByType.AsKeyValuePairs())
-                    predictor.Add(EntityAudit.Parse(kv.Value));
+                foreach (var entry in entriesByType)
+                {
+                    predictor.Add(EntityAudit.Parse(entry));
+                }
             }
 
             foreach (var entriesByType in auditEntriesByTypes)
