@@ -16,6 +16,8 @@ namespace LinqSharp.EFCore.Translators
 {
     public class DbDouble : Translator
     {
+        public static double FromInt(int number) => number;
+
         public DbDouble() { }
 
         public override void RegisterAll(ProviderName providerName, ModelBuilder modelBuilder)
@@ -31,7 +33,7 @@ namespace LinqSharp.EFCore.Translators
 
         private void MySqlRegister(Translator provider, ModelBuilder modelBuilder)
         {
-            provider.Register(modelBuilder, () => DbFunc.ToDouble(default), args =>
+            provider.Register(modelBuilder, () => FromInt(default), args =>
             {
                 return SqlTranslator.Function<double>("CONVERT", args[0], SqlTranslator.Fragment("DECIMAL(16, 4)"));
             });

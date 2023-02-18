@@ -1,5 +1,6 @@
 ﻿using LinqSharp.EFCore.Data;
 using LinqSharp.EFCore.Data.Test;
+using LinqSharp.EFCore.Translators;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace LinqSharp.EFCore.Test
             });
             db.SaveChanges();
 
-            var query = db.YearMonthModels.Where(x => DbFunc.DateTime(x.Year, x.Month, x.Day, 1, 1, 1) >= DateTime.Now);
+            var query = db.YearMonthModels.Where(x => DbDateTime.Create(x.Year, x.Month, x.Day, 1, 1, 1) >= DateTime.Now);
             var sql = query.ToQueryString();
             Assert.Equal(0, query.Count());
 

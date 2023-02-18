@@ -49,6 +49,11 @@ dotnet add package LinqSharp.EFCore
 
 ### Version: 7.0
 
+- Provides two new data annotations:
+
+  - **[AutoCreatedBy]**: Automatically maintain user information for **created entries**.
+  - **[AutoUpdatedBy]**: Automatically maintain user information for **updated entries**.
+  - Make **DbContext** implement **IUserTraceable** interface, see [documentation](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md for details #Automatic maintenance of user information for operation entries).
 - **\[Breaking Change\]** **QuickDataView** has been removed, please use **IEnumerableExtensions.FullJoin** instead.
 - **\[Breaking Change\]** **IEntity.AcceptBut** has been removed.
 - **\[Breaking Change\]** Change the method name **IQueryableExtensions.ToSql** to **ToQueryString**.

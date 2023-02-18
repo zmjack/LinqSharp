@@ -17,6 +17,9 @@ namespace LinqSharp.EFCore.Translators
 {
     public class DbDateTime : Translator
     {
+        public static DateTime Create(int year, int month, int day) => new(year, month, day);
+        public static DateTime Create(int year, int month, int day, int hour, int minute, int second) => new(year, month, day, hour, minute, second);
+
         public DbDateTime() { }
 
         public override void RegisterAll(ProviderName providerName, ModelBuilder modelBuilder)
@@ -38,7 +41,7 @@ namespace LinqSharp.EFCore.Translators
 
         private void Register_MySql(ModelBuilder modelBuilder)
         {
-            Register(modelBuilder, () => DbFunc.DateTime(default, default, default), args =>
+            Register(modelBuilder, () => Create(default, default, default), args =>
             {
                 var hyphen = SqlTranslator.Constant("-");
                 return
@@ -47,7 +50,7 @@ namespace LinqSharp.EFCore.Translators
                         SqlTranslator.Constant("%Y-%m-%d"));
             });
 
-            Register(modelBuilder, () => DbFunc.DateTime(default, default, default, default, default, default), args =>
+            Register(modelBuilder, () => Create(default, default, default, default, default, default), args =>
             {
                 var hyphen = SqlTranslator.Constant("-");
                 var space = SqlTranslator.Constant(" ");
@@ -63,7 +66,7 @@ namespace LinqSharp.EFCore.Translators
 
         private void Register_SqlServer(ModelBuilder modelBuilder)
         {
-            Register(modelBuilder, () => DbFunc.DateTime(default, default, default), args =>
+            Register(modelBuilder, () => Create(default, default, default), args =>
             {
                 var hyphen = SqlTranslator.Constant("-");
                 return
@@ -72,7 +75,7 @@ namespace LinqSharp.EFCore.Translators
                         SqlTranslator.Function<string>("CONCAT", args[0], hyphen, args[1], hyphen, args[2]));
             });
 
-            Register(modelBuilder, () => DbFunc.DateTime(default, default, default, default, default, default), args =>
+            Register(modelBuilder, () => Create(default, default, default, default, default, default), args =>
             {
                 var hyphen = SqlTranslator.Constant("-");
                 var space = SqlTranslator.Constant(" ");

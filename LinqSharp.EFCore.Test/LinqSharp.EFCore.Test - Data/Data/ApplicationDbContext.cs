@@ -119,7 +119,6 @@ namespace LinqSharp.EFCore.Data.Test
             LinqSharpEF.UseTranslator<DbDateTime>(this, modelBuilder);
 
             LinqSharpEF.UseTranslator<DbYearMonthNumber>(this, modelBuilder);
-            LinqSharpEF.UseTranslator<DbYearMonthNumber>(this, modelBuilder);
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

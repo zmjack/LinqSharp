@@ -49,7 +49,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)IEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityAuditor.cs" />
     <Compile Include="..\LinqSharp.EFCore\EntityAnnotation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DbFunc.cs" />
     <Compile Include="..\LinqSharp.EFCore\Query\SqlTranslator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~internal\PropIndex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\JsonProvider.cs" />
