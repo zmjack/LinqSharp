@@ -1,4 +1,5 @@
 ﻿using LinqSharp.EFCore.Data.Test;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test
@@ -10,7 +11,7 @@ namespace LinqSharp.EFCore.Test
         {
             using var mysql = ApplicationDbContext.UseMySql();
             var query = mysql.SimpleModels.Random(2);
-            var sql = query.ToSql();
+            var sql = query.ToQueryString();
             string expectedSql;
 
 #if EFCORE5_0_OR_GREATER

@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\SimpleModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\TrackModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\YearMonthModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DbFuncProviders\DbYearMonthNumber.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

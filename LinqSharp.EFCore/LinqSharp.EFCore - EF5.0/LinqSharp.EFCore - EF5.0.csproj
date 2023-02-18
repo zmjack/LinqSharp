@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <Version>5.0.19</Version>
+    <Version>5.0.200</Version>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
@@ -21,11 +21,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;EFCORE5_0;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;EFCORE5_0;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER</DefineConstants>
+    <DefineConstants>EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER</DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>

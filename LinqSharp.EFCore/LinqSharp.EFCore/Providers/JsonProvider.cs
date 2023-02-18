@@ -10,8 +10,6 @@ using System.Reflection;
 using System.Text.Json;
 #else
 using Newtonsoft.Json;
-using System;
-using System.Reflection;
 #endif
 
 namespace LinqSharp.EFCore.Providers

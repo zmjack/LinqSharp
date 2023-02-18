@@ -1,5 +1,6 @@
 ﻿using LinqSharp.EFCore.Data;
 using LinqSharp.EFCore.Data.Test;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Xunit;
@@ -23,12 +24,13 @@ namespace LinqSharp.EFCore.Test
             db.SaveChanges();
 
             var query = db.YearMonthModels.Where(x => DbFunc.DateTime(x.Year, x.Month, x.Day, 1, 1, 1) >= DateTime.Now);
-            var sql = query.ToSql();
+            var sql = query.ToQueryString();
             Assert.Equal(0, query.Count());
 
             trans.Rollback();
         }
 
+        [Fact]
         public void RandomTest()
         {
             using var db = ApplicationDbContext.UseSqlServer();
@@ -43,7 +45,7 @@ namespace LinqSharp.EFCore.Test
             db.SaveChanges();
 
             var query = db.YearMonthModels.Random(2);
-            var sql = query.ToSql();
+            var sql = query.ToQueryString();
             Assert.Equal(2, query.Count());
 
             trans.Rollback();

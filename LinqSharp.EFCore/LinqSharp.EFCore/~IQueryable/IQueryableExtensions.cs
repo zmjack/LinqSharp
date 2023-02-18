@@ -16,7 +16,6 @@ using NStandard;
 using System;
 using System.ComponentModel;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace LinqSharp.EFCore
 {
@@ -73,13 +72,10 @@ namespace LinqSharp.EFCore
         /// <param name="this"></param>
         /// <returns></returns>
 #if EFCORE5_0_OR_GREATER
-        [Obsolete("Use ToQueryString instead.")]
-#endif
-        public static string ToSql<TEntity>(this IQueryable<TEntity> @this)
+#else
+        public static string ToQueryString<TEntity>(this IQueryable<TEntity> @this)
         {
-#if EFCORE5_0_OR_GREATER
-            return @this.ToQueryString();
-#elif EFCORE3_1_OR_GREATER
+#if EFCORE3_1_OR_GREATER
             var enumerable = @this.Provider.Execute<IEnumerable<TEntity>>(@this.Expression);
             var reflector_enumerator = enumerable.GetEnumerator().GetReflector();
             var reflector_cmdCache = reflector_enumerator.DeclaredField("_relationalCommandCache");
@@ -132,6 +128,6 @@ namespace LinqSharp.EFCore
             return sql;
 #endif
         }
-
+#endif
     }
 }

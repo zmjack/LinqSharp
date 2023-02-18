@@ -18,16 +18,12 @@ namespace LinqSharp.EFCore.Test
             var a = new Entity() { String = "123", Int = 1 };
             var b = new Entity().For(x => x.Accept(a));
             var c = new Entity().For(x => x.Accept(a, m => new { m.String }));
-            var d = new Entity().For(x => x.AcceptBut(a, m => new { m.String }));
 
             Assert.Equal("123", b.String);
             Assert.Equal(1, b.Int);
 
             Assert.Equal("123", c.String);
             Assert.Equal(0, c.Int);
-
-            Assert.Null(d.String);
-            Assert.Equal(1, d.Int);
         }
 
         public class MyEntity : IEntity<MyEntity>

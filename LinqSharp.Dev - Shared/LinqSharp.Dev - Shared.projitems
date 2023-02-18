@@ -18,6 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)~EFCore.Dev\DeleteWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~EFCore.Dev\UpdateWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~EFCore.Dev\WhereWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~EFCore.Dev\XDbSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~EFCore.Dev\DbSetExtensions.cs" />
   </ItemGroup>
 </Project>

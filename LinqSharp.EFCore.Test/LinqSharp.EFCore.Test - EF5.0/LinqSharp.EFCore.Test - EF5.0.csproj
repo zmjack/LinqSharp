@@ -8,11 +8,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants)TRACE;EFCORE5_0;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>$(DefineConstants)TRACE;EFCORE5_0;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER</DefineConstants>
+    <DefineConstants>EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER</DefineConstants>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>

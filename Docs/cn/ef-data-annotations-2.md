@@ -24,7 +24,8 @@ public class ApplicationDbContext : DbContext
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        LinqSharpEF.OnModelCreating(this, base.OnModelCreating, modelBuilder);
+        base.OnModelCreating(modelBuilder);
+        LinqSharpEF.OnModelCreating(this, modelBuilder);
     }
 }
 ```
@@ -69,12 +70,10 @@ public class AutoEvenAttribute : AutoAttribute
     }
 }
 ```
-<br/>
-
-举例模型定义：
+模型示例：
 
 ```csharp
-public class Model : IEntity<TrackModel>
+public class Model
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
@@ -131,3 +130,63 @@ var model = new Model
 };
 ```
 
+<br/>
+
+#### 自动维护操作条目的用户信息
+
+该功能通常用于追踪最后操作数据条目的用户，能够简化对用户信息赋值的操作。
+
+支持功能的前提是：
+
+1. 使 **DbContext** 实现 **IUserTraceable** 接口。
+
+2. 在构造 **DbContext** 时，将能够获取用户信息的实例作为参数传值。
+
+   例如，在 **Asp.NET Core** 中使用的 **IHttpContextAccessor**。
+
+<br/>
+
+在 **Asp.NET Core** 中配置示例如下：
+
+```csharp
+public class ApplicationDbContext : DbContext, IUserTraceable
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public string CurrentUser => _httpContextAccessor.HttpContext.User.Identity.Name;
+
+    public ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options,
+        IHttpContextAccessor httpContextAccessor
+    ) : base(options)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        LinqSharpEF.OnModelCreating(this, modelBuilder);
+    }
+}
+```
+模型示例：
+
+```csharp
+public class Model
+{
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public Guid Id { get; set; }
+
+    [AutoCreatedBy]
+    public string CreatedBy { get; set; }
+
+    [AutoUpdatedBy]
+    public string UpdatedBy { get; set; }
+}
+```
+每当用户登录网站后，操作该表的条目时，当时登录用户的用户名会被自动使用：
+
+- 创建条目时，**CreatedBy**, **UpdatedBy** 会被设置；
+- 更新条目时，**UpdatedBy** 会被设置。
+
+<br/>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LinqSharp.EFCore.Annotations;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace LinqSharp.EFCore.Data.Test

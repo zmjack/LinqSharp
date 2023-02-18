@@ -36,7 +36,7 @@ namespace LinqSharp
                     if (exp.NodeType == ExpressionType.Convert)
                     {
                         var mexp = (exp.Operand as MemberExpression);
-                        if (mexp != null)
+                        if (mexp is not null)
                         {
                             propNames = new[] { mexp.Member.Name };
                             break;

@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.EFCore.Translators;
 using System.Linq;
 
 namespace LinqSharp.EFCore
@@ -20,7 +21,7 @@ namespace LinqSharp.EFCore
         public static IQueryable<TSource> Random<TSource>(this IQueryable<TSource> @this, int takeCount)
             where TSource : class
         {
-            return @this.OrderBy(x => DbFunc.Random()).Take(takeCount);
+            return @this.OrderBy(x => DbRandom.NextDouble()).Take(takeCount);
         }
 
     }

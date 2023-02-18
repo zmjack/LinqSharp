@@ -19,34 +19,22 @@ Current work in progress: Optimize **PreQuery** queries.
 - <font color="orange">[No documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/query.md)]</font> Query extension
 - <font color="orange">[No documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/filter.md)]</font> Dynamic LINQ
 
-
-
 **LinqSharp.EFCore** provides enhancements to **Entity Frameowk** in the following ways:
 
 - <font color="orange">[no documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-1.md)]</font> Data annotations for table design
-- <font color="orange">[no documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md)]</font>]</font> Data annotations for field standard
+- <font color="orange">[no documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md)]</font> Data annotations for field standard
 - <font color="orange">[no documentation yet]</font> Function mapping
 - <font color="orange">[no documentation yet]</font> Column storage agent
-- <font color="orange">[no documentation yet]</font> Data calculation and audit
 
 <br/>
 
-**Supported version of Entity Framework:** **EF Core 6.0** / 5.0 / 3.1 / 3.0 / 2.1
+**Supported version of Entity Framework:** **EF Core 7.0** / 6.0 / 5.0 / 3.1 / 3.0 / 2.1
 
 <br/>
 
 ## Install
 
 You can install **LinqSharp** through **NuGet**：
-
-**Package Manager**
-
-```powershell
-Install-Package LinqSharp
-Install-Package LinqSharp.EFCore
-```
-
-**.NET CLI**
 
 ```powershell
 dotnet add package LinqSharp
@@ -55,15 +43,23 @@ dotnet add package LinqSharp.EFCore
 
 <br/>
 
-# Recent
+## Recent
 
-#### Version: (2.1|3.0|3.1).116+ | (5.0|6.0).16+
+### Version: 7.0
 
-- <font color=red>**\[Breaking Change\]**</font> The **CustomDatabaseFacade** has been removed.
+- **\[Breaking Change\]** **QuickDataView** has been removed, please use **IEnumerableExtensions.FullJoin** instead.
+- **\[Breaking Change\]** **IEntity.AcceptBut** has been removed.
+- **\[Breaking Change\]** Change the method name **IQueryableExtensions.ToSql** to **ToQueryString**.
+  - **EFCore 5.0 and above**: Not provided, use the native method.
+  - **EFCore 3.1 and below**: Provide functions and code compatibility.
+
+### Version: 6.0.16
+
+- **\[Breaking Change\]** **CustomDatabaseFacade** has been removed.
 - Provide **EntityMonitoringFacade** for monitoring table **CRUD** to facilitate writing other docking operations.
-- <font color=red>**\[Breaking Change\]**</font> The **Ensure** methods have been removed, and **AddOrUpdate** methods are recommended to be used instead.
+- **\[Breaking Change\]** The **Ensure** methods have been removed, and **AddOrUpdate** methods are recommended to be used instead.
 
-#### Version: (2.1|3.0|3.1).114+ | (5.0|6.0).14+
+### Version: 6.0.14
 
 - Some methods in **AutoAttribute** has been changed:
 
@@ -74,14 +70,12 @@ dotnet add package LinqSharp.EFCore
   public abstract object Format(object entity, Type propertyType, object value);
   ```
 
-#### Version: (2.1|3.0|3.1).106+ | (5.0|6.0).6+
+### Version: 6.0.6
 
 - Change the method name **XWhere** to **Filter**.
 - Allows to create a stand-alone filter **IQueryFilter** and query in the **Filter** method.
 
----
-
-#### Version: (2.1|3.0|3.1).104+ | (5.0|6.0).4+
+### Version: 6.0.4
 
 - Simplify the code writing for **Provider**.
   
@@ -102,9 +96,7 @@ New：
   public NameModel NameModel { get; set; }
   ```
 
----
-
-#### Version: (2.1|3.0|3.1).80+ | (5.0|6.0).0+
+### Version: 6.0
 
 - To avoid naming conflicts, **IndexAttribute** has been renamed to **IndexFieldAttribute**.
 
@@ -127,14 +119,10 @@ Repository：https://github.com/zmjack/Northwnd
 You can install **Northwnd** through **NuGet**：
 
 ```powershell
-Install-Package Northwnd
-```
-
-```powershell
 dotnet add package Northwnd
 ```
 
-Then, you can try **LinqSharp**:
+Try **LinqSharp**:
 
 ```csharp
 using (var context = NorthwndContext.UseSqliteResource())
@@ -151,7 +139,8 @@ For example:
 using (var sqlite = NorthwndContext.UseSqliteResource())
 {
     var query = sqlite.Shippers.Where(x => x.CompanyName == "Speedy Express");
-    var sql = query.ToSql();
+    var sql = query.ToQueryString();
+    Console.WriteLine(sql);
 }
 ```
 

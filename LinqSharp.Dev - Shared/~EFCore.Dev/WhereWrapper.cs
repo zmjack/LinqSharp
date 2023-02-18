@@ -25,7 +25,7 @@ namespace LinqSharp.EFCore.Dev
         {
             DbContext = dbSet.GetDbContext();
 
-            var sql = dbSet.Where(expression).ToSql();
+            var sql = dbSet.Where(expression).ToQueryString();
             var regex = new Regex(@"FROM\s+((.).+?(.))\s+AS\s+([^\s|\r|;]+)(\s+WHERE\s+([^;]+))?", RegexOptions.Singleline);
             var match = regex.Match(sql);
 

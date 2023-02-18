@@ -14,7 +14,7 @@ namespace LinqSharp.EFCore.Test
         {
             using var mysql = ApplicationDbContext.UseMySql();
             var query = mysql.Employees.SelectPage(2, 3);
-            var sql = query.ToSql();
+            var sql = query.ToQueryString();
             var result = query.ToArray();
         }
 
@@ -25,7 +25,7 @@ namespace LinqSharp.EFCore.Test
             var query = mysql.Employees
                 .WhereBefore(x => x.BirthDate, new DateTime(1960, 5, 31), true);
 
-            var sql = query.ToSql();
+            var sql = query.ToQueryString();
 
             var result = query.ToArray();
             Assert.Equal(6, result.Length);
@@ -40,7 +40,7 @@ namespace LinqSharp.EFCore.Test
 
             var query1 = mysql.Employees
                 .Where(x => Convert.ToDateTime("1960-05-01") <= x.BirthDate && x.BirthDate <= new DateTime(1960, 5, 31));
-            var sql1 = query1.ToSql();
+            var sql1 = query1.ToQueryString();
 
             var result = query.ToArray();
             Assert.Single(result);

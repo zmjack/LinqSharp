@@ -12,6 +12,8 @@ namespace LinqSharp.EFCore.Test
         public void Test1()
         {
             using var context = ApplicationDbContext.UseMySql();
+            context.CurrentUser = "User A";
+
             var now = DateTime.Now;
 
             var model = new TrackModel
@@ -33,10 +35,18 @@ namespace LinqSharp.EFCore.Test
             Assert.Equal(now.StartOfDay(), model.CreationTime.StartOfDay());
             Assert.Equal(now.StartOfDay(), model.LastWriteTime.StartOfDay());
 
+            Assert.Equal("User A", model.CreatedBy);
+            Assert.Equal("User A", model.UpdatedBy);
+
             Thread.Sleep(10);
+
+            context.CurrentUser = "User B";
+
             context.TrackModels.Update(model);
             context.SaveChanges();
             Assert.True(model.LastWriteTime > model.CreationTime);
+            Assert.Equal("User A", model.CreatedBy);
+            Assert.Equal("User B", model.UpdatedBy);
 
             context.TrackModels.Remove(model);
             context.SaveChanges();

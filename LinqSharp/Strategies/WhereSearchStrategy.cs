@@ -61,7 +61,7 @@ namespace LinqSharp.Strategies
                         default: throw new NotImplementedException();
                     }
                 }
-                else if (selectorExp.Type.GetInterface(typeof(IEnumerable).FullName) != null)
+                else if (selectorExp.Type.GetInterface(typeof(IEnumerable).FullName) is not null)
                 {
                     var parameter = Expression.Parameter(typeof(string));
                     Expression<Func<string, bool>> lambda;

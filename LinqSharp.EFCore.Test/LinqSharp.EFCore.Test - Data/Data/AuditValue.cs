@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LinqSharp.EFCore.Design;
+using Microsoft.EntityFrameworkCore;
 using NStandard.Caching;
 using System;
 using System.ComponentModel.DataAnnotations;

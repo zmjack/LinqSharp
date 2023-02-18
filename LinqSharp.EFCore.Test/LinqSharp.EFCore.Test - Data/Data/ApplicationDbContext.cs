@@ -1,5 +1,8 @@
-﻿using LinqSharp.EFCore.Facades;
+﻿using LinqSharp.EFCore.Design;
+using LinqSharp.EFCore.Facades;
 using LinqSharp.EFCore.Test;
+using LinqSharp.EFCore.Test.DbFuncProviders;
+using LinqSharp.EFCore.Translators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Northwnd;
@@ -10,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace LinqSharp.EFCore.Data.Test
 {
-    public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableContext
+    public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableContext, IUserTraceable
     {
         public int MaxConcurrencyRetry => 2;
 
@@ -43,6 +46,8 @@ namespace LinqSharp.EFCore.Data.Test
 
         private readonly EntityMonitoringFacade _facade;
         public override DatabaseFacade Database => _facade;
+
+        public string CurrentUser { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -104,9 +109,17 @@ namespace LinqSharp.EFCore.Data.Test
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             UseNorthwndPrefix(modelBuilder, "@Northwnd.");
-
             base.OnModelCreating(modelBuilder);
+
             LinqSharpEF.OnModelCreating(this, modelBuilder);
+
+            LinqSharpEF.UseTranslator<DbRandom>(this, modelBuilder);
+            LinqSharpEF.UseTranslator<DbConcat>(this, modelBuilder);
+            LinqSharpEF.UseTranslator<DbDouble>(this, modelBuilder);
+            LinqSharpEF.UseTranslator<DbDateTime>(this, modelBuilder);
+
+            LinqSharpEF.UseTranslator<DbYearMonthNumber>(this, modelBuilder);
+            LinqSharpEF.UseTranslator<DbYearMonthNumber>(this, modelBuilder);
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

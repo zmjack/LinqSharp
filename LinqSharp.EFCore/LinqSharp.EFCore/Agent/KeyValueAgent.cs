@@ -4,6 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Castle.DynamicProxy;
+using LinqSharp.EFCore.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

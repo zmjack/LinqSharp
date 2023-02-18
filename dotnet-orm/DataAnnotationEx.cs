@@ -17,11 +17,11 @@ namespace LinqSharp
         public static string GetDisplayName(MemberInfo memberInfo, bool inherit = true)
         {
             var attr_DispalyName = memberInfo.GetAttributeViaName("System.ComponentModel.DisplayNameAttribute", inherit);
-            if (attr_DispalyName != null)
+            if (attr_DispalyName is not null)
                 return attr_DispalyName.GetReflector().Property<string>("DisplayName").Value;
 
             var attr_Dispaly = memberInfo.GetAttributeViaName("System.ComponentModel.DataAnnotations.DisplayAttribute", inherit);
-            if (attr_Dispaly != null) return attr_Dispaly.GetReflector().Property<string>("Name").Value;
+            if (attr_Dispaly is not null) return attr_Dispaly.GetReflector().Property<string>("Name").Value;
 
             return memberInfo.Name;
         }
@@ -47,14 +47,14 @@ namespace LinqSharp
             }
             catch { value = null; }
 
-            if (value != null)
+            if (value is not null)
             {
                 dynamic dValue = value is Nullable ? ((dynamic)value).Value : value;
 
                 var displayFormatAttrType = exp.Member.GetCustomAttributes(false)
                     .FirstOrDefault(x => x.GetType().FullName == "System.ComponentModel.DataAnnotations") as Attribute;
 
-                if (displayFormatAttrType != null)
+                if (displayFormatAttrType is not null)
                 {
                     var attrValue_DataFormatString = displayFormatAttrType.GetReflector().Property<string>("DataFormatString ").Value;
 

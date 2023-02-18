@@ -9,9 +9,6 @@ namespace LinqSharp.EFCore
 {
     public class DbFunc
     {
-        private static readonly Random RandomInstance = new();
-
-        public static double Random() => RandomInstance.NextDouble();
         public static string Concat(string str0, string str1) => $"{str0}{str1}";
         public static string Concat(string str0, string str1, string str2) => $"{str0}{str1}{str2}";
         public static string Concat(string str0, string str1, string str2, string str3) => $"{str0}{str1}{str2}{str3}";

@@ -1,4 +1,5 @@
 ﻿using LinqSharp.EFCore.Data.Test;
+using Microsoft.EntityFrameworkCore;
 using Northwnd;
 using NStandard;
 using System;
@@ -67,10 +68,10 @@ namespace LinqSharp.EFCore.Test
             string[] values = { "T", "F" };
 
             var query1 = mysql.Products.Filter(h => h.Or(values.Select(v => h.Where(x => x.ProductName.Contains(v)))));
-            var sql1 = query1.ToSql();
+            var sql1 = query1.ToQueryString();
 
             var query2 = mysql.Products.Filter(h => h.Or(values, v => x => x.ProductName.Contains(v)));
-            var sql2 = query2.ToSql();
+            var sql2 = query2.ToQueryString();
 
             Assert.Equal(sql1, sql2);
         }
@@ -82,7 +83,7 @@ namespace LinqSharp.EFCore.Test
             var query = mysql.Products.Where(x => x.CategoryID == 123);
             var query1 = mysql.Products.Filter(h => h.Property("CategoryID") == 123);
             var query2 = mysql.Products.Filter(h => h.Property(x => x.CategoryID) == 123);
-            var sql1 = query1.ToSql();
+            var sql1 = query1.ToQueryString();
         }
 
         [Fact]
@@ -196,7 +197,7 @@ namespace LinqSharp.EFCore.Test
 
                 return exp;
             });
-            var sql = query.ToSql();
+            var sql = query.ToQueryString();
 
             Assert.Equal(new int[0], query.Select(x => x.CategoryID));
         }
@@ -274,7 +275,7 @@ namespace LinqSharp.EFCore.Test
             {
                 return (h.Property<string>("CategoryName") + "a").Contains("Con");
             });
-            var sql = query.ToSql();
+            var sql = query.ToQueryString();
         }
 
         [Fact]
@@ -287,8 +288,8 @@ namespace LinqSharp.EFCore.Test
                 return h.Property<string>("CategoryName") + "a" == h.Property<string>("Description");
             });
             var query2 = mysql.Categories.Where(x => x.CategoryName + "a" == x.Description);
-            var sql1 = query1.ToSql();
-            var sql2 = query2.ToSql();
+            var sql1 = query1.ToQueryString();
+            var sql2 = query2.ToQueryString();
         }
 
     }

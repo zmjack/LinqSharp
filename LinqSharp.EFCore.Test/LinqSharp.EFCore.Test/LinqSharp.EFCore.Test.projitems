@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AddOrUpdateTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DbYearMonthNumberTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProviderNameTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BulkTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CacheableTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConcurrencyTests.cs" />
@@ -18,7 +20,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)FacadeTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GroupByCountTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)QuickDataViewTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Support\EFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbContextExtensionsTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PreQueryTests.cs" />

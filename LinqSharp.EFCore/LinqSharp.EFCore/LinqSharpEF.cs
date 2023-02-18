@@ -3,11 +3,16 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using LinqSharp.EFCore.Functions.Providers;
+using LinqSharp.EFCore.Annotations;
+using LinqSharp.EFCore.Annotations.Base;
+using LinqSharp.EFCore.Design;
+using LinqSharp.EFCore.Design.AutoTags;
+using LinqSharp.EFCore.Translators;
 using LinqSharp.EFCore.Infrastructure;
 using LinqSharp.EFCore.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 #if EFCORE3_0_OR_GREATER
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
@@ -27,6 +32,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using LinqSharp.EFCore.Query;
 
 namespace LinqSharp.EFCore
 {
@@ -90,10 +96,9 @@ namespace LinqSharp.EFCore
 
         public static void OnModelCreating(DbContext context, ModelBuilder modelBuilder)
         {
-            ApplyProviderFunctions(context, modelBuilder);
-            ApplyUdFunctions(context, modelBuilder);
-            ApplyAnnotations(context, modelBuilder);
-            ApplyComplexTypes(context, modelBuilder);
+            UseTranslator<DbRandom>(context, modelBuilder);
+            UseAnnotations(context, modelBuilder);
+            UseComplexTypes(context, modelBuilder);
         }
 
         private static TRet HandleConcurrencyException<TRet>(DbUpdateConcurrencyException exception, Func<TRet> base_SaveChanges, int maxRetry)
@@ -202,52 +207,14 @@ namespace LinqSharp.EFCore
             return result;
         }
 
-        public static void ApplyProviderFunctions(DbContext context, ModelBuilder modelBuilder)
+        public static void UseTranslator<TDbFuncProvider>(DbContext context, ModelBuilder modelBuilder) where TDbFuncProvider : Translator, new()
         {
             var providerName = context.GetProviderName();
-            switch (providerName)
-            {
-                case ProviderName.Jet: new JetFuncProvider(modelBuilder).UseAll(); break;
-
-                case ProviderName.MyCat:
-                case ProviderName.MySql: new MySqlFuncProvider(modelBuilder).UseAll(); break;
-
-                case ProviderName.Oracle: new OracleFuncProvider(modelBuilder).UseAll(); break;
-
-                case ProviderName.PostgreSQL: new PostgreSQLFuncProvider(modelBuilder).UseAll(); break;
-
-                case ProviderName.Sqlite: new SqliteFuncProvider(modelBuilder).UseAll(); break;
-
-                case ProviderName.SqlServer:
-                case ProviderName.SqlServerCompact35:
-                case ProviderName.SqlServerCompact40: new SqlServerFuncProvider(modelBuilder).UseAll(); break;
-
-                case ProviderName.Cosmos:
-                case ProviderName.Firebird:
-                case ProviderName.IBM:
-                case ProviderName.OpenEdge:
-                default: throw new NotSupportedException();
-            }
+            var provider = new TDbFuncProvider();
+            provider.RegisterAll(providerName, modelBuilder);
         }
 
-        public static void ApplyUdFunctions(DbContext context, ModelBuilder modelBuilder)
-        {
-            var providerName = context.GetProviderName();
-            var types = Assembly.GetEntryAssembly().GetTypesWhichImplements<IUdFunctionContainer>();
-            var methods = types.SelectMany(type => type.GetMethods().Where(x => x.GetCustomAttribute<UdFunctionAttribute>()?.ProviderName == providerName));
-
-            foreach (var method in methods)
-            {
-                var attr = method.GetCustomAttribute<UdFunctionAttribute>();
-                modelBuilder.HasDbFunction(method, x =>
-                {
-                    x.HasName(attr.Name);
-                    x.HasSchema(attr.Schema);
-                });
-            }
-        }
-
-        public static void ApplyAnnotations(DbContext context, ModelBuilder modelBuilder, EntityAnnotation annotation = EntityAnnotation.All)
+        public static void UseAnnotations(DbContext context, ModelBuilder modelBuilder, EntityAnnotation annotation = EntityAnnotation.All)
         {
             var entityMethod = modelBuilder.GetType().GetMethodViaQualifiedName("Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder`1[TEntity] Entity[TEntity]()");
             var dbSetProps = context.GetType().GetProperties().Where(x => x.ToString().StartsWith("Microsoft.EntityFrameworkCore.DbSet`1"));
@@ -264,7 +231,7 @@ namespace LinqSharp.EFCore
             }
         }
 
-        public static void ApplyComplexTypes(DbContext context, ModelBuilder modelBuilder)
+        public static void UseComplexTypes(DbContext context, ModelBuilder modelBuilder)
         {
             var types = ComplexTypesCache.GetOrCreate(context.GetType().FullName, entry =>
             {
@@ -322,7 +289,7 @@ namespace LinqSharp.EFCore
                 if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
                 {
                     var props = entityType.GetProperties().Where(x => x.CanWrite).ToArray();
-                    ResolveAutoAttributes(entry, props);
+                    ResolveAutoAttributes(context, entry, props);
                 }
             }
 
@@ -399,7 +366,7 @@ namespace LinqSharp.EFCore
             var hasKeyMethod = entityTypeBuilder.GetType().GetMethod(nameof(EntityTypeBuilder.HasKey), new[] { typeof(string[]) });
 
             var modelProps = modelClass.GetProperties()
-                .Where(x => x.GetCustomAttribute<CPKeyAttribute>() != null)
+                .Where(x => x.GetCustomAttribute<CPKeyAttribute>() is not null)
                 .OrderBy(x => x.GetCustomAttribute<CPKeyAttribute>().Order);
             var propNames = modelProps.Select(x => x.Name).ToArray();
 
@@ -449,11 +416,11 @@ namespace LinqSharp.EFCore
                 props = list.ToArray();
             }
 
-            foreach (var prop in props.Where(x => x.Index.Group == null))
+            foreach (var prop in props.Where(x => x.Index.Group is null))
             {
                 SetIndex(new[] { prop.Name }, prop.Index.Type);
             }
-            foreach (var group in props.Where(x => x.Index.Group != null).GroupBy(x => new { x.Index.Type, x.Index.Group }))
+            foreach (var group in props.Where(x => x.Index.Group is not null).GroupBy(x => new { x.Index.Type, x.Index.Group }))
             {
                 SetIndex(group.Select(x => x.Name).ToArray(), group.Key.Type);
             }
@@ -494,17 +461,18 @@ namespace LinqSharp.EFCore
                         var metadataProperty = typeof(PropertyBuilder).GetProperty(nameof(PropertyBuilder.Metadata));
                         var metadata = metadataProperty.GetValue(propertyBuilder);
 #if EFCORE6_0_OR_GREATER
-                        var setValueComparerMethod = typeof(MutablePropertyExtensions).GetMethod(nameof(MutablePropertyExtensions.SetStructuralValueComparer));
+                        var setValueComparerMethod = typeof(IMutableProperty).GetMethod(nameof(IMutableProperty.SetValueComparer), new[] { typeof(ValueComparer) });
+                        setValueComparerMethod.Invoke(metadata, new object[] { comparer });
 #else
                         var setValueComparerMethod = typeof(MutablePropertyExtensions).GetMethod(nameof(MutablePropertyExtensions.SetValueComparer));
-#endif
                         setValueComparerMethod.Invoke(null, new object[] { metadata, comparer });
+#endif
                     }
                 }
             }
         }
 
-        private static void ResolveAutoAttributes(EntityEntry entry, PropertyInfo[] properties)
+        private static void ResolveAutoAttributes(DbContext context, EntityEntry entry, PropertyInfo[] properties)
         {
             if (!new[] { EntityState.Added, EntityState.Modified }.Contains(entry.State)) return;
 
@@ -513,6 +481,19 @@ namespace LinqSharp.EFCore
                 Now = DateTime.Now,
                 NowOffset = DateTimeOffset.Now,
             };
+
+            var isUserTraceable = context is IUserTraceable;
+            var lazy_userTag = new Lazy<UserTag>(() =>
+            {
+                if (isUserTraceable)
+                {
+                    return new UserTag
+                    {
+                        CurrentUser = (context as IUserTraceable).CurrentUser
+                    };
+                }
+                else return default;
+            });
 
             foreach (var prop in properties)
             {
@@ -525,10 +506,15 @@ namespace LinqSharp.EFCore
                 {
                     if (!attr.States.Contains(entry.State)) continue;
 
-
-                    if (attr is SpecialAutoAttribute<NowTag> attr_NowTag)
+                    if (attr is SpecialAutoAttribute<NowTag> attr_nowTag)
                     {
-                        finalValue = attr_NowTag.Format(entry.Entity, propertyType, nowTag);
+                        finalValue = attr_nowTag.Format(entry.Entity, propertyType, nowTag);
+                    }
+                    else if (attr is SpecialAutoAttribute<UserTag> attr_userTag)
+                    {
+                        if (!isUserTraceable) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
+
+                        finalValue = attr_userTag.Format(entry.Entity, propertyType, lazy_userTag.Value);
                     }
                     else
                     {

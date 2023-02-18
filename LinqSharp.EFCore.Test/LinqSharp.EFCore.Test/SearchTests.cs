@@ -1,4 +1,5 @@
 ﻿using LinqSharp.EFCore.Data.Test;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Xunit;
 
@@ -50,7 +51,7 @@ namespace LinqSharp.EFCore.Test
                             .SelectMany(o => o.OrderDetails)
                             .Select(x => x.ProductLink.ProductName),
                     });
-                var sql = query.ToSql();
+                var sql = query.ToQueryString();
             }
 
             using (var mysql = ApplicationDbContext.UseMySql())
@@ -66,7 +67,7 @@ namespace LinqSharp.EFCore.Test
                         ShipCity = e.Orders.Select(x => x.ShipCity),
                         ShipAddress = e.Orders.Select(x => x.ShipAddress),
                     });
-                var sql = query.ToSql();
+                var sql = query.ToQueryString();
             }
 
             using (var mysql = ApplicationDbContext.UseMySql())
@@ -78,7 +79,7 @@ namespace LinqSharp.EFCore.Test
                             .SelectMany(o => o.OrderDetails)
                             .Select(x => x.ProductLink.ProductName)
                     });
-                var sql1 = employees_WhoSelled_AllKindsOfTofu.ToSql();
+                var sql1 = employees_WhoSelled_AllKindsOfTofu.ToQueryString();
 
                 var employees_WhoSelled_Tofu = mysql.Employees
                      .Search("Tofu", e => new
@@ -87,7 +88,7 @@ namespace LinqSharp.EFCore.Test
                              .SelectMany(o => o.OrderDetails)
                              .Select(x => x.ProductLink.ProductName)
                      }, SearchOption.Equals);
-                var sql2 = employees_WhoSelled_Tofu.ToSql();
+                var sql2 = employees_WhoSelled_Tofu.ToQueryString();
 
                 var employees_WhoSelled_LongLifeTofu = mysql.Employees
                      .Search("Longlife Tofu", e => new
@@ -96,7 +97,7 @@ namespace LinqSharp.EFCore.Test
                              .SelectMany(o => o.OrderDetails)
                              .Select(x => x.ProductLink.ProductName)
                      }, SearchOption.Equals);
-                var sql3 = employees_WhoSelled_LongLifeTofu.ToSql();
+                var sql3 = employees_WhoSelled_LongLifeTofu.ToQueryString();
             }
             return;
         }

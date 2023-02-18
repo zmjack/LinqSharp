@@ -77,17 +77,17 @@ namespace LinqSharp
         public static WhereExpression<TSource> operator >=(PropertyUnit<TSource> @this, object value) => @this.CompareOp(Expression.GreaterThanOrEqual, value);
         public static WhereExpression<TSource> operator <=(PropertyUnit<TSource> @this, object value) => @this.CompareOp(Expression.LessThanOrEqual, value);
 
-        public static PropertyUnit<TSource> operator +(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.UnitAddOp(unit);
-        public static PropertyUnit<TSource> operator -(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.UnitOp(Expression.SubtractChecked, unit);
-        public static PropertyUnit<TSource> operator *(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.UnitOp(Expression.MultiplyChecked, unit);
-        public static PropertyUnit<TSource> operator /(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.UnitOp(Expression.Divide, unit);
-        public static PropertyUnit<TSource> operator %(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.UnitOp(Expression.Modulo, unit);
-        public static WhereExpression<TSource> operator ==(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.CompareOp(Expression.Equal, unit);
-        public static WhereExpression<TSource> operator !=(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.CompareOp(Expression.NotEqual, unit);
-        public static WhereExpression<TSource> operator >(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.CompareOp(Expression.GreaterThan, unit);
-        public static WhereExpression<TSource> operator <(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.CompareOp(Expression.LessThan, unit);
-        public static WhereExpression<TSource> operator >=(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.CompareOp(Expression.GreaterThanOrEqual, unit);
-        public static WhereExpression<TSource> operator <=(PropertyUnit<TSource> @this, PropertyUnit<TSource> unit) => @this.CompareOp(Expression.LessThanOrEqual, unit);
+        public static PropertyUnit<TSource> operator +(PropertyUnit<TSource> @this, PropertyUnit<TSource> other) => @this.UnitAddOp(other);
+        public static PropertyUnit<TSource> operator -(PropertyUnit<TSource> @this, PropertyUnit<TSource> other) => @this.UnitOp(Expression.SubtractChecked, other);
+        public static PropertyUnit<TSource> operator *(PropertyUnit<TSource> @this, PropertyUnit<TSource> other) => @this.UnitOp(Expression.MultiplyChecked, other);
+        public static PropertyUnit<TSource> operator /(PropertyUnit<TSource> @this, PropertyUnit<TSource> other) => @this.UnitOp(Expression.Divide, other);
+        public static PropertyUnit<TSource> operator %(PropertyUnit<TSource> @this, PropertyUnit<TSource> other) => @this.UnitOp(Expression.Modulo, other);
+        public static WhereExpression<TSource> operator ==(PropertyUnit<TSource> @this, PropertyUnit<TSource> other) => @this.CompareOp(Expression.Equal, other);
+        public static WhereExpression<TSource> operator !=(PropertyUnit<TSource> @this, PropertyUnit<TSource> other) => @this.CompareOp(Expression.NotEqual, other);
+        public static WhereExpression<TSource> operator >(PropertyUnit<TSource> @this, PropertyUnit<TSource> other) => @this.CompareOp(Expression.GreaterThan, other);
+        public static WhereExpression<TSource> operator <(PropertyUnit<TSource> @this, PropertyUnit<TSource> other) => @this.CompareOp(Expression.LessThan, other);
+        public static WhereExpression<TSource> operator >=(PropertyUnit<TSource> @this, PropertyUnit<TSource> other) => @this.CompareOp(Expression.GreaterThanOrEqual, other);
+        public static WhereExpression<TSource> operator <=(PropertyUnit<TSource> @this, PropertyUnit<TSource> other) => @this.CompareOp(Expression.LessThanOrEqual, other);
 
         private Expression GetValueExpression(object value)
         {

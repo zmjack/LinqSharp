@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LinqSharp.EFCore.Annotations;
+using LinqSharp.EFCore.Annotations.Base;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,6 +32,12 @@ namespace LinqSharp.EFCore.Data.Test
 
         [AutoEven]
         public int ForEven { get; set; }
+
+        [AutoCreatedBy]
+        public string CreatedBy { get; set; }
+
+        [AutoUpdatedBy]
+        public string UpdatedBy { get; set; }
     }
 
     public class AutoEvenAttribute : AutoAttribute
