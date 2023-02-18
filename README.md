@@ -16,14 +16,16 @@ Current work in progress: Optimize **PreQuery** queries.
 
 **LinqSharp** provides enhancements to **LINQ** in the following ways:
 
-- <font color="orange">[No documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/query.md)]</font> Query extension
-- <font color="orange">[No documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/filter.md)]</font> Dynamic LINQ
+- <font color="orange">[Chinese]</font> [Query extension](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/query.md)
+- <font color="orange">[Chinese]</font> [Dynamic LINQ](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/filter.md)
 
 **LinqSharp.EFCore** provides enhancements to **Entity Frameowk** in the following ways:
 
-- <font color="orange">[no documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-1.md)]</font> Data annotations for table design
-- <font color="orange">[no documentation yet, but have [chinese version](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md)]</font> Data annotations for field standard
-- <font color="orange">[no documentation yet]</font> Function mapping
+- <font color="orange">[Chinese]</font> [Data annotations for table design](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-1.md)
+- <font color="orange">[Chinese]</font> [Data annotations for field formatting](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md)
+- <font color="orange">[Chinese]</font> [Direct access (clear table, bulk import)](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-direct-functions.md)
+- <font color="orange">[Chinese]</font> [Pre-Query](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-pre-query.md)
+- <font color="orange">[Chinese]</font> [Custom translator](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-translator.md)
 - <font color="orange">[no documentation yet]</font> Column storage agent
 
 <br/>
