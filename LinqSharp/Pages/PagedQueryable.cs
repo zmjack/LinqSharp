@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LinqSharp
+namespace LinqSharp.Pages
 {
     public class PagedQueryable<T> : PagedEnumerable<T>, IQueryable<T>
     {

@@ -8,9 +8,9 @@ using System.Linq.Expressions;
 
 namespace LinqSharp.Strategies
 {
-    public interface IWhereStrategy<TEntity>
+    public interface IQueryStrategy<TEntity, TResult>
     {
-        Expression<Func<TEntity, bool>> StrategyExpression { get; }
+        Expression<Func<TEntity, TResult>> StrategyExpression { get; }
     }
 
 }

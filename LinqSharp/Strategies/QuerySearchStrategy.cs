@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace LinqSharp.Strategies
 {
-    public class WhereSearchStrategy<TEntity> : WhereStringStrategy<TEntity>
+    public class QuerySearchStrategy<TEntity> : QueryStringStrategy<TEntity>
     {
         private static readonly MethodInfo _Method_Enumerable_op_Any = typeof(Enumerable)
             .GetMethodViaQualifiedName("Boolean Any[TSource](System.Collections.Generic.IEnumerable`1[TSource], System.Func`2[TSource,System.Boolean])")
@@ -22,7 +22,7 @@ namespace LinqSharp.Strategies
         private static readonly MethodInfo _Method_String_op_Equals2 = typeof(string).GetMethod(nameof(string.Equals), new[] { typeof(string), typeof(string) });
         //private static readonly MethodInfo _Method_String_op_Inequality = typeof(string).GetMethod("op_Inequality");
 
-        public WhereSearchStrategy(string searchString, Expression<Func<TEntity, object>> searchMembers, SearchOption option)
+        public QuerySearchStrategy(string searchString, Expression<Func<TEntity, object>> searchMembers, SearchOption option)
         {
             Func<Expression, Expression, Expression> compareExp;
             MethodInfo stringMethod;

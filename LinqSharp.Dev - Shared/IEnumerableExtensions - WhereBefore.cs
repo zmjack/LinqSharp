@@ -18,7 +18,7 @@ namespace LinqSharp.Dev
             Expression<Func<TEntity, DateTime>> beforeExp,
             bool includePoint = true)
         {
-            return @this.Where(new WhereBeforeStrategy<TEntity>(memberExp, beforeExp, includePoint).StrategyExpression.Compile());
+            return @this.Where(new QueryBeforeStrategy<TEntity>(memberExp, beforeExp, includePoint).StrategyExpression.Compile());
         }
 
         public static IEnumerable<TEntity> WhereBefore<TEntity>(this IEnumerable<TEntity> @this,
@@ -26,7 +26,7 @@ namespace LinqSharp.Dev
             DateTime before,
             bool includePoint = true)
         {
-            return @this.Where(new WhereBeforeStrategy<TEntity>(memberExp, before, includePoint).StrategyExpression.Compile());
+            return @this.Where(new QueryBeforeStrategy<TEntity>(memberExp, before, includePoint).StrategyExpression.Compile());
         }
 
         public static IEnumerable<TEntity> WhereBefore<TEntity>(this IEnumerable<TEntity> @this,
@@ -34,7 +34,7 @@ namespace LinqSharp.Dev
             Expression<Func<TEntity, DateTime>> beforeExp,
             bool liftNullToTrue, bool includePoint = true)
         {
-            return @this.Where(new WhereBeforeStrategy<TEntity>(memberExp, beforeExp, liftNullToTrue, includePoint).StrategyExpression.Compile());
+            return @this.Where(new QueryBeforeStrategy<TEntity>(memberExp, beforeExp, liftNullToTrue, includePoint).StrategyExpression.Compile());
         }
 
         public static IEnumerable<TEntity> WhereBefore<TEntity>(this IEnumerable<TEntity> @this,
@@ -42,7 +42,7 @@ namespace LinqSharp.Dev
             DateTime before,
             bool liftNullToTrue, bool includePoint = true)
         {
-            return @this.Where(new WhereBeforeStrategy<TEntity>(memberExp, before, liftNullToTrue, includePoint).StrategyExpression.Compile());
+            return @this.Where(new QueryBeforeStrategy<TEntity>(memberExp, before, liftNullToTrue, includePoint).StrategyExpression.Compile());
         }
 
         public static IEnumerable<TEntity> WhereBefore<TEntity>(this IEnumerable<TEntity> @this,

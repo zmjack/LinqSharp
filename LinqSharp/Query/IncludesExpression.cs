@@ -9,16 +9,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace LinqSharp
+namespace LinqSharp.Query
 {
-    public static class ExpressionEx
+    public static class IncludesExpression
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="keys">[Member or NewSelector]</param>
-        /// <returns></returns>
         public static string[] GetPropertyNames<TEntity>(Expression<Func<TEntity, object>> keys)
         {
             string[] propNames;
@@ -35,7 +29,7 @@ namespace LinqSharp
                 case UnaryExpression exp:
                     if (exp.NodeType == ExpressionType.Convert)
                     {
-                        var mexp = (exp.Operand as MemberExpression);
+                        var mexp = exp.Operand as MemberExpression;
                         if (mexp is not null)
                         {
                             propNames = new[] { mexp.Member.Name };
@@ -52,12 +46,6 @@ namespace LinqSharp
             return propNames;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="keys">[Member or NewSelector]</param>
-        /// <returns></returns>
         public static IEnumerable<PropertyInfo> GetProperties<TEntity>(Expression<Func<TEntity, object>> keys)
         {
             var propNames = GetPropertyNames(keys);

@@ -13,8 +13,20 @@ using System.Text.RegularExpressions;
 
 namespace LinqSharp
 {
-    public static class DataAnnotationEx
+    public static class DataAnnotation
     {
+        public static string GetDisplayName<TEntity, TRet>(Expression<Func<TEntity, TRet>> expression)
+        {
+            if (expression.Body is not MemberExpression exp) throw new NotSupportedException("This argument 'expression' must be MemberExpression.");
+            return GetDisplayName(exp.Member);
+        }
+
+        private static string GetDisplayShortName<TEntity, TRet>(Expression<Func<TEntity, TRet>> expression)
+        {
+            if (expression.Body is not MemberExpression exp) throw new NotSupportedException("This argument 'expression' must be MemberExpression.");
+            return exp.Member.GetCustomAttribute<DisplayAttribute>()?.ShortName ?? exp.Member.Name;
+        }
+
         public static string GetDisplayName(MemberInfo memberInfo, bool inherit = true)
         {
             var attr_DispalyName = memberInfo.GetCustomAttribute<DisplayNameAttribute>(inherit);
@@ -35,10 +47,9 @@ namespace LinqSharp
             return GetDisplayString(model, lambda, defaultReturn);
         }
 
-        public static string GetDisplayString(object model, LambdaExpression expression, string defaultReturn = "")
+        public static string GetDisplayString<TEntity>(TEntity model, LambdaExpression expression, string defaultReturn = "")
         {
-            var exp = expression.Body as MemberExpression;
-            if (exp is null) throw new NotSupportedException("This argument 'expression' must be MemberExpression.");
+            if (expression.Body is not MemberExpression exp) throw new NotSupportedException("This argument 'expression' must be MemberExpression.");
 
             object value;
             try

@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.Query;
 using System;
 using System.Linq;
 
@@ -10,22 +11,9 @@ namespace LinqSharp
 {
     public static partial class IQueryableExtensions
     {
-        [Obsolete("Use IQueryableExtensions.Filter instead.")]
-        public static IQueryable<TSource> XWhere<TSource>(this IQueryable<TSource> @this, Func<WhereHelper<TSource>, WhereExpression<TSource>> build)
+        public static IQueryable<TSource> Filter<TSource>(this IQueryable<TSource> @this, Func<QueryHelper<TSource>, QueryExpression<TSource>> build)
         {
-            var helper = new WhereHelper<TSource>();
-            var whereExp = build(helper);
-
-            if (whereExp.Expression is not null)
-            {
-                return @this.Where(whereExp.Expression);
-            }
-            else return @this;
-        }
-
-        public static IQueryable<TSource> Filter<TSource>(this IQueryable<TSource> @this, Func<WhereHelper<TSource>, WhereExpression<TSource>> build)
-        {
-            var helper = new WhereHelper<TSource>();
+            var helper = new QueryHelper<TSource>();
             var whereExp = build(helper);
 
             if (whereExp.Expression is not null)

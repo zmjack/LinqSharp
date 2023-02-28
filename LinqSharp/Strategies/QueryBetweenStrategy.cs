@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace LinqSharp.Strategies
 {
-    public class WhereBetweenStrategy<TEntity> : IWhereStrategy<TEntity>
+    public class QueryBetweenStrategy<TEntity> : IQueryStrategy<TEntity, bool>
     {
         public Expression<Func<TEntity, bool>> StrategyExpression { get; }
 
@@ -19,7 +19,7 @@ namespace LinqSharp.Strategies
         private static readonly PropertyInfo _Property_DateTime_Value = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.Value));
 
         #region Return DateTime
-        public WhereBetweenStrategy(
+        public QueryBetweenStrategy(
             Expression<Func<TEntity, DateTime>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
             Expression<Func<TEntity, DateTime>> endExp)
@@ -36,7 +36,7 @@ namespace LinqSharp.Strategies
                         false, _Method_op_LessThanOrEqual)), memberExp.Parameters);
         }
 
-        public WhereBetweenStrategy(
+        public QueryBetweenStrategy(
             Expression<Func<TEntity, DateTime>> memberExp,
             DateTime start,
             Expression<Func<TEntity, DateTime>> endExp)
@@ -53,7 +53,7 @@ namespace LinqSharp.Strategies
                         false, _Method_op_LessThanOrEqual)), memberExp.Parameters);
         }
 
-        public WhereBetweenStrategy(
+        public QueryBetweenStrategy(
             Expression<Func<TEntity, DateTime>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
             DateTime end)
@@ -70,7 +70,7 @@ namespace LinqSharp.Strategies
                         false, _Method_op_LessThanOrEqual)), memberExp.Parameters);
         }
 
-        public WhereBetweenStrategy(
+        public QueryBetweenStrategy(
             Expression<Func<TEntity, DateTime>> memberExp,
             DateTime start,
             DateTime end)
@@ -89,7 +89,7 @@ namespace LinqSharp.Strategies
         #endregion
 
         #region Return DateTime?
-        public WhereBetweenStrategy(
+        public QueryBetweenStrategy(
             Expression<Func<TEntity, DateTime?>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
             Expression<Func<TEntity, DateTime>> endExp)
@@ -106,7 +106,7 @@ namespace LinqSharp.Strategies
                         false, _Method_op_LessThanOrEqual)), memberExp.Parameters);
         }
 
-        public WhereBetweenStrategy(
+        public QueryBetweenStrategy(
             Expression<Func<TEntity, DateTime?>> memberExp,
             DateTime start,
             Expression<Func<TEntity, DateTime>> endExp)
@@ -127,7 +127,7 @@ namespace LinqSharp.Strategies
                     memberExp.Parameters);
         }
 
-        public WhereBetweenStrategy(
+        public QueryBetweenStrategy(
             Expression<Func<TEntity, DateTime?>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
             DateTime end)
@@ -148,7 +148,7 @@ namespace LinqSharp.Strategies
                     memberExp.Parameters);
         }
 
-        public WhereBetweenStrategy(
+        public QueryBetweenStrategy(
             Expression<Func<TEntity, DateTime?>> memberExp,
             DateTime start,
             DateTime end)

@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoCreatedByAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoUpdatedByAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Design\IUserTraceable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\IIncludable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\QueryTarget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbDouble.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbDateTime.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbConcat.cs" />
@@ -37,7 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BulkCopyEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LinqSharpEF.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LinqSharpEFRegister.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Navigation\IncludeNavigation.cs" />
+    <Compile Include="..\LinqSharp.EFCore\Navigation\IncludeNavigation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PreQuery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\ProviderAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Query\UpdateOptions.cs" />

@@ -18,7 +18,7 @@ namespace LinqSharp
             Expression<Func<TEntity, DateTime>> startExp,
             Expression<Func<TEntity, DateTime>> endExp)
         {
-            return @this.Where(new WhereBetweenStrategy<TEntity>(memberExp, startExp, endExp).StrategyExpression);
+            return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, startExp, endExp).StrategyExpression);
         }
 
         public static IQueryable<TEntity> WhereBetween<TEntity>(this IQueryable<TEntity> @this,
@@ -26,7 +26,7 @@ namespace LinqSharp
             DateTime start,
             Expression<Func<TEntity, DateTime>> endExp)
         {
-            return @this.Where(new WhereBetweenStrategy<TEntity>(memberExp, start, endExp).StrategyExpression);
+            return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, start, endExp).StrategyExpression);
         }
 
         public static IQueryable<TEntity> WhereBetween<TEntity>(this IQueryable<TEntity> @this,
@@ -34,7 +34,7 @@ namespace LinqSharp
             Expression<Func<TEntity, DateTime>> startExp,
             DateTime end)
         {
-            return @this.Where(new WhereBetweenStrategy<TEntity>(memberExp, startExp, end).StrategyExpression);
+            return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, startExp, end).StrategyExpression);
         }
 
         public static IQueryable<TEntity> WhereBetween<TEntity>(this IQueryable<TEntity> @this,
@@ -42,7 +42,7 @@ namespace LinqSharp
             DateTime start,
             DateTime end)
         {
-            return @this.Where(new WhereBetweenStrategy<TEntity>(memberExp, start, end).StrategyExpression);
+            return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, start, end).StrategyExpression);
         }
         #endregion
 
@@ -52,7 +52,7 @@ namespace LinqSharp
             Expression<Func<TEntity, DateTime>> startExp,
             Expression<Func<TEntity, DateTime>> endExp)
         {
-            return @this.Where(new WhereBetweenStrategy<TEntity>(memberExp, startExp, endExp).StrategyExpression);
+            return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, startExp, endExp).StrategyExpression);
         }
 
         public static IQueryable<TEntity> WhereBetween<TEntity>(this IQueryable<TEntity> @this,
@@ -60,7 +60,7 @@ namespace LinqSharp
             DateTime start,
             Expression<Func<TEntity, DateTime>> endExp)
         {
-            return @this.Where(new WhereBetweenStrategy<TEntity>(memberExp, start, endExp).StrategyExpression);
+            return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, start, endExp).StrategyExpression);
         }
 
         public static IQueryable<TEntity> WhereBetween<TEntity>(this IQueryable<TEntity> @this,
@@ -68,7 +68,7 @@ namespace LinqSharp
             Expression<Func<TEntity, DateTime>> startExp,
             DateTime end)
         {
-            return @this.Where(new WhereBetweenStrategy<TEntity>(memberExp, startExp, end).StrategyExpression);
+            return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, startExp, end).StrategyExpression);
         }
 
         public static IQueryable<TEntity> WhereBetween<TEntity>(this IQueryable<TEntity> @this,
@@ -76,7 +76,7 @@ namespace LinqSharp
             DateTime start,
             DateTime end)
         {
-            return @this.Where(new WhereBetweenStrategy<TEntity>(memberExp, start, end).StrategyExpression);
+            return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, start, end).StrategyExpression);
         }
         #endregion
 

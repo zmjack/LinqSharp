@@ -4,6 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Query;
+using LinqSharp.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -94,7 +95,7 @@ namespace LinqSharp.EFCore
             var options = new UpdateOptions<TEntity>();
             initOptions?.Invoke(options);
 
-            var propNames = ExpressionEx.GetPropertyNames(keys);
+            var propNames = IncludesExpression.GetPropertyNames(keys);
             var predicate = GetAbsoluteAddOrUpdateLambda(propNames, entity);
 
             var record = @this.FirstOrDefault(predicate);
@@ -136,7 +137,7 @@ namespace LinqSharp.EFCore
             var options = new UpdateOptions<TEntity>();
             initOptions?.Invoke(options);
 
-            var propNames = ExpressionEx.GetPropertyNames(keys);
+            var propNames = IncludesExpression.GetPropertyNames(keys);
             var predicateBuilder = GetAddOrUpdateLambda<TEntity>(propNames).Compile();
 
             Expression<Func<TEntity, bool>> predicate;

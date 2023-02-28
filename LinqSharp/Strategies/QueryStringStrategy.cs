@@ -12,11 +12,11 @@ using System.Text.RegularExpressions;
 
 namespace LinqSharp.Strategies
 {
-    public class WhereStringStrategy<TEntity> : IWhereStrategy<TEntity>
+    public class QueryStringStrategy<TEntity> : IQueryStrategy<TEntity, bool>
     {
         public Expression<Func<TEntity, bool>> StrategyExpression { get; private set; }
 
-        internal WhereStringStrategy()
+        internal QueryStringStrategy()
         {
         }
 
@@ -36,7 +36,9 @@ namespace LinqSharp.Strategies
 
             //TODO: Maybe this expression can be converted to another expression in static.
             if (expression.NodeType == ExpressionType.Lambda)
+            {
                 return Enumerable.ToArray((expression as LambdaExpression).Parameters);
+            }
 
             return expression switch
             {

@@ -5,6 +5,7 @@
 
 using LinqSharp.EFCore.Annotations;
 using LinqSharp.EFCore.Annotations.Base;
+using LinqSharp.Query;
 using NStandard;
 using System;
 using System.Collections.Generic;
@@ -80,18 +81,18 @@ namespace LinqSharp.EFCore
         /// <typeparam name="TEntity">Instance of IEntity</typeparam>
         /// <param name="this">Source model</param>
         /// <param name="model">The model which provide values</param>
-        /// <param name="includes_MemberOrNewExp">Specifies properties that are applied to the source model.
+        /// <param name="includes">Specifies properties that are applied to the source model.
         /// <para>A lambda expression representing the property(s) (x => x.Url).</para>
         /// <para>
         ///     If the value is made up of multiple properties then specify an anonymous
-        ///     type including the properties (x => new { x.Title, x.BlogId }).
+        ///     type including the properties. For example, (x => new { x.Title, x.BlogId }).
         /// </para>
         /// </param>
         /// <returns></returns>
-        public static TEntity Accept<TEntity>(this TEntity @this, TEntity model, Expression<Func<TEntity, object>> includes_MemberOrNewExp)
+        public static TEntity Accept<TEntity>(this TEntity @this, TEntity model, Expression<Func<TEntity, object>> includes)
             where TEntity : class, IEntity
         {
-            var props = ExpressionEx.GetProperties(includes_MemberOrNewExp);
+            var props = IncludesExpression.GetProperties(includes);
             return InnerAccept(@this, model, props);
         }
 
@@ -118,8 +119,6 @@ namespace LinqSharp.EFCore
         public static void SetValue(this IEntity @this, string propName, object value) => @this.GetType().GetProperty(propName).SetValue(@this, value);
         public static object GetValue(this IEntity @this, string propName) => @this.GetType().GetProperty(propName).GetValue(@this);
 
-        public static string Display(this IEntity @this, LambdaExpression expression, string defaultReturn = "") => DataAnnotationEx.GetDisplayString(@this, expression, defaultReturn);
-
         public static Dictionary<string, string> ToDisplayDictionary(this IEntity @this)
         {
             var type = @this.GetType();
@@ -132,7 +131,7 @@ namespace LinqSharp.EFCore
                 var property = Expression.Property(parameter, prop.Name);
                 var lambda = Expression.Lambda(property, parameter);
 
-                ret.Add(prop.Name, @this.Display(lambda));
+                ret.Add(prop.Name, DataAnnotation.GetDisplayString(@this, lambda));
             }
 
             return ret;
@@ -144,37 +143,10 @@ namespace LinqSharp.EFCore
             var props = type.GetProperties().Where(x => propNames.Contains(x.Name));
 
             var ret = new Dictionary<string, string>();
-            foreach (var prop in props) ret.Add(prop.Name, DataAnnotationEx.GetDisplayString(@this, prop.Name));
+            foreach (var prop in props) ret.Add(prop.Name, DataAnnotation.GetDisplayString(@this, prop.Name));
 
             return ret;
         }
 
-        public static Dictionary<string, string> ToDisplayDictionary<TEntity>(this IEntity<TEntity> @this, Expression<Func<TEntity, object>> includes_MemberOrNewExpression)
-            where TEntity : class, IEntity<TEntity>, new()
-        {
-            var propNames = ExpressionEx.GetPropertyNames(includes_MemberOrNewExpression);
-            return ToDisplayDictionary(@this as IEntity, propNames);
-        }
-
-        public static string DisplayName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
-            where TEntity : class, IEntity<TEntity>, new()
-            => ViewModel<TEntity>.DisplayName(expression);
-        public static string DisplayName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
-            where TEntity : class, IEntity<TEntity>, new()
-            => ViewModel<TEntity>.DisplayName(expression);
-
-        public static string DisplayShortName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
-            where TEntity : class, IEntity<TEntity>, new()
-            => ViewModel<TEntity>.DisplayShortName(expression);
-        public static string DisplayShortName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
-            where TEntity : class, IEntity<TEntity>, new()
-            => ViewModel<TEntity>.DisplayShortName(expression);
-
-        public static string Display<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression, string defaultReturn = "")
-            where TEntity : class, IEntity<TEntity>, new()
-            => DataAnnotationEx.GetDisplayString(@this, expression, defaultReturn);
-
     }
-
-
 }

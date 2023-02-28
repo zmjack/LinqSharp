@@ -57,7 +57,7 @@ namespace LinqSharp.EFCore
                     var entityType = args[1];
                     var queryMethod = CacheableQueryMethodCache.GetOrCreate($"{preQueryContextType},{entityType}", entry =>
                     {
-                        return typeof(PreQueryExtensions).GetMethod(nameof(PreQueryExtensions.InnerFeed), BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(preQueryContextType, entityType);
+                        return typeof(PreQueryExtensions).GetMethod(nameof(PreQueryExtensions.FeedAll), BindingFlags.Public | BindingFlags.Static).MakeGenericMethod(preQueryContextType, entityType);
                     });
 
                     var preQueries = Array.CreateInstance(preQueryType, cacheables.Count());

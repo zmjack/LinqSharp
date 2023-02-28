@@ -1,4 +1,5 @@
 ﻿using LinqSharp.EFCore.Data.Test;
+using LinqSharp.Query;
 using Microsoft.EntityFrameworkCore;
 using Northwnd;
 using NStandard;
@@ -176,7 +177,7 @@ namespace LinqSharp.EFCore.Test
             // No priority
             var query = mysql.Categories.Filter(h =>
             {
-                WhereExpression<Category> exp = null;
+                QueryExpression<Category> exp = null;
 
                 foreach (var search in searches)
                 {

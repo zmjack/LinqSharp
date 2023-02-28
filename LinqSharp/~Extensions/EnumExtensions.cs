@@ -15,7 +15,7 @@ namespace LinqSharp
         public static string DisplayName(this Enum @this)
         {
             var field = @this.GetType().GetFields().First(x => x.Name == @this.ToString());
-            return DataAnnotationEx.GetDisplayName(field);
+            return DataAnnotation.GetDisplayName(field);
         }
 
     }

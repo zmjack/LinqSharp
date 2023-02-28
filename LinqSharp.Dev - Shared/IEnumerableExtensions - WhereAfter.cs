@@ -18,7 +18,7 @@ namespace LinqSharp.Dev
             Expression<Func<TEntity, DateTime>> afterExp,
             bool includePoint = true)
         {
-            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, afterExp, includePoint).StrategyExpression.Compile());
+            return @this.Where(new QueryAfterStrategy<TEntity>(memberExp, afterExp, includePoint).StrategyExpression.Compile());
         }
 
         public static IEnumerable<TEntity> WhereAfter<TEntity>(this IEnumerable<TEntity> @this,
@@ -26,7 +26,7 @@ namespace LinqSharp.Dev
             DateTime after,
             bool includePoint = true)
         {
-            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, after, includePoint).StrategyExpression.Compile());
+            return @this.Where(new QueryAfterStrategy<TEntity>(memberExp, after, includePoint).StrategyExpression.Compile());
         }
 
         public static IEnumerable<TEntity> WhereAfter<TEntity>(this IEnumerable<TEntity> @this,
@@ -34,7 +34,7 @@ namespace LinqSharp.Dev
             Expression<Func<TEntity, DateTime>> afterExp,
             bool liftNullToTrue, bool includePoint = true)
         {
-            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, afterExp, liftNullToTrue, includePoint).StrategyExpression.Compile());
+            return @this.Where(new QueryAfterStrategy<TEntity>(memberExp, afterExp, liftNullToTrue, includePoint).StrategyExpression.Compile());
         }
 
         public static IEnumerable<TEntity> WhereAfter<TEntity>(this IEnumerable<TEntity> @this,
@@ -42,7 +42,7 @@ namespace LinqSharp.Dev
             DateTime after,
             bool liftNullToTrue, bool includePoint = true)
         {
-            return @this.Where(new WhereAfterStrategy<TEntity>(memberExp, after, liftNullToTrue, includePoint).StrategyExpression.Compile());
+            return @this.Where(new QueryAfterStrategy<TEntity>(memberExp, after, liftNullToTrue, includePoint).StrategyExpression.Compile());
         }
 
         public static IEnumerable<TEntity> WhereAfter<TEntity>(this IEnumerable<TEntity> @this,

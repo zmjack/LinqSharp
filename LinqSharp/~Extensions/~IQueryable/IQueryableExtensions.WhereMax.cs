@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.Query;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -20,9 +21,9 @@ namespace LinqSharp
                     var min = sources.Max(selector);
                     var whereExp = Expression.Lambda<Func<TSource, bool>>(
                         Expression.Equal(selector.Body, Expression.Constant(min, typeof(TResult))), selector.Parameters);
-                    return new WhereExpression<TSource>(whereExp);
+                    return new QueryExpression<TSource>(whereExp);
                 }
-                else return new WhereExpression<TSource>(x => false);
+                else return new QueryExpression<TSource>(x => false);
             });
         }
 

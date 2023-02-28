@@ -4,10 +4,6 @@ Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README-
 
 <br/>
 
-Current work in progress: Optimize **PreQuery** queries.
-
-<br/>
-
 **LinqSharp** is an open source **LINQ** extension library that allows you to write simple code to generate complex queries, including query extensions and dynamic query generation.
 
 **LinqSharp.EFCore** is an enhanced library for **EntityFramework**, providing more data annotations, database functions, and custom storage rules, etc.

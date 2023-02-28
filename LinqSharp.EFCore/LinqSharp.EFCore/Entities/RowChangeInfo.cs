@@ -31,7 +31,7 @@ namespace LinqSharp.EFCore.Entities
             {
                 Add(entry.Metadata.PropertyInfo.Name, new FieldChangeInfo
                 {
-                    Display = DataAnnotationEx.GetDisplayName(entry.Metadata.PropertyInfo),
+                    Display = DataAnnotation.GetDisplayName(entry.Metadata.PropertyInfo),
                     IsModified = entry.IsModified,
                     Origin = entry.OriginalValue,
                     Current = entry.CurrentValue,

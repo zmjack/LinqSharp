@@ -66,9 +66,9 @@ namespace LinqSharp.EFCore.Test
                 Name = "aaa",
             };
 
-            var dict = entity1.ToDisplayDictionary(x => x.Name);
+            var dict = entity1.ToDisplayDictionary(nameof(MyEntity.Name));
+            Assert.Equal("aaa", dict[nameof(MyEntity.Name)]);
         }
-
 
     }
 }

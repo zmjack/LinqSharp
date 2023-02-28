@@ -6,7 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace LinqSharp
+namespace LinqSharp.Pages
 {
     public interface IPageable : IEnumerable
     {

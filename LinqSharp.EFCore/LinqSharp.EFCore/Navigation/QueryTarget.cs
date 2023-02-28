@@ -6,11 +6,13 @@
 using System;
 using System.Linq.Expressions;
 
-namespace LinqSharp.Strategies
+namespace LinqSharp.EFCore.Navigation
 {
-    public interface IOrderStrategy<TEntity>
+    public struct QueryTarget
     {
-        Expression<Func<TEntity, int>> StrategyExpression { get; }
+        public Type PreviousProperty { get; set; }
+        public Type PreviousPropertyElement { get; set; }
+        public Type Property { get; set; }
+        public LambdaExpression Expression { get; set; }
     }
-
 }

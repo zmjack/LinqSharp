@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace LinqSharp.Strategies
 {
-    public class OrderByCaseStrategy<TEntity, TRet> : IOrderStrategy<TEntity>
+    public class OrderByCaseStrategy<TEntity, TRet> : IQueryStrategy<TEntity, int>
     {
         public Expression<Func<TEntity, int>> StrategyExpression { get; }
 

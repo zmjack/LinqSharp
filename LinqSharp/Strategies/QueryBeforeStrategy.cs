@@ -11,80 +11,80 @@ using System.Reflection;
 
 namespace LinqSharp.Strategies
 {
-    public class WhereAfterStrategy<TEntity> : IWhereStrategy<TEntity>
+    public class QueryBeforeStrategy<TEntity> : IQueryStrategy<TEntity, bool>
     {
         public Expression<Func<TEntity, bool>> StrategyExpression { get; }
 
         private static readonly MethodInfo _Method_String_Concat = typeof(string).GetMethodViaQualifiedName("System.String Concat(System.Object, System.Object)");
         private static readonly MethodInfo _Method_String_CompareeTo = typeof(string).GetMethodViaQualifiedName("Int32 CompareTo(System.String)");
-        private static readonly MethodInfo _Method_DateTime_op_GreaterThanOrEqual = typeof(DateTime).GetMethodViaQualifiedName("Boolean op_GreaterThanOrEqual(System.DateTime, System.DateTime)");
-        private static readonly MethodInfo _Method_DateTime_op_GreaterThan = typeof(DateTime).GetMethodViaQualifiedName("Boolean op_GreaterThan(System.DateTime, System.DateTime)");
+        private static readonly MethodInfo _Method_DateTime_op_LessThanOrEqual = typeof(DateTime).GetMethodViaQualifiedName("Boolean op_LessThanOrEqual(System.DateTime, System.DateTime)");
+        private static readonly MethodInfo _Method_DateTime_op_LessThan = typeof(DateTime).GetMethodViaQualifiedName("Boolean op_LessThan(System.DateTime, System.DateTime)");
         private static readonly PropertyInfo _Property_DateTime_HasValue = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.HasValue));
         private static readonly PropertyInfo _Property_DateTime_Value = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.Value));
 
-        public WhereAfterStrategy(
+        public QueryBeforeStrategy(
             Expression<Func<TEntity, DateTime>> memberExp,
-            Expression<Func<TEntity, DateTime>> afterExp,
+            Expression<Func<TEntity, DateTime>> beforeExp,
             bool includePoint)
         {
             var left = memberExp.Body;
-            var right = afterExp.Body.RebindParameter(afterExp.Parameters[0], memberExp.Parameters[0]);
+            var right = beforeExp.Body.RebindParameter(beforeExp.Parameters[0], memberExp.Parameters[0]);
 
             StrategyExpression = Expression.Lambda<Func<TEntity, bool>>(includePoint ?
-                Expression.GreaterThanOrEqual(left, right, false, _Method_DateTime_op_GreaterThanOrEqual)
-                : Expression.GreaterThan(left, right, false, _Method_DateTime_op_GreaterThan), memberExp.Parameters);
+                Expression.LessThanOrEqual(left, right, false, _Method_DateTime_op_LessThanOrEqual)
+                : Expression.LessThan(left, right, false, _Method_DateTime_op_LessThan), memberExp.Parameters);
         }
 
-        public WhereAfterStrategy(
+        public QueryBeforeStrategy(
             Expression<Func<TEntity, DateTime>> memberExp,
-            DateTime after,
+            DateTime before,
             bool includePoint)
         {
             var left = memberExp.Body;
-            var right = Expression.Constant(after);
+            var right = Expression.Constant(before);
 
             StrategyExpression = Expression.Lambda<Func<TEntity, bool>>(includePoint ?
-                Expression.GreaterThanOrEqual(left, right, false, _Method_DateTime_op_GreaterThanOrEqual)
-                : Expression.GreaterThan(left, right, false, _Method_DateTime_op_GreaterThan), memberExp.Parameters);
+                Expression.LessThanOrEqual(left, right, false, _Method_DateTime_op_LessThanOrEqual)
+                : Expression.LessThan(left, right, false, _Method_DateTime_op_LessThan), memberExp.Parameters);
         }
 
-        public WhereAfterStrategy(
+        public QueryBeforeStrategy(
             Expression<Func<TEntity, DateTime?>> memberExp,
-            Expression<Func<TEntity, DateTime>> afterExp,
+            Expression<Func<TEntity, DateTime>> beforeExp,
             bool liftNullToTrue, bool includePoint)
         {
             var left = memberExp.Body;
-            var right = afterExp.Body.RebindParameter(afterExp.Parameters[0], memberExp.Parameters[0]);
+            var right = beforeExp.Body.RebindParameter(beforeExp.Parameters[0], memberExp.Parameters[0]);
 
             StrategyExpression = Expression.Lambda<Func<TEntity, bool>>(
                 Expression.Condition(
                     Expression.Not(Expression.Property(memberExp.Body, _Property_DateTime_HasValue)),
                         Expression.Constant(liftNullToTrue),
                         includePoint
-                            ? Expression.GreaterThanOrEqual(Expression.Property(left, _Property_DateTime_Value), right, false, _Method_DateTime_op_GreaterThanOrEqual)
-                            : Expression.GreaterThan(left, right, false, _Method_DateTime_op_GreaterThan)),
+                            ? Expression.LessThanOrEqual(Expression.Property(left, _Property_DateTime_Value), right, false, _Method_DateTime_op_LessThanOrEqual)
+                            : Expression.LessThan(left, right, false, _Method_DateTime_op_LessThan)),
                 memberExp.Parameters);
         }
 
-        public WhereAfterStrategy(
+        public QueryBeforeStrategy(
             Expression<Func<TEntity, DateTime?>> memberExp,
-            DateTime after,
+            DateTime before,
             bool liftNullToTrue, bool includePoint)
         {
             var left = memberExp.Body;
-            var right = Expression.Constant(after);
+            var right = Expression.Constant(before);
 
             StrategyExpression = Expression.Lambda<Func<TEntity, bool>>(
                 Expression.Condition(
                     Expression.Not(Expression.Property(memberExp.Body, _Property_DateTime_HasValue)),
                         Expression.Constant(liftNullToTrue),
                         includePoint
-                            ? Expression.GreaterThanOrEqual(Expression.Property(left, _Property_DateTime_Value), right, false, _Method_DateTime_op_GreaterThanOrEqual)
-                            : Expression.GreaterThan(left, right, false, _Method_DateTime_op_GreaterThan)),
+                            ? Expression.LessThanOrEqual(Expression.Property(left, _Property_DateTime_Value), right, false, _Method_DateTime_op_LessThanOrEqual)
+                            : Expression.LessThan(left, right, false, _Method_DateTime_op_LessThan)),
                 memberExp.Parameters);
         }
 
-        public WhereAfterStrategy(
+        public QueryBeforeStrategy(
             Expression<Func<TEntity, object>> yearExp,
             Expression<Func<TEntity, object>> monthExp,
             Expression<Func<TEntity, object>> dayExp,
@@ -150,8 +150,8 @@ namespace LinqSharp.Strategies
                     Expression.Constant(before.ToString("yyyy-MM-dd")));
 
             StrategyExpression = Expression.Lambda<Func<TEntity, bool>>(includePoint ?
-                Expression.GreaterThanOrEqual(compareExp, Expression.Constant(0))
-                : Expression.GreaterThan(compareExp, Expression.Constant(0)), parameters);
+                Expression.LessThanOrEqual(compareExp, Expression.Constant(0))
+                : Expression.LessThan(compareExp, Expression.Constant(0)), parameters);
         }
 
     }

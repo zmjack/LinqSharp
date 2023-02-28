@@ -9,9 +9,9 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace LinqSharp
+namespace LinqSharp.Query
 {
-    public static class MethodUnit
+    public static class MethodContainer
     {
         private static readonly MemoryCache GenericCache = new(new MemoryCacheOptions());
         private static readonly MemoryCache Cache = new(new MemoryCacheOptions());
