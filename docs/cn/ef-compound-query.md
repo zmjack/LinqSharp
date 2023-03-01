@@ -25,42 +25,42 @@
 };
 ```
 
-- 使用 **Filter** 进行查询：
-  
+使用 **Filter** 进行查询：
 
-    ```csharp
-    var result = this.OrderDetails
-        .Include(x => x.OrderLink)
-        .Include(x => x.ProductLink).ThenInclude(x => x.CategoryLink)
-        .Filter(h => h.Or(queryParams.Select(p =>
-        {
-            return h.Where(x => 
-                x.ProductLink.CategoryLink.CategoryName == p.CategoryName 
-             && x.OrderLink.OrderDate.Value.Year == p.Year);
-        })));
-    result.Dump(1);
+
+```csharp
+var result = this.OrderDetails
+    .Include(x => x.OrderLink)
+    .Include(x => x.ProductLink).ThenInclude(x => x.CategoryLink)
+    .Filter(h => h.Or(queryParams.Select(p =>
+    {
+        return h.Where(x => 
+            x.ProductLink.CategoryLink.CategoryName == p.CategoryName 
+         && x.OrderLink.OrderDate.Value.Year == p.Year);
+    })));
+result.Dump(1);
 ```
-  
-- 使用 **CompoundQuery** 进行查询：
 
-    ```csharp
-    var queryDefs = queryParams.Select(p =>
-    {
-        return new QueryDef<OrderDetail>()
-            .Where(x =>
-    			x.ProductLink.CategoryLink.CategoryName == p.CategoryName
-    		 && x.OrderLink.OrderDate.Value.Year == p.Year);
-    }).ToArray();
-    
-    using (var query = this.BeginCompoundQuery(x => x.OrderDetails
-        .Include(x => x.OrderLink)
-        .Include(x => x.ProductLink).ThenInclude(x => x.CategoryLink)
-    ))
-    {
-        var result = query.Feed(queryDefs);
-    	result.Dump(1);
-    }
-    ```
+或使用 **CompoundQuery** 进行查询：
+
+```csharp
+var queryDefs = queryParams.Select(p =>
+{
+    return new QueryDef<OrderDetail>()
+        .Where(x =>
+               x.ProductLink.CategoryLink.CategoryName == p.CategoryName
+            && x.OrderLink.OrderDate.Value.Year == p.Year);
+}).ToArray();
+
+using (var query = this.BeginCompoundQuery(x => x.OrderDetails
+    .Include(x => x.OrderLink)
+    .Include(x => x.ProductLink).ThenInclude(x => x.CategoryLink)
+))
+{
+    var result = query.Feed(queryDefs);
+	result.Dump(1);
+}
+```
 
 它们将生成相同的 SQL：
 
