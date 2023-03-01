@@ -52,7 +52,7 @@ WHERE Id = '314ce3b7-e6b9-46a4-81a4-b5b140653189' AND RowVersion = 0;
 
 <br/>
 
-### 解决并发冲突
+### 乐观解决冲突
 
 以上文为例，若 `RowVersion = 100` 的更新语句先执行，受影响条目则为 **1**：
 
@@ -89,33 +89,33 @@ WHERE Id = '314ce3b7-e6b9-46a4-81a4-b5b140653189' AND RowVersion = 0;
 
 为了正确更新条目，我们必须修正第二条语句后进行重试：
 
-- 客户端优先：
+客户端优先：
 
-  ```mysql
+```mysql
 UPDATE `ConcurrencyModels` 
-    SET `Value` = 2, ClientWinValue = 2, DatabaseWinValue = 2, RowVersion = 200 
-    WHERE Id = '314ce3b7-e6b9-46a4-81a4-b5b140653189' AND RowVersion = 100;
-  ```
-  
-  | Id                                                           | Value                                          | ClientWinValue                                 | DatabaseWinValue                               | RowVersion                                                   |
+SET `Value` = 2, ClientWinValue = 2, DatabaseWinValue = 2, RowVersion = 200 
+WHERE Id = '314ce3b7-e6b9-46a4-81a4-b5b140653189' AND RowVersion = 100;
+```
+
+| Id                                                           | Value                                          | ClientWinValue                                 | DatabaseWinValue                               | RowVersion                                                   |
 | ------------------------------------------------------------ | ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------ |
-  | <font color="orange">314ce3b7-e6b9-46a4-81a4-b5b140653189</font> | ~~1~~<br/><font color="limegreen">**2**</font> | ~~1~~<br/><font color="limegreen">**2**</font> | ~~1~~<br/><font color="limegreen">**2**</font> | <font color="orange">~~100~~</font><br/><font color="limegreen">**200**</font> |
+| <font color="orange">314ce3b7-e6b9-46a4-81a4-b5b140653189</font> | ~~1~~<br/><font color="limegreen">**2**</font> | ~~1~~<br/><font color="limegreen">**2**</font> | ~~1~~<br/><font color="limegreen">**2**</font> | <font color="orange">~~100~~</font><br/><font color="limegreen">**200**</font> |
 
-- 数据库优先
+数据库优先：
 
-    ```mysql
-    UPDATE `ConcurrencyModels` 
-    SET `Value` = 2, ClientWinValue = 2, RowVersion = 200 
-    WHERE Id = '314ce3b7-e6b9-46a4-81a4-b5b140653189' AND RowVersion = 100;
-    ```
+```mysql
+UPDATE `ConcurrencyModels` 
+SET `Value` = 2, ClientWinValue = 2, RowVersion = 200 
+WHERE Id = '314ce3b7-e6b9-46a4-81a4-b5b140653189' AND RowVersion = 100;
+```
 
-    | Id                                                           | Value                                          | ClientWinValue                                 | DatabaseWinValue | RowVersion                                                   |
-    | ------------------------------------------------------------ | ---------------------------------------------- | ---------------------------------------------- | ---------------- | ------------------------------------------------------------ |
-    | <font color="orange">314ce3b7-e6b9-46a4-81a4-b5b140653189</font> | ~~1~~<br/><font color="limegreen">**2**</font> | ~~1~~<br/><font color="limegreen">**2**</font> | 1                | <font color="orange">~~100~~</font><br/><font color="limegreen">**200**</font> |
+| Id                                                           | Value                                          | ClientWinValue                                 | DatabaseWinValue | RowVersion                                                   |
+| ------------------------------------------------------------ | ---------------------------------------------- | ---------------------------------------------- | ---------------- | ------------------------------------------------------------ |
+| <font color="orange">314ce3b7-e6b9-46a4-81a4-b5b140653189</font> | ~~1~~<br/><font color="limegreen">**2**</font> | ~~1~~<br/><font color="limegreen">**2**</font> | 1                | <font color="orange">~~100~~</font><br/><font color="limegreen">**200**</font> |
 
 <br/>
 
-### 使用 LinqSharp.EFCore 的自动解决冲突
+### 使用自动解决冲突
 
 1. 为 **DbContext** 实现 **IConcurrencyResolvableContext** 接口：
 
