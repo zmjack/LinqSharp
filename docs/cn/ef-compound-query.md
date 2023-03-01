@@ -145,7 +145,7 @@ WHERE (`@`.`UnitPrice` >= 60.0) OR (`@`.`UnitPrice` >= 100.0)
 ORDER BY `@`.`CategoryID`
 ```
 
-![compound-query](https://github.com/zmjack/LinqSharp/blob/master/docs/images/compound-query?raw=true)
+![compound-query](https://github.com/zmjack/LinqSharp/blob/master/docs/images/compound-query.png?raw=true)
 
 <br/>
 

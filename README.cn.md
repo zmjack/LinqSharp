@@ -18,11 +18,12 @@
 **LinqSharp.EFCore** 可为 **Entity Frameowk** 提供如下方面的增强：
 
 - [表设计数据特性](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-data-annotations-1.md)
-- [数据格式化特性](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-data-annotations-2.md)
-- [直接访问（清空表，批量导入）](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-direct-functions.md)
-- [复合查询](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef- compound-query.md)
+- [字段格式化特性](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-data-annotations-2.md)
+- [复合查询](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-compound-query.md)
 - [自定义转译器](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-translator.md)
+- [解决并发冲突](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-concurrency-resolving.md)
 - <font color="orange">[暂无文档]</font> 列式存储代理
+- [直接访问（清空表，批量导入）](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-direct-functions.md)
 
 <br/>
 
@@ -49,17 +50,17 @@ dotnet add package LinqSharp.EFCore
   - **[AutoCreatedBy]**：自动维护 **创建条目** 的用户信息。
   - **[AutoUpdatedBy]**：自动维护 **更新条目** 的用户信息。
   - 使 **DbContext** 实现 **IUserTraceable** 接口，详见 [文档](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md#自动维护操作条目的用户信息)。
-- **【中断性变更】**已移除 **QuickDataView**，请使用 **IEnumerableExtensions.FullJoin** 代替。
-- **【中断性变更】**已移除 **IEntity.AcceptBut**。
-- **【中断性变更】**已重命名 IQueryableExtensions.**ToSql** 为 **ToQueryString**。
+- **【中断性变更】** 已移除 **QuickDataView**，请使用 **IEnumerableExtensions.FullJoin** 代替。
+- **【中断性变更】** 已移除 **IEntity.AcceptBut**。
+- **【中断性变更】** 已重命名 IQueryableExtensions.**ToSql** 为 **ToQueryString**。
   - **EFCore 5.0 版本以上**：不提供，使用原生方法。
   - **EFCore 3.1 版本以下**：提供功能，代码兼容。
 
 ### 版本：6.0.16
 
-- **【中断性变更】**已移除 **CustomDatabaseFacade**。
+- **【中断性变更】** 已移除 **CustomDatabaseFacade**。
 - 提供 **EntityMonitoringFacade** 用于监视表 **CRUD**，以方便编写其他对接操作。
-- **【中断性更新】**已移除 **Ensure** 相关方法，请使用 **AddOrUpdate** 相关方法代替。
+- **【中断性更新】** 已移除 **Ensure** 相关方法，请使用 **AddOrUpdate** 相关方法代替。
 
 ### 版本：6.0.14
 

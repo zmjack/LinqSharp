@@ -19,10 +19,11 @@ Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README.
 
 - <font color="orange">[Chinese]</font> [Data annotations for table design](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-data-annotations-1.md)
 - <font color="orange">[Chinese]</font> [Data annotations for field formatting](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-data-annotations-2.md)
-- <font color="orange">[Chinese]</font> [Direct access (clear table, bulk import)](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-direct-functions.md)
 - <font color="orange">[Chinese]</font> [Compound Query](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-compound-query.md)
 - <font color="orange">[Chinese]</font> [Custom translator](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-translator.md)
+- <font color="orange">[Chinese]</font> [Concurrency Resolving](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-concurrency-resolving.md)
 - <font color="orange">[no documentation yet]</font> Column storage agent
+- <font color="orange">[Chinese]</font> [Direct access (clear table, bulk import)](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-direct-functions.md)
 
 <br/>
 
