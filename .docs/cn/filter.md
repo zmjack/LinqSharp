@@ -1,9 +1,3 @@
-# LinqSharp
-
-[● 返回列表](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
-
-<br/>
-
 ## 动态 LINQ
 
 虽然 **LINQ** 已经可以适应多数的查询情景，但是我们依然需要动态 **LINQ** 来支持更多的查询场景。

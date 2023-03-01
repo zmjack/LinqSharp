@@ -1,9 +1,3 @@
-# LinqSharp
-
-[● 返回列表](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
-
-<br/>
-
 ## 更多查询函数
 
 **LinqSharp.EFCore** 为数据操作提供了直接访问函数：

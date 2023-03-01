@@ -12,16 +12,16 @@
 
 **LinqSharp** 可为 **LINQ** 提供如下方面的增强：
 
-- [查询扩展](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/query.md)
-- [动态 LINQ](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/filter.md)
+- [查询扩展](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/query.md)
+- [动态 LINQ](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/filter.md)
 
 **LinqSharp.EFCore** 可为 **Entity Frameowk** 提供如下方面的增强：
 
-- [表设计数据特性](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-1.md)
-- [数据格式化特性](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md)
-- [直接访问（清空表，批量导入）](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-direct-functions.md)
-- [预查询](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-pre-query.md)
-- [自定义转译器](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-translator.md)
+- [表设计数据特性](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-data-annotations-1.md)
+- [数据格式化特性](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-data-annotations-2.md)
+- [直接访问（清空表，批量导入）](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-direct-functions.md)
+- [复合查询](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef- compound-query.md)
+- [自定义转译器](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-translator.md)
 - <font color="orange">[暂无文档]</font> 列式存储代理
 
 <br/>

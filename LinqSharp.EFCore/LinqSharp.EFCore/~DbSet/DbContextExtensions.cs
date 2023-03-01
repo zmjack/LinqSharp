@@ -3,9 +3,11 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.EFCore.Design;
 using LinqSharp.EFCore.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
 using System.ComponentModel;
 using System.Linq;
 
@@ -14,6 +16,14 @@ namespace LinqSharp.EFCore
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class DbContextExtensions
     {
+        public static CompoundQuery<TContext, TEntity> BeginCompoundQuery<TContext, TEntity>(this TContext @this, Func<TContext, IQueryable<TEntity>> querySelector)
+            where TContext : DbContext, ICompoundQueryable<TContext>
+            where TEntity : class
+        {
+            var query = querySelector(@this);
+            return new CompoundQuery<TContext, TEntity>(query);
+        }
+
         public static ProviderName GetProviderName(this DbContext @this)
         {
             return @this.Database.ProviderName switch

@@ -1,10 +1,4 @@
-# LinqSharp
-
-[● 返回列表](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
-
-<br/>
-
-## 乐观并发冲突
+## 解决乐观并发冲突
 
 乐观并发包括乐观地尝试将实体保存到数据库，希望数据在加载实体后未发生更改。 如果事实证明数据已更改，则会引发异常，必须在尝试再次保存之前解决冲突。
 

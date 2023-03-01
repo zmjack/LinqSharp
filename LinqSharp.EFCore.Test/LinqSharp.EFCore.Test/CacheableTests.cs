@@ -1,5 +1,6 @@
 ﻿using LinqSharp.EFCore.Data;
 using LinqSharp.EFCore.Data.Test;
+using NStandard;
 using System.Linq;
 using Xunit;
 
@@ -7,23 +8,28 @@ namespace LinqSharp.EFCore.Test
 {
     public class CacheableTests
     {
-        public class NameContainer : ICacheable<NameContainer.PreQueries>
+        public class NameCacheContainer : ICacheable<NameCacheContainer.PreQueries>
         {
             public PreQueries Source { get; }
-            public void OnCache()
+            public void OnCached()
             {
             }
 
             public class PreQueries
             {
-                public PreQuery<ApplicationDbContext, LS_Name> LS_Names { get; set; }
+                public QueryDef<LS_Name> LS_Names { get; set; }
+                public QueryDef<LS_Name> LS_Names_FromFilter { get; set; }
             }
 
-            public NameContainer(string name)
+            public NameCacheContainer(string name)
             {
                 Source = new PreQueries
                 {
-                    LS_Names = new PreQuery<ApplicationDbContext, LS_Name>(x => x.LS_Names).Where(x => x.Name == name).Where(x => x.Note == "note"),
+                    LS_Names = new QueryDef<LS_Name>().Where(x => x.Name == name).Where(x => x.Note == "note"),
+                    LS_Names_FromFilter = new QueryDef<LS_Name>().Filter(h =>
+                    {
+                        return h.Where(x => x.Name == name) & h.Where(x => x.Note == "note");
+                    }),
                 };
             }
         }
@@ -33,42 +39,24 @@ namespace LinqSharp.EFCore.Test
         {
             using var mysql = ApplicationDbContext.UseMySql();
             using var trans = mysql.Database.BeginTransaction();
+
             mysql.LS_Names.Add(new LS_Name { Name = "A", Note = "note" });
             mysql.LS_Names.Add(new LS_Name { Name = "B", Note = "note" });
             mysql.LS_Names.Add(new LS_Name { Name = "C", Note = "note" });
             mysql.SaveChanges();
 
-            var containers = new[] { "A", "C" }.Select(n => new NameContainer(n)).ToArray();
-            containers.Feed(mysql);
-            Assert.Equal(new[] { "A", "C" }, containers.SelectMany(x => x.Source.LS_Names.Result).Select(x => x.Name));
+            var caches = new[] { "A", "C" }.Select(n => new NameCacheContainer(n)).ToArray();
 
-            var container_b = new NameContainer("B");
-            container_b.Feed(mysql);
-            Assert.Equal("B", container_b.Source.LS_Names.Result.First().Name);
-        }
+            using var query = mysql.BeginCompoundQuery(x => x.LS_Names);
+            //containers.FetchData(mysql);
+            query.Feed(caches, x => x.LS_Names);
 
-        public class NameContainerWithFilter : ICacheable<NameContainerWithFilter.PreQueries>
-        {
-            public PreQueries Source { get; }
-            public void OnCache()
-            {
-            }
+            Assert.Equal(new[] { "A", "C" }, caches.SelectMany(x => x.Source.LS_Names.Result).Select(x => x.Name));
 
-            public class PreQueries
-            {
-                public PreQuery<ApplicationDbContext, LS_Name> LS_Names { get; set; }
-            }
-
-            public NameContainerWithFilter(string name)
-            {
-                Source = new PreQueries
-                {
-                    LS_Names = new PreQuery<ApplicationDbContext, LS_Name>(x => x.LS_Names).Filter(h =>
-                    {
-                        return h.Where(x => x.Name == name) & h.Where(x => x.Note == "note");
-                    }),
-                };
-            }
+            var cache_b = new NameCacheContainer("B");
+            //container_b.FetchData(mysql);
+            query.Feed(cache_b, x => x.LS_Names);
+            Assert.Equal("B", cache_b.Source.LS_Names.Result.First().Name);
         }
 
         [Fact]
@@ -76,18 +64,21 @@ namespace LinqSharp.EFCore.Test
         {
             using var mysql = ApplicationDbContext.UseMySql();
             using var trans = mysql.Database.BeginTransaction();
+
             mysql.LS_Names.Add(new LS_Name { Name = "A", Note = "note" });
             mysql.LS_Names.Add(new LS_Name { Name = "B", Note = "note" });
             mysql.LS_Names.Add(new LS_Name { Name = "C", Note = "note" });
             mysql.SaveChanges();
 
-            var containers = new[] { "A", "C" }.Select(n => new NameContainerWithFilter(n)).ToArray();
-            containers.Feed(mysql);
-            Assert.Equal(new[] { "A", "C" }, containers.SelectMany(x => x.Source.LS_Names.Result).Select(x => x.Name));
+            var caches = new[] { "A", "C" }.Select(n => new NameCacheContainer(n)).ToArray();
 
-            var container_b = new NameContainerWithFilter("B");
-            container_b.Feed(mysql);
-            Assert.Equal("B", container_b.Source.LS_Names.Result.First().Name);
+            using var compound = mysql.BeginCompoundQuery(x => x.LS_Names);
+            compound.Feed(caches, x => x.LS_Names_FromFilter);
+            Assert.Equal(new[] { "A", "C" }, caches.SelectMany(x => x.Source.LS_Names_FromFilter.Result).Select(x => x.Name));
+
+            var cache_b = new NameCacheContainer("B");
+            compound.Feed(cache_b, x => x.LS_Names_FromFilter);
+            Assert.Equal("B", cache_b.Source.LS_Names_FromFilter.Result.First().Name);
         }
 
     }

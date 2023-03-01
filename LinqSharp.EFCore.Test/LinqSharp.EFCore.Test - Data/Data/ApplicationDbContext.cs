@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace LinqSharp.EFCore.Data.Test
 {
-    public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableContext, IUserTraceable
+    public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableContext, IUserTraceable, ICompoundQueryable<ApplicationDbContext>
     {
         public int MaxConcurrencyRetry => 2;
 

@@ -1,6 +1,6 @@
 # LinqSharp
 
-Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
+Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README.cn.md)
 
 <br/>
 
@@ -12,16 +12,16 @@ Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README-
 
 **LinqSharp** provides enhancements to **LINQ** in the following ways:
 
-- <font color="orange">[Chinese]</font> [Query extension](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/query.md)
-- <font color="orange">[Chinese]</font> [Dynamic LINQ](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/filter.md)
+- <font color="orange">[Chinese]</font> [Query extensions](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/query.md)
+- <font color="orange">[Chinese]</font> [Dynamic LINQ](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/filter.md)
 
 **LinqSharp.EFCore** provides enhancements to **Entity Frameowk** in the following ways:
 
-- <font color="orange">[Chinese]</font> [Data annotations for table design](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-1.md)
-- <font color="orange">[Chinese]</font> [Data annotations for field formatting](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md)
-- <font color="orange">[Chinese]</font> [Direct access (clear table, bulk import)](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-direct-functions.md)
-- <font color="orange">[Chinese]</font> [Pre-Query](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-pre-query.md)
-- <font color="orange">[Chinese]</font> [Custom translator](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-translator.md)
+- <font color="orange">[Chinese]</font> [Data annotations for table design](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-data-annotations-1.md)
+- <font color="orange">[Chinese]</font> [Data annotations for field formatting](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-data-annotations-2.md)
+- <font color="orange">[Chinese]</font> [Direct access (clear table, bulk import)](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-direct-functions.md)
+- <font color="orange">[Chinese]</font> [Compound Query](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-compound-query.md)
+- <font color="orange">[Chinese]</font> [Custom translator](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-translator.md)
 - <font color="orange">[no documentation yet]</font> Column storage agent
 
 <br/>

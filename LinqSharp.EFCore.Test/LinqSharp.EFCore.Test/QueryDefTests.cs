@@ -1,5 +1,4 @@
 ﻿using LinqSharp.EFCore.Data.Test;
-using LinqSharp.EFCore.Navigation;
 using Microsoft.EntityFrameworkCore;
 using Northwnd;
 using System.Linq;
@@ -7,7 +6,7 @@ using Xunit;
 
 namespace LinqSharp.EFCore.Test
 {
-    public class PreQueryTests
+    public class QueryDefTests
     {
         [Fact]
         public void SimpleTest()
@@ -19,50 +18,53 @@ namespace LinqSharp.EFCore.Test
                 ("Seafood", 1997),
             };
 
-            var preQueries = queryParams.Select(p =>
+            var queryDefs = queryParams.Select(p =>
             {
-                return new PreQuery<ApplicationDbContext, OrderDetail>(x => x.OrderDetails)
-                    .Include(x => x.ProductLink.CategoryLink)
-                    .Include(x => x.OrderLink)
+                return new QueryDef<OrderDetail>()
                     .Where(x =>
                         x.ProductLink.CategoryLink.CategoryName == p.CategoryName
                         && x.OrderLink.OrderDate.Value.Year == p.Year);
             }).ToArray();
-            var query = preQueries.FeedAll(mysql);
 
-            Assert.Equal(240, query.Length);
-            Assert.Equal(78, preQueries[0].Result.Length);
-            Assert.Equal(162, preQueries[1].Result.Length);
+            using (var query = mysql.BeginCompoundQuery(x => x.OrderDetails
+                .AsNoTracking()
+                .Include(x => x.ProductLink.CategoryLink)
+                .Include(x => x.OrderLink)))
+            {
+                var combinedResult = query.Feed(queryDefs);
+                Assert.Equal(240, combinedResult.Length);
+            }
+
+            //container
+            //    .Include(x => x.ProductLink.CategoryLink)
+            //    .Include(x => x.OrderLink);
+            Assert.Equal(78, queryDefs[0].Result.Length);
+            Assert.Equal(162, queryDefs[1].Result.Length);
         }
 
         [Fact]
         public void CombineTest()
         {
             using var mysql = ApplicationDbContext.UseMySql();
-            var preQueries = new[]
+
+            using var query = mysql.BeginCompoundQuery(x => x.Products);
+            query
+                .Include(x => x.OrderDetails).ThenInclude(x => x.OrderLink)
+                .Include(x => x.SupplierLink).ThenInclude(x => x.Products);
+
+            var queryDefs = new[]
             {
-                new PreQuery<ApplicationDbContext, Product>(x => x.Products)
-                    .Include(x => x.OrderDetails).ThenInclude(x => x.OrderLink)
-                    .Include(x => x.SupplierLink).ThenInclude(x => x.Products)
-                    .Where(x => x.SupplierID == 1),
-
-                new PreQuery<ApplicationDbContext, Product>(x => x.Products)
-                    .Include(x => x.OrderDetails).ThenInclude(x => x.OrderLink)
-                    .Include(x => x.SupplierLink).ThenInclude(x => x.Products)
-                    .Where(x => x.SupplierID == 2),
-
-                new PreQuery<ApplicationDbContext, Product>(x => x.Products)
-                    .Include(x => x.OrderDetails).ThenInclude(x => x.OrderLink)
-                    .Include(x => x.SupplierLink).ThenInclude(x => x.Products)
-                    .Where(x => x.SupplierID == 3 && x.ProductID == 100),
+                new QueryDef<Product>().Where(x => x.SupplierID == 1),
+                new QueryDef<Product>().Where(x => x.SupplierID == 2),
+                new QueryDef<Product>().Where(x => x.SupplierID == 3 && x.ProductID == 100),
             };
 
-            Assert.Equal("x => (x.SupplierID == Convert(1, Nullable`1))", preQueries[0].ToString());
-            Assert.Equal("x => (x.SupplierID == Convert(2, Nullable`1))", preQueries[1].ToString());
-            Assert.Equal("x => ((x.SupplierID == Convert(3, Nullable`1)) AndAlso (x.ProductID == 100))", preQueries[2].ToString());
+            Assert.Equal("x => (x.SupplierID == Convert(1, Nullable`1))", queryDefs[0].ToString());
+            Assert.Equal("x => (x.SupplierID == Convert(2, Nullable`1))", queryDefs[1].ToString());
+            Assert.Equal("x => ((x.SupplierID == Convert(3, Nullable`1)) AndAlso (x.ProductID == 100))", queryDefs[2].ToString());
 
             var sql = (
-                from x in preQueries.ToQuery(mysql)
+                from x in query.BuildQuery(queryDefs)
                 select new { x.ProductID, x.SupplierLink.CompanyName }
             ).ToQueryString();
 

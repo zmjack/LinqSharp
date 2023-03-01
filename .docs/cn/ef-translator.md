@@ -1,9 +1,3 @@
-# LinqSharp
-
-[● 返回列表](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
-
-<br/>
-
 ## 自定义转译器
 
 使用解析器能够更细粒度地控制 **SQL** 生成，通常能够完成以下任务：

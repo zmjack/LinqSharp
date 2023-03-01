@@ -1,9 +1,3 @@
-# LinqSharp
-
-[● 返回列表](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
-
-<br/>
-
 ## 数据特性
 
 **LinqSharp.EFCore** 为 **CodeFirst** 模型提供了更多且易于使用的数据特性：

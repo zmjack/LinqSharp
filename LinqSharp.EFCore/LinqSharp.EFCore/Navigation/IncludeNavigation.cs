@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.EFCore.Query;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
@@ -13,10 +14,10 @@ namespace LinqSharp.EFCore.Navigation
         where TEntity : class
         where TProperty : class
     {
-        public PreQuery<TDbContext, TEntity> Owner { get; }
+        public CompoundQuery<TDbContext, TEntity> Owner { get; }
         public List<QueryTarget> TargetPath { get; }
 
-        internal IncludeNavigation(PreQuery<TDbContext, TEntity> owner, List<QueryTarget> targetPath)
+        internal IncludeNavigation(CompoundQuery<TDbContext, TEntity> owner, List<QueryTarget> targetPath)
         {
             Owner = owner;
             TargetPath = targetPath;

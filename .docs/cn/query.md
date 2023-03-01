@@ -1,9 +1,3 @@
-# LinqSharp
-
-- [返回列表](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
-
-<br/>
-
 ## 基础扩展
 
 ### 输出 SQL
@@ -348,7 +342,7 @@ var s = "0123456789ABCDEF0123456789ABCDEF"
 
 例如，雇员（**Employees**）表按照 **EmployeeID** 和 **ReportsTo** 定义结构如下：
 
-[pic]
+![employee-tree.png](https://github.com/zmjack/LinqSharp/blob/master/docs/images/employee-tree.png?raw=true)
 
 | EmployeeID | FirstName | ReportsTo | ReportsTo_ |
 | :--------- | :-------- | :-------- | :--------- |
@@ -370,7 +364,7 @@ var s = "0123456789ABCDEF0123456789ABCDEF"
 
 例如，查询由 **2** 号雇员 **Andrew** 领导的所有成员（2, 1, 3, 4, 5, 6, 7, 9, 8）：
 
-[pic]
+![select-more.png](https://github.com/zmjack/LinqSharp/blob/master/docs/images/select-more.png?raw=true)
 
 方法： 使用 **SelectMore** 从根节点查找即可。
 
@@ -414,7 +408,7 @@ var result = query.Select(x => new
 
 例如，查询由 **2** 号雇员 **Andrew** 领导的所有基层员工（叶节点，1, 3, 6, 7, 9, 8）：
 
-[pic]
+![select-until.png](https://github.com/zmjack/LinqSharp/blob/master/docs/images/select-until.png?raw=true)
 
 方法：使用 **SelectUntil** 从根节点查找，直到节点 **Subordinates** 为空。
 
@@ -456,7 +450,7 @@ var result = query.Select(x => new
 
 例如，查询由 **2** 号雇员 **Andrew** 领导的所有非基层员工（非叶节点，2, 5）：
 
-[pic]
+![select-while.png](https://github.com/zmjack/LinqSharp/blob/master/docs/images/select-while.png?raw=true)
 
 方法：使用 **SelectWhile** 从根节点查找路径，直到节点 **Subordinates** 为空。
 

@@ -1,9 +1,3 @@
-# LinqSharp
-
-[● 返回列表](https://github.com/zmjack/LinqSharp/blob/master/README-CN.md)
-
-<br/>
-
 ## 计算函数
 
 **LinqSharp.EFCore** 为数据操作提供了更多计算函数：
@@ -25,8 +19,4 @@
 | DbFunc.**Random**   |  ✔️   |   ✔️    |            ✔️             |            ✔️             |
 
 <br/>
-
-### 随机数（**Random**）
-
-随机数函数会返回一个随机双精度浮点数。
 
