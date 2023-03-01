@@ -9,11 +9,10 @@ using System.Collections.Generic;
 
 namespace LinqSharp.EFCore.Navigation
 {
-    public interface IIncludable<TDbContext, TEntity, out TProperty>
-        where TDbContext : DbContext
+    public interface IIncludable<TEntity, out TProperty>
         where TEntity : class
     {
-        CompoundQuery<TDbContext, TEntity> Owner { get; }
+        CompoundQuery<TEntity> Owner { get; }
         List<QueryTarget> TargetPath { get; }
     }
 }

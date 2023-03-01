@@ -16,12 +16,12 @@ namespace LinqSharp.EFCore
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class DbContextExtensions
     {
-        public static CompoundQuery<TContext, TEntity> BeginCompoundQuery<TContext, TEntity>(this TContext @this, Func<TContext, IQueryable<TEntity>> querySelector)
+        public static CompoundQuery<TEntity> BeginCompoundQuery<TContext, TEntity>(this TContext @this, Func<TContext, IQueryable<TEntity>> querySelector)
             where TContext : DbContext, ICompoundQueryable<TContext>
             where TEntity : class
         {
             var query = querySelector(@this);
-            return new CompoundQuery<TContext, TEntity>(query);
+            return new CompoundQuery<TEntity>(query);
         }
 
         public static ProviderName GetProviderName(this DbContext @this)

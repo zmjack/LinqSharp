@@ -9,15 +9,14 @@ using System.Collections.Generic;
 
 namespace LinqSharp.EFCore.Navigation
 {
-    public class IncludeNavigation<TDbContext, TEntity, TProperty> : IIncludable<TDbContext, TEntity, TProperty>
-        where TDbContext : DbContext
+    public class IncludeNavigation<TEntity, TProperty> : IIncludable<TEntity, TProperty>
         where TEntity : class
         where TProperty : class
     {
-        public CompoundQuery<TDbContext, TEntity> Owner { get; }
+        public CompoundQuery<TEntity> Owner { get; }
         public List<QueryTarget> TargetPath { get; }
 
-        internal IncludeNavigation(CompoundQuery<TDbContext, TEntity> owner, List<QueryTarget> targetPath)
+        internal IncludeNavigation(CompoundQuery<TEntity> owner, List<QueryTarget> targetPath)
         {
             Owner = owner;
             TargetPath = targetPath;

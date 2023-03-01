@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.EFCore.Query;
 using LinqSharp.Query;
 using Microsoft.EntityFrameworkCore.Internal;
 using NStandard;
@@ -75,6 +76,14 @@ namespace LinqSharp.EFCore
                 return Where(whereExp.Expression);
             }
             else return this;
+        }
+
+        public IQueryable ToQueryable()
+        {
+            var query = CompoundQuery<TEntity>.Current;
+            if (query is null) throw new InvalidOperationException("This operation needs to be contained within a CompoundQuery scope.");
+
+            return query.BuildQuery(this);
         }
 
         public override string ToString()

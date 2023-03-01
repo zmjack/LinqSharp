@@ -34,8 +34,7 @@ namespace LinqSharp.EFCore.Query
         });
     }
 
-    public class CompoundQuery<TDbContext, TEntity> : Scope<CompoundQuery<TDbContext, TEntity>>
-        where TDbContext : DbContext
+    public class CompoundQuery<TEntity> : Scope<CompoundQuery<TEntity>>
         where TEntity : class
     {
         public IQueryable<TEntity> Queryable { get; }
@@ -46,10 +45,10 @@ namespace LinqSharp.EFCore.Query
             Queryable = queryable;
         }
 
-        public IIncludable<TDbContext, TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationPropertyPath) where TProperty : class
+        public IIncludable<TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationPropertyPath) where TProperty : class
         {
             var targetPath = new List<QueryTarget>();
-            var nav = new IncludeNavigation<TDbContext, TEntity, TProperty>(this, targetPath);
+            var nav = new IncludeNavigation<TEntity, TProperty>(this, targetPath);
             PropertyPathLists.Add(nav.TargetPath);
 
             nav.TargetPath.Add(new QueryTarget
