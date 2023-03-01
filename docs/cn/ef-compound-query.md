@@ -29,7 +29,7 @@
   
 
     ```csharp
-    var query = this.OrderDetails
+    var result = this.OrderDetails
         .Include(x => x.OrderLink)
         .Include(x => x.ProductLink).ThenInclude(x => x.CategoryLink)
         .Filter(h => h.Or(queryParams.Select(p =>
@@ -38,21 +38,28 @@
                 x.ProductLink.CategoryLink.CategoryName == p.CategoryName 
              && x.OrderLink.OrderDate.Value.Year == p.Year);
         })));
-    ```
-
+    result.Dump(1);
+```
+  
 - 使用 **CompoundQuery** 进行查询：
 
     ```csharp
-    var preQueries = queryParams.Select(p =>
+    var queryDefs = queryParams.Select(p =>
     {
-        return this.CreatePreQuery(x => x.OrderDetails)
-            .Include(x => x.OrderLink)
-            .Include(x => x.ProductLink).ThenInclude(x => x.CategoryLink)
+        return new QueryDef<OrderDetail>()
             .Where(x =>
-                x.ProductLink.CategoryLink.CategoryName == p.CategoryName
-             && x.OrderLink.OrderDate.Value.Year == p.Year);
+    			x.ProductLink.CategoryLink.CategoryName == p.CategoryName
+    		 && x.OrderLink.OrderDate.Value.Year == p.Year);
     }).ToArray();
-    var query = this.ExcuteQueries(preQueries);
+    
+    using (var query = this.BeginCompoundQuery(x => x.OrderDetails
+        .Include(x => x.OrderLink)
+        .Include(x => x.ProductLink).ThenInclude(x => x.CategoryLink)
+    ))
+    {
+        var result = query.Feed(queryDefs);
+    	result.Dump(1);
+    }
     ```
 
 它们将生成相同的 SQL：
@@ -121,21 +128,20 @@ public class ApplicationDbContext : DbContext, ICompoundQueryable<ApplicationDbC
 ```csharp
 var queryDefs = new[]
 {
-	new QueryDef<Product>("Greater than 60").Where(x => x.UnitPrice >= 60),
-	new QueryDef<Product>("Greater than 100").Where(x => x.UnitPrice >= 100),
+    new QueryDef<Product>("Greater than 60").Where(x => x.UnitPrice >= 60),
+    new QueryDef<Product>("Greater than 100").Where(x => x.UnitPrice >= 100),
 };
 
 using (var query = this.BeginCompoundQuery(x => x.Products.OrderBy(x => x.CategoryID)))
 {
-	var all = query.Feed(queryDefs);
-	all.Dump("All");
+    var all = query.Feed(queryDefs);
+    all.Dump("All");
 }
 
 foreach (var def in queryDefs)
 {
-	def.Result.Dump(def.Name);
+    def.Result.Dump(def.Name);
 }
-
 ```
 
 ```mysql
