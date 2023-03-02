@@ -22,8 +22,8 @@
 - [复合查询](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-compound-query.md)
 - [自定义转译器](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-translator.md)
 - [解决并发冲突](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-concurrency-resolving.md)
-- <font color="orange">[暂无文档]</font> 列式存储代理
-- [直接访问（清空表，批量导入）](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-direct-functions.md)
+- [用于 Key-Value 结构的代理查询](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-agent-query.md)
+- [直接访问支持](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-direct-handling.md)
 
 <br/>
 

@@ -3,7 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using LinqSharp.EFCore.Query;
+using LinqSharp.EFCore.Scopes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using NStandard;
@@ -38,7 +38,6 @@ namespace LinqSharp.EFCore
                 var contextType = context.GetType();
                 var sourceType = typeof(TDataSource);
 
-                // TODO: Use direct function to optimize.
                 var props = CacheablePropertiesCache.GetOrCreate($"{sourceType}:{contextType}", entry =>
                 {
                     return typeof(TDataSource).GetProperties().Where(x =>

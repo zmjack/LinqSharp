@@ -13,10 +13,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace LinqSharp.EFCore.Query
+namespace LinqSharp.EFCore.Scopes
 {
     internal static class CompoundQuery
     {
+        public static InvalidOperationException NoScopeException => new("This operation needs to be contained within a CompoundQuery scope.");
+
         internal static readonly MemoryCache Include_Cache = new(new MemoryCacheOptions());
         internal static readonly MemoryCache ThenInclude_Cache = new(new MemoryCacheOptions());
 
@@ -45,6 +47,7 @@ namespace LinqSharp.EFCore.Query
             Queryable = queryable;
         }
 
+        [Obsolete("May be removed in the future.")]
         public IIncludable<TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationPropertyPath) where TProperty : class
         {
             var targetPath = new List<QueryTarget>();

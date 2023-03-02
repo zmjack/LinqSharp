@@ -33,7 +33,7 @@ namespace LinqSharp.EFCore.Test
                 };
             });
 
-            using (context.BeginDirectScope())
+            using (context.BeginDirectQuery())
             {
                 context.BulkTestModels.Truncate();
             }
@@ -59,7 +59,7 @@ namespace LinqSharp.EFCore.Test
                 };
             });
 
-            using (context.BeginDirectScope())
+            using (context.BeginDirectQuery())
             {
                 context.BulkTestModels.Truncate();
                 context.BulkTestModels.BulkInsert(models);

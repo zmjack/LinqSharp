@@ -4,7 +4,8 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Design;
-using LinqSharp.EFCore.Query;
+using LinqSharp.EFCore.Entities;
+using LinqSharp.EFCore.Scopes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
@@ -16,12 +17,24 @@ namespace LinqSharp.EFCore
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class DbContextExtensions
     {
+#pragma warning disable IDE0060 // Remove unused parameter
+        public static DirectQuery BeginDirectQuery(this DbContext @this) => new();
+#pragma warning restore IDE0060 // Remove unused parameter
+
         public static CompoundQuery<TEntity> BeginCompoundQuery<TContext, TEntity>(this TContext @this, Func<TContext, IQueryable<TEntity>> querySelector)
-            where TContext : DbContext, ICompoundQueryable<TContext>
+            where TContext : DbContext
             where TEntity : class
         {
             var query = querySelector(@this);
             return new CompoundQuery<TEntity>(query);
+        }
+
+        public static AgentQuery<TEntity> BeginAgentQuery<TContext, TEntity>(this TContext @this, Func<TContext, DbSet<TEntity>> dbSetSelector)
+            where TContext : DbContext
+            where TEntity : KeyValueEntity, new()
+        {
+            var dbSet = dbSetSelector(@this);
+            return new AgentQuery<TEntity>(@this, dbSet);
         }
 
         public static ProviderName GetProviderName(this DbContext @this)
@@ -51,9 +64,5 @@ namespace LinqSharp.EFCore
             var entityType = entityTypes.First(x => x.ClrType == typeof(TEntity));
             return entityType.GetAnnotation("Relational:TableName").Value.ToString();
         }
-
-#pragma warning disable IDE0060 // Remove unused parameter
-        public static DirectScope BeginDirectScope(this DbContext @this) => new();
-#pragma warning restore IDE0060 // Remove unused parameter
     }
 }

@@ -16,7 +16,7 @@ namespace LinqSharp.EFCore.Test
             var now = DateTime.Now;
             using var mysql = ApplicationDbContext.UseMySql();
 
-            using (mysql.BeginDirectScope())
+            using (mysql.BeginDirectQuery())
             {
                 mysql.LS_Names.Truncate();
             }
@@ -51,7 +51,7 @@ namespace LinqSharp.EFCore.Test
             Assert.Equal(2, mysql.LS_Names.Count(x => x.Note.Contains("Changed")));
 
             // Clear
-            using (mysql.BeginDirectScope())
+            using (mysql.BeginDirectQuery())
             {
                 mysql.LS_Names.Truncate();
             }

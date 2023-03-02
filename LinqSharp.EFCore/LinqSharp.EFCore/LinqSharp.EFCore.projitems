@@ -11,8 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoCreatedByAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoUpdatedByAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Query\CompoundQuery.cs" />
-    <Compile Include="..\LinqSharp.EFCore\Design\ICompoundQueryable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scopes\CompoundQuery.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scopes\AgentQuery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Design\IUserTraceable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IIncludableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\IIncludable.cs" />
@@ -38,7 +38,7 @@
     <Compile Include="..\LinqSharp.EFCore\ProviderName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Query\Translator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Identifiers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Query\DirectScope.cs" />
+    <Compile Include="..\LinqSharp.EFCore\Scopes\DirectQuery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BulkCopyEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LinqSharpEF.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LinqSharpEFRegister.cs" />
@@ -76,7 +76,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\KeyValueEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgentProxy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Design\KeyValueAccessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Annotations\Base\" />

@@ -1,10 +1,14 @@
 ## 复合查询
 
-复合查询（**Compound Query**）属于动态查询的特殊构建方式，它可以将多个查询定义合并成单一查询，能够有效节省数据库访问往返，也可用于缓存数据。
+复合查询（**Compound Query**）属于动态查询的特殊构建方式。
 
-本文以示例数据库 **Northwnd** 举例说明。
+它可以将多个查询定义合并成单一查询，能够有效节省数据库访问往返，也可用于缓存数据。
 
 <br/>
+
+### 示例
+
+以示例数据库 **Northwnd** 举例说明。
 
 例如，构建以下查询需求：
 
@@ -114,14 +118,6 @@ OR
 | Greater than 60  | UnitPrice >= 60  | 5          |
 | Greater than 100 | UnitPrice >= 100 | 2          |
 | \<All\>          | Above            | 5          |
-
-使用前需要在 **DbContext** 上实现 **ICompoundQueryable** 接口：
-
-```csharp
-public class ApplicationDbContext : DbContext, ICompoundQueryable<ApplicationDbContext>
-{    
-}
-```
 
 查询示例：
 

@@ -19,7 +19,7 @@ namespace LinqSharp.EFCore.Test
             string GetJsonModel() => db.SqlQuery($"SELECT JsonModel FROM LS_Providers;").First()[nameof(LS_Provider.JsonModel)].ToString();
             string GetDictionaryModel() => db.SqlQuery($"SELECT DictionaryModel FROM LS_Providers;").First()[nameof(LS_Provider.DictionaryModel)].ToString();
 
-            using (context.BeginDirectScope())
+            using (context.BeginDirectQuery())
             {
                 context.LS_Providers.Truncate();
             }
@@ -55,7 +55,7 @@ namespace LinqSharp.EFCore.Test
             context.SaveChanges();
             Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":""Hi there.""}", GetNameModel());
 
-            using (context.BeginDirectScope())
+            using (context.BeginDirectQuery())
             {
                 context.LS_Providers.Truncate();
             }

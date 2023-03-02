@@ -16,7 +16,7 @@ namespace LinqSharp.EFCore.Test
             static void Test(ApplicationDbContext db, TestDatabases databases)
             {
                 using var trans = db.Database.BeginTransaction();
-                using var directScope = db.BeginDirectScope();
+                using var directScope = db.BeginDirectQuery();
 
                 db.YearMonthModels.Truncate();
 

@@ -23,7 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)~Support\EFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbContextExtensionsTests.cs" />
     <Compile Include="..\LinqSharp.EFCore.Test\QueryDefTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)KeyValueEntityTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AgentQueryTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NumbericTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JoinTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QSum_And_QAverageTests.cs" />

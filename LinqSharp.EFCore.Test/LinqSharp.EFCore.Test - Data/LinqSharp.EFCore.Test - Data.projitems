@@ -11,7 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationDbScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\AppRegistry.cs" />
+    <Compile Include="..\LinqSharp.EFCore.Test - Data\Data\AppRegistryEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\BulkTestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ConcurrencyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\CPKeyModel.cs" />

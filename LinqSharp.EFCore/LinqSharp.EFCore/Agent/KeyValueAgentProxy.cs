@@ -5,6 +5,7 @@
 
 using Castle.DynamicProxy;
 using LinqSharp.EFCore.Entities;
+using LinqSharp.EFCore.Scopes;
 using NStandard;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,16 +14,24 @@ using System.Linq;
 namespace LinqSharp.EFCore.Agent
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class KeyValueAgentProxy<TKeyValueAgent, TKeyValueEntity> : IInterceptor
-        where TKeyValueAgent : KeyValueAgent<TKeyValueAgent, TKeyValueEntity>, new()
-        where TKeyValueEntity : KeyValueEntity, new()
+    public class KeyValueAgentProxy<TAgent, TEntity> : IInterceptor
+        where TAgent : KeyValueAgent<TEntity>, new()
+        where TEntity : KeyValueEntity, new()
     {
         public void Intercept(IInvocation invocation)
         {
-            var proxy = (TKeyValueAgent)invocation.Proxy;
+            var agent = (TAgent)invocation.Proxy;
+            if (!agent._executed)
+            {
+                var query = AgentQuery<TEntity>.Current;
+                if (query is null) throw AgentQuery.NoScopeException;
+
+                agent._executed = true;
+                agent._entities = query.GetEntities<TAgent>(agent.ItemName);
+            }
 
             var property = invocation.Method.Name.Substring(4);
-            var entity = proxy._entities.FirstOrDefault(x => x.Key == property);
+            var entity = agent._entities.FirstOrDefault(x => x.Key == property);
 
             if (invocation.Method.Name.StartsWith("set_"))
             {
@@ -39,7 +48,7 @@ namespace LinqSharp.EFCore.Agent
                     return;
                 }
 
-                var proxyProperty = proxy.GetType().GetProperty(property);
+                var proxyProperty = agent.GetType().GetProperty(property);
                 if (entity.Value is null)
                 {
                     invocation.ReturnValue = proxyProperty.PropertyType.CreateDefault();

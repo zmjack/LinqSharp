@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace LinqSharp.EFCore.Data.Test
 {
-    public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableContext, IUserTraceable, ICompoundQueryable<ApplicationDbContext>
+    public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableContext, IUserTraceable
     {
         public int MaxConcurrencyRetry => 2;
 
@@ -85,9 +85,7 @@ namespace LinqSharp.EFCore.Data.Test
             LastChanged = null;
         }
 
-        public DbSet<AppRegistry> AppRegistries { get; set; }
-        public KeyValueAccessor<ApplicationDbContext, AppRegistry> GetAppRegistriesAccessor() => KeyValueAccessor.Create(this, AppRegistries);
-
+        public DbSet<AppRegistryEntity> AppRegistries { get; set; }
         public DbSet<TrackModel> TrackModels { get; set; }
         public DbSet<EntityMonitorModel> EntityMonitorModels { get; set; }
         public DbSet<SimpleModel> SimpleModels { get; set; }

@@ -5,6 +5,7 @@
 
 using Castle.DynamicProxy;
 using LinqSharp.EFCore.Entities;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,32 +13,16 @@ using System.Linq;
 namespace LinqSharp.EFCore.Agent
 {
     /// <summary>
-    /// [ Each custom properties must be virtual(public). ]
+    /// Hint: Each custom properties must be virtual(public).
     /// </summary>
-    /// <typeparam name="TSelf"></typeparam>
-    /// <typeparam name="TKeyValueEntity"></typeparam>
-    public abstract class KeyValueAgent<TSelf, TKeyValueEntity>
-        where TSelf : KeyValueAgent<TSelf, TKeyValueEntity>, new()
-        where TKeyValueEntity : KeyValueEntity, new()
+    /// <typeparam name="TEntity"></typeparam>
+    public abstract class KeyValueAgent<TEntity>
+        where TEntity : KeyValueEntity, new()
     {
-        internal string _item;
+        public string ItemName { get; internal set; }
+
+        internal bool _executed;
         internal KeyValueEntity[] _entities;
-
-        internal void SetEntities(TKeyValueEntity[] keyValueEntities, string item)
-        {
-            if (GetType().Namespace != "Castle.Proxies") throw new InvalidOperationException("This method can only be called in a proxy instance.");
-            _item = item;
-            _entities = keyValueEntities;
-        }
-
-        public string GetItemName() => _item;
-
-        public static TSelf Attach(IEnumerable<TKeyValueEntity> keyValueEntities, string item)
-        {
-            var proxy = new ProxyGenerator().CreateClassProxyWithTarget(new TSelf(), new KeyValueAgentProxy<TSelf, TKeyValueEntity>());
-            proxy.SetEntities(keyValueEntities.Where(x => x.Item == item).ToArray(), item);
-            return proxy;
-        }
     }
 
 }

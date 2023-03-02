@@ -48,13 +48,11 @@ namespace LinqSharp.EFCore.Test
             var caches = new[] { "A", "C" }.Select(n => new NameCacheContainer(n)).ToArray();
 
             using var query = mysql.BeginCompoundQuery(x => x.LS_Names);
-            //containers.FetchData(mysql);
             query.Feed(caches, x => x.LS_Names);
 
             Assert.Equal(new[] { "A", "C" }, caches.SelectMany(x => x.Source.LS_Names.Result).Select(x => x.Name));
 
             var cache_b = new NameCacheContainer("B");
-            //container_b.FetchData(mysql);
             query.Feed(cache_b, x => x.LS_Names);
             Assert.Equal("B", cache_b.Source.LS_Names.Result.First().Name);
         }

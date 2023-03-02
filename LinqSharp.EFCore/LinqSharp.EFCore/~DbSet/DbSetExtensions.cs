@@ -4,7 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Infrastructure;
-using LinqSharp.EFCore.Query;
+using LinqSharp.EFCore.Scopes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -38,13 +38,13 @@ namespace LinqSharp.EFCore
         /// <summary>
         /// Bulk insert into table.
         /// <para>[Warning] This method will not throw any exception.</para>
-        /// <para>( Need BeginDirectScope. )</para>
+        /// <para>( Need <see cref="DirectQuery" />. )</para>
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="this"></param>
         public static void BulkInsert<TEntity>(this DbSet<TEntity> @this, IEnumerable<TEntity> entities, int bulkSize = 20_000) where TEntity : class
         {
-            if (!LinqSharpEFRegister.AllowUnsafeCode && DirectScope.Current is null) throw DirectScope.RunningOutsideScopeException;
+            if (!LinqSharpEFRegister.AllowUnsafeCode && DirectQuery.Current is null) throw DirectQuery.RunningOutsideScopeException;
 
             var context = @this.GetDbContext();
             var name = @this.GetProviderName();
@@ -54,13 +54,13 @@ namespace LinqSharp.EFCore
 
         /// <summary>
         /// Truncate table.
-        /// <para>( Need BeginDirectScope. )</para>
+        /// <para>( Need <see cref="DirectQuery" />. )</para>
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="this"></param>
         public static void Truncate<TEntity>(this DbSet<TEntity> @this) where TEntity : class
         {
-            if (!LinqSharpEFRegister.AllowUnsafeCode && DirectScope.Current is null) throw DirectScope.RunningOutsideScopeException;
+            if (!LinqSharpEFRegister.AllowUnsafeCode && DirectQuery.Current is null) throw DirectQuery.RunningOutsideScopeException;
 
             var context = @this.GetDbContext();
             var table = context.GetTableName<TEntity>();
