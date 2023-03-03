@@ -6,7 +6,7 @@ using Xunit;
 
 namespace LinqSharp.EFCore.Test
 {
-    public class QueryDefTests
+    public class CompoundQueryTests
     {
         [Fact]
         public void SimpleTest()

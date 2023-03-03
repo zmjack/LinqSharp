@@ -8,7 +8,7 @@ using NStandard;
 using System;
 using System.Linq;
 
-namespace LinqSharp.EFCore.Annotations.Base
+namespace LinqSharp.EFCore.Annotations
 {
     public abstract class AutoAttribute : Attribute
     {

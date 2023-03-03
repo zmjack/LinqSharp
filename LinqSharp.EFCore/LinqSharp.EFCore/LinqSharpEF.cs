@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Annotations;
-using LinqSharp.EFCore.Annotations.Base;
 using LinqSharp.EFCore.Design;
 using LinqSharp.EFCore.Design.AutoTags;
 using LinqSharp.EFCore.Translators;

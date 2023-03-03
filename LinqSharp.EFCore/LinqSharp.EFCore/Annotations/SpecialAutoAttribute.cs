@@ -7,7 +7,7 @@ using LinqSharp.EFCore.Design.AutoTags;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace LinqSharp.EFCore.Annotations.Base
+namespace LinqSharp.EFCore.Annotations
 {
     public abstract class SpecialAutoAttribute<TAutoTag> : AutoAttribute where TAutoTag : IAutoTag
     {

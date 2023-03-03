@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Annotations;
-using LinqSharp.EFCore.Annotations.Base;
 using LinqSharp.Query;
 using NStandard;
 using System;
@@ -131,7 +130,7 @@ namespace LinqSharp.EFCore
                 var property = Expression.Property(parameter, prop.Name);
                 var lambda = Expression.Lambda(property, parameter);
 
-                ret.Add(prop.Name, DataAnnotation.GetDisplayString(@this, lambda));
+                ret.Add(prop.Name, DataAnnotation.GetDisplay(@this, lambda));
             }
 
             return ret;
@@ -146,6 +145,38 @@ namespace LinqSharp.EFCore
             foreach (var prop in props) ret.Add(prop.Name, DataAnnotation.GetDisplayString(@this, prop.Name));
 
             return ret;
+        }
+
+#pragma warning disable IDE0060 // Remove unused parameter
+        public static string DisplayName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
+            where TEntity : class, IEntity<TEntity>, new()
+        {
+            return DataAnnotation.GetDisplayName(expression);
+        }
+
+        public static string DisplayName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
+            where TEntity : class, IEntity<TEntity>, new()
+        {
+            return DataAnnotation.GetDisplayName(expression);
+        }
+
+        public static string DisplayShortName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
+            where TEntity : class, IEntity<TEntity>, new()
+        {
+            return DataAnnotation.GetDisplayShortName(expression);
+        }
+
+        public static string DisplayShortName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
+            where TEntity : class, IEntity<TEntity>, new()
+        {
+            return DataAnnotation.GetDisplayShortName(expression);
+        }
+#pragma warning restore IDE0060 // Remove unused parameter
+
+        public static string Display<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression, string defaultReturn = "")
+            where TEntity : class, IEntity<TEntity>, new()
+        {
+            return DataAnnotation.GetDisplay(@this, expression, defaultReturn);
         }
 
     }

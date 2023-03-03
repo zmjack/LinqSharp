@@ -23,11 +23,8 @@ namespace LinqSharp.EFCore.Agent
             var agent = (TAgent)invocation.Proxy;
             if (!agent._executed)
             {
-                var query = AgentQuery<TEntity>.Current;
-                if (query is null) throw AgentQuery.NoScopeException;
-
-                agent._executed = true;
-                agent._entities = query.GetEntities<TAgent>(agent.ItemName);
+                var query = AgentQuery<TEntity>.Current ?? throw AgentQuery.NoScopeException;
+                query.Execute();
             }
 
             var property = invocation.Method.Name.Substring(4);

@@ -12,6 +12,7 @@ using NStandard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace LinqSharp.EFCore.Scopes
 {
@@ -27,10 +28,8 @@ namespace LinqSharp.EFCore.Scopes
         public DbContext Context { get; }
         public DbSet<TEntity> DbSet { get; }
 
-        private readonly List<string> _loadedItemList = new();
-        private readonly List<TEntity> _loadedEntities = new();
-
-        private readonly HashSet<string> _uncreatedItemList = new();
+        private readonly Dictionary<string, KeyValueAgent<TEntity>> _agentList = new();
+        private readonly List<string> _uncreatedNameList = new();
 
         internal AgentQuery(DbContext context, DbSet<TEntity> dbSet)
         {
@@ -40,59 +39,70 @@ namespace LinqSharp.EFCore.Scopes
 
         public TAgent GetAgent<TAgent>(string itemName) where TAgent : KeyValueAgent<TEntity>, new()
         {
-            if (!_loadedItemList.Contains(itemName))
+            if (!_agentList.ContainsKey(itemName))
             {
-                _uncreatedItemList.Add(itemName);
+                _uncreatedNameList.Add(itemName);
             }
 
-            var agent = new TAgent();
-            var agentProxy = new KeyValueAgentProxy<TAgent, TEntity>();
-            var proxy = new ProxyGenerator().CreateClassProxyWithTarget(agent, agentProxy);
-            proxy.ItemName = itemName;
-            return proxy;
+            var proxy = new KeyValueAgentProxy<TAgent, TEntity>();
+            var agent = new ProxyGenerator().CreateClassProxyWithTarget(new TAgent(), proxy);
+            agent.__ItemName__ = itemName;
+
+            _agentList[itemName] = agent;
+
+            return agent;
         }
 
-        internal TEntity[] GetEntities<TAgent>(string item) where TAgent : KeyValueAgent<TEntity>, new()
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void Execute()
         {
-            if (!_loadedItemList.Contains(item)) Sync<TAgent>();
-            return _loadedEntities.Where(x => x.Item == item).ToArray();
-        }
-
-        private void Sync<TAgent>() where TAgent : KeyValueAgent<TEntity>, new()
-        {
-            if (_uncreatedItemList.Any())
+            if (_uncreatedNameList.Any())
             {
-                var agentType = typeof(TAgent);
-                var defaultAgent = agentType.CreateInstance();
-
-                var props = _agentProperties.GetOrCreate(agentType, entry =>
+                var itemNamesByType = _uncreatedNameList.GroupBy(name => _agentList[name].GetType().BaseType);
+                foreach (var itemNames in itemNamesByType)
                 {
-                    return agentType.GetProperties().Where(x => x.GetMethod.IsVirtual).ToArray();
-                });
+                    var agentType = itemNames.Key;
+                    var defaultAgent = agentType.CreateInstance();
 
-                var entities = (
-                    from item in _uncreatedItemList
-                    from prop in props
-                    select new TEntity
+                    var props = _agentProperties.GetOrCreate(agentType, entry =>
                     {
-                        Item = item,
-                        Key = prop.Name,
-                        Value = props.First(x => x.Name == prop.Name).GetValue(defaultAgent)?.ToString(),
+                        return agentType.GetProperties().Where(x => x.GetMethod.IsVirtual).ToArray();
+                    });
+
+                    var entities = (
+                        from name in itemNames
+                        from prop in props
+                        select new TEntity
+                        {
+                            Item = name,
+                            Key = prop.Name,
+                            Value = props.First(x => x.Name == prop.Name).GetValue(defaultAgent)?.ToString(),
+                        }
+                    ).ToArray();
+
+                    if (entities.Length == 0) throw new InvalidOperationException($"No virtual properties could be found in `{agentType.FullName}`.");
+
+                    DbSet.AddOrUpdateRange(x => new { x.Item, x.Key }, entities, options =>
+                    {
+                        var items = itemNames.ToArray();
+                        options.Predicate = x => items.Contains(x.Item);
+                    });
+
+                    foreach (var name in itemNames)
+                    {
+                        var agent = _agentList[name];
+                        agent._executed = true;
+                        agent._entities = entities.Where(x => x.Item == name).ToArray();
                     }
-                ).ToArray();
+                }
 
-                if (entities.Length == 0) throw new InvalidOperationException($"No virtual properties could be found in `{agentType.FullName}`.");
-
-                DbSet.AddOrUpdateRange(x => new { x.Item, x.Key }, entities, options =>
-                {
-                    var items = _uncreatedItemList.ToArray();
-                    options.Predicate = x => items.Contains(x.Item);
-                });
-
-                _loadedItemList.AddRange(_uncreatedItemList);
-                _loadedEntities.AddRange(entities);
-                _uncreatedItemList.Clear();
+                _uncreatedNameList.Clear();
             }
+        }
+
+        public override void Disposing()
+        {
+            Execute();
         }
 
     }

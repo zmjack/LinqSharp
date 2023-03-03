@@ -3,12 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using Castle.DynamicProxy;
 using LinqSharp.EFCore.Entities;
-using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace LinqSharp.EFCore.Agent
 {
@@ -19,10 +14,12 @@ namespace LinqSharp.EFCore.Agent
     public abstract class KeyValueAgent<TEntity>
         where TEntity : KeyValueEntity, new()
     {
-        public string ItemName { get; internal set; }
+#pragma warning disable IDE1006 // Naming Styles
+        public string __ItemName__ { get; internal set; }
+#pragma warning restore IDE1006 // Naming Styles
 
         internal bool _executed;
         internal KeyValueEntity[] _entities;
-    }
 
+    }
 }

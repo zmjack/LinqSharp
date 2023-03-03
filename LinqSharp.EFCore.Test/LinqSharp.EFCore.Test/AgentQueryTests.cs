@@ -1,8 +1,6 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using NStandard;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test
@@ -18,7 +16,6 @@ namespace LinqSharp.EFCore.Test
             using (context.BeginDirectQuery())
             {
                 context.AppRegistries.Truncate();
-
             }
 
             using (var context = ApplicationDbContext.UseMySql())
@@ -40,24 +37,26 @@ namespace LinqSharp.EFCore.Test
                 context.SaveChanges();
             }
 
+            AppRegistry _tom, _jerry;
+
             using (var context = ApplicationDbContext.UseMySql())
             using (var query = context.BeginAgentQuery(x => x.AppRegistries))
             {
-                var tom = query.GetAgent<AppRegistry>("/User/Tom");
-                var jerry = query.GetAgent<AppRegistry>("/User/Jerry");
-
-                Assert.Equal("Default", tom.Theme);
-                Assert.Equal("grey", tom.Color);
-                Assert.Equal(50, tom.Volume);
-                Assert.Equal(now, tom.LoginTime);
-                Assert.False(tom.Lock);
-
-                Assert.Equal("Sky", jerry.Theme);
-                Assert.Equal("brown", jerry.Color);
-                Assert.Equal(10, jerry.Volume);
-                Assert.Equal(now, jerry.LoginTime);
-                Assert.True(jerry.Lock);
+                _tom = query.GetAgent<AppRegistry>("/User/Tom");
+                _jerry = query.GetAgent<AppRegistry>("/User/Jerry");
             }
+
+            Assert.Equal("Default", _tom.Theme);
+            Assert.Equal("grey", _tom.Color);
+            Assert.Equal(50, _tom.Volume);
+            Assert.Equal(now, _tom.LoginTime);
+            Assert.False(_tom.Lock);
+
+            Assert.Equal("Sky", _jerry.Theme);
+            Assert.Equal("brown", _jerry.Color);
+            Assert.Equal(10, _jerry.Volume);
+            Assert.Equal(now, _jerry.LoginTime);
+            Assert.True(_jerry.Lock);
         }
 
     }

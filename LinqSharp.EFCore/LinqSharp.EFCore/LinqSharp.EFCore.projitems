@@ -30,7 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoTags\IAutoTag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoTags\UserTag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoTags\NowTag.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\Base\SpecialAutoAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Annotations\SpecialAutoAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Annotations\ConcurrencyResolvableAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Design\IConcurrencyResolvable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Annotations\ConcurrencyResolvingMode.cs" />
@@ -46,7 +46,7 @@
     <Compile Include="..\LinqSharp.EFCore\QueryDef.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\ProviderAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Query\UpdateOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\Base\AutoAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbSetExtensions - AddOrUpdate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityAudit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuditPredictor.cs" />
@@ -78,7 +78,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgentProxy.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Annotations\Base\" />
     <Folder Include="$(MSBuildThisFileDirectory)Agent\" />
     <Folder Include="$(MSBuildThisFileDirectory)Entities\" />
     <Folder Include="$(MSBuildThisFileDirectory)Query\" />
