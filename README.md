@@ -44,7 +44,7 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
-### 版本：7.0.2
+### Version: 7.0.2
 
 - Dynamic Query: **QueryHelper** provides property chain analysis to support dynamic query of **Owned Entity**.
 - Optimized **GroupByCount** performance (takes about **-35%** in time), but **planned to remove** this method.

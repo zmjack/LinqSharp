@@ -13,15 +13,13 @@ namespace LinqSharp.Query
 {
     public class Property<TSource>
     {
-        private readonly MemoryCache _propertyCache = new(new MemoryCacheOptions());
-
         public readonly Type PropertyType;
         private readonly ParameterExpression Parameter;
         private readonly Expression Exp;
 
         internal Property(ParameterExpression parameter, Type propertyType, params string[] propertyChain)
         {
-            if (propertyChain is null || !propertyChain.Any()) throw new ArgumentException($"{nameof(propertyChain)} can not be null or empty.");
+            if (propertyChain is null || !propertyChain.Any()) throw new ArgumentException($"The argument can not be null or empty.", nameof(propertyChain));
 
             var chainEnumerator = propertyChain.GetEnumerator();
             chainEnumerator.MoveNext();
