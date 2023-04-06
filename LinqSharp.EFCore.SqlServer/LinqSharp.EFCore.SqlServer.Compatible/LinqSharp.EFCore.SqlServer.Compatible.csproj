@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>
+      netstandard2.0
+    </TargetFrameworks>
+    <LangVersion>preview</LangVersion>
+    <PackageId>LinqSharp.EFCore.SqlServer.Compatible</PackageId>
+    <Authors>zmjack</Authors>
+    <Product>LinqSharp.EFCore.SqlServer.Compatible</Product>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageIcon>LinqSharp.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
+    <PackageTags>Linq EFCore SqlServer</PackageTags>
+    <Copyright>Copyright © linqsharp.net 2020</Copyright>
+    <Version>2.1.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Expansion pack, including batch import function, etc.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE;COMPATIBLE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>COMPATIBLE</DefineConstants>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\LinqSharp.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore.Abstractions\LinqSharp.EFCore.Abstractions.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\LinqSharp.EFCore.SqlServer.Shared\LinqSharp.EFCore.SqlServer.Shared.projitems" Label="Shared" />
+
+</Project>

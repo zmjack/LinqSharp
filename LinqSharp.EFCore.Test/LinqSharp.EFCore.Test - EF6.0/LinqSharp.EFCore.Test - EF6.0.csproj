@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER;EFCORE6_0_OR_GREATER</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;EFCORE2_1_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER;EFCORE6_0_OR_GREATER</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER;EFCORE6_0_OR_GREATER</DefineConstants>
+    <DefineConstants>EFCORE2_1_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER;EFCORE6_0_OR_GREATER</DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
@@ -26,7 +26,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
     <PackageReference Include="Northwnd" Version="3.1.2" />
-    <PackageReference Include="NStandard" Version="0.21.0" />
+    <PackageReference Include="NStandard" Version="0.25.0" />
     <PackageReference Include="PerfProbe" Version="1.4.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.0" />
     <PackageReference Include="SQLib" Version="0.9.0" />
@@ -37,12 +37,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - EF6.0\LinqSharp.EFCore.MySql - EF6.0.csproj" />
-    <ProjectReference Include="..\..\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - EF6.0\LinqSharp.EFCore.SqlServer - EF6.0.csproj" />
+    <ProjectReference Include="..\..\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.csproj" />
+    <ProjectReference Include="..\..\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.csproj" />
     <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF6.0\LinqSharp.EFCore - EF6.0.csproj" />
   </ItemGroup>
-  <Import Project="..\..\LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems" Label="Shared" />
-  <Import Project="..\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems" Label="Shared" />
-  <Import Project="..\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems" Label="Shared" />
+
+  <Import Project="..\LinqSharp.EFCore.Test.Shared\LinqSharp.EFCore.Test.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\..\LinqSharp.Dev.Shared\LinqSharp.Dev.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\LinqSharp.EFCore.Test.Data.Shared\LinqSharp.EFCore.Test.Data.Shared.projitems" Label="Shared" />
 
 </Project>

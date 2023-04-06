@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,33 +13,45 @@ namespace LinqSharp.Query
 {
     public class Property<TSource>
     {
-        public readonly string PropertyName;
+        private readonly MemoryCache _propertyCache = new(new MemoryCacheOptions());
+
         public readonly Type PropertyType;
         private readonly ParameterExpression Parameter;
         private readonly Expression Exp;
 
-        internal Property(ParameterExpression parameter, string propertyName, Type propertyType)
+        internal Property(ParameterExpression parameter, Type propertyType, params string[] propertyChain)
         {
-            PropertyName = propertyName;
+            if (propertyChain is null || !propertyChain.Any()) throw new ArgumentException($"{nameof(propertyChain)} can not be null or empty.");
+
+            var chainEnumerator = propertyChain.GetEnumerator();
+            chainEnumerator.MoveNext();
+            var propertyName = chainEnumerator.Current as string;
+
+            var exp = Expression.Property(parameter, propertyName);
+            while (chainEnumerator.MoveNext())
+            {
+                exp = Expression.Property(exp, chainEnumerator.Current as string);
+            }
+
             PropertyType = propertyType;
             Parameter = parameter;
-            Exp = Expression.Property(Parameter, PropertyName);
+            Exp = exp;
         }
 
-        internal Property(ParameterExpression parameter, Expression exp, Type propertyType)
+        internal Property(ParameterExpression parameter, Type propertyType, Expression exp)
         {
-            Exp = exp;
             Parameter = parameter;
             PropertyType = propertyType;
+            Exp = exp;
         }
 
         internal Property(ParameterExpression parameter, LambdaExpression exp)
         {
             if (exp.Body is MemberExpression { Member: PropertyInfo prop })
             {
-                Exp = exp.Body;
                 Parameter = parameter;
                 PropertyType = prop.PropertyType;
+                Exp = exp.Body;
             }
             else throw new NotSupportedException("Invalid lambda expression.");
         }
@@ -65,7 +78,7 @@ namespace LinqSharp.Query
             return new QueryExpression<TSource>(exp);
         }
 
-        public static Property<TSource> operator +(Property<TSource> @this, object value) => @this.UnitAddOp(value);
+        public static Property<TSource> operator +(Property<TSource> @this, object value) => @this.AddOp(value);
         public static Property<TSource> operator -(Property<TSource> @this, object value) => @this.UnitOp(Expression.SubtractChecked, value);
         public static Property<TSource> operator *(Property<TSource> @this, object value) => @this.UnitOp(Expression.MultiplyChecked, value);
         public static Property<TSource> operator /(Property<TSource> @this, object value) => @this.UnitOp(Expression.Divide, value);
@@ -77,7 +90,7 @@ namespace LinqSharp.Query
         public static QueryExpression<TSource> operator >=(Property<TSource> @this, object value) => @this.CompareOp(Expression.GreaterThanOrEqual, value);
         public static QueryExpression<TSource> operator <=(Property<TSource> @this, object value) => @this.CompareOp(Expression.LessThanOrEqual, value);
 
-        public static Property<TSource> operator +(Property<TSource> @this, Property<TSource> other) => @this.UnitAddOp(other);
+        public static Property<TSource> operator +(Property<TSource> @this, Property<TSource> other) => @this.AddOp(other);
         public static Property<TSource> operator -(Property<TSource> @this, Property<TSource> other) => @this.UnitOp(Expression.SubtractChecked, other);
         public static Property<TSource> operator *(Property<TSource> @this, Property<TSource> other) => @this.UnitOp(Expression.MultiplyChecked, other);
         public static Property<TSource> operator /(Property<TSource> @this, Property<TSource> other) => @this.UnitOp(Expression.Divide, other);
@@ -95,37 +108,38 @@ namespace LinqSharp.Query
             else return Expression.Convert(Expression.Constant(value), PropertyType);
         }
 
-        private Property<TSource> UnitAddOp(object value)
+        private Property<TSource> AddOp(object value)
         {
             var operand = GetValueExpression(value);
             if (PropertyType == typeof(string))
-                return new Property<TSource>(Parameter, Expression.Add(Exp, operand, MethodContainer.StringConcat), typeof(string));
-            else return new Property<TSource>(Parameter, Expression.AddChecked(Exp, operand), PropertyType);
+                return new Property<TSource>(Parameter, typeof(string), Expression.Add(Exp, operand, MethodContainer.StringConcat));
+            else return new Property<TSource>(Parameter, PropertyType, Expression.AddChecked(Exp, operand));
         }
+        private Property<TSource> AddOp(Property<TSource> unit)
+        {
+            var operand = unit.Exp;
+            if (PropertyType == typeof(string))
+                return new Property<TSource>(Parameter, typeof(string), Expression.Add(Exp, operand, MethodContainer.StringConcat));
+            else return new Property<TSource>(Parameter, PropertyType, Expression.AddChecked(Exp, operand));
+        }
+
         private Property<TSource> UnitOp(Func<Expression, Expression, BinaryExpression> func, object value)
         {
             var operand = GetValueExpression(value);
-            return new Property<TSource>(Parameter, func(Exp, operand), PropertyType);
+            return new Property<TSource>(Parameter, PropertyType, func(Exp, operand));
         }
+        private Property<TSource> UnitOp(Func<Expression, Expression, BinaryExpression> func, Property<TSource> unit)
+        {
+            var operand = unit.Exp;
+            return new Property<TSource>(Parameter, PropertyType, func(Exp, operand));
+        }
+
         private QueryExpression<TSource> CompareOp(Func<Expression, Expression, BinaryExpression> func, object value)
         {
             var operand = GetValueExpression(value);
             var body = func(Exp, operand);
             var exp = Expression.Lambda<Func<TSource, bool>>(body, Parameter);
             return new QueryExpression<TSource>(exp);
-        }
-
-        private Property<TSource> UnitAddOp(Property<TSource> unit)
-        {
-            var operand = unit.Exp;
-            if (PropertyType == typeof(string))
-                return new Property<TSource>(Parameter, Expression.Add(Exp, operand, MethodContainer.StringConcat), typeof(string));
-            else return new Property<TSource>(Parameter, Expression.AddChecked(Exp, operand), PropertyType);
-        }
-        private Property<TSource> UnitOp(Func<Expression, Expression, BinaryExpression> func, Property<TSource> unit)
-        {
-            var operand = unit.Exp;
-            return new Property<TSource>(Parameter, func(Exp, operand), PropertyType);
         }
         private QueryExpression<TSource> CompareOp(Func<Expression, Expression, BinaryExpression> func, Property<TSource> unit)
         {

@@ -27,7 +27,7 @@
 
 <br/>
 
-支持的 Entity Framework 版本： **EF Core 7.0** / 6.0 / 5.0 / 3.1 / 3.0 / 2.1
+支持的 Entity Framework 版本： **EF Core 7.0** / 6.0 / 5.0 / 3.1 / 2.1
 
 <br/>
 
@@ -44,23 +44,31 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
+### 版本：7.0.2
+
+- 动态查询：**QueryHelper** 提供属性链解析，以支持 **Owned Entity** 的动态查询。
+- 优化 **GroupByCount** 性能（耗时约 **-35%**），但 **计划删除** 该方法。
+- 标记 **GroupByCount** 为 **已过时** 方法，请使用 **Chunk** 方法代替。
+  - **EFCore 6.0 版本以上**：不提供，使用原生方法。
+  - **EFCore 5.0 版本以下**：代码兼容。
+
 ### 版本：7.0
 
 - 提供两个新的数据特性：
   - **[AutoCreatedBy]**：自动维护 **创建条目** 的用户信息。
   - **[AutoUpdatedBy]**：自动维护 **更新条目** 的用户信息。
-  - 使 **DbContext** 实现 **IUserTraceable** 接口，详见 [文档](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md#自动维护操作条目的用户信息)。
-- **【中断性变更】** 已移除 **QuickDataView**，请使用 **IEnumerableExtensions.FullJoin** 代替。
+  - 使 **DbContext** 实现 **IUserTraceable** 接口，详见 [文档](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-data-annotations-2.md#自动维护操作条目的用户信息)。
+- **【中断性变更】** 已移除 **QuickDataView**，请使用 IEnumerableExtensions.**FullJoin** 代替。
 - **【中断性变更】** 已移除 **IEntity.AcceptBut**。
 - **【中断性变更】** 已重命名 IQueryableExtensions.**ToSql** 为 **ToQueryString**。
   - **EFCore 5.0 版本以上**：不提供，使用原生方法。
-  - **EFCore 3.1 版本以下**：提供功能，代码兼容。
+  - **EFCore 3.1 版本以下**：代码兼容。
 
 ### 版本：6.0.16
 
+- **【中断性更新】** 已移除 **Ensure** 相关方法，请使用 **AddOrUpdate** 相关方法代替。
 - **【中断性变更】** 已移除 **CustomDatabaseFacade**。
 - 提供 **EntityMonitoringFacade** 用于监视表 **CRUD**，以方便编写其他对接操作。
-- **【中断性更新】** 已移除 **Ensure** 相关方法，请使用 **AddOrUpdate** 相关方法代替。
 
 ### 版本：6.0.14
 

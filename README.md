@@ -27,7 +27,7 @@ Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README.
 
 <br/>
 
-**Supported version of Entity Framework:** **EF Core 7.0** / 6.0 / 5.0 / 3.1 / 3.0 / 2.1
+**Supported version of Entity Framework:** **EF Core 7.0** / 6.0 / 5.0 / 3.1 / 2.1
 
 <br/>
 
@@ -44,24 +44,32 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### 版本：7.0.2
+
+- Dynamic Query: **QueryHelper** provides property chain analysis to support dynamic query of **Owned Entity**.
+- Optimized **GroupByCount** performance (takes about **-35%** in time), but **planned to remove** this method.
+- Mark **GroupByCount** as **Obsolute** method, please use **Chunk** method instead.
+  - **EFCore 6.0 and above**: Not provided, use the native method.
+  - **EFCore 5.0 and below**: Code compatibility.
+
 ### Version: 7.0
 
 - Provides two new data annotations:
 
   - **[AutoCreatedBy]**: Automatically maintain user information for **created entries**.
   - **[AutoUpdatedBy]**: Automatically maintain user information for **updated entries**.
-  - Make **DbContext** implement **IUserTraceable** interface, see [documentation](https://github.com/zmjack/LinqSharp/blob/master/Docs/cn/ef-data-annotations-2.md for details #Automatic maintenance of user information for operation entries).
+  - Make **DbContext** implement **IUserTraceable** interface, see [documentation](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-data-annotations-2.md for details #Automatic maintenance of user information for operation entries).
 - **\[Breaking Change\]** **QuickDataView** has been removed, please use **IEnumerableExtensions.FullJoin** instead.
 - **\[Breaking Change\]** **IEntity.AcceptBut** has been removed.
 - **\[Breaking Change\]** Change the method name **IQueryableExtensions.ToSql** to **ToQueryString**.
   - **EFCore 5.0 and above**: Not provided, use the native method.
-  - **EFCore 3.1 and below**: Provide functions and code compatibility.
+  - **EFCore 3.1 and below**: Code compatibility.
 
 ### Version: 6.0.16
 
+- **\[Breaking Change\]** The **Ensure** methods have been removed, and **AddOrUpdate** methods are recommended to be used instead.
 - **\[Breaking Change\]** **CustomDatabaseFacade** has been removed.
 - Provide **EntityMonitoringFacade** for monitoring table **CRUD** to facilitate writing other docking operations.
-- **\[Breaking Change\]** The **Ensure** methods have been removed, and **AddOrUpdate** methods are recommended to be used instead.
 
 ### Version: 6.0.14
 

@@ -17,6 +17,21 @@ namespace DbCreator.Migrations
                 .HasAnnotation("ProductVersion", "3.1.24")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Client", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+                });
+
             modelBuilder.Entity("LinqSharp.EFCore.Data.LS_Name", b =>
                 {
                     b.Property<Guid>("Id")
@@ -42,7 +57,7 @@ namespace DbCreator.Migrations
                     b.ToTable("LS_Names");
                 });
 
-            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AppRegistry", b =>
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AppRegistryEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -826,6 +841,30 @@ namespace DbCreator.Migrations
                     b.HasIndex("RegionID");
 
                     b.ToTable("@Northwnd.Territories");
+                });
+
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Client", b =>
+                {
+                    b.OwnsOne("LinqSharp.EFCore.Data.Address", "Address", b1 =>
+                        {
+                            b1.Property<Guid>("ClientId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<string>("City")
+                                .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                                .HasMaxLength(255);
+
+                            b1.Property<string>("Street")
+                                .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                                .HasMaxLength(255);
+
+                            b1.HasKey("ClientId");
+
+                            b1.ToTable("Clients");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ClientId");
+                        });
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditLevel", b =>

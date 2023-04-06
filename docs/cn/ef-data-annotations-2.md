@@ -146,7 +146,7 @@ var model = new Model
 public class ApplicationDbContext : DbContext, IUserTraceable
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    public string CurrentUser => _httpContextAccessor.HttpContext.User.Identity.Name;
+    public string CurrentUser => _httpContextAccessor.HttpContext?.User.Identity?.Name;
 
     public ApplicationDbContext(
         DbContextOptions<ApplicationDbContext> options,

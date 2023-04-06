@@ -4,6 +4,8 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.Strategies;
+using Microsoft.Extensions.Caching.Memory;
+using NStandard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,16 +70,21 @@ namespace LinqSharp.Query
 
         public QueryExpression<TSource> Where(Expression<Func<TSource, bool>> predicate) => new(predicate);
 
-        public Property<TSource> Property(string property, Type propertyType) => new(DefaultParameter, property, propertyType);
-        public Property<TSource> Property<TPropertyType>(string property) => new(DefaultParameter, property, typeof(TPropertyType));
-
-        public Property<TSource> Property(string property)
+        private readonly MemoryCache _chainPropertyCache = new(new MemoryCacheOptions());
+        public Property<TSource> Property(params string[] propertyChain)
         {
-            var prop = typeof(TSource).GetProperty(property);
-            if (prop is not null) return new Property<TSource>(DefaultParameter, property, prop.PropertyType);
-            else throw new ArgumentException($"The specified property({property}) was not found.");
+            var key = propertyChain.Join(".");
+            var prop = _chainPropertyCache.GetOrCreate(key, entry =>
+            {
+                entry.SlidingExpiration = TimeSpan.FromMinutes(20);
+                return typeof(TSource).GetChainProperty(propertyChain);
+            });
+
+            if (prop is not null) return new Property<TSource>(DefaultParameter, prop.PropertyType, propertyChain);
+            else throw new ArgumentException($"The specified property chain({propertyChain.Join(", ")}) does not exsist.");
         }
-        public Property<TSource> Property<TPropertyType>(Expression<Func<TSource, TPropertyType>> exp)
+
+        public Property<TSource> Property<TProperty>(Expression<Func<TSource, TProperty>> exp)
         {
             var _exp = exp.RebindParameter(exp.Parameters[0], DefaultParameter) as LambdaExpression;
             return new Property<TSource>(DefaultParameter, _exp);

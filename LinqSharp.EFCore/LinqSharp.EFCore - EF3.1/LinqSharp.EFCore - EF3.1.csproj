@@ -1,31 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>
+      netstandard2.0
+    </TargetFrameworks>
     <LangVersion>preview</LangVersion>
-    <Version>3.1.201</Version>
+    <Version>3.1.7002</Version>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
-    <Copyright>Copyright © linqsharp.net 2020-2021</Copyright>
+    <Copyright>Copyright © linqsharp.net 2020</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageId>LinqSharp.EFCore</PackageId>
     <PackageTags>Linq EntityFramework</PackageTags>
     <PackageIcon>LinqSharp.png</PackageIcon>
-    <RootNamespace>LinqSharp</RootNamespace>
+    <RootNamespace>LinqSharp.EFCore</RootNamespace>
     <AssemblyName>LinqSharp.EFCore</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;EFCORE2_1_OR_GREATER;EFCORE3_1_OR_GREATER</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER;EFCORE3_0_OR_GREATER;EFCORE3_1_OR_GREATER</DefineConstants>
+    <DefineConstants>EFCORE2_1_OR_GREATER;EFCORE3_1_OR_GREATER</DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
@@ -36,7 +38,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NStandard" Version="0.21.0" />
+    <PackageReference Include="NStandard" Version="0.25.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,8 +54,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\LinqSharp\LinqSharp.csproj" />
+    <ProjectReference Include="..\LinqSharp.EFCore.Abstractions\LinqSharp.EFCore.Abstractions.csproj" />
   </ItemGroup>
 
-  <Import Project="..\LinqSharp.EFCore\LinqSharp.EFCore.projitems" Label="Shared" />
+  <Import Project="..\LinqSharp.EFCore.Shared\LinqSharp.EFCore.Shared.projitems" Label="Shared" />
 
 </Project>

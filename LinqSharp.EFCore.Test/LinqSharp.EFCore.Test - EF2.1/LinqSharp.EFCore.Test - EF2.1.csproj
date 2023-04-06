@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <AssemblyName>LinqSharp.EFCore.Test</AssemblyName>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;COMPATIBLE;EFCORE2_1_OR_GREATER</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>EFCORE2_0_OR_GREATER;EFCORE2_1_OR_GREATER</DefineConstants>
+    <DefineConstants>COMPATIBLE;EFCORE2_1_OR_GREATER</DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
@@ -25,7 +25,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="Northwnd" Version="2.0.2" />
-    <PackageReference Include="NStandard" Version="0.21.0" />
+    <PackageReference Include="NStandard" Version="0.25.0" />
     <PackageReference Include="PerfProbe" Version="1.4.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
     <PackageReference Include="SQLib" Version="0.9.0" />
@@ -37,12 +37,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql - EF2.1\LinqSharp.EFCore.MySql - EF2.1.csproj" />
-    <ProjectReference Include="..\..\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer - EF2.1\LinqSharp.EFCore.SqlServer - EF2.1.csproj" />
+    <ProjectReference Include="..\..\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.Compatible\LinqSharp.EFCore.MySql.Compatible.csproj" />
+    <ProjectReference Include="..\..\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.Compatible\LinqSharp.EFCore.SqlServer.Compatible.csproj" />
     <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF2.1\LinqSharp.EFCore - EF2.1.csproj" />
   </ItemGroup>
-  <Import Project="..\..\LinqSharp.Dev - Shared\LinqSharp.Dev - Shared.projitems" Label="Shared" />
-  <Import Project="..\LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.projitems" Label="Shared" />
-  <Import Project="..\LinqSharp.EFCore.Test - Data\LinqSharp.EFCore.Test - Data.projitems" Label="Shared" />
+
+  <Import Project="..\LinqSharp.EFCore.Test.Shared\LinqSharp.EFCore.Test.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\LinqSharp.EFCore.Test.Data.Shared\LinqSharp.EFCore.Test.Data.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\..\LinqSharp.Dev.Shared\LinqSharp.Dev.Shared.projitems" Label="Shared" />
 
 </Project>
