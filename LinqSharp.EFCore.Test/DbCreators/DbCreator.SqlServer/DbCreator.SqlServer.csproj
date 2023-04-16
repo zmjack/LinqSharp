@@ -13,6 +13,13 @@
   <PropertyGroup>
     <DefineConstants>DEBUG;TRACE;EFCORE2_1_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER;EFCORE6_0_OR_GREATER</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\..\LinqSharp.EFCore.Test - EF7.0\LinqSharp.EFCore.Test - EF7.0.csproj" />

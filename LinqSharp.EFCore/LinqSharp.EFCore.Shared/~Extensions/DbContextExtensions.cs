@@ -8,11 +8,8 @@ using LinqSharp.EFCore.Scopes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Linq;
-using System.Reflection;
 
 namespace LinqSharp.EFCore
 {

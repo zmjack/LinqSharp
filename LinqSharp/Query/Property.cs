@@ -3,7 +3,6 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -19,7 +18,8 @@ namespace LinqSharp.Query
 
         internal Property(ParameterExpression parameter, Type propertyType, params string[] propertyChain)
         {
-            if (propertyChain is null || !propertyChain.Any()) throw new ArgumentException($"The argument can not be null or empty.", nameof(propertyChain));
+            if (propertyChain is null) throw new ArgumentNullException(nameof(propertyChain));
+            if (!propertyChain.Any()) throw new ArgumentException($"The argument can not be empty.", nameof(propertyChain));
 
             var chainEnumerator = propertyChain.GetEnumerator();
             chainEnumerator.MoveNext();

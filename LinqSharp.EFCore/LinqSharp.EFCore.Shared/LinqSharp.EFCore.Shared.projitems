@@ -69,11 +69,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbDateTime.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbDouble.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbRandom.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbContextExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbSetExtensions - AddOrUpdate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DbSet\DbSetExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\ModelBuilderExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\DbContextExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\DbSetExtensions.AddOrUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\DbSetExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~internal\PropIndex.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~IQueryable\IQueryableExtensions - Random.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~IQueryable\IQueryableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\IQueryableExtensions.Random.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\IQueryableExtensions.cs" />
   </ItemGroup>
 </Project>

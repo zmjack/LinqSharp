@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace LinqSharp.EFCore.Data
 {
@@ -18,12 +16,15 @@ namespace LinqSharp.EFCore.Data
         public Address Address { get; set; }
     }
 
-    [Owned]
-    public class Address
+    public class CityInfo
     {
         [StringLength(255)]
         public string City { get; set; }
+    }
 
+    [Owned]
+    public class Address : CityInfo
+    {
         [StringLength(255)]
         public string Street { get; set; }
     }

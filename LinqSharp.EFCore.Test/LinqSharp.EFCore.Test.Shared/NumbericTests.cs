@@ -1,11 +1,12 @@
-﻿using System;
+﻿using LinqSharp.Infrastructure;
+using System;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test
 {
     public class NumbericTests
     {
-        private struct NumbericStruct
+        private struct NumbericStruct : ISummable
         {
             public int Value { get; set; }
             public static NumbericStruct operator +(NumbericStruct left, NumbericStruct right) => new() { Value = left.Value + right.Value };
@@ -16,7 +17,7 @@ namespace LinqSharp.EFCore.Test
             public static NumbericStruct operator /(NumbericStruct left, long divisor) => new() { Value = checked((int)(left.Value / divisor)) };
         }
 
-        private class NumbericClass
+        private class NumbericClass : ISummable
         {
             public int Value { get; set; }
             public static NumbericClass operator +(NumbericClass left, NumbericClass right) => new() { Value = left.Value + right.Value };

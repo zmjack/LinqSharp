@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.Infrastructure;
 using NStandard.UnitValues;
 using System;
 using System.Collections.Generic;
@@ -36,8 +37,9 @@ namespace LinqSharp
         public static double? AverageOrDefault(this IEnumerable<double?> source, double @default = default) => source.Any() ? source.Average() : @default;
         public static decimal? AverageOrDefault(this IEnumerable<decimal?> source, decimal @default = default) => source.Any() ? source.Average() : @default;
 
-        public static TResult AverageOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult @default = default) => source.Any() ? source.Average(selector) : @default;
-        public static TSource AverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default) => source.Any() ? source.Average() : @default;
+        public static TResult AverageOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult @default = default) where TResult : ISummable => source.Any() ? source.Average(selector) : @default;
+        public static TSource AverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default) where TSource : ISummable => source.Any() ? source.Average() : @default;
+        public static TSource? AverageOrDefault<TSource>(this IEnumerable<TSource?> source, TSource @default = default) where TSource : struct, ISummable => source.Any() ? source.Average() : @default;
 
         public static TSource QAverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default) where TSource : struct, IUnitValue, ISummable<TSource>
         {
