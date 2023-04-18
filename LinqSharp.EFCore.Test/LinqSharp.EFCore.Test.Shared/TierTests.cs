@@ -1,33 +1,5 @@
 ﻿using NStandard;
 using System.Linq;
-
-/* Unmerged change from project 'LinqSharp.EFCore.Test - EF2.1'
-Before:
-using Xunit;
-After:
-using System.Linq;
-*/
-
-/* Unmerged change from project 'LinqSharp.EFCore.Test - EF5.0'
-Before:
-using Xunit;
-After:
-using System.Linq;
-*/
-
-/* Unmerged change from project 'LinqSharp.EFCore.Test - EF6.0'
-Before:
-using Xunit;
-After:
-using System.Linq;
-*/
-
-/* Unmerged change from project 'LinqSharp.EFCore.Test - EF7.0'
-Before:
-using Xunit;
-After:
-using System.Linq;
-*/
 using System.Text;
 using Xunit;
 
