@@ -35,7 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SameOrDefaultTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SearchTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SelectXTests.cs" />
-    <Compile Include="..\LinqSharp.EFCore.Test.Shared\TierTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TierTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToSqlTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DatabaseDepTests\MutilContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~DatabaseDepTests\MutilContextContainer.cs" />
