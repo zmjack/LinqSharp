@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LinqSharp.Infrastructure
+namespace LinqSharp.Query
 {
     public class PagedEnumerable<T> : IPageable<T>, IEnumerable<T>
     {

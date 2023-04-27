@@ -4,7 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Query;
-using LinqSharp.Query;
+using LinqSharp.Query.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;

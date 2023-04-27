@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace LinqSharp.Infrastructure
+namespace LinqSharp.Query
 {
     public class Tier<TSource> : IEnumerable<TSource>, IGrouping<object, TSource>
     {

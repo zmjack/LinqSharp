@@ -1,6 +1,6 @@
 ﻿using LinqSharp.EFCore.Data;
 using LinqSharp.EFCore.Data.Test;
-using LinqSharp.Query;
+using LinqSharp.Query.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Northwnd;
 using NStandard;

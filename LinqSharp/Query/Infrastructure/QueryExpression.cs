@@ -6,7 +6,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace LinqSharp.Query
+namespace LinqSharp.Query.Infrastructure
 {
     public class QueryExpression<TSource>
     {

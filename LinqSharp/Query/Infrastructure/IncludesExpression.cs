@@ -9,7 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace LinqSharp.Query
+namespace LinqSharp.Query.Infrastructure
 {
     public static class IncludesExpression
     {

@@ -3,7 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using LinqSharp.Query;
+using LinqSharp.Query.Infrastructure;
 using System;
 using System.Linq;
 using System.Linq.Expressions;

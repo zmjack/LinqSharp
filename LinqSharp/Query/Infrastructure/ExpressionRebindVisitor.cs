@@ -5,7 +5,7 @@
 
 using System.Linq.Expressions;
 
-namespace LinqSharp.Query
+namespace LinqSharp.Query.Infrastructure
 {
     public class ExpressionRebindVisitor : ExpressionVisitor
     {
