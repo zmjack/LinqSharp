@@ -5,7 +5,7 @@ using Xunit;
 
 namespace LinqSharp.EFCore.Test
 {
-    public class TierTests
+    public class LayerTests
     {
         [Fact]
         public void Test1()
@@ -16,13 +16,13 @@ namespace LinqSharp.EFCore.Test
             }
 
             var arr = new int[10].Let(i => i);
-            var tier0 = arr.TierBy(x => x / 5, x => x % 2);
+            var tier0 = arr.LayerBy(x => x / 5, x => x % 2);
 
             var sb = new StringBuilder();
 
-            foreach (var tier1 in tier0.SubTiers)
+            foreach (var tier1 in tier0.NestedTiers)
             {
-                foreach (var tier2 in tier1.SubTiers)
+                foreach (var tier2 in tier1.NestedTiers)
                 {
                     foreach (var number in tier2)
                     {

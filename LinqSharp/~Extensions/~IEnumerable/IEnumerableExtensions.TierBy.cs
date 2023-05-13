@@ -13,7 +13,7 @@ namespace LinqSharp
 {
     public static partial class IEnumerableExtensions
     {
-        private static IEnumerable<Tier<TSource>> InnerTierBy<TSource>(this TSource[] @this, params Func<TSource, object>[] tierSelectors)
+        private static IEnumerable<Layer<TSource>> LayerByCore<TSource>(this TSource[] @this, params Func<TSource, object>[] tierSelectors)
         {
             var span = tierSelectors.Length;
             if (tierSelectors.Length > 1)
@@ -21,24 +21,24 @@ namespace LinqSharp
                 return
                     from g in @this.GroupBy(tierSelectors[0])
                     let elements = g.ToArray()
-                    select new Tier<TSource>(span, g.Key, elements, InnerTierBy(elements, tierSelectors.Skip(1).ToArray()));
+                    select new Layer<TSource>(span, g.Key, elements, LayerByCore(elements, tierSelectors.Skip(1).ToArray()));
             }
             else
             {
                 return
                     from g in @this.GroupBy(tierSelectors[0])
                     let elements = g.ToArray()
-                    select new Tier<TSource>(span, g.Key, elements, null);
+                    select new Layer<TSource>(span, g.Key, elements, null);
             }
         }
 
-        public static Tier<TSource> TierBy<TSource>(this TSource[] @this, params Func<TSource, object>[] tierSelectors)
+        public static Layer<TSource> LayerBy<TSource>(this TSource[] @this, params Func<TSource, object>[] tierSelectors)
         {
             if (tierSelectors is null) throw new ArgumentNullException(nameof(tierSelectors));
             if (!tierSelectors.Any()) throw new ArgumentException("The tier selectors can not be empty.", nameof(tierSelectors));
 
             var span = tierSelectors.Length + 1;
-            return new Tier<TSource>(span, null, @this, InnerTierBy(@this, tierSelectors));
+            return new Layer<TSource>(span, null, @this, LayerByCore(@this, tierSelectors));
         }
     }
 }

@@ -3,23 +3,23 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using NStandard;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace LinqSharp.Query
 {
-    public class Tier<TSource> : IEnumerable<TSource>, IGrouping<object, TSource>
+    public class Layer<TSource> : IEnumerable<TSource>, IGrouping<object, TSource>
     {
         public int Span { get; }
         public object Key { get; }
 
         private readonly TSource[] _elements;
-        private readonly IEnumerable<Tier<TSource>> _subTiers;
+        private readonly IEnumerable<Layer<TSource>> _subTiers;
 
-        internal Tier(int span, object key, TSource[] elements, IEnumerable<Tier<TSource>> subTiers)
+        internal Layer(int span, object key, TSource[] elements, IEnumerable<Layer<TSource>> subTiers)
         {
             Span = span;
             Key = key;
@@ -27,13 +27,13 @@ namespace LinqSharp.Query
             _subTiers = subTiers;
         }
 
-        public IEnumerable<Tier<TSource>> SubTiers
+        public IEnumerable<Layer<TSource>> NestedTiers
         {
             get
             {
                 if (_subTiers is null) throw new InvalidOperationException("No sub tiers.");
 
-                foreach (Tier<TSource> tier in _subTiers)
+                foreach (Layer<TSource> tier in _subTiers)
                 {
                     yield return tier;
                 }
@@ -52,6 +52,18 @@ namespace LinqSharp.Query
         {
             return _elements.GetEnumerator();
         }
-    }
 
+        public IEnumerable<Any.SharedChainItem<Layer<TSource>>> AsChian()
+        {
+            var tier2tiers = (Layer<TSource> x) => x.NestedTiers;
+            var tierSelectors = new Func<Layer<TSource>, IEnumerable<Layer<TSource>>>[Span - 1];
+            for (int i = 0; i < tierSelectors.Length; i++)
+            {
+                tierSelectors[i] = tier2tiers;
+            }
+
+            return Any.Chain(this, tierSelectors);
+        }
+
+    }
 }

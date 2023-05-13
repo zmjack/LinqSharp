@@ -77,10 +77,10 @@ namespace LinqSharp.Query.Infrastructure
         }
 
         public static Property<TSource> operator +(Property<TSource> @this, object value) => @this.AddOp(value);
-        public static Property<TSource> operator -(Property<TSource> @this, object value) => @this.UnitOp(Expression.SubtractChecked, value);
-        public static Property<TSource> operator *(Property<TSource> @this, object value) => @this.UnitOp(Expression.MultiplyChecked, value);
-        public static Property<TSource> operator /(Property<TSource> @this, object value) => @this.UnitOp(Expression.Divide, value);
-        public static Property<TSource> operator %(Property<TSource> @this, object value) => @this.UnitOp(Expression.Modulo, value);
+        public static Property<TSource> operator -(Property<TSource> @this, object value) => @this.ArithmeticOp(Expression.SubtractChecked, value);
+        public static Property<TSource> operator *(Property<TSource> @this, object value) => @this.ArithmeticOp(Expression.MultiplyChecked, value);
+        public static Property<TSource> operator /(Property<TSource> @this, object value) => @this.ArithmeticOp(Expression.Divide, value);
+        public static Property<TSource> operator %(Property<TSource> @this, object value) => @this.ArithmeticOp(Expression.Modulo, value);
         public static QueryExpression<TSource> operator ==(Property<TSource> @this, object value) => @this.CompareOp(Expression.Equal, value);
         public static QueryExpression<TSource> operator !=(Property<TSource> @this, object value) => @this.CompareOp(Expression.NotEqual, value);
         public static QueryExpression<TSource> operator >(Property<TSource> @this, object value) => @this.CompareOp(Expression.GreaterThan, value);
@@ -88,60 +88,35 @@ namespace LinqSharp.Query.Infrastructure
         public static QueryExpression<TSource> operator >=(Property<TSource> @this, object value) => @this.CompareOp(Expression.GreaterThanOrEqual, value);
         public static QueryExpression<TSource> operator <=(Property<TSource> @this, object value) => @this.CompareOp(Expression.LessThanOrEqual, value);
 
-        public static Property<TSource> operator +(Property<TSource> @this, Property<TSource> other) => @this.AddOp(other);
-        public static Property<TSource> operator -(Property<TSource> @this, Property<TSource> other) => @this.UnitOp(Expression.SubtractChecked, other);
-        public static Property<TSource> operator *(Property<TSource> @this, Property<TSource> other) => @this.UnitOp(Expression.MultiplyChecked, other);
-        public static Property<TSource> operator /(Property<TSource> @this, Property<TSource> other) => @this.UnitOp(Expression.Divide, other);
-        public static Property<TSource> operator %(Property<TSource> @this, Property<TSource> other) => @this.UnitOp(Expression.Modulo, other);
-        public static QueryExpression<TSource> operator ==(Property<TSource> @this, Property<TSource> other) => @this.CompareOp(Expression.Equal, other);
-        public static QueryExpression<TSource> operator !=(Property<TSource> @this, Property<TSource> other) => @this.CompareOp(Expression.NotEqual, other);
-        public static QueryExpression<TSource> operator >(Property<TSource> @this, Property<TSource> other) => @this.CompareOp(Expression.GreaterThan, other);
-        public static QueryExpression<TSource> operator <(Property<TSource> @this, Property<TSource> other) => @this.CompareOp(Expression.LessThan, other);
-        public static QueryExpression<TSource> operator >=(Property<TSource> @this, Property<TSource> other) => @this.CompareOp(Expression.GreaterThanOrEqual, other);
-        public static QueryExpression<TSource> operator <=(Property<TSource> @this, Property<TSource> other) => @this.CompareOp(Expression.LessThanOrEqual, other);
-
-        private Expression GetValueExpression(object value)
+        private Expression GetOperandExpression(object value)
         {
-            if (value.GetType() == PropertyType) return Expression.Constant(value);
-            else return Expression.Convert(Expression.Constant(value), PropertyType);
+            if (value is null) return Expression.Constant(null);
+            else if (value is Property<TSource> property) return property.Exp;
+            else
+            {
+                if (value.GetType() == PropertyType) return Expression.Constant(value);
+                else return Expression.Convert(Expression.Constant(value), PropertyType);
+            }
         }
 
         private Property<TSource> AddOp(object value)
         {
-            var operand = GetValueExpression(value);
-            if (PropertyType == typeof(string))
-                return new Property<TSource>(Parameter, typeof(string), Expression.Add(Exp, operand, MethodContainer.StringConcat));
-            else return new Property<TSource>(Parameter, PropertyType, Expression.AddChecked(Exp, operand));
-        }
-        private Property<TSource> AddOp(Property<TSource> unit)
-        {
-            var operand = unit.Exp;
+            var operand = GetOperandExpression(value);
             if (PropertyType == typeof(string))
                 return new Property<TSource>(Parameter, typeof(string), Expression.Add(Exp, operand, MethodContainer.StringConcat));
             else return new Property<TSource>(Parameter, PropertyType, Expression.AddChecked(Exp, operand));
         }
 
-        private Property<TSource> UnitOp(Func<Expression, Expression, BinaryExpression> func, object value)
+        private Property<TSource> ArithmeticOp(Func<Expression, Expression, BinaryExpression> func, object value)
         {
-            var operand = GetValueExpression(value);
-            return new Property<TSource>(Parameter, PropertyType, func(Exp, operand));
-        }
-        private Property<TSource> UnitOp(Func<Expression, Expression, BinaryExpression> func, Property<TSource> unit)
-        {
-            var operand = unit.Exp;
-            return new Property<TSource>(Parameter, PropertyType, func(Exp, operand));
+            var operand = GetOperandExpression(value);
+            var body = func(Exp, operand);
+            return new Property<TSource>(Parameter, PropertyType, body);
         }
 
         private QueryExpression<TSource> CompareOp(Func<Expression, Expression, BinaryExpression> func, object value)
         {
-            var operand = GetValueExpression(value);
-            var body = func(Exp, operand);
-            var exp = Expression.Lambda<Func<TSource, bool>>(body, Parameter);
-            return new QueryExpression<TSource>(exp);
-        }
-        private QueryExpression<TSource> CompareOp(Func<Expression, Expression, BinaryExpression> func, Property<TSource> unit)
-        {
-            var operand = unit.Exp;
+            var operand = GetOperandExpression(value);
             var body = func(Exp, operand);
             var exp = Expression.Lambda<Func<TSource, bool>>(body, Parameter);
             return new QueryExpression<TSource>(exp);
@@ -149,7 +124,7 @@ namespace LinqSharp.Query.Infrastructure
 
         private QueryExpression<TSource> Invoke(MethodInfo method, params object[] parameters)
         {
-            var body = Expression.Call(Exp, method, parameters.Select(x => Expression.Constant(x)));
+            var body = Expression.Call(Exp, method, parameters.Select(Expression.Constant));
             var exp = Expression.Lambda<Func<TSource, bool>>(body, Parameter);
             return new QueryExpression<TSource>(exp);
         }
