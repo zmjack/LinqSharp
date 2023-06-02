@@ -13,32 +13,32 @@ namespace LinqSharp
 {
     public static partial class IEnumerableExtensions
     {
-        private static IEnumerable<Layer<TSource>> LayerByCore<TSource>(this TSource[] @this, params Func<TSource, object>[] tierSelectors)
+        private static IEnumerable<Layer<TSource>> LayerByCore<TSource>(this TSource[] @this, params Func<TSource, object>[] layerSelectors)
         {
-            var span = tierSelectors.Length;
-            if (tierSelectors.Length > 1)
+            var span = layerSelectors.Length;
+            if (layerSelectors.Length > 1)
             {
                 return
-                    from g in @this.GroupBy(tierSelectors[0])
+                    from g in @this.GroupBy(layerSelectors[0])
                     let elements = g.ToArray()
-                    select new Layer<TSource>(span, g.Key, elements, LayerByCore(elements, tierSelectors.Skip(1).ToArray()));
+                    select new Layer<TSource>(span, g.Key, elements, LayerByCore(elements, layerSelectors.Skip(1).ToArray()));
             }
             else
             {
                 return
-                    from g in @this.GroupBy(tierSelectors[0])
+                    from g in @this.GroupBy(layerSelectors[0])
                     let elements = g.ToArray()
                     select new Layer<TSource>(span, g.Key, elements, null);
             }
         }
 
-        public static Layer<TSource> LayerBy<TSource>(this TSource[] @this, params Func<TSource, object>[] tierSelectors)
+        public static Layer<TSource> LayerBy<TSource>(this TSource[] @this, params Func<TSource, object>[] layerSelectors)
         {
-            if (tierSelectors is null) throw new ArgumentNullException(nameof(tierSelectors));
-            if (!tierSelectors.Any()) throw new ArgumentException("The tier selectors can not be empty.", nameof(tierSelectors));
+            if (layerSelectors is null) throw new ArgumentNullException(nameof(layerSelectors));
+            if (!layerSelectors.Any()) throw new ArgumentException("The layer selectors can not be empty.", nameof(layerSelectors));
 
-            var span = tierSelectors.Length + 1;
-            return new Layer<TSource>(span, null, @this, LayerByCore(@this, tierSelectors));
+            var span = layerSelectors.Length + 1;
+            return new Layer<TSource>(span, null, @this, LayerByCore(@this, layerSelectors));
         }
     }
 }

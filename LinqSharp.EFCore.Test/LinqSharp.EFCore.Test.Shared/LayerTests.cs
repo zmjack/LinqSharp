@@ -20,9 +20,9 @@ namespace LinqSharp.EFCore.Test
 
             var sb = new StringBuilder();
 
-            foreach (var tier1 in tier0.NestedTiers)
+            foreach (var tier1 in tier0.NestedLayers)
             {
-                foreach (var tier2 in tier1.NestedTiers)
+                foreach (var tier2 in tier1.NestedLayers)
                 {
                     foreach (var number in tier2)
                     {

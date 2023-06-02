@@ -4,6 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using NStandard;
+using NStandard.Infrastructure;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,25 +18,25 @@ namespace LinqSharp.Query
         public object Key { get; }
 
         private readonly TSource[] _elements;
-        private readonly IEnumerable<Layer<TSource>> _subTiers;
+        private readonly IEnumerable<Layer<TSource>> _nestedLayers;
 
-        internal Layer(int span, object key, TSource[] elements, IEnumerable<Layer<TSource>> subTiers)
+        internal Layer(int span, object key, TSource[] elements, IEnumerable<Layer<TSource>> nestedLayers)
         {
             Span = span;
             Key = key;
             _elements = elements;
-            _subTiers = subTiers;
+            _nestedLayers = nestedLayers;
         }
 
-        public IEnumerable<Layer<TSource>> NestedTiers
+        public IEnumerable<Layer<TSource>> NestedLayers
         {
             get
             {
-                if (_subTiers is null) throw new InvalidOperationException("No sub tiers.");
+                if (_nestedLayers is null) throw new InvalidOperationException("No nested layers.");
 
-                foreach (Layer<TSource> tier in _subTiers)
+                foreach (Layer<TSource> layer in _nestedLayers)
                 {
-                    yield return tier;
+                    yield return layer;
                 }
             }
         }
@@ -53,16 +54,16 @@ namespace LinqSharp.Query
             return _elements.GetEnumerator();
         }
 
-        public IEnumerable<Any.SharedChainItem<Layer<TSource>>> AsChian()
+        public IEnumerable<ChainIterator<Layer<TSource>>> AsChain()
         {
-            var tier2tiers = (Layer<TSource> x) => x.NestedTiers;
-            var tierSelectors = new Func<Layer<TSource>, IEnumerable<Layer<TSource>>>[Span - 1];
-            for (int i = 0; i < tierSelectors.Length; i++)
+            var layer2layers = (Layer<TSource> x) => x.NestedLayers;
+            var selectors = new Func<Layer<TSource>, IEnumerable<Layer<TSource>>>[Span - 1];
+            for (int i = 0; i < selectors.Length; i++)
             {
-                tierSelectors[i] = tier2tiers;
+                selectors[i] = layer2layers;
             }
 
-            return Any.Chain(this, tierSelectors);
+            return Any.Chain(this, selectors);
         }
 
     }
