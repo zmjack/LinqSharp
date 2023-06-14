@@ -44,6 +44,11 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
+### 版本：7.0.9
+
+- **IQueryFilter** 不再需要实现本地过滤方法。如有需要，请实现 **ILocalFilter**。
+- **Filter** 扩展现在支持按顺序执行多个过滤器。
+
 ### 版本：7.0.2
 
 - 动态查询：**QueryHelper** 提供属性链解析，以支持 **Owned Entity** 的动态查询。

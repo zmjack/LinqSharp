@@ -44,6 +44,11 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version: 7.0.9
+
+- **IQueryFilter** no longer needs to implement local filter methods. Implement **ILocalFilter** if needed.
+- **Filter** extension now supports executing multiple filters sequentially.
+
 ### Version: 7.0.2
 
 - Dynamic Query: **QueryHelper** provides property chain analysis to support dynamic query of **Owned Entity**.

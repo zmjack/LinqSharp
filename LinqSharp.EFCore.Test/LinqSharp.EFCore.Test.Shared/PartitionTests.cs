@@ -1,7 +1,4 @@
-﻿using NStandard;
-using System;
-using System.Linq;
-using System.Text;
+﻿using System;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test

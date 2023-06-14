@@ -24,9 +24,14 @@ namespace LinqSharp
             else return @this;
         }
 
-        public static IQueryable<TSource> Filter<TSource>(this IQueryable<TSource> @this, IQueryFilter<TSource> filter)
+        public static IQueryable<TSource> Filter<TSource>(this IQueryable<TSource> @this, params IQueryFilter<TSource>[] filters)
         {
-            return filter.Apply(@this);
+            var ret = @this;
+            foreach (var filter in filters)
+            {
+                ret = filter.Apply(ret);
+            }
+            return ret;
         }
     }
 }
