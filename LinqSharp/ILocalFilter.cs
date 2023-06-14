@@ -8,8 +8,8 @@ using System.Linq;
 
 namespace LinqSharp
 {
-    public interface IQueryFilter<TSource>
+    public interface ILocalFilter<TSource>
     {
-        public IQueryable<TSource> Apply(IQueryable<TSource> source);
+        public IEnumerable<TSource> Apply(IEnumerable<TSource> source);
     }
 }

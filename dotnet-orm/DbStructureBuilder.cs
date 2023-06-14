@@ -26,7 +26,7 @@ namespace LinqSharp.Cli
 
             foreach (var table in DbTables.Values)
             {
-                appendLine(new[] { table.Name, table.DisplayName.For(name => name == table.Name ? "" : name) });
+                appendLine(new[] { table.Name, table.DisplayName.Pipe(name => name == table.Name ? "" : name) });
                 appendLine(new[] { "Field", "Display", "Runtime Type", "Max Length", "Index", "Required", "Reference", "Note" });
 
                 foreach (var field in table.TableFields)
@@ -39,8 +39,8 @@ namespace LinqSharp.Cli
                         field.MaxLength?.ToString(),
                         field.Index,
                         field.Required ? "Required" : "",
-                        field.ReferenceType?.For(type => DbTables[type].Name),
-                        field.RuntimeType.For(type=>
+                        field.ReferenceType?.Pipe(type => DbTables[type].Name),
+                        field.RuntimeType.Pipe(type=>
                         {
                             if (type.IsEnum)
                             {
@@ -107,7 +107,7 @@ namespace LinqSharp.Cli
                 sb.AppendLine(@"<table style=""border-collapse:collapse; width:100%"" border=""1"">");
                 sb.AppendLine(@"<col width=""10%"">".Repeat(7));
 
-                appendLine(new[] { table.Name, table.DisplayName.For(name => name == table.Name ? "" : name) });
+                appendLine(new[] { table.Name, table.DisplayName.Pipe(name => name == table.Name ? "" : name) });
                 appendLine(new[] { "Field", "Display", "Runtime Type", "Max Length", "Index", "Required", "Reference", "Note" }, "th");
 
                 foreach (var field in table.TableFields)
@@ -125,19 +125,19 @@ namespace LinqSharp.Cli
                             Name = DataAnnotationEx.GetDisplayName(x),
                             LongValue = Convert.ChangeType(Enum.Parse(type, x.Name), typeof(long)),
                         });
-                        var note = values.Select(value => $"<li>{$"{value.LongValue}={value.Name}".For(StringFlow.HtmlEncode)}</li>").Join("");
+                        var note = values.Select(value => $"<li>{StringFlow.HtmlEncode($"{value.LongValue}={value.Name}")}</li>").Join("");
                         noteBuilder.AppendLine($"<ul>{note}</ul>");
                     }
 
                     appendLine(new[]
                     {
                         field.Name,
-                        field.DisplayName.For(StringFlow.HtmlEncode),
-                        field.RuntimeType.GetSimplifiedName().For(StringFlow.HtmlEncode),
+                        field.DisplayName.Pipe(StringFlow.HtmlEncode),
+                        field.RuntimeType.GetSimplifiedName().Pipe(StringFlow.HtmlEncode),
                         field.MaxLength?.ToString(),
-                        field.Index.For(StringFlow.HtmlEncode),
+                        field.Index.Pipe(StringFlow.HtmlEncode),
                         field.Required ? "Required" : "",
-                        field.ReferenceType?.For(type => DbTables[type].Name),
+                        field.ReferenceType?.Pipe(type => DbTables[type].Name),
                         noteBuilder.ToString(),
                     });
                 }
@@ -166,7 +166,7 @@ namespace LinqSharp.Cli
             if (!DbTables.ContainsKey(tableType))
             {
                 var tableAttr = tableType.GetAttributeViaName("System.ComponentModel.DataAnnotations.Schema.TableAttribute");
-                var tableName = tableAttr?.GetReflector().For(x => $"{x.Property<string>("Schema").Value}.{x.Property<string>("Name").Value}") ?? defaultName;
+                var tableName = tableAttr?.GetReflector().Pipe(x => $"{x.Property<string>("Schema").Value}.{x.Property<string>("Name").Value}") ?? defaultName;
 
                 var filedTypes = tableType.GetProperties().Where(x => x.CanRead && x.CanWrite).ToArray();
                 var tableFields = filedTypes.Select(type => new DbTableField
@@ -176,15 +176,15 @@ namespace LinqSharp.Cli
                     RuntimeType = type.PropertyType,
                     Index = type.HasAttributeViaName("System.ComponentModel.DataAnnotations.KeyAttribute") ? "Key"
                         : type.HasAttributeViaName($"LinqSharp.EFCore.CPKeyAttribute") ? "CPKey"
-                        : type.GetAttributeViaName($"LinqSharp.EFCore.IndexAttribute")?.GetReflector().For(x => $"{x.Property<Enum>("Type").Value} {x.Property<string>("Group").Value?.For(g => $"({g})")}") ?? "",
-                    MaxLength = type.GetAttributeViaName("System.ComponentModel.DataAnnotations.StringLengthAttribute")?.GetReflector().For(x => x.Property<int>("MaximumLength").Value) ?? null,
+                        : type.GetAttributeViaName($"LinqSharp.EFCore.IndexAttribute")?.GetReflector().Pipe(x => $"{x.Property<Enum>("Type").Value} {x.Property<string>("Group").Value?.Pipe(g => $"({g})")}") ?? "",
+                    MaxLength = type.GetAttributeViaName("System.ComponentModel.DataAnnotations.StringLengthAttribute")?.GetReflector().Pipe(x => x.Property<int>("MaximumLength").Value) ?? null,
                     Required = type.HasAttributeViaName("System.ComponentModel.DataAnnotations.RequiredAttribute"),
-                    ReferenceType = type.GetAttributeViaName("System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute")?.GetReflector().For(x =>
+                    ReferenceType = type.GetAttributeViaName("System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute")?.GetReflector().Pipe(x =>
                     {
                         var name = x.Property<string>("Name").Value;
                         return tableType.GetProperty(name).PropertyType;
                     }),
-                    ObsoleteLevel = type.GetAttributeViaName("System.ObsoleteAttribute")?.GetReflector().For(x =>
+                    ObsoleteLevel = type.GetAttributeViaName("System.ObsoleteAttribute")?.GetReflector().Pipe(x =>
                     {
                         var isError = x.Property<bool>("IsError").Value;
                         return isError ? "已弃用" : "警告";

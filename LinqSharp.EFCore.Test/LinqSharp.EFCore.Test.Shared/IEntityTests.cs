@@ -16,8 +16,8 @@ namespace LinqSharp.EFCore.Test
         public void Test1()
         {
             var a = new Entity() { String = "123", Int = 1 };
-            var b = new Entity().For(x => x.Accept(a));
-            var c = new Entity().For(x => x.Accept(a, m => new { m.String }));
+            var b = new Entity().Pipe(x => x.Accept(a));
+            var c = new Entity().Pipe(x => x.Accept(a, m => new { m.String }));
 
             Assert.Equal("123", b.String);
             Assert.Equal(1, b.Int);

@@ -29,7 +29,7 @@ namespace LinqSharp.EFCore.Test
                 {
                     Id = guid,
                     Code = $"{guid} code",
-                    Name = guid.ToString().Bytes().For(BytesFlow.Base58),
+                    Name = guid.ToString().Bytes().Pipe(BytesFlow.Base58),
                 };
             });
 

@@ -47,10 +47,12 @@ namespace LinqSharp.EFCore.Test
             var regions = mysql.Regions.ToArray();
 
             {
+#pragma warning disable CS0618 // Type or member is obsolete
                 var chunks = (
                     from chunk in regions.GroupByCount(2)
                     select chunk.Select(x => x.RegionDescription).ToArray()
                 ).ToArray();
+#pragma warning restore CS0618 // Type or member is obsolete
 
                 Assert.Equal(new[]
                 {
@@ -60,10 +62,12 @@ namespace LinqSharp.EFCore.Test
             }
 
             {
+#pragma warning disable CS0618 // Type or member is obsolete
                 var chunks = (
                     from chunk in regions.GroupByCount(3)
                     select chunk.Select(x => x.RegionDescription).ToArray()
                 ).ToArray();
+#pragma warning restore CS0618 // Type or member is obsolete
 
                 Assert.Equal(new[]
                 {

@@ -22,7 +22,7 @@ namespace LinqSharp.EFCore.Test
                 new { Left = 0, Right = 3 },
             }, result);
 
-            var refResult = leftRefNumbers.FullJoin(rightRefNumbers, x => x, x => x, (l, r) => new { Left = l?.Struct, Right = r?.Struct });
+            var refResult = leftRefNumbers.FullJoin(rightRefNumbers, x => x, x => x, (l, r) => new { Left = l?.Value, Right = r?.Value });
             Assert.Equal(new[]
             {
                 new { Left = (int?)1, Right = (int?)null },
@@ -41,7 +41,7 @@ namespace LinqSharp.EFCore.Test
                 new { Left = 2, Right = 2 },
             }, result);
 
-            var refResult = leftRefNumbers.LeftJoin(rightRefNumbers, x => x, x => x, (l, r) => new { Left = l?.Struct, Right = r?.Struct });
+            var refResult = leftRefNumbers.LeftJoin(rightRefNumbers, x => x, x => x, (l, r) => new { Left = l?.Value, Right = r?.Value });
             Assert.Equal(new[]
             {
                 new { Left = (int?)1, Right = (int?)null },
@@ -59,7 +59,7 @@ namespace LinqSharp.EFCore.Test
                 new { Left = 0, Right = 3 },
             }, result);
 
-            var refResult = leftRefNumbers.RightJoin(rightRefNumbers, x => x, x => x, (l, r) => new { Left = l?.Struct, Right = r?.Struct });
+            var refResult = leftRefNumbers.RightJoin(rightRefNumbers, x => x, x => x, (l, r) => new { Left = l?.Value, Right = r?.Value });
             Assert.Equal(new[]
             {
                 new { Left = (int?)2, Right = (int?)2 },

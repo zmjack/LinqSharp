@@ -17,10 +17,7 @@ namespace LinqSharp.EFCore.Test
         {
             public int[] Ids { get; set; }
 
-            public IEnumerable<Employee> Apply(IEnumerable<Employee> source) => source.Where(x => Ids.Contains(x.EmployeeID));
             public IQueryable<Employee> Apply(IQueryable<Employee> source) => source.Where(x => Ids.Contains(x.EmployeeID));
-
-            public IEnumerable<Product> Apply(IEnumerable<Product> source) => source.Where(x => Ids.Contains(x.ProductID));
             public IQueryable<Product> Apply(IQueryable<Product> source) => source.Where(x => Ids.Contains(x.ProductID));
         }
 

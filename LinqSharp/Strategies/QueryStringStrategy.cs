@@ -57,21 +57,21 @@ namespace LinqSharp.Strategies
             else if (expression.Type.IsImplement<IEnumerable>())
             {
                 var ienumerableGenericType = new[]
+                {
+                    expression.Type,
+                }
+                .Concat(expression.Type.GetInterfaces()).Pipe(interfaces =>
+                {
+                    var regex = new Regex(@"System\.Collections\.Generic\.IEnumerable`1\[(.+)\]");
+                    foreach (var @interface in interfaces)
                     {
-                        expression.Type,
+                        var match = regex.Match(@interface.ToString());
+                        if (match.Success)
+                            return Type.GetType(match.Groups[1].Value);
                     }
-                    .Concat(expression.Type.GetInterfaces()).For(interfaces =>
-                    {
-                        var regex = new Regex(@"System\.Collections\.Generic\.IEnumerable`1\[(.+)\]");
-                        foreach (var @interface in interfaces)
-                        {
-                            var match = regex.Match(@interface.ToString());
-                            if (match.Success)
-                                return Type.GetType(match.Groups[1].Value);
-                        }
 
-                        throw new NotSupportedException("Only IEnumerable<T> is supported.");
-                    });
+                    throw new NotSupportedException("Only IEnumerable<T> is supported.");
+                });
 
                 if (ienumerableGenericType != typeof(string))
                 {
