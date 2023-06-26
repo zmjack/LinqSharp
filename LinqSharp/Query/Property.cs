@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace LinqSharp.Query.Infrastructure
+namespace LinqSharp.Query
 {
     public class Property<TSource>
     {

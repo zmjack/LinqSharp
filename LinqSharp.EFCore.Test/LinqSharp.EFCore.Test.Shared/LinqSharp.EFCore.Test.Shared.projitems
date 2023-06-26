@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FilterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEnumerableExtensionsTests.cs" />
+    <Compile Include="..\LinqSharp.EFCore.Test.Shared\IndexTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JoinTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NumbericTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PagedEnumerableTests.cs" />

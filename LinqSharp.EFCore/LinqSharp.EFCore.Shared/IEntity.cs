@@ -4,7 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Annotations;
-using LinqSharp.Query.Infrastructure;
+using LinqSharp.Query;
 using NStandard;
 using System;
 using System.Collections.Generic;

@@ -5,7 +5,6 @@
 
 using LinqSharp.EFCore.Scopes;
 using LinqSharp.Query;
-using LinqSharp.Query.Infrastructure;
 using Microsoft.EntityFrameworkCore.Internal;
 using NStandard;
 using System;

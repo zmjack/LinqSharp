@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyName>dotnet-orm</AssemblyName>
     <Company>linqsharp.net</Company>
@@ -20,7 +20,7 @@
     <Copyright>Copyright © linqsharp.net 2020</Copyright>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
-    <Version>0.29.5</Version>
+    <Version>0.30.0</Version>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageType>DotnetCliTool</PackageType>

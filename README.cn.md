@@ -44,6 +44,10 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
+### 版本：7.0.10
+
+- 新功能：已添加 **IEnumerableExtensions.Index**，用于创建索引以提供更快的查询。
+
 ### 版本：7.0.9
 
 - **IQueryFilter** 不再需要实现本地过滤方法。如有需要，请实现 **ILocalFilter**。

@@ -13,7 +13,7 @@ namespace LinqSharp
 {
     public static partial class IEnumerableExtensions
     {
-        public static TResult Sum<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        private static TResult Sum<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
             using (var enumerator = source.GetEnumerator())
             {

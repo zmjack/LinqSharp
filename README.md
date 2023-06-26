@@ -44,6 +44,10 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version: 7.0.10
+
+- New Feature: Added **IEnumerableExtensions.Index** for creating indexes to provide faster queries.
+
 ### Version: 7.0.9
 
 - **IQueryFilter** no longer needs to implement local filter methods. Implement **ILocalFilter** if needed.

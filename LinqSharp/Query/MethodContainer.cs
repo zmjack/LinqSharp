@@ -9,7 +9,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace LinqSharp.Query.Infrastructure
+namespace LinqSharp.Query
 {
     public static class MethodContainer
     {
