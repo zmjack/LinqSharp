@@ -44,6 +44,26 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+**LinqSharp** is three years old.
+
+Over the years, we've created a lot of features and removed a lot.
+
+Many features are currently approved and we are unlikely to make breaking changes to them unless necessary.
+
+
+
+Now is the time to add them to the **wiki**.
+
+We are preparing a detailed document, and I believe it will be available to you soon.
+
+**Thanks !**
+
+<br/>
+
+### Version: 7.0.11
+
+- New Feature: Added **IFieldLocalFilter** / **IFieldQueryFilter** for building field-based conditions.
+
 ### Version: 7.0.10
 
 - New Feature: Added **IEnumerableExtensions.Index** for creating indexes to provide faster queries.

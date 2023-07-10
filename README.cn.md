@@ -44,9 +44,29 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
+**LinqSharp** 三岁了！
+
+多年来，我们创建了很多功能，也删除了很多功能。 
+
+多数功能已获得认可，除非必要，否则我们不太可能对其进行中断性更新。 
+
+现在是将它们添加到 **wiki** 的时候了。 
+
+
+
+我们正在准备一份详细的文档，相信很快就能提供给大家。
+
+**感谢！**
+
+<br/>
+
+### 版本：7.0.11
+
+- 新功能：添加 **IFieldLocalFilter** / **IFieldQueryFilter** 用于构建基于字段的条件。
+
 ### 版本：7.0.10
 
-- 新功能：已添加 **IEnumerableExtensions.Index**，用于创建索引以提供更快的查询。
+- 新功能：添加 **IEnumerableExtensions.Index**，用于创建索引以提供更快的查询。
 
 ### 版本：7.0.9
 

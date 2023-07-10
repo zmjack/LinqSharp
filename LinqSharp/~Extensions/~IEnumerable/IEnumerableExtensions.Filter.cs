@@ -35,5 +35,15 @@ namespace LinqSharp
             return ret;
         }
 
+        public static IEnumerable<TEntity> Filter<TEntity, TProperty>(this IEnumerable<TEntity> @this, Func<TEntity, TProperty> fieldSelector, Func<TProperty, bool> filter)
+        {
+            return @this.Where(x => filter(fieldSelector(x)));
+        }
+
+        public static IEnumerable<TEntity> Filter<TEntity, TProperty>(this IEnumerable<TEntity> @this, Func<TEntity, TProperty> fieldSelector, IFieldLocalFilter<TProperty> fieldFilter)
+        {
+            return @this.Where(x => fieldFilter.Filter(fieldSelector(x)));
+        }
+
     }
 }

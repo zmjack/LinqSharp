@@ -23,11 +23,15 @@ namespace LinqSharp
         /// <param name="origin"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        public static TExpression RebindParameter<TExpression>(this TExpression @this, ParameterExpression origin, ParameterExpression target)
+        public static TExpression RebindParameter<TExpression>(this TExpression @this, Expression origin, Expression target)
             where TExpression : Expression
         {
             if (origin == target) return @this;
-            else return new ExpressionRebindVisitor(origin, target).Visit(@this) as TExpression;
+            else
+            {
+                var visitor = new ExpressionRebindVisitor(origin, target);
+                return visitor.Visit(@this) as TExpression;
+            }
         }
 
         /// <summary>

@@ -6,6 +6,7 @@
 using LinqSharp.Query;
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace LinqSharp
 {
@@ -32,5 +33,19 @@ namespace LinqSharp
             }
             return ret;
         }
+
+        public static IQueryable<TEntity> Filter<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, Expression<Func<TProperty, bool>> filter)
+        {
+            var visitor = new ExpressionRebindVisitor(filter.Parameters[0], fieldSelector.Body);
+            var body = visitor.Visit(filter.Body);
+            var expression = Expression.Lambda(body, false, fieldSelector.Parameters[0]) as Expression<Func<TEntity, bool>>;
+            return @this.Where(expression);
+        }
+
+        public static IQueryable<TEntity> Filter<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, IFieldQueryFilter<TProperty> fieldFilter)
+        {
+            return Filter(@this, fieldSelector, fieldFilter.Filter);
+        }
+
     }
 }

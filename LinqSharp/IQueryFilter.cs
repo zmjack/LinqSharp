@@ -9,6 +9,6 @@ namespace LinqSharp
 {
     public interface IQueryFilter<TSource>
     {
-        public IQueryable<TSource> Apply(IQueryable<TSource> source);
+        IQueryable<TSource> Apply(IQueryable<TSource> source);
     }
 }

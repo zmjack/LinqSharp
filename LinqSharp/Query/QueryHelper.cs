@@ -17,8 +17,21 @@ namespace LinqSharp.Query
     {
         internal readonly ParameterExpression DefaultParameter = Expression.Parameter(typeof(TSource));
 
+        /// <summary>
+        /// <para> This parameter indicates no filtering. </para>
+        /// <para> It differs from True in that it does not generate any statements. </para>
+        /// </summary>
         public QueryExpression<TSource> Empty => QueryExpression<TSource>.Empty.Value;
+
+        /// <summary>
+        /// This parameter indicates that the result is empty.
+        /// </summary>
         public QueryExpression<TSource> False => QueryExpression<TSource>.False.Value;
+
+        /// <summary>
+        /// <para> This parameter indicates no filtering. </para>
+        /// <para> </para>
+        /// </summary>
         public QueryExpression<TSource> True => QueryExpression<TSource>.True.Value;
 
         public QueryExpression<TSource> And(IEnumerable<QueryExpression<TSource>> whereExps)

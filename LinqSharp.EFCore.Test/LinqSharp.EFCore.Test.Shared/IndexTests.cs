@@ -8,9 +8,14 @@ namespace LinqSharp.EFCore.Test.Shared
     public class IndexTests
     {
         [Fact]
-        public void Test1()
+        public void NormalTest()
         {
-            var arr = new NameModel[10].Let(i => new NameModel { Name = i.ToString(), NickName = $"NN: {i}", Tag = (i / 5).ToString() });
+            var arr = new NameModel[10].Let(i => new NameModel
+            {
+                Name = i.ToString(),
+                NickName = $"NN: {i}",
+                Tag = (i / 5).ToString()
+            });
 
             var modelsByTag = arr.Index(x => x.Tag);
             var modelsByNameNickName = arr.Index(x => new { x.Name, x.NickName });
@@ -22,6 +27,20 @@ namespace LinqSharp.EFCore.Test.Shared
             Assert.Equal(0, modelsByTag["2"].Select(x => int.Parse(x.Tag)).Sum());
 
             Assert.Equal("1", modelsByNameNickName[new { Name = "5", NickName = "NN: 5" }].First().Tag);
+        }
+
+        [Fact]
+        public void NullTest()
+        {
+            var arr = new NameModel[10].Let(i => new NameModel
+            {
+                Name = i.ToString(),
+                NickName = $"NN: {i}",
+                Tag = (i / 5).ToString()
+            });
+
+            var modelsByTag = arr.Index(x => (string)null);
+            Assert.Equal(5, modelsByTag[null].Sum(x => int.Parse(x.Tag)));
         }
     }
 }
