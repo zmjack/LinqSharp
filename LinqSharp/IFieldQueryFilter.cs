@@ -5,6 +5,6 @@ namespace LinqSharp
 {
     public interface IFieldQueryFilter<T>
     {
-        Expression<Func<T, bool>> Filter { get; }
+        Expression<Func<T, bool>> Predicate { get; }
     }
 }

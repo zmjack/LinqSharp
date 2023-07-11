@@ -44,7 +44,14 @@ namespace LinqSharp
 
         public static IQueryable<TEntity> Filter<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, IFieldQueryFilter<TProperty> fieldFilter)
         {
-            return Filter(@this, fieldSelector, fieldFilter.Filter);
+            return Filter(@this, fieldSelector, fieldFilter.Predicate);
+        }
+
+        public static IQueryable<TEntity> Filter<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, IFieldFilter<TProperty> fieldFilter)
+        {
+            var helper = new QueryHelper<TProperty>();
+            var expression = fieldFilter.Filter(helper).Expression;
+            return Filter(@this, fieldSelector, expression);
         }
 
     }

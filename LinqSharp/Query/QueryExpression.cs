@@ -10,9 +10,9 @@ namespace LinqSharp.Query
 {
     public class QueryExpression<TSource>
     {
-        public static readonly Lazy<QueryExpression<TSource>> Empty = new(() => new());
-        public static readonly Lazy<QueryExpression<TSource>> False = new(() => new(x => false));
-        public static readonly Lazy<QueryExpression<TSource>> True = new(() => new(x => true));
+        internal static readonly Lazy<QueryExpression<TSource>> Empty = new(() => new());
+        internal static readonly Lazy<QueryExpression<TSource>> False = new(() => new(x => false));
+        internal static readonly Lazy<QueryExpression<TSource>> True = new(() => new(x => true));
 
         public Expression<Func<TSource, bool>> Expression { get; private set; }
 

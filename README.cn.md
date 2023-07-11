@@ -60,6 +60,10 @@ dotnet add package LinqSharp.EFCore
 
 <br/>
 
+### 版本：7.0.13
+
+- 新功能：添加 **IFieldFilter** 用于构建基于字段的条件，支持动态构建。
+
 ### 版本：7.0.11
 
 - 新功能：添加 **IFieldLocalFilter** / **IFieldQueryFilter** 用于构建基于字段的条件。

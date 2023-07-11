@@ -20,7 +20,7 @@
     <Copyright>Copyright © linqsharp.net 2020</Copyright>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
-    <Version>0.32.0</Version>
+    <Version>0.33.0</Version>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageType>DotnetCliTool</PackageType>

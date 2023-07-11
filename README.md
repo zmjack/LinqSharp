@@ -60,6 +60,10 @@ We are preparing a detailed document, and I believe it will be available to you 
 
 <br/>
 
+### Version: 7.0.13
+
+- New Feature: Added **IFieldFilter** for building field-based conditions, support dynamic building.
+
 ### Version: 7.0.11
 
 - New Feature: Added **IFieldLocalFilter** / **IFieldQueryFilter** for building field-based conditions.

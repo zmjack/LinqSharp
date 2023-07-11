@@ -4,6 +4,6 @@ namespace LinqSharp
 {
     public interface IFieldLocalFilter<T>
     {
-        Func<T, bool> Filter { get; }
+        Func<T, bool> Predicate { get; }
     }
 }

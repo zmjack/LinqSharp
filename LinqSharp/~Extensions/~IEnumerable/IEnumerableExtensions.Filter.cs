@@ -7,6 +7,7 @@ using LinqSharp.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace LinqSharp
 {
@@ -42,7 +43,14 @@ namespace LinqSharp
 
         public static IEnumerable<TEntity> Filter<TEntity, TProperty>(this IEnumerable<TEntity> @this, Func<TEntity, TProperty> fieldSelector, IFieldLocalFilter<TProperty> fieldFilter)
         {
-            return @this.Where(x => fieldFilter.Filter(fieldSelector(x)));
+            return @this.Where(x => fieldFilter.Predicate(fieldSelector(x)));
+        }
+
+        public static IEnumerable<TEntity> Filter<TEntity, TProperty>(this IEnumerable<TEntity> @this, Func<TEntity, TProperty> fieldSelector, IFieldFilter<TProperty> fieldFilter)
+        {
+            var helper = new QueryHelper<TProperty>();
+            var predicate = fieldFilter.Filter(helper).Expression.Compile();
+            return @this.Where(x => predicate(fieldSelector(x)));
         }
 
     }
