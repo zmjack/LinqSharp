@@ -6,6 +6,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace LinqSharp.Query
 {
+    public interface IIndexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>
+    {
+    }
+
     public class Indexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>, IIndexing<TKey, T>
     {
         private readonly Dictionary<TKey, IReadOnlyCollection<T>> _dictionary = new();
@@ -93,7 +97,4 @@ namespace LinqSharp.Query
         }
     }
 
-    public interface IIndexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>
-    {
-    }
 }
