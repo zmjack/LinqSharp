@@ -11,9 +11,9 @@ namespace LinqSharp
 {
     public static partial class IEnumerableExtensions
     {
-        public static IndexedCollection<TKey, T> Index<T, TKey>(this IEnumerable<T> @this, Func<T, TKey> selector)
+        public static IIndexing<TKey, T> IndexBy<T, TKey>(this IEnumerable<T> @this, Func<T, TKey> selector)
         {
-            var collection = new IndexedCollection<TKey, T>();
+            var collection = new Indexing<TKey, T>();
             foreach (var item in @this)
             {
                 var key = selector(item);

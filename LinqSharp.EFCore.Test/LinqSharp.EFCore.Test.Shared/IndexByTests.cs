@@ -17,8 +17,8 @@ namespace LinqSharp.EFCore.Test.Shared
                 Tag = (i / 5).ToString()
             });
 
-            var modelsByTag = arr.Index(x => x.Tag);
-            var modelsByNameNickName = arr.Index(x => new { x.Name, x.NickName });
+            var modelsByTag = arr.IndexBy(x => x.Tag);
+            var modelsByNameNickName = arr.IndexBy(x => new { x.Name, x.NickName });
 
             Assert.Equal(0, modelsByTag["0"].Sum(x => int.Parse(x.Tag)));
 
@@ -39,7 +39,7 @@ namespace LinqSharp.EFCore.Test.Shared
                 Tag = (i / 5).ToString()
             });
 
-            var modelsByTag = arr.Index(x => (string)null);
+            var modelsByTag = arr.IndexBy(x => (string)null);
             Assert.Equal(5, modelsByTag[null].Sum(x => int.Parse(x.Tag)));
         }
     }
