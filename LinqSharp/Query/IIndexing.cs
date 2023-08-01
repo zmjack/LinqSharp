@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 
 namespace LinqSharp.Query
 {
@@ -28,7 +26,14 @@ namespace LinqSharp.Query
             set
             {
                 if (key is null) _nulls = value;
-                else _dictionary[key] = value;
+                else
+                {
+                    if (value is null)
+                    {
+                        if (_dictionary.ContainsKey(key)) _dictionary.Remove(key);
+                    }
+                    else _dictionary[key] = value;
+                }
             }
         }
 
