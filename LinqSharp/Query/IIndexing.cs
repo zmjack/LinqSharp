@@ -6,6 +6,7 @@ namespace LinqSharp.Query
 {
     public interface IIndexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>
     {
+        IEnumerable<T> AllValues { get; }
     }
 
     public class Indexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>, IIndexing<TKey, T>
@@ -33,6 +34,20 @@ namespace LinqSharp.Query
                         if (_dictionary.ContainsKey(key)) _dictionary.Remove(key);
                     }
                     else _dictionary[key] = value;
+                }
+            }
+        }
+
+        public IEnumerable<T> AllValues
+        {
+            get
+            {
+                foreach (var value in Values)
+                {
+                    foreach (var item in value)
+                    {
+                        yield return item;
+                    }
                 }
             }
         }
