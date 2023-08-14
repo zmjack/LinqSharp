@@ -42,12 +42,26 @@ namespace LinqSharp
             return @this.Where(expression);
         }
 
+        [Obsolete("Use FilterBy instead.")]
         public static IQueryable<TEntity> Filter<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, IFieldQueryFilter<TProperty> fieldFilter)
         {
             return Filter(@this, fieldSelector, fieldFilter.Predicate);
         }
 
+        [Obsolete("Use FilterBy instead.")]
         public static IQueryable<TEntity> Filter<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, IFieldFilter<TProperty> fieldFilter)
+        {
+            var helper = new QueryHelper<TProperty>();
+            var expression = fieldFilter.Filter(helper).Expression;
+            return Filter(@this, fieldSelector, expression);
+        }
+
+        public static IQueryable<TEntity> FilterBy<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, IFieldQueryFilter<TProperty> fieldFilter)
+        {
+            return Filter(@this, fieldSelector, fieldFilter.Predicate);
+        }
+
+        public static IQueryable<TEntity> FilterBy<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, IFieldFilter<TProperty> fieldFilter)
         {
             var helper = new QueryHelper<TProperty>();
             var expression = fieldFilter.Filter(helper).Expression;

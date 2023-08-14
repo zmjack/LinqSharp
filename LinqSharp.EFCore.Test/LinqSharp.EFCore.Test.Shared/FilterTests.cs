@@ -364,7 +364,7 @@ WHERE `c`.`Address_City` = 'A';
             };
 
             using var mysql = ApplicationDbContext.UseMySql();
-            var query = mysql.Orders.Filter(x => x.OrderDate, filter);
+            var query = mysql.Orders.FilterBy(x => x.OrderDate, filter);
             var sql = query.ToQueryString();
             var result = query.ToArray();
 
@@ -410,7 +410,7 @@ WHERE ('1996-07-01 00:00:00.000000' <= `x`.`OrderDate`) AND (`x`.`OrderDate` <= 
             };
 
             using var mysql = ApplicationDbContext.UseMySql();
-            var query = mysql.Orders.Filter(x => x.OrderDate, filter);
+            var query = mysql.Orders.FilterBy(x => x.OrderDate, filter);
             var sql = query.ToQueryString();
             var result = query.ToArray();
 
