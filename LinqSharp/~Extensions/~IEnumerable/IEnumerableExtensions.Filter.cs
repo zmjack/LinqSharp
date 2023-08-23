@@ -35,31 +35,17 @@ namespace LinqSharp
             return ret;
         }
 
-        public static IEnumerable<TEntity> Filter<TEntity, TProperty>(this IEnumerable<TEntity> @this, Func<TEntity, TProperty> fieldSelector, Func<TProperty, bool> filter)
+        public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> fieldSelector, Func<TProperty, bool> filter)
         {
             return @this.Where(x => filter(fieldSelector(x)));
         }
 
-        [Obsolete("Use FilterBy instead.")]
-        public static IEnumerable<TEntity> Filter<TEntity, TProperty>(this IEnumerable<TEntity> @this, Func<TEntity, TProperty> fieldSelector, IFieldLocalFilter<TProperty> fieldFilter)
+        public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> fieldSelector, IFieldLocalFilter<TProperty> fieldFilter)
         {
             return @this.Where(x => fieldFilter.Predicate(fieldSelector(x)));
         }
 
-        [Obsolete("Use FilterBy instead.")]
-        public static IEnumerable<TEntity> Filter<TEntity, TProperty>(this IEnumerable<TEntity> @this, Func<TEntity, TProperty> fieldSelector, IFieldFilter<TProperty> fieldFilter)
-        {
-            var helper = new QueryHelper<TProperty>();
-            var predicate = fieldFilter.Filter(helper).Expression.Compile();
-            return @this.Where(x => predicate(fieldSelector(x)));
-        }
-
-        public static IEnumerable<TEntity> FilterBy<TEntity, TProperty>(this IEnumerable<TEntity> @this, Func<TEntity, TProperty> fieldSelector, IFieldLocalFilter<TProperty> fieldFilter)
-        {
-            return @this.Where(x => fieldFilter.Predicate(fieldSelector(x)));
-        }
-
-        public static IEnumerable<TEntity> FilterBy<TEntity, TProperty>(this IEnumerable<TEntity> @this, Func<TEntity, TProperty> fieldSelector, IFieldFilter<TProperty> fieldFilter)
+        public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> fieldSelector, IFieldFilter<TProperty> fieldFilter)
         {
             var helper = new QueryHelper<TProperty>();
             var predicate = fieldFilter.Filter(helper).Expression.Compile();

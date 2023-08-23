@@ -118,6 +118,26 @@ namespace LinqSharp.Query
             }));
         }
 
+        public QueryExpression<TSource> FilterBy<TProperty>(Expression<Func<TSource, TProperty>> fieldSelector, Expression<Func<TProperty, bool>> filter)
+        {
+            var visitor = new ExpressionRebindVisitor(filter.Parameters[0], fieldSelector.Body);
+            var body = visitor.Visit(filter.Body);
+            var expression = Expression.Lambda(body, false, fieldSelector.Parameters[0]) as Expression<Func<TSource, bool>>;
+            return Where(expression);
+        }
+
+        public QueryExpression<TSource> FilterBy<TProperty>(Expression<Func<TSource, TProperty>> fieldSelector, IFieldQueryFilter<TProperty> fieldFilter)
+        {
+            return FilterBy(fieldSelector, fieldFilter.Predicate);
+        }
+
+        public QueryExpression<TSource> FilterBy<TProperty>(Expression<Func<TSource, TProperty>> fieldSelector, IFieldFilter<TProperty> fieldFilter)
+        {
+            var helper = new QueryHelper<TProperty>();
+            var expression = fieldFilter.Filter(helper).Expression;
+            return FilterBy(fieldSelector, expression);
+        }
+
     }
 
 }

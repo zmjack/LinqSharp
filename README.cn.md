@@ -60,6 +60,10 @@ dotnet add package LinqSharp.EFCore
 
 <br/>
 
+### 版本：7.0.17
+
+- 新功能：为 **QueryHelper** 添加 **FilterBy** 支持，现可将 **IFieldFilter** 直接作用于 **QueryHelper**。
+
 ### 版本：7.0.13
 
 - 新功能：添加 **IFieldFilter** 用于构建基于字段的条件，支持动态构建。

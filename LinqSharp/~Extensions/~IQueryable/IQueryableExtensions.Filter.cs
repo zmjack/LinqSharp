@@ -34,38 +34,24 @@ namespace LinqSharp
             return ret;
         }
 
-        public static IQueryable<TEntity> Filter<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, Expression<Func<TProperty, bool>> filter)
+        public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> fieldSelector, Expression<Func<TProperty, bool>> filter)
         {
             var visitor = new ExpressionRebindVisitor(filter.Parameters[0], fieldSelector.Body);
             var body = visitor.Visit(filter.Body);
-            var expression = Expression.Lambda(body, false, fieldSelector.Parameters[0]) as Expression<Func<TEntity, bool>>;
+            var expression = Expression.Lambda(body, false, fieldSelector.Parameters[0]) as Expression<Func<TSource, bool>>;
             return @this.Where(expression);
         }
 
-        [Obsolete("Use FilterBy instead.")]
-        public static IQueryable<TEntity> Filter<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, IFieldQueryFilter<TProperty> fieldFilter)
+        public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> fieldSelector, IFieldQueryFilter<TProperty> filter)
         {
-            return Filter(@this, fieldSelector, fieldFilter.Predicate);
+            return FilterBy(@this, fieldSelector, filter.Predicate);
         }
 
-        [Obsolete("Use FilterBy instead.")]
-        public static IQueryable<TEntity> Filter<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, IFieldFilter<TProperty> fieldFilter)
+        public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> fieldSelector, IFieldFilter<TProperty> filter)
         {
             var helper = new QueryHelper<TProperty>();
-            var expression = fieldFilter.Filter(helper).Expression;
-            return Filter(@this, fieldSelector, expression);
-        }
-
-        public static IQueryable<TEntity> FilterBy<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, IFieldQueryFilter<TProperty> fieldFilter)
-        {
-            return Filter(@this, fieldSelector, fieldFilter.Predicate);
-        }
-
-        public static IQueryable<TEntity> FilterBy<TEntity, TProperty>(this IQueryable<TEntity> @this, Expression<Func<TEntity, TProperty>> fieldSelector, IFieldFilter<TProperty> fieldFilter)
-        {
-            var helper = new QueryHelper<TProperty>();
-            var expression = fieldFilter.Filter(helper).Expression;
-            return Filter(@this, fieldSelector, expression);
+            var expression = filter.Filter(helper).Expression;
+            return FilterBy(@this, fieldSelector, expression);
         }
 
     }

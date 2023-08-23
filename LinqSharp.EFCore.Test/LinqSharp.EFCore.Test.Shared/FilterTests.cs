@@ -40,16 +40,45 @@ namespace LinqSharp.EFCore.Test
             public IQueryable<Product> Apply(IQueryable<Product> source) => source.Where(x => Ids.Contains(x.ProductID));
         }
 
+        public class IdsFilter : IFieldFilter<int>
+        {
+            public int[] Ids { get; set; }
+
+            public QueryExpression<int> Filter(QueryHelper<int> h)
+            {
+                return h.Where(x => Ids.Contains(x));
+            }
+        }
+
         [Fact]
         public void QueryFilterTest()
         {
             using var mysql = ApplicationDbContext.UseMySql();
             var filter = new EntityFilter { Ids = new[] { 1 } };
 
-            var orderIds = mysql.Products.Filter(filter).Select(x => x.ProductID).ToArray();
+            var productIds = mysql.Products.Filter(filter).Select(x => x.ProductID).ToArray();
             var employeeIds = mysql.Employees.Filter(filter).Select(x => x.EmployeeID).ToArray();
 
-            Assert.Equal(new[] { 1 }, orderIds);
+            Assert.Equal(new[] { 1 }, productIds);
+            Assert.Equal(new[] { 1 }, employeeIds);
+        }
+
+        [Fact]
+        public void FilterFilterByTest()
+        {
+            using var mysql = ApplicationDbContext.UseMySql();
+            var filter = new IdsFilter { Ids = new[] { 1 } };
+
+            var productIds = mysql.Products.Filter(h =>
+            {
+                return h.FilterBy(x => x.ProductID, filter);
+            }).Select(x => x.ProductID).ToArray();
+            var employeeIds = mysql.Employees.Filter(h =>
+            {
+                return h.FilterBy(x => x.EmployeeID, filter);
+            }).Select(x => x.EmployeeID).ToArray();
+
+            Assert.Equal(new[] { 1 }, productIds);
             Assert.Equal(new[] { 1 }, employeeIds);
         }
 
