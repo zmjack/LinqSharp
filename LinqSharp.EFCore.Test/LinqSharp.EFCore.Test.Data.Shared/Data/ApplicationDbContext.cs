@@ -6,6 +6,7 @@ using LinqSharp.EFCore.Translators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Northwnd;
+using Northwnd.Data;
 using System;
 using System.Linq;
 using System.Threading;
@@ -49,7 +50,7 @@ namespace LinqSharp.EFCore.Data.Test
 
         public string CurrentUser { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options, "@n")
         {
             _facade = new EntityMonitoringFacade(this, true);
             _facade.OnCommitted += Facade_OnCommitted;
@@ -85,6 +86,20 @@ namespace LinqSharp.EFCore.Data.Test
             LastChanged = null;
         }
 
+        public override DbSet<Category> Categories { get; set; }
+        public override DbSet<CustomerDemographic> CustomerDemographics { get; set; }
+        public override DbSet<Customer> Customers { get; set; }
+        public override DbSet<Employee> Employees { get; set; }
+        public override DbSet<OrderDetail> OrderDetails { get; set; }
+        public override DbSet<Order> Orders { get; set; }
+        public override DbSet<Product> Products { get; set; }
+        public override DbSet<Region> Regions { get; set; }
+        public override DbSet<Shipper> Shippers { get; set; }
+        public override DbSet<Supplier> Suppliers { get; set; }
+        public override DbSet<Territory> Territories { get; set; }
+        public override DbSet<CustomerCustomerDemo> CustomerCustomerDemos { get; set; }
+        public override DbSet<EmployeeTerritory> EmployeeTerritories { get; set; }
+
         public DbSet<AppRegistryEntity> AppRegistries { get; set; }
         public DbSet<TrackModel> TrackModels { get; set; }
         public DbSet<EntityMonitorModel> EntityMonitorModels { get; set; }
@@ -108,16 +123,13 @@ namespace LinqSharp.EFCore.Data.Test
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            UseNorthwndPrefix(modelBuilder, "@Northwnd.");
             base.OnModelCreating(modelBuilder);
-
             LinqSharpEF.OnModelCreating(this, modelBuilder);
 
             LinqSharpEF.UseTranslator<DbRandom>(this, modelBuilder);
             LinqSharpEF.UseTranslator<DbConcat>(this, modelBuilder);
             LinqSharpEF.UseTranslator<DbDouble>(this, modelBuilder);
             LinqSharpEF.UseTranslator<DbDateTime>(this, modelBuilder);
-
             LinqSharpEF.UseTranslator<DbYearMonthNumber>(this, modelBuilder);
         }
 

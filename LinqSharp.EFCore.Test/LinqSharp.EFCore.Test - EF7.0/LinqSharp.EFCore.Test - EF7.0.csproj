@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <AssemblyName>LinqSharp.EFCore.Test</AssemblyName>
     <LangVersion>preview</LangVersion>
@@ -21,11 +21,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
-    <PackageReference Include="Northwnd" Version="3.1.2" />
-    <PackageReference Include="NStandard" Version="0.35.5" />
+    <PackageReference Include="Northwnd" Version="7.0.1" />
+    <PackageReference Include="NStandard" Version="0.39.0" />
     <PackageReference Include="PerfProbe" Version="1.4.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
-    <PackageReference Include="SQLib" Version="0.9.0" />
+    <PackageReference Include="SQLib" Version="0.13.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />

@@ -6,6 +6,7 @@
 using LinqSharp.Strategies;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -14,6 +15,8 @@ namespace LinqSharp
     public static partial class IEnumerableExtensions
     {
         #region Return DateTime
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
@@ -22,6 +25,8 @@ namespace LinqSharp
             return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, startExp, endExp).StrategyExpression.Compile());
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             DateTime start,
@@ -30,6 +35,8 @@ namespace LinqSharp
             return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, start, endExp).StrategyExpression.Compile());
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
@@ -38,6 +45,8 @@ namespace LinqSharp
             return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, startExp, end).StrategyExpression.Compile());
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             DateTime start,
@@ -48,6 +57,8 @@ namespace LinqSharp
         #endregion
 
         #region Return DateTime?
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
@@ -56,6 +67,8 @@ namespace LinqSharp
             return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, startExp, endExp).StrategyExpression.Compile());
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             DateTime start,
@@ -64,6 +77,8 @@ namespace LinqSharp
             return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, start, endExp).StrategyExpression.Compile());
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
@@ -72,6 +87,8 @@ namespace LinqSharp
             return @this.Where(new QueryBetweenStrategy<TEntity>(memberExp, startExp, end).StrategyExpression.Compile());
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             DateTime start,

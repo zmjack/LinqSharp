@@ -1,6 +1,6 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
-using Northwnd;
+using Northwnd.Data;
 using System.Linq;
 using Xunit;
 
@@ -70,21 +70,21 @@ namespace LinqSharp.EFCore.Test
 
 #if EFCORE5_0_OR_GREATER
             Assert.Equal(@"SELECT `@`.`ProductID`, `@0`.`CompanyName`
-FROM `@Northwnd.Products` AS `@`
-LEFT JOIN `@Northwnd.Suppliers` AS `@0` ON `@`.`SupplierID` = `@0`.`SupplierID`
+FROM `@n.Products` AS `@`
+LEFT JOIN `@n.Suppliers` AS `@0` ON `@`.`SupplierID` = `@0`.`SupplierID`
 WHERE `@`.`SupplierID` IN (1, 2) OR ((`@`.`SupplierID` = 3) AND (`@`.`ProductID` = 100))", sql);
 
 #elif EFCORE3_1_OR_GREATER
             Assert.Equal(@"SELECT `@`.`ProductID`, `@0`.`CompanyName`
-FROM `@Northwnd.Products` AS `@`
-LEFT JOIN `@Northwnd.Suppliers` AS `@0` ON `@`.`SupplierID` = `@0`.`SupplierID`
+FROM `@n.Products` AS `@`
+LEFT JOIN `@n.Suppliers` AS `@0` ON `@`.`SupplierID` = `@0`.`SupplierID`
 WHERE ((`@`.`SupplierID` = 1) OR (`@`.`SupplierID` = 2)) OR ((`@`.`SupplierID` = 3) AND (`@`.`ProductID` = 100));
 ", sql);
 
 #else
             Assert.Equal(@"SELECT `x`.`ProductID`, `x.SupplierLink`.`CompanyName`
-FROM `@Northwnd.Products` AS `x`
-LEFT JOIN `@Northwnd.Suppliers` AS `x.SupplierLink` ON `x`.`SupplierID` = `x.SupplierLink`.`SupplierID`
+FROM `@n.Products` AS `x`
+LEFT JOIN `@n.Suppliers` AS `x.SupplierLink` ON `x`.`SupplierID` = `x.SupplierLink`.`SupplierID`
 WHERE `x`.`SupplierID` IN (1, 2) OR ((`x`.`SupplierID` = 3) AND (`x`.`ProductID` = 100));
 ", sql);
 #endif

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace DbCreator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
@@ -15,9 +17,10 @@ namespace DbCreator.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.24")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Client", b =>
                 {
@@ -26,8 +29,8 @@ namespace DbCreator.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -44,12 +47,12 @@ namespace DbCreator.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -68,13 +71,13 @@ namespace DbCreator.Migrations
 
                     b.Property<string>("Item")
                         .IsRequired()
-                        .HasColumnType("nvarchar(127)")
-                        .HasMaxLength(127);
+                        .HasMaxLength(127)
+                        .HasColumnType("nvarchar(127)");
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("nvarchar(127)")
-                        .HasMaxLength(127);
+                        .HasMaxLength(127)
+                        .HasColumnType("nvarchar(127)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -157,13 +160,13 @@ namespace DbCreator.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
-                        .HasColumnName("UniqueCode")
+                        .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasColumnName("UniqueCode");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -275,20 +278,20 @@ namespace DbCreator.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DictionaryModel")
-                        .HasColumnType("nvarchar(127)")
-                        .HasMaxLength(127);
+                        .HasMaxLength(127)
+                        .HasColumnType("nvarchar(127)");
 
                     b.Property<string>("JsonModel")
-                        .HasColumnType("nvarchar(127)")
-                        .HasMaxLength(127);
+                        .HasMaxLength(127)
+                        .HasColumnType("nvarchar(127)");
 
                     b.Property<string>("NameModel")
-                        .HasColumnType("nvarchar(127)")
-                        .HasMaxLength(127);
+                        .HasMaxLength(127)
+                        .HasColumnType("nvarchar(127)");
 
                     b.Property<string>("Password")
-                        .HasColumnType("nvarchar(127)")
-                        .HasMaxLength(127);
+                        .HasMaxLength(127)
+                        .HasColumnType("nvarchar(127)");
 
                     b.HasKey("Id");
 
@@ -397,23 +400,23 @@ namespace DbCreator.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
                     b.ToTable("FacadeModels");
                 });
 
-            modelBuilder.Entity("Northwnd.Category", b =>
+            modelBuilder.Entity("Northwnd.Data.Category", b =>
                 {
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -423,70 +426,70 @@ namespace DbCreator.Migrations
 
                     b.HasKey("CategoryID");
 
-                    b.ToTable("@Northwnd.Categories");
+                    b.ToTable("@n.Categories", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.Customer", b =>
+            modelBuilder.Entity("Northwnd.Data.Customer", b =>
                 {
                     b.Property<string>("CustomerID")
-                        .HasColumnType("nvarchar(5)")
-                        .HasMaxLength(5);
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(60)")
-                        .HasMaxLength(60);
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("ContactName")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("ContactTitle")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Fax")
-                        .HasColumnType("nvarchar(24)")
-                        .HasMaxLength(24);
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(24)")
-                        .HasMaxLength(24);
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Region")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("CustomerID");
 
-                    b.ToTable("@Northwnd.Customers");
+                    b.ToTable("@n.Customers", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.CustomerCustomerDemo", b =>
+            modelBuilder.Entity("Northwnd.Data.CustomerCustomerDemo", b =>
                 {
                     b.Property<string>("CustomerTypeID")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("CustomerID")
-                        .HasColumnType("nvarchar(5)")
-                        .HasMaxLength(5);
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.HasKey("CustomerTypeID", "CustomerID");
 
@@ -494,63 +497,63 @@ namespace DbCreator.Migrations
 
                     b.HasIndex("CustomerTypeID");
 
-                    b.ToTable("@Northwnd.CustomerCustomerDemos");
+                    b.ToTable("@n.CustomerCustomerDemos", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.CustomerDemographic", b =>
+            modelBuilder.Entity("Northwnd.Data.CustomerDemographic", b =>
                 {
                     b.Property<string>("CustomerTypeID")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("CustomerDesc")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerTypeID");
 
-                    b.ToTable("@Northwnd.CustomerDemographics");
+                    b.ToTable("@n.CustomerDemographics", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.Employee", b =>
+            modelBuilder.Entity("Northwnd.Data.Employee", b =>
                 {
                     b.Property<int>("EmployeeID")
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(60)")
-                        .HasMaxLength(60);
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Extension")
-                        .HasColumnType("nvarchar(4)")
-                        .HasMaxLength(4);
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime?>("HireDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("HomePhone")
-                        .HasColumnType("nvarchar(24)")
-                        .HasMaxLength(24);
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -559,43 +562,43 @@ namespace DbCreator.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PhotoPath")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Region")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<int?>("ReportsTo")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("TitleOfCourtesy")
-                        .HasColumnType("nvarchar(25)")
-                        .HasMaxLength(25);
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("EmployeeID");
 
                     b.HasIndex("ReportsTo");
 
-                    b.ToTable("@Northwnd.Employees");
+                    b.ToTable("@n.Employees", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.EmployeeTerritory", b =>
+            modelBuilder.Entity("Northwnd.Data.EmployeeTerritory", b =>
                 {
                     b.Property<int>("EmployeeID")
                         .HasColumnType("int");
 
                     b.Property<string>("TerritoryID")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("EmployeeID", "TerritoryID");
 
@@ -603,17 +606,17 @@ namespace DbCreator.Migrations
 
                     b.HasIndex("TerritoryID");
 
-                    b.ToTable("@Northwnd.EmployeeTerritories");
+                    b.ToTable("@n.EmployeeTerritories", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.Order", b =>
+            modelBuilder.Entity("Northwnd.Data.Order", b =>
                 {
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
 
                     b.Property<string>("CustomerID")
-                        .HasColumnType("nvarchar(5)")
-                        .HasMaxLength(5);
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<int?>("EmployeeID")
                         .HasColumnType("int");
@@ -628,28 +631,28 @@ namespace DbCreator.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ShipAddress")
-                        .HasColumnType("nvarchar(60)")
-                        .HasMaxLength(60);
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("ShipCity")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("ShipCountry")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("ShipName")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("ShipPostalCode")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("ShipRegion")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<int?>("ShipVia")
                         .HasColumnType("int");
@@ -665,10 +668,10 @@ namespace DbCreator.Migrations
 
                     b.HasIndex("ShipVia");
 
-                    b.ToTable("@Northwnd.Orders");
+                    b.ToTable("@n.Orders", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.OrderDetail", b =>
+            modelBuilder.Entity("Northwnd.Data.OrderDetail", b =>
                 {
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
@@ -691,10 +694,10 @@ namespace DbCreator.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("@Northwnd.OrderDetails");
+                    b.ToTable("@n.OrderDetails", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.Product", b =>
+            modelBuilder.Entity("Northwnd.Data.Product", b =>
                 {
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
@@ -707,12 +710,12 @@ namespace DbCreator.Migrations
 
                     b.Property<string>("ProductName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("QuantityPerUnit")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<short?>("ReorderLevel")
                         .HasColumnType("smallint");
@@ -735,116 +738,116 @@ namespace DbCreator.Migrations
 
                     b.HasIndex("SupplierID");
 
-                    b.ToTable("@Northwnd.Products");
+                    b.ToTable("@n.Products", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.Region", b =>
+            modelBuilder.Entity("Northwnd.Data.Region", b =>
                 {
                     b.Property<int>("RegionID")
                         .HasColumnType("int");
 
                     b.Property<string>("RegionDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("RegionID");
 
-                    b.ToTable("@Northwnd.Regions");
+                    b.ToTable("@n.Regions", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.Shipper", b =>
+            modelBuilder.Entity("Northwnd.Data.Shipper", b =>
                 {
                     b.Property<int>("ShipperID")
                         .HasColumnType("int");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(24)")
-                        .HasMaxLength(24);
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.HasKey("ShipperID");
 
-                    b.ToTable("@Northwnd.Shippers");
+                    b.ToTable("@n.Shippers", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.Supplier", b =>
+            modelBuilder.Entity("Northwnd.Data.Supplier", b =>
                 {
                     b.Property<int>("SupplierID")
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(60)")
-                        .HasMaxLength(60);
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("ContactName")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("ContactTitle")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Fax")
-                        .HasColumnType("nvarchar(24)")
-                        .HasMaxLength(24);
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("HomePage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(24)")
-                        .HasMaxLength(24);
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Region")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("SupplierID");
 
-                    b.ToTable("@Northwnd.Suppliers");
+                    b.ToTable("@n.Suppliers", (string)null);
                 });
 
-            modelBuilder.Entity("Northwnd.Territory", b =>
+            modelBuilder.Entity("Northwnd.Data.Territory", b =>
                 {
                     b.Property<string>("TerritoryID")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("RegionID")
                         .HasColumnType("int");
 
                     b.Property<string>("TerritoryDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("TerritoryID");
 
                     b.HasIndex("RegionID");
 
-                    b.ToTable("@Northwnd.Territories");
+                    b.ToTable("@n.Territories", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Client", b =>
@@ -855,12 +858,12 @@ namespace DbCreator.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("City")
-                                .HasColumnType("nvarchar(255)")
-                                .HasMaxLength(255);
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)");
 
                             b1.Property<string>("Street")
-                                .HasColumnType("nvarchar(255)")
-                                .HasMaxLength(255);
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)");
 
                             b1.HasKey("ClientId");
 
@@ -869,6 +872,8 @@ namespace DbCreator.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("ClientId");
                         });
+
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditLevel", b =>
@@ -878,6 +883,8 @@ namespace DbCreator.Migrations
                         .HasForeignKey("Root")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("RootLink");
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditValue", b =>
@@ -887,6 +894,8 @@ namespace DbCreator.Migrations
                         .HasForeignKey("Level")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("LevelLink");
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleRow", b =>
@@ -900,8 +909,8 @@ namespace DbCreator.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<string>("Name")
-                                .HasColumnType("nvarchar(255)")
-                                .HasMaxLength(255);
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)");
 
                             b1.HasKey("SimpleRowId");
 
@@ -910,93 +919,187 @@ namespace DbCreator.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("SimpleRowId");
                         });
+
+                    b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("Northwnd.CustomerCustomerDemo", b =>
+            modelBuilder.Entity("Northwnd.Data.CustomerCustomerDemo", b =>
                 {
-                    b.HasOne("Northwnd.Customer", "CustomerLink")
+                    b.HasOne("Northwnd.Data.Customer", "CustomerLink")
                         .WithMany("CustomerCustomerDemos")
                         .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Northwnd.CustomerDemographic", "CustomerDemographicLink")
+                    b.HasOne("Northwnd.Data.CustomerDemographic", "CustomerDemographicLink")
                         .WithMany("CustomerCustomerDemos")
                         .HasForeignKey("CustomerTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CustomerDemographicLink");
+
+                    b.Navigation("CustomerLink");
                 });
 
-            modelBuilder.Entity("Northwnd.Employee", b =>
+            modelBuilder.Entity("Northwnd.Data.Employee", b =>
                 {
-                    b.HasOne("Northwnd.Employee", "Superordinate")
+                    b.HasOne("Northwnd.Data.Employee", "Superordinate")
                         .WithMany("Subordinates")
                         .HasForeignKey("ReportsTo");
+
+                    b.Navigation("Superordinate");
                 });
 
-            modelBuilder.Entity("Northwnd.EmployeeTerritory", b =>
+            modelBuilder.Entity("Northwnd.Data.EmployeeTerritory", b =>
                 {
-                    b.HasOne("Northwnd.Employee", "EmployeeLink")
+                    b.HasOne("Northwnd.Data.Employee", "EmployeeLink")
                         .WithMany("EmployeeTerritories")
                         .HasForeignKey("EmployeeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Northwnd.Territory", "TerritoryLink")
+                    b.HasOne("Northwnd.Data.Territory", "TerritoryLink")
                         .WithMany("EmployeeTerritories")
                         .HasForeignKey("TerritoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("EmployeeLink");
+
+                    b.Navigation("TerritoryLink");
                 });
 
-            modelBuilder.Entity("Northwnd.Order", b =>
+            modelBuilder.Entity("Northwnd.Data.Order", b =>
                 {
-                    b.HasOne("Northwnd.Customer", "CustomerLink")
+                    b.HasOne("Northwnd.Data.Customer", "CustomerLink")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerID");
 
-                    b.HasOne("Northwnd.Employee", "EmployeeLink")
+                    b.HasOne("Northwnd.Data.Employee", "EmployeeLink")
                         .WithMany("Orders")
                         .HasForeignKey("EmployeeID");
 
-                    b.HasOne("Northwnd.Shipper", "Shipper")
+                    b.HasOne("Northwnd.Data.Shipper", "ShipperLink")
                         .WithMany("Orders")
                         .HasForeignKey("ShipVia");
+
+                    b.Navigation("CustomerLink");
+
+                    b.Navigation("EmployeeLink");
+
+                    b.Navigation("ShipperLink");
                 });
 
-            modelBuilder.Entity("Northwnd.OrderDetail", b =>
+            modelBuilder.Entity("Northwnd.Data.OrderDetail", b =>
                 {
-                    b.HasOne("Northwnd.Order", "OrderLink")
+                    b.HasOne("Northwnd.Data.Order", "OrderLink")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Northwnd.Product", "ProductLink")
+                    b.HasOne("Northwnd.Data.Product", "ProductLink")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("OrderLink");
+
+                    b.Navigation("ProductLink");
                 });
 
-            modelBuilder.Entity("Northwnd.Product", b =>
+            modelBuilder.Entity("Northwnd.Data.Product", b =>
                 {
-                    b.HasOne("Northwnd.Category", "CategoryLink")
+                    b.HasOne("Northwnd.Data.Category", "CategoryLink")
                         .WithMany("Products")
                         .HasForeignKey("CategoryID");
 
-                    b.HasOne("Northwnd.Supplier", "SupplierLink")
+                    b.HasOne("Northwnd.Data.Supplier", "SupplierLink")
                         .WithMany("Products")
                         .HasForeignKey("SupplierID");
+
+                    b.Navigation("CategoryLink");
+
+                    b.Navigation("SupplierLink");
                 });
 
-            modelBuilder.Entity("Northwnd.Territory", b =>
+            modelBuilder.Entity("Northwnd.Data.Territory", b =>
                 {
-                    b.HasOne("Northwnd.Region", "Region")
+                    b.HasOne("Northwnd.Data.Region", "Region")
                         .WithMany("Territories")
                         .HasForeignKey("RegionID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Region");
+                });
+
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditLevel", b =>
+                {
+                    b.Navigation("Values");
+                });
+
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditRoot", b =>
+                {
+                    b.Navigation("Levels");
+                });
+
+            modelBuilder.Entity("Northwnd.Data.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Northwnd.Data.Customer", b =>
+                {
+                    b.Navigation("CustomerCustomerDemos");
+
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Northwnd.Data.CustomerDemographic", b =>
+                {
+                    b.Navigation("CustomerCustomerDemos");
+                });
+
+            modelBuilder.Entity("Northwnd.Data.Employee", b =>
+                {
+                    b.Navigation("EmployeeTerritories");
+
+                    b.Navigation("Orders");
+
+                    b.Navigation("Subordinates");
+                });
+
+            modelBuilder.Entity("Northwnd.Data.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("Northwnd.Data.Product", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("Northwnd.Data.Region", b =>
+                {
+                    b.Navigation("Territories");
+                });
+
+            modelBuilder.Entity("Northwnd.Data.Shipper", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Northwnd.Data.Supplier", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Northwnd.Data.Territory", b =>
+                {
+                    b.Navigation("EmployeeTerritories");
                 });
 #pragma warning restore 612, 618
         }

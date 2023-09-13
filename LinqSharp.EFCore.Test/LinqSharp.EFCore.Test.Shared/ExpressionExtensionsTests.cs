@@ -1,4 +1,4 @@
-﻿using Northwnd;
+﻿using Northwnd.Data;
 using System;
 using System.Linq.Expressions;
 using Xunit;

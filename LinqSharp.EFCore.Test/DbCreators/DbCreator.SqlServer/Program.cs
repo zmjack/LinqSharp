@@ -1,6 +1,9 @@
 ﻿using LinqSharp.EFCore.Data.Test;
+using Microsoft.EntityFrameworkCore;
 using Northwnd;
+using Northwnd.Data;
 using System;
+using System.Linq;
 
 namespace DbCreator.SqlServer
 {
@@ -8,10 +11,14 @@ namespace DbCreator.SqlServer
     {
         static void Main(string[] args)
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            var memoryContext = new NorthwndMemoryContext();
             using (var sqlserver = ApplicationDbContext.UseSqlServer())
             {
-                sqlite.WriteTo(sqlserver);
+                sqlserver.Database.Migrate();
+                if (!sqlserver.Regions.Any())
+                {
+                    sqlserver.InitializeNorthwnd(memoryContext);
+                }
             }
 
             Console.WriteLine("Complete.");

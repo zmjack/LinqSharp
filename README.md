@@ -60,6 +60,11 @@ We are preparing a detailed document, and I believe it will be available to you 
 
 <br/>
 
+### Version: 7.0.18
+
+- Two field filters have been added: **DateOnlyRangeFilter**, **DateTimeRangeFilter**.
+- **WhereBetween** related method has been marked as obsolete, please use **Filter(DateTimeRangeFilter)** method instead.
+
 ### Version: 7.0.17
 
 - New Feature: Added **FilterBy** support for **QueryHelper**, **IFieldFilter** can now be applied directly to **QueryHelper**.

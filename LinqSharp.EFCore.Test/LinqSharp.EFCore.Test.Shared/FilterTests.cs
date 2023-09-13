@@ -2,25 +2,16 @@
 using LinqSharp.EFCore.Data.Test;
 using LinqSharp.Query;
 using Microsoft.EntityFrameworkCore;
-using Northwnd;
+using Northwnd.Data;
 using NStandard;
 using System;
 using System.Linq;
-using System.Linq.Expressions;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test
 {
     public class FilterTests
     {
-        public class DateTimeQueryFilter : IFieldQueryFilter<DateTime?>
-        {
-            public DateTime Start { get; set; }
-            public DateTime End { get; set; }
-
-            Expression<Func<DateTime?, bool>> IFieldQueryFilter<DateTime?>.Predicate => x => Start <= x && x <= End;
-        }
-
         public class DateTimeFilter : IFieldFilter<DateTime?>
         {
             public DateTime Start { get; set; }
@@ -246,7 +237,7 @@ namespace LinqSharp.EFCore.Test
             });
             var sql = query.ToQueryString();
 
-            Assert.Equal(new int[0], query.Select(x => x.CategoryID));
+            Assert.Empty(query.Select(x => x.CategoryID));
         }
 
         //TODO: fixed
@@ -384,52 +375,6 @@ WHERE `c`.`Address_City` = 'A';
         }
 
         [Fact]
-        public void DateTimeQueryFilterTest()
-        {
-            var filter = new DateTimeQueryFilter
-            {
-                Start = new DateTime(1996, 7, 1),
-                End = new DateTime(1996, 8, 1),
-            };
-
-            using var mysql = ApplicationDbContext.UseMySql();
-            var query = mysql.Orders.FilterBy(x => x.OrderDate, filter);
-            var sql = query.ToQueryString();
-            var result = query.ToArray();
-
-            Assert.Equal(24, result.Length);
-
-#if EFCORE6_0_OR_GREATER
-            Assert.Equal(@"SET @__Start_0 = TIMESTAMP '1996-07-01 00:00:00';
-SET @__End_1 = TIMESTAMP '1996-08-01 00:00:00';
-
-SELECT `@`.`OrderID`, `@`.`CustomerID`, `@`.`EmployeeID`, `@`.`Freight`, `@`.`OrderDate`, `@`.`RequiredDate`, `@`.`ShipAddress`, `@`.`ShipCity`, `@`.`ShipCountry`, `@`.`ShipName`, `@`.`ShipPostalCode`, `@`.`ShipRegion`, `@`.`ShipVia`, `@`.`ShippedDate`
-FROM `@Northwnd.Orders` AS `@`
-WHERE (@__Start_0 <= `@`.`OrderDate`) AND (`@`.`OrderDate` <= @__End_1)", sql);
-
-#elif EFCORE5_0_OR_GREATER
-            Assert.Equal(@"SET @__Start_0 = '1996-07-01 00:00:00';
-SET @__End_1 = '1996-08-01 00:00:00';
-
-SELECT `@`.`OrderID`, `@`.`CustomerID`, `@`.`EmployeeID`, `@`.`Freight`, `@`.`OrderDate`, `@`.`RequiredDate`, `@`.`ShipAddress`, `@`.`ShipCity`, `@`.`ShipCountry`, `@`.`ShipName`, `@`.`ShipPostalCode`, `@`.`ShipRegion`, `@`.`ShipVia`, `@`.`ShippedDate`
-FROM `@Northwnd.Orders` AS `@`
-WHERE (@__Start_0 <= `@`.`OrderDate`) AND (`@`.`OrderDate` <= @__End_1)", sql);
-
-#elif EFCORE3_1_OR_GREATER
-            Assert.Equal(@"SELECT `@`.`OrderID`, `@`.`CustomerID`, `@`.`EmployeeID`, `@`.`Freight`, `@`.`OrderDate`, `@`.`RequiredDate`, `@`.`ShipAddress`, `@`.`ShipCity`, `@`.`ShipCountry`, `@`.`ShipName`, `@`.`ShipPostalCode`, `@`.`ShipRegion`, `@`.`ShipVia`, `@`.`ShippedDate`
-FROM `@Northwnd.Orders` AS `@`
-WHERE (@__Start_0 <= `@`.`OrderDate`) AND (`@`.`OrderDate` <= @__End_1);
-", sql);
-
-#else
-            Assert.Equal(@"SELECT `x`.`OrderID`, `x`.`CustomerID`, `x`.`EmployeeID`, `x`.`Freight`, `x`.`OrderDate`, `x`.`RequiredDate`, `x`.`ShipAddress`, `x`.`ShipCity`, `x`.`ShipCountry`, `x`.`ShipName`, `x`.`ShipPostalCode`, `x`.`ShipRegion`, `x`.`ShipVia`, `x`.`ShippedDate`
-FROM `@Northwnd.Orders` AS `x`
-WHERE ('1996-07-01 00:00:00.000000' <= `x`.`OrderDate`) AND (`x`.`OrderDate` <= '1996-08-01 00:00:00.000000');
-", sql);
-#endif
-        }
-
-        [Fact]
         public void DateTimeFilterTest()
         {
             var filter = new DateTimeFilter
@@ -450,7 +395,7 @@ WHERE ('1996-07-01 00:00:00.000000' <= `x`.`OrderDate`) AND (`x`.`OrderDate` <= 
 SET @__End_1 = TIMESTAMP '1996-08-01 00:00:00';
 
 SELECT `@`.`OrderID`, `@`.`CustomerID`, `@`.`EmployeeID`, `@`.`Freight`, `@`.`OrderDate`, `@`.`RequiredDate`, `@`.`ShipAddress`, `@`.`ShipCity`, `@`.`ShipCountry`, `@`.`ShipName`, `@`.`ShipPostalCode`, `@`.`ShipRegion`, `@`.`ShipVia`, `@`.`ShippedDate`
-FROM `@Northwnd.Orders` AS `@`
+FROM `@n.Orders` AS `@`
 WHERE (@__Start_0 <= `@`.`OrderDate`) AND (`@`.`OrderDate` <= @__End_1)", sql);
 
 #elif EFCORE5_0_OR_GREATER
@@ -458,18 +403,18 @@ WHERE (@__Start_0 <= `@`.`OrderDate`) AND (`@`.`OrderDate` <= @__End_1)", sql);
 SET @__End_1 = '1996-08-01 00:00:00';
 
 SELECT `@`.`OrderID`, `@`.`CustomerID`, `@`.`EmployeeID`, `@`.`Freight`, `@`.`OrderDate`, `@`.`RequiredDate`, `@`.`ShipAddress`, `@`.`ShipCity`, `@`.`ShipCountry`, `@`.`ShipName`, `@`.`ShipPostalCode`, `@`.`ShipRegion`, `@`.`ShipVia`, `@`.`ShippedDate`
-FROM `@Northwnd.Orders` AS `@`
+FROM `@n.Orders` AS `@`
 WHERE (@__Start_0 <= `@`.`OrderDate`) AND (`@`.`OrderDate` <= @__End_1)", sql);
 
 #elif EFCORE3_1_OR_GREATER
             Assert.Equal(@"SELECT `@`.`OrderID`, `@`.`CustomerID`, `@`.`EmployeeID`, `@`.`Freight`, `@`.`OrderDate`, `@`.`RequiredDate`, `@`.`ShipAddress`, `@`.`ShipCity`, `@`.`ShipCountry`, `@`.`ShipName`, `@`.`ShipPostalCode`, `@`.`ShipRegion`, `@`.`ShipVia`, `@`.`ShippedDate`
-FROM `@Northwnd.Orders` AS `@`
+FROM `@n.Orders` AS `@`
 WHERE (@__Start_0 <= `@`.`OrderDate`) AND (`@`.`OrderDate` <= @__End_1);
 ", sql);
 
 #else
             Assert.Equal(@"SELECT `x`.`OrderID`, `x`.`CustomerID`, `x`.`EmployeeID`, `x`.`Freight`, `x`.`OrderDate`, `x`.`RequiredDate`, `x`.`ShipAddress`, `x`.`ShipCity`, `x`.`ShipCountry`, `x`.`ShipName`, `x`.`ShipPostalCode`, `x`.`ShipRegion`, `x`.`ShipVia`, `x`.`ShippedDate`
-FROM `@Northwnd.Orders` AS `x`
+FROM `@n.Orders` AS `x`
 WHERE ('1996-07-01 00:00:00.000000' <= `x`.`OrderDate`) AND (`x`.`OrderDate` <= '1996-08-01 00:00:00.000000');
 ", sql);
 #endif

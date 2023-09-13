@@ -1,6 +1,10 @@
-﻿using LinqSharp.EFCore.Data.Test;
+﻿using Castle.Core.Resource;
+using LinqSharp.EFCore.Data.Test;
+using Microsoft.EntityFrameworkCore;
 using Northwnd;
+using Northwnd.Data;
 using System;
+using System.Linq;
 
 namespace DbCreator
 {
@@ -8,12 +12,15 @@ namespace DbCreator
     {
         static void Main(string[] args)
         {
-            using (var sqlite = NorthwndContext.UseSqliteResource())
+            var memoryContext = new NorthwndMemoryContext();
             using (var mysql = ApplicationDbContext.UseMySql())
             {
-                sqlite.WriteTo(mysql);
+                mysql.Database.Migrate();
+                if (!mysql.Regions.Any())
+                {
+                    mysql.InitializeNorthwnd(memoryContext);
+                }
             }
-
             Console.WriteLine("Complete.");
         }
     }
