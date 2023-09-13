@@ -16,7 +16,7 @@ namespace LinqSharp
     {
         #region Return DateTime
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
@@ -26,7 +26,7 @@ namespace LinqSharp
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             DateTime start,
@@ -36,7 +36,7 @@ namespace LinqSharp
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
@@ -46,7 +46,7 @@ namespace LinqSharp
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             DateTime start,
@@ -58,7 +58,7 @@ namespace LinqSharp
 
         #region Return DateTime?
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
@@ -68,7 +68,7 @@ namespace LinqSharp
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             DateTime start,
@@ -78,7 +78,7 @@ namespace LinqSharp
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             Expression<Func<TEntity, DateTime>> startExp,
@@ -88,7 +88,7 @@ namespace LinqSharp
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBetween<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             DateTime start,

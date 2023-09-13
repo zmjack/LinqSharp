@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Xunit;
+using static LinqSharp.EFCore.Test.FilterTests;
 
 namespace LinqSharp.EFCore.Test
 {
@@ -19,11 +20,14 @@ namespace LinqSharp.EFCore.Test
         }
 
         [Fact]
-        public void WhereBeforeTest()
+        public void DateTimeFilterTest1()
         {
             using var mysql = ApplicationDbContext.UseMySql();
             var query = mysql.Employees
-                .WhereBefore(x => x.BirthDate, new DateTime(1960, 5, 31), true);
+                .FilterBy(x => x.BirthDate, new DateTimeFilter
+                {
+                    End = new DateTime(1960, 5, 31)
+                });
 
             var sql = query.ToQueryString();
 
@@ -32,11 +36,15 @@ namespace LinqSharp.EFCore.Test
         }
 
         [Fact]
-        public void WhereBetweenTest()
+        public void DateTimeFilterTest2()
         {
             using var mysql = ApplicationDbContext.UseMySql();
             var query = mysql.Employees
-                .WhereBetween(x => x.BirthDate, new DateTime(1960, 5, 1), new DateTime(1960, 5, 31));
+                .FilterBy(x => x.BirthDate, new DateTimeFilter
+                {
+                    Start = new DateTime(1960, 5, 1),
+                    End = new DateTime(1960, 5, 31),
+                });
 
             var query1 = mysql.Employees
                 .Where(x => Convert.ToDateTime("1960-05-01") <= x.BirthDate && x.BirthDate <= new DateTime(1960, 5, 31));

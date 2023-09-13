@@ -14,7 +14,7 @@ namespace LinqSharp.Query
     {
         #region Return DateTime
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public QueryExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
@@ -25,7 +25,7 @@ namespace LinqSharp.Query
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public QueryExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             DateTime start,
@@ -36,7 +36,7 @@ namespace LinqSharp.Query
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public QueryExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
@@ -47,7 +47,7 @@ namespace LinqSharp.Query
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public QueryExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime>> memberExp,
             DateTime start,
@@ -60,7 +60,7 @@ namespace LinqSharp.Query
 
         #region Return DateTime?
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public QueryExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
@@ -71,7 +71,7 @@ namespace LinqSharp.Query
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public QueryExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             DateTime start,
@@ -82,7 +82,7 @@ namespace LinqSharp.Query
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public QueryExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             Expression<Func<TSource, DateTime>> startExp,
@@ -93,7 +93,7 @@ namespace LinqSharp.Query
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use Filter(DateTimeRangeFilter) instead.")]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public QueryExpression<TSource> WhereBetween(
             Expression<Func<TSource, DateTime?>> memberExp,
             DateTime start,

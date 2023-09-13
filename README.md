@@ -60,10 +60,13 @@ We are preparing a detailed document, and I believe it will be available to you 
 
 <br/>
 
-### Version: 7.0.18
+### Version: 7.0.18.1
 
 - Two field filters have been added: **DateOnlyRangeFilter**, **DateTimeRangeFilter**.
-- **WhereBetween** related method has been marked as obsolete, please use **Filter(DateTimeRangeFilter)** method instead.
+- These methods has been marked as obsolete, please use **FilterBy(Func<,>, DateTimeRangeFilter)** method instead:
+  - **WhereAfter**
+  - **WhereBefore**
+  - **WhereBetween**
 
 ### Version: 7.0.17
 

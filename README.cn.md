@@ -60,10 +60,13 @@ dotnet add package LinqSharp.EFCore
 
 <br/>
 
-### 版本：7.0.18
+### 版本：7.0.18.1
 
 - 添加了两个字段筛选器：**DateOnlyRangeFilter**、**DateTimeRangeFilter**。
-- **WhereBetween** 相关方法已被标记为过时，请使用 **Filter(DateTimeRangeFilter)** 方法代替。
+- 以下方法已被标记为过时，请使用 **FilterBy(Func<,>, DateTimeRangeFilter)** 方法代替：
+  - **WhereAfter**
+  - **WhereBefore**
+  - **WhereBetween**
 
 ### 版本：7.0.17
 

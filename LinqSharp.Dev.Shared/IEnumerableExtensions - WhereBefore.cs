@@ -6,6 +6,7 @@
 using LinqSharp.Strategies;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -13,6 +14,8 @@ namespace LinqSharp.Dev
 {
     public static partial class IEnumerableExtensions
     {
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBefore<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             Expression<Func<TEntity, DateTime>> beforeExp,
@@ -21,6 +24,8 @@ namespace LinqSharp.Dev
             return @this.Where(new QueryBeforeStrategy<TEntity>(memberExp, beforeExp, includePoint).StrategyExpression.Compile());
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBefore<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime>> memberExp,
             DateTime before,
@@ -29,6 +34,8 @@ namespace LinqSharp.Dev
             return @this.Where(new QueryBeforeStrategy<TEntity>(memberExp, before, includePoint).StrategyExpression.Compile());
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBefore<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             Expression<Func<TEntity, DateTime>> beforeExp,
@@ -37,6 +44,8 @@ namespace LinqSharp.Dev
             return @this.Where(new QueryBeforeStrategy<TEntity>(memberExp, beforeExp, liftNullToTrue, includePoint).StrategyExpression.Compile());
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBefore<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, DateTime?>> memberExp,
             DateTime before,
@@ -45,6 +54,8 @@ namespace LinqSharp.Dev
             return @this.Where(new QueryBeforeStrategy<TEntity>(memberExp, before, liftNullToTrue, includePoint).StrategyExpression.Compile());
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
         public static IEnumerable<TEntity> WhereBefore<TEntity>(this IEnumerable<TEntity> @this,
             Expression<Func<TEntity, object>> yearExp,
             Expression<Func<TEntity, object>> monthExp,
