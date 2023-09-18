@@ -1,5 +1,6 @@
 ﻿using LinqSharp.EFCore.Models.Test;
 using NStandard;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -7,40 +8,57 @@ namespace LinqSharp.EFCore.Test.Shared
 {
     public class IndexTests
     {
-        [Fact]
-        public void NormalTest()
+        private readonly NameModel[] _models = new NameModel[10].Let(i => new NameModel
         {
-            var arr = new NameModel[10].Let(i => new NameModel
-            {
-                Name = i.ToString(),
-                NickName = $"NN: {i}",
-                Tag = (i / 5).ToString()
-            });
+            Name = i.ToString(),
+            NickName = $"NN: {i}",
+            Tag = (i / 5).ToString()
+        });
 
-            var modelsByTag = arr.IndexBy(x => x.Tag);
-            var modelsByNameNickName = arr.IndexBy(x => new { x.Name, x.NickName });
+        [Fact]
+        public void IndexingNormalTest()
+        {
+            var modelsByTag = _models.IndexBy(x => x.Tag);
+            var modelsByNameNickName = _models.IndexBy(x => new { x.Name, x.NickName });
 
             Assert.Equal(0, modelsByTag["0"].Sum(x => int.Parse(x.Tag)));
-
-            Assert.Equal(0, modelsByTag["0"].Select(x => int.Parse(x.Tag)).Sum());
-            Assert.Equal(5, modelsByTag["1"].Select(x => int.Parse(x.Tag)).Sum());
-            Assert.Equal(0, modelsByTag["2"].Select(x => int.Parse(x.Tag)).Sum());
-
+            Assert.Equal(5, modelsByTag["1"].Sum(x => int.Parse(x.Tag)));
+            Assert.Equal(0, modelsByTag["2"].Sum(x => int.Parse(x.Tag)));
             Assert.Equal("1", modelsByNameNickName[new { Name = "5", NickName = "NN: 5" }].First().Tag);
         }
 
         [Fact]
-        public void NullTest()
+        public void IndexingNullTest()
         {
-            var arr = new NameModel[10].Let(i => new NameModel
-            {
-                Name = i.ToString(),
-                NickName = $"NN: {i}",
-                Tag = (i / 5).ToString()
-            });
+            var modelByTag = _models.IndexBy(x => (string)null);
+            Assert.Equal(5, modelByTag[null].Sum(x => int.Parse(x.Tag)));
+        }
 
-            var modelsByTag = arr.IndexBy(x => (string)null);
-            Assert.Equal(5, modelsByTag[null].Sum(x => int.Parse(x.Tag)));
+        [Fact]
+        public void UniqueIndexingNormalTest()
+        {
+            var modelByTag = (
+                from x in _models
+                group x by x.Tag into g
+                select g.First()
+            ).UniqueIndexBy(x => x.Tag);
+
+            Assert.Equal("0", modelByTag["0"].Value.Tag);
+            Assert.Equal("1", modelByTag["1"].Value.Tag);
+            Assert.False(modelByTag["2"].HasValue);
+        }
+
+        [Fact]
+        public void UniqueIndexingNullTest()
+        {
+            var modelByTag = _models.Take(1).UniqueIndexBy(x => (string)null);
+            Assert.Equal("0", modelByTag[null].Value.Tag);
+        }
+
+        [Fact]
+        public void UniqueIndexingThrowTest()
+        {
+            Assert.ThrowsAny<InvalidOperationException>(() => _models.UniqueIndexBy(x => x.Tag));
         }
     }
 }

@@ -7,6 +7,7 @@ namespace LinqSharp.Query
     public interface IIndexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>
     {
         IEnumerable<T> AllValues { get; }
+        IReadOnlyCollection<T> this[TKey key] { get; set; }
     }
 
     public class Indexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>, IIndexing<TKey, T>
