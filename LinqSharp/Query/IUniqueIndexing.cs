@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NStandard.Caching;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,21 +8,64 @@ namespace LinqSharp.Query
     public interface IUniqueIndexing<TKey, T> : IDictionary<TKey, AnyNullable<T>>
     {
         IEnumerable<T> AllValues { get; }
-        AnyNullable<T> this[TKey key] { get; set; }
+        AnyNullable<T> this[TKey key] { get; }
     }
 
     public class UniqueIndexing<TKey, T> : IDictionary<TKey, AnyNullable<T>>, IUniqueIndexing<TKey, T>
     {
         private readonly Dictionary<TKey, AnyNullable<T>> _dictionary = new();
-
         private AnyNullable<T> _null;
+        private bool _cached;
+
+        private readonly IEnumerable<T> _source;
+        private readonly Func<T, TKey> _selector;
+
+        public UniqueIndexing(IEnumerable<T> source, Func<T, TKey> selector)
+        {
+            _source = source;
+            _selector = selector;
+        }
+
+        private void Cache()
+        {
+            foreach (var item in _source)
+            {
+                var key = _selector(item);
+                if (key is null)
+                {
+                    if (!_null.HasValue)
+                    {
+                        _null = new AnyNullable<T>
+                        {
+                            HasValue = true,
+                            Value = item,
+                        };
+                    }
+                    else throw new InvalidOperationException("Sequence contains more than one matching element.");
+                }
+                else
+                {
+                    if (!ContainsKey(key))
+                    {
+                        _dictionary[key] = new AnyNullable<T>
+                        {
+                            HasValue = true,
+                            Value = item,
+                        };
+                    }
+                    else throw new InvalidOperationException("Sequence contains more than one matching element.");
+                }
+            }
+            _cached = true;
+        }
 
         public AnyNullable<T> this[TKey key]
         {
             get
             {
-                if (key is null) return _null;
+                if (!_cached) Cache();
 
+                if (key is null) return _null;
                 if (ContainsKey(key)) return _dictionary[key];
                 else return new AnyNullable<T>
                 {
@@ -31,15 +75,7 @@ namespace LinqSharp.Query
             }
             set
             {
-                if (key is null) _null = value;
-                else
-                {
-                    if (!value.HasValue)
-                    {
-                        if (_dictionary.ContainsKey(key)) _dictionary.Remove(key);
-                    }
-                    else _dictionary[key] = value;
-                }
+                throw new InvalidOperationException("Unable to set value for key.");
             }
         }
 

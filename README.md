@@ -1,6 +1,8 @@
 # LinqSharp
 
-Other Language: [中文](https://github.com/zmjack/LinqSharp/blob/master/README.cn.md)
+English: [https://linqsharp.net](https://linqsharp.net)
+
+中文：https://zh.linqsharp.net
 
 <br/>
 
@@ -57,6 +59,12 @@ Now is the time to add them to the **wiki**.
 We are preparing a detailed document, and I believe it will be available to you soon.
 
 **Thanks !**
+
+<br/>
+
+### Version: 7.0.20
+
+- **Indexing** / **UniqueIndexing** modified to lazy query.
 
 <br/>
 

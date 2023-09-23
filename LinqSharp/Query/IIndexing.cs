@@ -7,35 +7,60 @@ namespace LinqSharp.Query
     public interface IIndexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>
     {
         IEnumerable<T> AllValues { get; }
-        IReadOnlyCollection<T> this[TKey key] { get; set; }
+        IReadOnlyCollection<T> this[TKey key] { get; }
     }
 
     public class Indexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>, IIndexing<TKey, T>
     {
         private readonly Dictionary<TKey, IReadOnlyCollection<T>> _dictionary = new();
-
         private IReadOnlyCollection<T> _nulls;
+        private bool _cached;
+
+        private readonly IEnumerable<T> _source;
+        private readonly Func<T, TKey> _selector;
+
+        public Indexing(IEnumerable<T> source, Func<T, TKey> selector)
+        {
+            _source = source;
+            _selector = selector;
+        }
+
+        private void Cache()
+        {
+            foreach (var item in _source)
+            {
+                var key = _selector(item);
+
+                if (key is null)
+                {
+                    _nulls ??= new List<T>();
+                    (_nulls as List<T>).Add(item);
+                }
+                else
+                {
+                    if (!ContainsKey(key))
+                    {
+                        _dictionary[key] = new List<T>();
+                    }
+                    (_dictionary[key] as List<T>).Add(item);
+                }
+            }
+            _cached = true;
+        }
 
         public IReadOnlyCollection<T> this[TKey key]
         {
             get
             {
-                if (key is null) return _nulls;
+                if (!_cached) Cache();
 
+                if (key is null) return _nulls;
                 if (ContainsKey(key)) return _dictionary[key];
                 else return Array.Empty<T>();
             }
             set
             {
-                if (key is null) _nulls = value;
-                else
-                {
-                    if (value is null)
-                    {
-                        if (_dictionary.ContainsKey(key)) _dictionary.Remove(key);
-                    }
-                    else _dictionary[key] = value;
-                }
+                throw new InvalidOperationException("Unable to set value for key.");
             }
         }
 

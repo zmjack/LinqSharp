@@ -58,7 +58,8 @@ namespace LinqSharp.EFCore.Test.Shared
         [Fact]
         public void UniqueIndexingThrowTest()
         {
-            Assert.ThrowsAny<InvalidOperationException>(() => _models.UniqueIndexBy(x => x.Tag));
+            var indexed = _models.UniqueIndexBy(x => x.Tag);
+            Assert.ThrowsAny<InvalidOperationException>(() => indexed[null]);
         }
     }
 }

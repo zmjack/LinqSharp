@@ -14,12 +14,22 @@ namespace LinqSharp.Query
         internal static readonly Lazy<QueryExpression<TSource>> False = new(() => new(x => false));
         internal static readonly Lazy<QueryExpression<TSource>> True = new(() => new(x => true));
 
-        public Expression<Func<TSource, bool>> Expression { get; private set; }
+        public ParameterExpression Parameter { get; }
+        public Expression<Func<TSource, bool>> Expression { get; }
 
-        public QueryExpression() { }
+        public QueryExpression()
+        {
+            Parameter = System.Linq.Expressions.Expression.Parameter(typeof(TSource));
+        }
+        public QueryExpression(ParameterExpression parameter)
+        {
+            if (parameter.Type != typeof(TSource)) throw new ArgumentException($"The parameter type must be {typeof(TSource)}.", nameof(parameter));
+            Parameter = System.Linq.Expressions.Expression.Parameter(typeof(TSource));
+        }
         public QueryExpression(Expression<Func<TSource, bool>> expression)
         {
             Expression = expression;
+            Parameter = expression.Parameters[0];
         }
 
         public QueryExpression<TSource> DefaultIfEmpty(QueryExpression<TSource> @default) => Expression is not null ? this : @default;
@@ -33,10 +43,9 @@ namespace LinqSharp.Query
             else if (left.Expression is null) return new QueryExpression<TSource>(right.Expression);
             else if (right.Expression is null) return new QueryExpression<TSource>(left.Expression);
 
-            var parameter = left.Expression.Parameters[0];
             var leftExp = left.Expression.Body;
-            var rightExp = right.Expression.Body.RebindParameter(right.Expression.Parameters[0], parameter);
-            var exp = System.Linq.Expressions.Expression.Lambda<Func<TSource, bool>>(System.Linq.Expressions.Expression.AndAlso(leftExp, rightExp), parameter);
+            var rightExp = right.Expression.Body.RebindParameter(right.Expression.Parameters[0], left.Parameter);
+            var exp = System.Linq.Expressions.Expression.Lambda<Func<TSource, bool>>(System.Linq.Expressions.Expression.AndAlso(leftExp, rightExp), left.Parameter);
             return new QueryExpression<TSource>(exp);
         }
 
@@ -46,10 +55,9 @@ namespace LinqSharp.Query
             else if (left.Expression is null) return new QueryExpression<TSource>(right.Expression);
             else if (right.Expression is null) return new QueryExpression<TSource>(left.Expression);
 
-            var parameter = left.Expression.Parameters[0];
             var leftExp = left.Expression.Body;
-            var rightExp = right.Expression.Body.RebindParameter(right.Expression.Parameters[0], parameter);
-            var exp = System.Linq.Expressions.Expression.Lambda<Func<TSource, bool>>(System.Linq.Expressions.Expression.OrElse(leftExp, rightExp), parameter);
+            var rightExp = right.Expression.Body.RebindParameter(right.Expression.Parameters[0], left.Parameter);
+            var exp = System.Linq.Expressions.Expression.Lambda<Func<TSource, bool>>(System.Linq.Expressions.Expression.OrElse(leftExp, rightExp), left.Parameter);
             return new QueryExpression<TSource>(exp);
         }
 
@@ -57,9 +65,8 @@ namespace LinqSharp.Query
         {
             if (operand.Expression is null) return Empty.Value;
 
-            var parameter = operand.Expression.Parameters[0];
             var opndExp = operand.Expression.Body;
-            var exp = System.Linq.Expressions.Expression.Lambda<Func<TSource, bool>>(System.Linq.Expressions.Expression.Not(opndExp), parameter);
+            var exp = System.Linq.Expressions.Expression.Lambda<Func<TSource, bool>>(System.Linq.Expressions.Expression.Not(opndExp), operand.Parameter);
             return new QueryExpression<TSource>(exp);
         }
 

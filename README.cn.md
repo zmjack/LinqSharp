@@ -1,6 +1,8 @@
 # LinqSharp
 
-其他语言：[English](https://github.com/zmjack/LinqSharp/blob/master/README.md)
+English: [https://linqsharp.net](https://linqsharp.net)
+
+中文：https://zh.linqsharp.net
 
 <br/>
 
@@ -59,6 +61,10 @@ dotnet add package LinqSharp.EFCore
 **感谢！**
 
 <br/>
+
+### Version: 7.0.20
+
+- **Indexing** / **UniqueIndexing** 修改为惰性查询。
 
 ### 版本：7.0.18.1
 

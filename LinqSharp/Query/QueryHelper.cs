@@ -15,7 +15,7 @@ namespace LinqSharp.Query
 {
     public partial class QueryHelper<TSource>
     {
-        internal readonly ParameterExpression DefaultParameter = Expression.Parameter(typeof(TSource));
+        public readonly ParameterExpression PropertyParameter = Expression.Parameter(typeof(TSource));
 
         /// <summary>
         /// <para> This parameter indicates no filtering. </para>
@@ -34,51 +34,51 @@ namespace LinqSharp.Query
         /// </summary>
         public QueryExpression<TSource> True => QueryExpression<TSource>.True.Value;
 
-        public QueryExpression<TSource> And(IEnumerable<QueryExpression<TSource>> whereExps)
+        public QueryExpression<TSource> And(IEnumerable<QueryExpression<TSource>> queryExpressions)
         {
-            if (whereExps.Any()) return whereExps.Aggregate((x, y) => x & y);
+            if (queryExpressions.Any()) return queryExpressions.Aggregate((x, y) => x & y);
             else return Empty;
         }
-        public QueryExpression<TSource> And(params QueryExpression<TSource>[] whereExps)
+        public QueryExpression<TSource> And(params QueryExpression<TSource>[] queryExpressions)
         {
-            if (whereExps.Any()) return whereExps.Aggregate((x, y) => x & y);
+            if (queryExpressions.Any()) return queryExpressions.Aggregate((x, y) => x & y);
             else return Empty;
         }
         public QueryExpression<TSource> And<T>(IEnumerable<T> enumerable, Func<T, Expression<Func<TSource, bool>>> exp)
         {
-            var whereExps = enumerable.Select(e => new QueryExpression<TSource>(exp(e))).ToArray();
-            return And(whereExps);
+            var queryExpressions = enumerable.Select(e => new QueryExpression<TSource>(exp(e))).ToArray();
+            return And(queryExpressions);
         }
         public QueryExpression<TSource> And<T>(IEnumerable<T> enumerable, Func<T, QueryExpression<TSource>> exp)
         {
-            var whereExps = enumerable.Select(e => exp(e)).ToArray();
-            return And(whereExps);
+            var queryExpressions = enumerable.Select(e => exp(e)).ToArray();
+            return And(queryExpressions);
         }
 
-        public QueryExpression<TSource> Or(IEnumerable<QueryExpression<TSource>> whereExps)
+        public QueryExpression<TSource> Or(IEnumerable<QueryExpression<TSource>> queryExpressions)
         {
-            if (whereExps.Any()) return whereExps.Aggregate((x, y) => x | y);
+            if (queryExpressions.Any()) return queryExpressions.Aggregate((x, y) => x | y);
             else return Empty;
         }
-        public QueryExpression<TSource> Or(params QueryExpression<TSource>[] whereExps)
+        public QueryExpression<TSource> Or(params QueryExpression<TSource>[] queryExpressions)
         {
-            if (whereExps.Any()) return whereExps.Aggregate((x, y) => x | y);
+            if (queryExpressions.Any()) return queryExpressions.Aggregate((x, y) => x | y);
             else return Empty;
         }
         public QueryExpression<TSource> Or<T>(IEnumerable<T> enumerable, Func<T, Expression<Func<TSource, bool>>> exp)
         {
-            var whereExps = enumerable.Select(e => new QueryExpression<TSource>(exp(e))).ToArray();
-            return Or(whereExps);
+            var queryExpressions = enumerable.Select(e => new QueryExpression<TSource>(exp(e))).ToArray();
+            return Or(queryExpressions);
         }
         public QueryExpression<TSource> Or<T>(IEnumerable<T> enumerable, Func<T, QueryExpression<TSource>> exp)
         {
-            var whereExps = enumerable.Select(e => exp(e)).ToArray();
-            return Or(whereExps);
+            var queryExpressions = enumerable.Select(e => exp(e)).ToArray();
+            return Or(queryExpressions);
         }
         public QueryExpression<TSource> Or(IEnumerable<Expression<Func<TSource, bool>>> enumerable)
         {
-            var whereExps = enumerable.Select(e => new QueryExpression<TSource>(e)).ToArray();
-            return Or(whereExps);
+            var queryExpressions = enumerable.Select(e => new QueryExpression<TSource>(e)).ToArray();
+            return Or(queryExpressions);
         }
 
         public QueryExpression<TSource> Where(Expression<Func<TSource, bool>> predicate) => new(predicate);
@@ -93,14 +93,14 @@ namespace LinqSharp.Query
                 return typeof(TSource).GetChainProperty(propertyChain);
             });
 
-            if (prop is not null) return new Property<TSource>(DefaultParameter, prop.PropertyType, propertyChain);
+            if (prop is not null) return new Property<TSource>(PropertyParameter, prop.PropertyType, propertyChain);
             else throw new ArgumentException($"The specified property chain({propertyChain.Join(", ")}) does not exsist.");
         }
 
         public Property<TSource> Property<TProperty>(Expression<Func<TSource, TProperty>> exp)
         {
-            var _exp = exp.RebindParameter(exp.Parameters[0], DefaultParameter) as LambdaExpression;
-            return new Property<TSource>(DefaultParameter, _exp);
+            var _exp = exp.RebindParameter(exp.Parameters[0], PropertyParameter) as LambdaExpression;
+            return new Property<TSource>(PropertyParameter, _exp);
         }
 
         public QueryExpression<TSource> Search(string searchString, Expression<Func<TSource, object>> searchMembers, SearchOption option = SearchOption.Contains)
