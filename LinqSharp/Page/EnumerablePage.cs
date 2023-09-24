@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LinqSharp.Pages
+namespace LinqSharp.Page
 {
     public class EnumerablePage<T> : IEnumerablePage<T>, IEnumerable<T>
     {

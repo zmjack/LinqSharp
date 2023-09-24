@@ -46,7 +46,7 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
-### Version: 7.0.23
+### Version: 7.0.24
 
 - 中断性更新：调整了一些命名空间的名称。
 

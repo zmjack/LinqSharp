@@ -5,7 +5,7 @@
 
 using System.Linq;
 
-namespace LinqSharp.Pages
+namespace LinqSharp.Page
 {
     public interface IQueryablePage : IEnumerablePage, IQueryable
     {

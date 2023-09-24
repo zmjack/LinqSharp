@@ -46,7 +46,7 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
-### Version: 7.0.23
+### Version: 7.0.24
 
 - **Breaking Change**: Adjusted some namespace names.
 
