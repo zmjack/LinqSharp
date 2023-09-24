@@ -8,33 +8,32 @@ using NStandard.Infrastructure;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace LinqSharp.Query
+namespace LinqSharp.Layer
 {
-    public class Layer<TSource> : IEnumerable<TSource>, IGrouping<object, TSource>
+    public class QueryLayer<TSource> : IQueryLayer<TSource>
     {
         public int Span { get; }
         public object Key { get; }
 
         private readonly TSource[] _elements;
-        private readonly IEnumerable<Layer<TSource>> _nestedLayers;
+        private readonly IEnumerable<IQueryLayer<TSource>> _subLayers;
 
-        internal Layer(int span, object key, TSource[] elements, IEnumerable<Layer<TSource>> nestedLayers)
+        internal QueryLayer(int span, object key, TSource[] elements, IEnumerable<IQueryLayer<TSource>> nestedLayers)
         {
             Span = span;
             Key = key;
             _elements = elements;
-            _nestedLayers = nestedLayers;
+            _subLayers = nestedLayers;
         }
 
-        public IEnumerable<Layer<TSource>> NestedLayers
+        public IEnumerable<IQueryLayer<TSource>> SubLayers
         {
             get
             {
-                if (_nestedLayers is null) throw new InvalidOperationException("No nested layers.");
+                if (_subLayers is null) throw new InvalidOperationException("No sub layers.");
 
-                foreach (Layer<TSource> layer in _nestedLayers)
+                foreach (var layer in _subLayers)
                 {
                     yield return layer;
                 }
@@ -54,10 +53,11 @@ namespace LinqSharp.Query
             return _elements.GetEnumerator();
         }
 
-        public IEnumerable<ChainIterator<Layer<TSource>>> AsChain()
+        public IEnumerable<ChainIterator<IQueryLayer<TSource>>> AsChain()
         {
-            var layer2layers = (Layer<TSource> x) => x.NestedLayers;
-            var selectors = new Func<Layer<TSource>, IEnumerable<Layer<TSource>>>[Span - 1];
+            static IEnumerable<IQueryLayer<TSource>> layer2layers(IQueryLayer<TSource> x) => x.SubLayers;
+
+            var selectors = new Func<IQueryLayer<TSource>, IEnumerable<IQueryLayer<TSource>>>[Span - 1];
             for (int i = 0; i < selectors.Length; i++)
             {
                 selectors[i] = layer2layers;

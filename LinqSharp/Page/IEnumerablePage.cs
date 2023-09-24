@@ -6,18 +6,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace LinqSharp.Query
+namespace LinqSharp.Pages
 {
-    public interface IPageable : IEnumerable
+    public interface IEnumerablePage : IEnumerable
     {
         int PageNumber { get; }
         int PageSize { get; }
         int PageCount { get; }
+        int SourceCount { get; }
         bool IsFristPage { get; }
         bool IsLastPage { get; }
     }
 
-    public interface IPageable<T> : IPageable, IEnumerable<T>
+    public interface IEnumerablePage<T> : IEnumerablePage, IEnumerable<T>
     {
         IEnumerable<T> Items { get; }
     }

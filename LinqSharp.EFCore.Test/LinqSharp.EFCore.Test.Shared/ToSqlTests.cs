@@ -1,4 +1,3 @@
-using LinqSharp.Dev;
 using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,7 +13,7 @@ namespace LinqSharp.EFCore.Test
         public void Test()
         {
             using var mysql = ApplicationDbContext.UseMySql();
-            var query = mysql.Employees.SelectPage(2, 3);
+            var query = mysql.Employees.Page(2, 3);
             var sql = query.ToQueryString();
             var result = query.ToArray();
         }

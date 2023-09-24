@@ -4,12 +4,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 
-namespace LinqSharp
+namespace LinqSharp.Index
 {
-    [Obsolete("Use IFieldFilter instead.")]
-    public interface IFieldLocalFilter<T>
+    public interface IUniqueIndexing<TKey, T> : IDictionary<TKey, Tuple<T>>
     {
-        Func<T, bool> Predicate { get; }
+        Tuple<T> this[TKey key] { get; }
     }
+
 }

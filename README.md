@@ -46,21 +46,9 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
-**LinqSharp** is three years old.
+### Version: 7.0.23
 
-Over the years, we've created a lot of features and removed a lot.
-
-Many features are currently approved and we are unlikely to make breaking changes to them unless necessary.
-
-
-
-Now is the time to add them to the **wiki**.
-
-We are preparing a detailed document, and I believe it will be available to you soon.
-
-**Thanks !**
-
-<br/>
+- **Breaking Change**: Adjusted some namespace names.
 
 ### Version: 7.0.20
 
@@ -101,7 +89,7 @@ We are preparing a detailed document, and I believe it will be available to you 
 
 - Dynamic Query: **QueryHelper** provides property chain analysis to support dynamic query of **Owned Entity**.
 - Optimized **GroupByCount** performance (takes about **-35%** in time), but **planned to remove** this method.
-- Mark **GroupByCount** as **Obsolute** method, please use **Chunk** method instead.
+- Mark **GroupByCount** as **Obsolete** method, please use **Chunk** method instead.
   - **EFCore 6.0 and above**: Not provided, use the native method.
   - **EFCore 5.0 and below**: Code compatibility.
 

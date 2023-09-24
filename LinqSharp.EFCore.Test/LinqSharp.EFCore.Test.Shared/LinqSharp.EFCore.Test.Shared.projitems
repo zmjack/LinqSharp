@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IEntityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEnumerableExtensionsTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IndexByTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IndexingTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JoinTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NumbericTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PagedEnumerableTests.cs" />

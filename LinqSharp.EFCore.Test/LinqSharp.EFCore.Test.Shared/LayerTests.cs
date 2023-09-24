@@ -16,23 +16,23 @@ namespace LinqSharp.EFCore.Test
             }
 
             var arr = new int[10].Let(i => i);
-            var tier0 = arr.LayerBy(x => x / 5, x => x % 2);
+            var sub0 = arr.LayerBy(x => x / 5, x => x % 2);
 
             var sb = new StringBuilder();
 
-            foreach (var tier1 in tier0.NestedLayers)
+            foreach (var sub1 in sub0.SubLayers)
             {
-                foreach (var tier2 in tier1.NestedLayers)
+                foreach (var sub2 in sub1.SubLayers)
                 {
-                    foreach (var number in tier2)
+                    foreach (var number in sub2)
                     {
-                        sb.AppendLine($"        ({tier1.Key},{tier2.Key}) = {number}");
+                        sb.AppendLine($"        ({sub1.Key},{sub2.Key}) = {number}");
                     }
-                    sb.AppendLine($"{Repeat("    ", 3 - tier2.Span)}[Sum] = {tier2.Sum()}");
+                    sb.AppendLine($"{Repeat("    ", 3 - sub2.Span)}[Sum] = {sub2.Sum()}");
                 }
-                sb.AppendLine($"{Repeat("    ", 3 - tier1.Span)}[Sum] = {tier1.Sum()}");
+                sb.AppendLine($"{Repeat("    ", 3 - sub1.Span)}[Sum] = {sub1.Sum()}");
             }
-            sb.AppendLine($"{Repeat("    ", 3 - tier0.Span)}[Sum] = {tier0.Sum()}");
+            sb.AppendLine($"{Repeat("    ", 3 - sub0.Span)}[Sum] = {sub0.Sum()}");
 
             Assert.Equal("""
         (0,0) = 0

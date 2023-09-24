@@ -43,23 +43,23 @@ namespace LinqSharp.EFCore.Test.Shared
                 select g.First()
             ).UniqueIndexBy(x => x.Tag);
 
-            Assert.Equal("0", modelByTag["0"].Value.Tag);
-            Assert.Equal("1", modelByTag["1"].Value.Tag);
-            Assert.False(modelByTag["2"].HasValue);
+            Assert.Equal("0", modelByTag["0"].Item1.Tag);
+            Assert.Equal("1", modelByTag["1"].Item1.Tag);
+            Assert.Null(modelByTag["2"]);
         }
 
         [Fact]
         public void UniqueIndexingNullTest()
         {
             var modelByTag = _models.Take(1).UniqueIndexBy(x => (string)null);
-            Assert.Equal("0", modelByTag[null].Value.Tag);
+            Assert.Equal("0", modelByTag[null].Item1.Tag);
         }
 
         [Fact]
         public void UniqueIndexingThrowTest()
         {
             var indexed = _models.UniqueIndexBy(x => x.Tag);
-            Assert.ThrowsAny<InvalidOperationException>(() => indexed[null]);
+            Assert.ThrowsAny<ArgumentException>(() => indexed[null]);
         }
     }
 }

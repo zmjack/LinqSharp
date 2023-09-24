@@ -10,6 +10,7 @@ using System.Reflection;
 
 namespace LinqSharp.Strategies
 {
+    [Obsolete]
     public class QueryBetweenStrategy<TEntity> : IQueryStrategy<TEntity, bool>
     {
         public Expression<Func<TEntity, bool>> StrategyExpression { get; }

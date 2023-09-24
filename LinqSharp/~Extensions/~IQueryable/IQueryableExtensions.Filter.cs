@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.Filter;
 using LinqSharp.Query;
 using System;
 using System.Linq;
@@ -40,11 +41,6 @@ namespace LinqSharp
             var body = visitor.Visit(filter.Body);
             var expression = Expression.Lambda(body, false, fieldSelector.Parameters[0]) as Expression<Func<TSource, bool>>;
             return @this.Where(expression);
-        }
-
-        public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> fieldSelector, IFieldQueryFilter<TProperty> filter)
-        {
-            return FilterBy(@this, fieldSelector, filter.Predicate);
         }
 
         public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> fieldSelector, IFieldFilter<TProperty> filter)

@@ -3,14 +3,12 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Linq.Expressions;
+using System.Collections.Generic;
 
-namespace LinqSharp
+namespace LinqSharp.Filter
 {
-    [Obsolete("Use IFieldFilter instead.")]
-    public interface IFieldQueryFilter<T>
+    public interface ILocalFilter<TSource>
     {
-        Expression<Func<T, bool>> Predicate { get; }
+        IEnumerable<TSource> Apply(IEnumerable<TSource> source);
     }
 }

@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.Filter;
 using LinqSharp.Query;
 using System;
 using System.Collections.Generic;
@@ -38,11 +39,6 @@ namespace LinqSharp
         public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> fieldSelector, Func<TProperty, bool> filter)
         {
             return @this.Where(x => filter(fieldSelector(x)));
-        }
-
-        public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> fieldSelector, IFieldLocalFilter<TProperty> fieldFilter)
-        {
-            return @this.Where(x => fieldFilter.Predicate(fieldSelector(x)));
         }
 
         public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> fieldSelector, IFieldFilter<TProperty> fieldFilter)

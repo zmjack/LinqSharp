@@ -3,12 +3,12 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using System.Collections.Generic;
+using LinqSharp.Query;
 
-namespace LinqSharp
+namespace LinqSharp.Filter
 {
-    public interface ILocalFilter<TSource>
+    public interface IFieldFilter<T>
     {
-        IEnumerable<TSource> Apply(IEnumerable<TSource> source);
+        QueryExpression<T> Filter(QueryHelper<T> h);
     }
 }

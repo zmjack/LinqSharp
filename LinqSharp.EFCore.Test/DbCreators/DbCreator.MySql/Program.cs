@@ -1,8 +1,6 @@
-﻿using Castle.Core.Resource;
-using LinqSharp.EFCore.Data.Test;
+﻿using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
 using Northwnd;
-using Northwnd.Data;
 using System;
 using System.Linq;
 

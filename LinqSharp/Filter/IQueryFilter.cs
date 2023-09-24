@@ -3,9 +3,12 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-namespace LinqSharp.Query
+using System.Linq;
+
+namespace LinqSharp.Filter
 {
-    public interface ISummable
+    public interface IQueryFilter<TSource>
     {
+        IQueryable<TSource> Apply(IQueryable<TSource> source);
     }
 }

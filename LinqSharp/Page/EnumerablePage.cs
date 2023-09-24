@@ -8,9 +8,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LinqSharp.Query
+namespace LinqSharp.Pages
 {
-    public class PagedEnumerable<T> : IPageable<T>, IEnumerable<T>
+    public class EnumerablePage<T> : IEnumerablePage<T>, IEnumerable<T>
     {
         public IEnumerable<T> Items { get; protected set; }
         public int PageNumber { get; protected set; }
@@ -20,9 +20,9 @@ namespace LinqSharp.Query
         public bool IsFristPage => PageNumber == 1;
         public bool IsLastPage => PageNumber == PageCount;
 
-        protected PagedEnumerable() { }
+        protected EnumerablePage() { }
 
-        public PagedEnumerable(IEnumerable<T> source, int page, int pageSize)
+        public EnumerablePage(IEnumerable<T> source, int page, int pageSize)
         {
             if (page < 1) throw new ArgumentException("Page must be greater than 0.");
             if (pageSize < 1) throw new ArgumentException("Page must be greater than 0.");
@@ -34,7 +34,7 @@ namespace LinqSharp.Query
             Items = source.Skip((PageNumber - 1) * PageSize).Take(PageSize);
         }
 
-        public PagedEnumerable(PagedQueryable<T> pagedQueryable)
+        public EnumerablePage(QueryablePage<T> pagedQueryable)
         {
             PageSize = pagedQueryable.PageSize;
             PageCount = pagedQueryable.PageCount;

@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.Filter;
 using LinqSharp.Strategies;
 using Microsoft.Extensions.Caching.Memory;
 using NStandard;
@@ -124,11 +125,6 @@ namespace LinqSharp.Query
             var body = visitor.Visit(filter.Body);
             var expression = Expression.Lambda(body, false, fieldSelector.Parameters[0]) as Expression<Func<TSource, bool>>;
             return Where(expression);
-        }
-
-        public QueryExpression<TSource> FilterBy<TProperty>(Expression<Func<TSource, TProperty>> fieldSelector, IFieldQueryFilter<TProperty> fieldFilter)
-        {
-            return FilterBy(fieldSelector, fieldFilter.Predicate);
         }
 
         public QueryExpression<TSource> FilterBy<TProperty>(Expression<Func<TSource, TProperty>> fieldSelector, IFieldFilter<TProperty> fieldFilter)

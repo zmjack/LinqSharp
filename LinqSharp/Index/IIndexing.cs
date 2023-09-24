@@ -3,12 +3,14 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using LinqSharp.Query;
+using System.Collections.Generic;
 
-namespace LinqSharp
+namespace LinqSharp.Index
 {
-    public interface IFieldFilter<T>
+    public interface IIndexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>
     {
-        QueryExpression<T> Filter(QueryHelper<T> h);
+        IEnumerable<T> AllValues { get; }
+        IReadOnlyCollection<T> this[TKey key] { get; }
     }
+
 }

@@ -7,15 +7,15 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LinqSharp.Query
+namespace LinqSharp.Pages
 {
-    public class PagedQueryable<T> : PagedEnumerable<T>, IQueryable<T>
+    public class QueryablePage<T> : EnumerablePage<T>, IQueryablePage<T>
     {
         public Type ElementType => (Items as IQueryable<T>).ElementType;
         public Expression Expression => (Items as IQueryable<T>).Expression;
         public IQueryProvider Provider => (Items as IQueryable<T>).Provider;
 
-        public PagedQueryable(IQueryable<T> source, int page, int pageSize)
+        public QueryablePage(IQueryable<T> source, int page, int pageSize)
         {
             if (page < 1) throw new ArgumentException("Page must be greater than 0.");
             if (pageSize < 1) throw new ArgumentException("PageSize must be greater than 0.");
@@ -27,7 +27,7 @@ namespace LinqSharp.Query
             Items = source.Skip((PageNumber - 1) * PageSize).Take(PageSize);
         }
 
-        public PagedEnumerable<T> ToEnumerable() => new(this);
+        public EnumerablePage<T> ToEnumerable() => new(this);
 
     }
 }

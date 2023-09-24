@@ -1,4 +1,4 @@
-﻿using LinqSharp.Query;
+﻿using LinqSharp.Numeric;
 using System;
 using Xunit;
 
