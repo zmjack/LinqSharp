@@ -7,18 +7,17 @@ using LinqSharp.Index;
 using System;
 using System.Collections.Generic;
 
-namespace LinqSharp
-{
-    public static partial class IEnumerableExtensions
-    {
-        public static IIndexing<TKey, T> IndexBy<T, TKey>(this IEnumerable<T> @this, Func<T, TKey> selector)
-        {
-            return new Indexing<TKey, T>(@this, selector);
-        }
+namespace LinqSharp;
 
-        public static IUniqueIndexing<TKey, T> UniqueIndexBy<T, TKey>(this IEnumerable<T> @this, Func<T, TKey> selector)
-        {
-            return new UniqueIndexing<TKey, T>(@this, selector);
-        }
+public static partial class IEnumerableExtensions
+{
+    public static IIndexing<TKey, T> IndexBy<T, TKey>(this IEnumerable<T> @this, Func<T, TKey> selector)
+    {
+        return new Indexing<TKey, T>(@this, selector);
+    }
+
+    public static IUniqueIndexing<TKey, T> UniqueIndexBy<T, TKey>(this IEnumerable<T> @this, Func<T, TKey> selector)
+    {
+        return new UniqueIndexing<TKey, T>(@this, selector);
     }
 }

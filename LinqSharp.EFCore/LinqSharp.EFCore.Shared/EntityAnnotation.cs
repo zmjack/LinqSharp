@@ -5,14 +5,13 @@
 
 using System;
 
-namespace LinqSharp.EFCore
+namespace LinqSharp.EFCore;
+
+[Flags]
+public enum EntityAnnotation
 {
-    [Flags]
-    public enum EntityAnnotation
-    {
-        Index = 1,
-        Provider = 2,
-        CompositeKey = 4,
-        All = Index | Provider | CompositeKey,
-    }
+    Index = 1,
+    Provider = 2,
+    CompositeKey = 4,
+    All = Index | Provider | CompositeKey,
 }

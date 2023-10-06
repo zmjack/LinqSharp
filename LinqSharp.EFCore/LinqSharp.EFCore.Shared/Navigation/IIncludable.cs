@@ -6,12 +6,11 @@
 using LinqSharp.EFCore.Scopes;
 using System.Collections.Generic;
 
-namespace LinqSharp.EFCore.Navigation
+namespace LinqSharp.EFCore.Navigation;
+
+public interface IIncludable<TEntity, out TProperty>
+    where TEntity : class
 {
-    public interface IIncludable<TEntity, out TProperty>
-        where TEntity : class
-    {
-        CompoundQuery<TEntity> Owner { get; }
-        List<QueryTarget> TargetPath { get; }
-    }
+    CompoundQuery<TEntity> Owner { get; }
+    List<QueryTarget> TargetPath { get; }
 }

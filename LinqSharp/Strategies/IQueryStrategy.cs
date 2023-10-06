@@ -6,11 +6,9 @@
 using System;
 using System.Linq.Expressions;
 
-namespace LinqSharp.Strategies
-{
-    public interface IQueryStrategy<TEntity, TResult>
-    {
-        Expression<Func<TEntity, TResult>> StrategyExpression { get; }
-    }
+namespace LinqSharp.Strategies;
 
+public interface IQueryStrategy<TEntity, TResult>
+{
+    Expression<Func<TEntity, TResult>> StrategyExpression { get; }
 }

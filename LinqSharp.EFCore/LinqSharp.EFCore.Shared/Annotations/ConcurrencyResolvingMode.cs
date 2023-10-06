@@ -5,23 +5,22 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace LinqSharp.EFCore.Annotations
+namespace LinqSharp.EFCore.Annotations;
+
+public enum ConcurrencyResolvingMode
 {
-    public enum ConcurrencyResolvingMode
-    {
-        /// <summary>
-        /// Client Win. (Default)
-        /// </summary>
-        ClientWins = 0,
+    /// <summary>
+    /// Client Win. (Default)
+    /// </summary>
+    ClientWins = 0,
 
-        /// <summary>
-        /// Database Win.
-        /// </summary>
-        DatabaseWins = 1,
+    /// <summary>
+    /// Database Win.
+    /// </summary>
+    DatabaseWins = 1,
 
-        /// <summary>
-        /// [Warning] Do not specify manually. If property is one of <see cref="ConcurrencyCheckAttribute" /> or <see cref="TimestampAttribute", it will be set automatically.
-        /// </summary>
-        Check = 0x100,
-    }
+    /// <summary>
+    /// [Warning] Do not specify manually. If property is one of <see cref="ConcurrencyCheckAttribute" /> or <see cref="TimestampAttribute", it will be set automatically.
+    /// </summary>
+    Check = 0x100,
 }

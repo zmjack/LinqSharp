@@ -18,35 +18,34 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using SqlExpression = System.Linq.Expressions.Expression;
 #endif
 
-namespace LinqSharp.EFCore.Query
+namespace LinqSharp.EFCore.Query;
+
+public abstract class Translator
 {
-    public abstract class Translator
+    protected static NotSupportedException CannotBeCalled() => new($"This method does not support direct evaluation.");
+
+    public Translator()
     {
-        protected static NotSupportedException CannotBeCalled() => new($"This method does not support direct evaluation.");
+    }
 
-        public Translator()
+    public abstract void RegisterAll(ProviderName providerName, ModelBuilder modelBuilder);
+
+    public void Register(ModelBuilder modelBuilder, Expression<Func<object>> methodGetter, Func<SqlExpression[], SqlExpression> build)
+    {
+        MethodInfo method = null;
+
+        if (methodGetter.Body is UnaryExpression unary)
         {
-        }
-
-        public abstract void RegisterAll(ProviderName providerName, ModelBuilder modelBuilder);
-
-        public void Register(ModelBuilder modelBuilder, Expression<Func<object>> methodGetter, Func<SqlExpression[], SqlExpression> build)
-        {
-            MethodInfo method = null;
-
-            if (methodGetter.Body is UnaryExpression unary)
+            if (unary.NodeType == ExpressionType.Convert && unary.Type == typeof(object))
             {
-                if (unary.NodeType == ExpressionType.Convert && unary.Type == typeof(object))
-                {
-                    if (unary.Operand is MethodCallExpression call) method = call.Method;
-                }
+                if (unary.Operand is MethodCallExpression call) method = call.Method;
             }
-            else if (methodGetter.Body is MethodCallExpression call) method = call.Method;
-
-            if (method is null) throw new ArgumentException("Invalid expression.", nameof(methodGetter));
-            if (!method.IsStatic) throw new ArgumentException("The registration method must be a static method.", nameof(methodGetter));
-
-            modelBuilder.HasDbFunction(method).HasTranslation(args => build(args.ToArray()));
         }
+        else if (methodGetter.Body is MethodCallExpression call) method = call.Method;
+
+        if (method is null) throw new ArgumentException("Invalid expression.", nameof(methodGetter));
+        if (!method.IsStatic) throw new ArgumentException("The registration method must be a static method.", nameof(methodGetter));
+
+        modelBuilder.HasDbFunction(method).HasTranslation(args => build(args.ToArray()));
     }
 }

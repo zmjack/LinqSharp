@@ -5,17 +5,15 @@
 
 using System;
 
-namespace LinqSharp.EFCore.Design
+namespace LinqSharp.EFCore.Design;
+
+[AttributeUsage(AttributeTargets.Class)]
+public class EntityAuditAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class EntityAuditAttribute : Attribute
+    public Type EntityAuditorType { get; set; }
+
+    public EntityAuditAttribute(Type entityAuditorType)
     {
-        public Type EntityAuditorType { get; set; }
-
-        public EntityAuditAttribute(Type entityAuditorType)
-        {
-            EntityAuditorType = entityAuditorType;
-        }
+        EntityAuditorType = entityAuditorType;
     }
-
 }

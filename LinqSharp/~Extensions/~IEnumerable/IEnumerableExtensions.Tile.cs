@@ -5,21 +5,19 @@
 
 using System.Collections.Generic;
 
-namespace LinqSharp
+namespace LinqSharp;
+
+public static partial class IEnumerableExtensions
 {
-    public static partial class IEnumerableExtensions
+    public static IEnumerable<TSource> Tile<TSource>(this IEnumerable<TSource> source, int repeats)
     {
-        public static IEnumerable<TSource> Tile<TSource>(this IEnumerable<TSource> source, int repeats)
+        for (int i = 0; i < repeats; i++)
         {
-            for (int i = 0; i < repeats; i++)
+            foreach (var item in source)
             {
-                foreach (var item in source)
-                {
-                    yield return item;
-                }
+                yield return item;
             }
         }
-
     }
 
 }

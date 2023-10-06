@@ -3,10 +3,9 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-namespace LinqSharp.EFCore.Design
+namespace LinqSharp.EFCore.Design;
+
+public interface IConcurrencyResolvableContext
 {
-    public interface IConcurrencyResolvableContext
-    {
-        public int MaxConcurrencyRetry { get; }
-    }
+    public int MaxConcurrencyRetry { get; }
 }

@@ -1,7 +1,6 @@
-﻿namespace LinqSharp.EFCore.Design.AutoTags
+﻿namespace LinqSharp.EFCore.Design.AutoTags;
+
+public class UserTag : IAutoTag
 {
-    public class UserTag : IAutoTag
-    {
-        public string CurrentUser { get; set; }
-    }
+    public string CurrentUser { get; set; }
 }

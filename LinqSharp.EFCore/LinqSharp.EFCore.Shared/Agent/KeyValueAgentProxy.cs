@@ -11,74 +11,72 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace LinqSharp.EFCore.Agent
+namespace LinqSharp.EFCore.Agent;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public class KeyValueAgentProxy<TAgent, TEntity> : IInterceptor
+    where TAgent : KeyValueAgent<TEntity>, new()
+    where TEntity : KeyValueEntity, new()
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public class KeyValueAgentProxy<TAgent, TEntity> : IInterceptor
-        where TAgent : KeyValueAgent<TEntity>, new()
-        where TEntity : KeyValueEntity, new()
+    public void Intercept(IInvocation invocation)
     {
-        public void Intercept(IInvocation invocation)
+        var agent = (TAgent)invocation.Proxy;
+        if (!agent._executed)
         {
-            var agent = (TAgent)invocation.Proxy;
-            if (!agent._executed)
+            var query = AgentQuery<TEntity>.Current ?? throw AgentQuery.NoScopeException;
+            query.Execute();
+        }
+
+        var property = invocation.Method.Name.Substring(4);
+        var entity = agent._entities.FirstOrDefault(x => x.Key == property);
+
+        if (invocation.Method.Name.StartsWith("set_"))
+        {
+            if (entity is null) throw new KeyNotFoundException($"The key ({property}) was not found.)");
+
+            var value = invocation.Arguments[0]?.ToString();
+            entity.Value = value;
+        }
+        else if (invocation.Method.Name.StartsWith("get_"))
+        {
+            if (entity is null)
             {
-                var query = AgentQuery<TEntity>.Current ?? throw AgentQuery.NoScopeException;
-                query.Execute();
+                invocation.Proceed();
+                return;
             }
 
-            var property = invocation.Method.Name.Substring(4);
-            var entity = agent._entities.FirstOrDefault(x => x.Key == property);
-
-            if (invocation.Method.Name.StartsWith("set_"))
+            var proxyProperty = agent.GetType().GetProperty(property);
+            if (entity.Value is null)
             {
-                if (entity is null) throw new KeyNotFoundException($"The key ({property}) was not found.)");
-
-                var value = invocation.Arguments[0]?.ToString();
-                entity.Value = value;
+                invocation.ReturnValue = proxyProperty.PropertyType.CreateDefault();
             }
-            else if (invocation.Method.Name.StartsWith("get_"))
+            else
             {
-                if (entity is null)
+                try
                 {
-                    invocation.Proceed();
-                    return;
-                }
+#if NET6_0_OR_GREATER
+                    //TODO: DateOnly and TimeOnly can not use Convert.
+                    object returnValue = proxyProperty.PropertyType switch
+                    {
+                        Type type when type == typeof(DateOnly) => DateOnly.TryParse(entity.Value, out var date) ? date : default,
+                        Type type when type == typeof(TimeOnly) => TimeOnly.TryParse(entity.Value, out var time) ? time : default,
 
-                var proxyProperty = agent.GetType().GetProperty(property);
-                if (entity.Value is null)
+                        Type type when type == typeof(DateOnly?) => DateOnly.TryParse(entity.Value, out var date) ? (DateOnly?)date : default,
+                        Type type when type == typeof(TimeOnly?) => TimeOnly.TryParse(entity.Value, out var time) ? (TimeOnly?)time : default,
+
+                        _ => ConvertEx.ChangeType(entity.Value, proxyProperty.PropertyType),
+                    };
+#else
+                    var returnValue = ConvertEx.ChangeType(entity.Value, proxyProperty.PropertyType);
+#endif
+                    invocation.ReturnValue = returnValue;
+                }
+                catch
                 {
                     invocation.ReturnValue = proxyProperty.PropertyType.CreateDefault();
                 }
-                else
-                {
-                    try
-                    {
-#if NET6_0_OR_GREATER
-                        //TODO: DateOnly and TimeOnly can not use Convert.
-                        object returnValue = proxyProperty.PropertyType switch
-                        {
-                            Type type when type == typeof(DateOnly) => DateOnly.TryParse(entity.Value, out var date) ? date : default,
-                            Type type when type == typeof(TimeOnly) => TimeOnly.TryParse(entity.Value, out var time) ? time : default,
-
-                            Type type when type == typeof(DateOnly?) => DateOnly.TryParse(entity.Value, out var date) ? (DateOnly?)date : default,
-                            Type type when type == typeof(TimeOnly?) => TimeOnly.TryParse(entity.Value, out var time) ? (TimeOnly?)time : default,
-
-                            _ => ConvertEx.ChangeType(entity.Value, proxyProperty.PropertyType),
-                        };
-#else
-                        var returnValue = ConvertEx.ChangeType(entity.Value, proxyProperty.PropertyType);
-#endif
-                        invocation.ReturnValue = returnValue;
-                    }
-                    catch
-                    {
-                        invocation.ReturnValue = proxyProperty.PropertyType.CreateDefault();
-                    }
-                }
             }
-            else invocation.Proceed();
         }
+        else invocation.Proceed();
     }
-
 }

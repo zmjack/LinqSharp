@@ -7,19 +7,18 @@ using LinqSharp.EFCore.Design.AutoTags;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace LinqSharp.EFCore.Annotations
+namespace LinqSharp.EFCore.Annotations;
+
+public abstract class SpecialAutoAttribute<TAutoTag> : AutoAttribute where TAutoTag : IAutoTag
 {
-    public abstract class SpecialAutoAttribute<TAutoTag> : AutoAttribute where TAutoTag : IAutoTag
+    public SpecialAutoAttribute() : base() { }
+    public SpecialAutoAttribute(params EntityState[] states) : base(states) { }
+
+    public override object Format(object entity, Type propertyType, object value)
     {
-        public SpecialAutoAttribute() : base() { }
-        public SpecialAutoAttribute(params EntityState[] states) : base(states) { }
+        if (value is not TAutoTag autoTag) throw new ArgumentException($"Only {typeof(TAutoTag)} is supported.", nameof(value));
 
-        public override object Format(object entity, Type propertyType, object value)
-        {
-            if (value is not TAutoTag autoTag) throw new ArgumentException($"Only {typeof(TAutoTag)} is supported.", nameof(value));
-
-            return Format(entity, propertyType, autoTag);
-        }
-        public abstract object Format(object entity, Type propertyType, TAutoTag value);
+        return Format(entity, propertyType, autoTag);
     }
+    public abstract object Format(object entity, Type propertyType, TAutoTag value);
 }

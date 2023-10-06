@@ -7,37 +7,36 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LinqSharp.EFCore.Entities
+namespace LinqSharp.EFCore.Entities;
+
+public class RowChangeInfo : Dictionary<string, FieldChangeInfo>
 {
-    public class RowChangeInfo : Dictionary<string, FieldChangeInfo>
+    public bool IsValid { get; set; }
+
+    public RowChangeInfo() { }
+    public RowChangeInfo(IEnumerable<PropertyEntry> entries) : this(entries, false) { }
+    public RowChangeInfo(IEnumerable<PropertyEntry> entries, bool modifiedOnly)
     {
-        public bool IsValid { get; set; }
-
-        public RowChangeInfo() { }
-        public RowChangeInfo(IEnumerable<PropertyEntry> entries) : this(entries, false) { }
-        public RowChangeInfo(IEnumerable<PropertyEntry> entries, bool modifiedOnly)
+        if (modifiedOnly)
         {
-            if (modifiedOnly)
-            {
-                entries = from entry in entries
-                          where entry.IsModified
-                          where !(entry.OriginalValue is null && entry.CurrentValue is null) && !(entry.OriginalValue?.Equals(entry.CurrentValue) ?? false)
-                          select entry;
-            }
-
-            if (entries.Any()) IsValid = true;
-
-            foreach (var entry in entries)
-            {
-                Add(entry.Metadata.PropertyInfo.Name, new FieldChangeInfo
-                {
-                    Display = DataAnnotation.GetDisplayName(entry.Metadata.PropertyInfo),
-                    IsModified = entry.IsModified,
-                    Origin = entry.OriginalValue,
-                    Current = entry.CurrentValue,
-                });
-            }
+            entries = from entry in entries
+                      where entry.IsModified
+                      where !(entry.OriginalValue is null && entry.CurrentValue is null) && !(entry.OriginalValue?.Equals(entry.CurrentValue) ?? false)
+                      select entry;
         }
 
+        if (entries.Any()) IsValid = true;
+
+        foreach (var entry in entries)
+        {
+            Add(entry.Metadata.PropertyInfo.Name, new FieldChangeInfo
+            {
+                Display = DataAnnotation.GetDisplayName(entry.Metadata.PropertyInfo),
+                IsModified = entry.IsModified,
+                Origin = entry.OriginalValue,
+                Current = entry.CurrentValue,
+            });
+        }
     }
+
 }

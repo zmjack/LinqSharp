@@ -5,15 +5,13 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace LinqSharp.EFCore
-{
-    public interface IEntityAuditor<TDbContext, TEntity>
-        where TDbContext : DbContext
-        where TEntity : class, new()
-    {
-        void BeforeAudit(TDbContext context, EntityAudit<TEntity>[] audits);
-        void OnAuditing(TDbContext context, EntityAudit<TEntity>[] audits);
-        void OnAudited(TDbContext context, AuditPredictor predictor);
-    }
+namespace LinqSharp.EFCore;
 
+public interface IEntityAuditor<TDbContext, TEntity>
+    where TDbContext : DbContext
+    where TEntity : class, new()
+{
+    void BeforeAudit(TDbContext context, EntityAudit<TEntity>[] audits);
+    void OnAuditing(TDbContext context, EntityAudit<TEntity>[] audits);
+    void OnAudited(TDbContext context, AuditPredictor predictor);
 }

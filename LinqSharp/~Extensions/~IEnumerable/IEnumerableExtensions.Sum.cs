@@ -9,58 +9,56 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LinqSharp
+namespace LinqSharp;
+
+public static partial class IEnumerableExtensions
 {
-    public static partial class IEnumerableExtensions
+    private static TResult Sum<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
     {
-        private static TResult Sum<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        using (var enumerator = source.GetEnumerator())
         {
-            using (var enumerator = source.GetEnumerator())
+            while (enumerator.MoveNext())
             {
+                TResult current = selector(enumerator.Current);
+                if (current is null) continue;
+
+                var op_Addition = GetOpAddition<TResult>() ?? throw new InvalidOperationException($"There is no matching op_Addition method for {typeof(TResult).FullName}.");
+
+                TResult sum = current;
                 while (enumerator.MoveNext())
                 {
-                    TResult current = selector(enumerator.Current);
-                    if (current is null) continue;
-
-                    var op_Addition = GetOpAddition<TResult>() ?? throw new InvalidOperationException($"There is no matching op_Addition method for {typeof(TResult).FullName}.");
-
-                    TResult sum = current;
-                    while (enumerator.MoveNext())
+                    current = selector(enumerator.Current);
+                    if (current is not null)
                     {
-                        current = selector(enumerator.Current);
-                        if (current is not null)
-                        {
-                            sum = op_Addition(sum, current);
-                        }
+                        sum = op_Addition(sum, current);
                     }
-                    return sum;
                 }
+                return sum;
             }
-            return default;
         }
-        public static TSource Sum<TSource>(this IEnumerable<TSource> source) where TSource : ISummable => Sum(source, x => x);
-        public static TSource? Sum<TSource>(this IEnumerable<TSource?> source) where TSource : struct, ISummable => Sum(source, x => x);
+        return default;
+    }
+    public static TSource Sum<TSource>(this IEnumerable<TSource> source) where TSource : ISummable => Sum(source, x => x);
+    public static TSource? Sum<TSource>(this IEnumerable<TSource?> source) where TSource : struct, ISummable => Sum(source, x => x);
 
-        public static TSource QSum<TSource>(this IEnumerable<TSource> source) where TSource : struct, IUnitValue, ISummable<TSource>
-        {
-            var result = new TSource();
+    public static TSource QSum<TSource>(this IEnumerable<TSource> source) where TSource : struct, IUnitValue, ISummable<TSource>
+    {
+        var result = new TSource();
 
-            if (!source.Any()) return result;
-            else result.QuickSum(source);
+        if (!source.Any()) return result;
+        else result.QuickSum(source);
 
-            return result;
-        }
+        return result;
+    }
 
-        public static TSource? QSum<TSource>(this IEnumerable<TSource?> source) where TSource : struct, IUnitValue, ISummable<TSource>
-        {
-            var result = new TSource();
+    public static TSource? QSum<TSource>(this IEnumerable<TSource?> source) where TSource : struct, IUnitValue, ISummable<TSource>
+    {
+        var result = new TSource();
 
-            if (!source.Any()) return result;
-            else result.QuickSum(from item in source where item.HasValue select item.Value);
+        if (!source.Any()) return result;
+        else result.QuickSum(from item in source where item.HasValue select item.Value);
 
-            return result;
-        }
-
+        return result;
     }
 
 }

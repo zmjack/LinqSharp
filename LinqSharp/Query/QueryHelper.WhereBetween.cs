@@ -8,102 +8,100 @@ using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
 
-namespace LinqSharp.Query
+namespace LinqSharp.Query;
+
+public partial class QueryHelper<TSource>
 {
-    public partial class QueryHelper<TSource>
+    #region Return DateTime
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
+    public QueryExpression<TSource> WhereBetween(
+        Expression<Func<TSource, DateTime>> memberExp,
+        Expression<Func<TSource, DateTime>> startExp,
+        Expression<Func<TSource, DateTime>> endExp)
     {
-        #region Return DateTime
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
-        public QueryExpression<TSource> WhereBetween(
-            Expression<Func<TSource, DateTime>> memberExp,
-            Expression<Func<TSource, DateTime>> startExp,
-            Expression<Func<TSource, DateTime>> endExp)
-        {
-            var strategy = new QueryBetweenStrategy<TSource>(memberExp, startExp, endExp);
-            return new QueryExpression<TSource>(strategy.StrategyExpression);
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
-        public QueryExpression<TSource> WhereBetween(
-            Expression<Func<TSource, DateTime>> memberExp,
-            DateTime start,
-            Expression<Func<TSource, DateTime>> endExp)
-        {
-            var strategy = new QueryBetweenStrategy<TSource>(memberExp, start, endExp);
-            return new QueryExpression<TSource>(strategy.StrategyExpression);
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
-        public QueryExpression<TSource> WhereBetween(
-            Expression<Func<TSource, DateTime>> memberExp,
-            Expression<Func<TSource, DateTime>> startExp,
-            DateTime end)
-        {
-            var strategy = new QueryBetweenStrategy<TSource>(memberExp, startExp, end);
-            return new QueryExpression<TSource>(strategy.StrategyExpression);
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
-        public QueryExpression<TSource> WhereBetween(
-            Expression<Func<TSource, DateTime>> memberExp,
-            DateTime start,
-            DateTime end)
-        {
-            var strategy = new QueryBetweenStrategy<TSource>(memberExp, start, end);
-            return new QueryExpression<TSource>(strategy.StrategyExpression);
-        }
-        #endregion
-
-        #region Return DateTime?
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
-        public QueryExpression<TSource> WhereBetween(
-            Expression<Func<TSource, DateTime?>> memberExp,
-            Expression<Func<TSource, DateTime>> startExp,
-            Expression<Func<TSource, DateTime>> endExp)
-        {
-            var strategy = new QueryBetweenStrategy<TSource>(memberExp, startExp, endExp);
-            return new QueryExpression<TSource>(strategy.StrategyExpression);
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
-        public QueryExpression<TSource> WhereBetween(
-            Expression<Func<TSource, DateTime?>> memberExp,
-            DateTime start,
-            Expression<Func<TSource, DateTime>> endExp)
-        {
-            var strategy = new QueryBetweenStrategy<TSource>(memberExp, start, endExp);
-            return new QueryExpression<TSource>(strategy.StrategyExpression);
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
-        public QueryExpression<TSource> WhereBetween(
-            Expression<Func<TSource, DateTime?>> memberExp,
-            Expression<Func<TSource, DateTime>> startExp,
-            DateTime end)
-        {
-            var strategy = new QueryBetweenStrategy<TSource>(memberExp, startExp, end);
-            return new QueryExpression<TSource>(strategy.StrategyExpression);
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
-        public QueryExpression<TSource> WhereBetween(
-            Expression<Func<TSource, DateTime?>> memberExp,
-            DateTime start,
-            DateTime end)
-        {
-            var strategy = new QueryBetweenStrategy<TSource>(memberExp, start, end);
-            return new QueryExpression<TSource>(strategy.StrategyExpression);
-        }
-        #endregion
-
+        var strategy = new QueryBetweenStrategy<TSource>(memberExp, startExp, endExp);
+        return new QueryExpression<TSource>(strategy.StrategyExpression);
     }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
+    public QueryExpression<TSource> WhereBetween(
+        Expression<Func<TSource, DateTime>> memberExp,
+        DateTime start,
+        Expression<Func<TSource, DateTime>> endExp)
+    {
+        var strategy = new QueryBetweenStrategy<TSource>(memberExp, start, endExp);
+        return new QueryExpression<TSource>(strategy.StrategyExpression);
+    }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
+    public QueryExpression<TSource> WhereBetween(
+        Expression<Func<TSource, DateTime>> memberExp,
+        Expression<Func<TSource, DateTime>> startExp,
+        DateTime end)
+    {
+        var strategy = new QueryBetweenStrategy<TSource>(memberExp, startExp, end);
+        return new QueryExpression<TSource>(strategy.StrategyExpression);
+    }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
+    public QueryExpression<TSource> WhereBetween(
+        Expression<Func<TSource, DateTime>> memberExp,
+        DateTime start,
+        DateTime end)
+    {
+        var strategy = new QueryBetweenStrategy<TSource>(memberExp, start, end);
+        return new QueryExpression<TSource>(strategy.StrategyExpression);
+    }
+    #endregion
+
+    #region Return DateTime?
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
+    public QueryExpression<TSource> WhereBetween(
+        Expression<Func<TSource, DateTime?>> memberExp,
+        Expression<Func<TSource, DateTime>> startExp,
+        Expression<Func<TSource, DateTime>> endExp)
+    {
+        var strategy = new QueryBetweenStrategy<TSource>(memberExp, startExp, endExp);
+        return new QueryExpression<TSource>(strategy.StrategyExpression);
+    }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
+    public QueryExpression<TSource> WhereBetween(
+        Expression<Func<TSource, DateTime?>> memberExp,
+        DateTime start,
+        Expression<Func<TSource, DateTime>> endExp)
+    {
+        var strategy = new QueryBetweenStrategy<TSource>(memberExp, start, endExp);
+        return new QueryExpression<TSource>(strategy.StrategyExpression);
+    }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
+    public QueryExpression<TSource> WhereBetween(
+        Expression<Func<TSource, DateTime?>> memberExp,
+        Expression<Func<TSource, DateTime>> startExp,
+        DateTime end)
+    {
+        var strategy = new QueryBetweenStrategy<TSource>(memberExp, startExp, end);
+        return new QueryExpression<TSource>(strategy.StrategyExpression);
+    }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use FilterBy(Func<,>, DateTimeRangeFilter) instead.")]
+    public QueryExpression<TSource> WhereBetween(
+        Expression<Func<TSource, DateTime?>> memberExp,
+        DateTime start,
+        DateTime end)
+    {
+        var strategy = new QueryBetweenStrategy<TSource>(memberExp, start, end);
+        return new QueryExpression<TSource>(strategy.StrategyExpression);
+    }
+    #endregion
 
 }

@@ -7,31 +7,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LinqSharp
+namespace LinqSharp;
+
+public static partial class IEnumerableExtensions
 {
-    public static partial class IEnumerableExtensions
+    public static IEnumerable<TSource> SelectUntil<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector, Func<TSource, bool> predicate)
     {
-        public static IEnumerable<TSource> SelectUntil<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector, Func<TSource, bool> predicate)
+        IEnumerable<TSource> RecursiveChildren(TSource node)
         {
-            IEnumerable<TSource> RecursiveChildren(TSource node)
+            var selectNode = childrenSelector(node);
+            if (predicate(node))
+                yield return node;
+            else
             {
-                var selectNode = childrenSelector(node);
-                if (predicate(node))
-                    yield return node;
-                else
+                if (selectNode?.Any() ?? false)
                 {
-                    if (selectNode?.Any() ?? false)
-                    {
-                        var children = selectNode.SelectMany(x => RecursiveChildren(x));
-                        foreach (var child in children)
-                            yield return child;
-                    }
+                    var children = selectNode.SelectMany(x => RecursiveChildren(x));
+                    foreach (var child in children)
+                        yield return child;
                 }
             }
-
-            var ret = @this.SelectMany(x => RecursiveChildren(x));
-            return ret;
         }
 
+        var ret = @this.SelectMany(x => RecursiveChildren(x));
+        return ret;
     }
+
 }

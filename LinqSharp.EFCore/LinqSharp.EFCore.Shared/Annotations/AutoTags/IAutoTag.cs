@@ -1,6 +1,5 @@
-﻿namespace LinqSharp.EFCore.Design.AutoTags
+﻿namespace LinqSharp.EFCore.Design.AutoTags;
+
+public interface IAutoTag
 {
-    public interface IAutoTag
-    {
-    }
 }

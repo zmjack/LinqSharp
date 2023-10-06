@@ -6,15 +6,14 @@
 using NStandard;
 using System;
 
-namespace LinqSharp.EFCore.Scopes
+namespace LinqSharp.EFCore.Scopes;
+
+public class DirectQuery : Scope<DirectQuery>
 {
-    public class DirectQuery : Scope<DirectQuery>
+    public static InvalidOperationException RunningOutsideScopeException => new($"Direct action is running outside {nameof(DirectQuery)}.");
+
+    internal DirectQuery()
     {
-        public static InvalidOperationException RunningOutsideScopeException => new($"Direct action is running outside {nameof(DirectQuery)}.");
-
-        internal DirectQuery()
-        {
-        }
-
     }
+
 }

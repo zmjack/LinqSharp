@@ -6,13 +6,12 @@
 using System;
 using System.Linq.Expressions;
 
-namespace LinqSharp.EFCore.Navigation
+namespace LinqSharp.EFCore.Navigation;
+
+public struct QueryTarget
 {
-    public struct QueryTarget
-    {
-        public Type PreviousProperty { get; set; }
-        public Type PreviousPropertyElement { get; set; }
-        public Type Property { get; set; }
-        public LambdaExpression Expression { get; set; }
-    }
+    public Type PreviousProperty { get; set; }
+    public Type PreviousPropertyElement { get; set; }
+    public Type Property { get; set; }
+    public LambdaExpression Expression { get; set; }
 }

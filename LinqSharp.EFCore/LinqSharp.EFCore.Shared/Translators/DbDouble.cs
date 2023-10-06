@@ -12,32 +12,31 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using SqlExpression = System.Linq.Expressions.Expression;
 #endif
 
-namespace LinqSharp.EFCore.Translators
+namespace LinqSharp.EFCore.Translators;
+
+public class DbDouble : Translator
 {
-    public class DbDouble : Translator
+    public static double FromInt(int number) => number;
+
+    public DbDouble() { }
+
+    public override void RegisterAll(ProviderName providerName, ModelBuilder modelBuilder)
     {
-        public static double FromInt(int number) => number;
-
-        public DbDouble() { }
-
-        public override void RegisterAll(ProviderName providerName, ModelBuilder modelBuilder)
+        switch (providerName)
         {
-            switch (providerName)
-            {
-                case ProviderName.MyCat:
-                case ProviderName.MySql:
-                    MySqlRegister(this, modelBuilder);
-                    break;
-            }
+            case ProviderName.MyCat:
+            case ProviderName.MySql:
+                MySqlRegister(this, modelBuilder);
+                break;
         }
-
-        private void MySqlRegister(Translator provider, ModelBuilder modelBuilder)
-        {
-            provider.Register(modelBuilder, () => FromInt(default), args =>
-            {
-                return SqlTranslator.Function<double>("CONVERT", args[0], SqlTranslator.Fragment("DECIMAL(16, 4)"));
-            });
-        }
-
     }
+
+    private void MySqlRegister(Translator provider, ModelBuilder modelBuilder)
+    {
+        provider.Register(modelBuilder, () => FromInt(default), args =>
+        {
+            return SqlTranslator.Function<double>("CONVERT", args[0], SqlTranslator.Fragment("DECIMAL(16, 4)"));
+        });
+    }
+
 }

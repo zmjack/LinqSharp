@@ -5,8 +5,7 @@
 
 using System;
 
-namespace LinqSharp.EFCore.Annotations
-{
-    [AttributeUsage(AttributeTargets.Property)]
-    public class NotAcceptableAttribute : Attribute { }
-}
+namespace LinqSharp.EFCore.Annotations;
+
+[AttributeUsage(AttributeTargets.Property)]
+public class NotAcceptableAttribute : Attribute { }

@@ -9,21 +9,20 @@ using NStandard;
 using System;
 using System.Linq;
 
-namespace LinqSharp.EFCore.Annotations
+namespace LinqSharp.EFCore.Annotations;
+
+[AttributeUsage(AttributeTargets.Property)]
+public class AutoLastWriteTimeAttribute : SpecialAutoAttribute<NowTag>
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class AutoLastWriteTimeAttribute : SpecialAutoAttribute<NowTag>
+    private static readonly Type[] DateTimeTypes = new Type[] { typeof(DateTime), typeof(DateTime?) };
+    private static readonly Type[] DateTimeOffsetTypes = new Type[] { typeof(DateTimeOffset), typeof(DateTimeOffset?) };
+
+    public AutoLastWriteTimeAttribute() : base(EntityState.Added, EntityState.Modified) { }
+
+    public override object Format(object entity, Type propertyType, NowTag value)
     {
-        private static readonly Type[] DateTimeTypes = new Type[] { typeof(DateTime), typeof(DateTime?) };
-        private static readonly Type[] DateTimeOffsetTypes = new Type[] { typeof(DateTimeOffset), typeof(DateTimeOffset?) };
-
-        public AutoLastWriteTimeAttribute() : base(EntityState.Added, EntityState.Modified) { }
-
-        public override object Format(object entity, Type propertyType, NowTag value)
-        {
-            if (DateTimeTypes.Contains(propertyType)) return value.Now;
-            else if (DateTimeOffsetTypes.Contains(propertyType)) return value.NowOffset;
-            else throw new ArgumentException($"Only {DateTimeTypes.Join(", ")}, {DateTimeOffsetTypes.Join(", ")} are supported.", nameof(propertyType));
-        }
+        if (DateTimeTypes.Contains(propertyType)) return value.Now;
+        else if (DateTimeOffsetTypes.Contains(propertyType)) return value.NowOffset;
+        else throw new ArgumentException($"Only {DateTimeTypes.Join(", ")}, {DateTimeOffsetTypes.Join(", ")} are supported.", nameof(propertyType));
     }
 }

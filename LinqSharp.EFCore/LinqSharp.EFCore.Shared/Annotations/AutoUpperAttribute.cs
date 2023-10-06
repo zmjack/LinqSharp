@@ -6,17 +6,16 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace LinqSharp.EFCore.Annotations
-{
-    [AttributeUsage(AttributeTargets.Property)]
-    public class AutoUpperAttribute : AutoAttribute
-    {
-        public AutoUpperAttribute() : base(EntityState.Added, EntityState.Modified) { }
-        public override object Format(object entity, Type propertyType, object value)
-        {
-            if (propertyType != typeof(string)) throw Exception_NotSupportedTypes(propertyType, nameof(propertyType));
+namespace LinqSharp.EFCore.Annotations;
 
-            return (value as string)?.ToUpper();
-        }
+[AttributeUsage(AttributeTargets.Property)]
+public class AutoUpperAttribute : AutoAttribute
+{
+    public AutoUpperAttribute() : base(EntityState.Added, EntityState.Modified) { }
+    public override object Format(object entity, Type propertyType, object value)
+    {
+        if (propertyType != typeof(string)) throw Exception_NotSupportedTypes(propertyType, nameof(propertyType));
+
+        return (value as string)?.ToUpper();
     }
 }

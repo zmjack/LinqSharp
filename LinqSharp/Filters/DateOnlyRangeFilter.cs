@@ -4,90 +4,89 @@
 // See the LICENSE file in the project root for more information.
 
 #if NET6_0_OR_GREATER
-using LinqSharp.Filter;
+using LinqSharp;
 using LinqSharp.Filters;
 using LinqSharp.Numeric;
 using LinqSharp.Query;
 using NStandard;
 using System;
 
-namespace LinqSharp.Filters
+namespace LinqSharp.Filters;
+
+public class DateOnlyRangeFilter : IFieldFilter<DateOnly>, IFieldFilter<DateOnly?>
 {
-    public class DateOnlyRangeFilter : IFieldFilter<DateOnly>, IFieldFilter<DateOnly?>
+    public DateOnlyType Type { get; set; }
+    public DateOnly? Start { get; set; }
+    public DateOnly? End { get; set; }
+
+    /// <summary>
+    /// Indicates whether to include null values for the field.
+    /// </summary>
+    /// <remarks>
+    /// Explanation:<br/>
+    /// <code>
+    /// ○ Valid only when using DateTime?.<br/>
+    /// </code>
+    /// </remarks>
+    public bool HasNull { get; set; }
+
+    public QueryExpression<DateOnly?> Filter(QueryHelper<DateOnly?> h)
     {
-        public DateOnlyType Type { get; set; }
-        public DateOnly? Start { get; set; }
-        public DateOnly? End { get; set; }
-
-        /// <summary>
-        /// Indicates whether to include null values for the field.
-        /// </summary>
-        /// <remarks>
-        /// Explanation:<br/>
-        /// <code>
-        /// ○ Valid only when using DateTime?.<br/>
-        /// </code>
-        /// </remarks>
-        public bool HasNull { get; set; }
-
-        public QueryExpression<DateOnly?> Filter(QueryHelper<DateOnly?> h)
+        DateOnly? start, end;
+        switch (Type)
         {
-            DateOnly? start, end;
-            switch (Type)
-            {
-                case DateOnlyType.Year:
-                    start = Start?.StartOfYear();
-                    end = End?.EndOfYear();
-                    break;
+            case DateOnlyType.Year:
+                start = Start?.StartOfYear();
+                end = End?.EndOfYear();
+                break;
 
-                case DateOnlyType.Month:
-                    start = Start?.StartOfMonth();
-                    end = End?.EndOfMonth();
-                    break;
+            case DateOnlyType.Month:
+                start = Start?.StartOfMonth();
+                end = End?.EndOfMonth();
+                break;
 
-                default:
-                    start = Start;
-                    end = End;
-                    break;
-            }
-
-            var exp = h.Empty;
-            if (start.HasValue) exp &= h.Where(x => start.Value <= x);
-            if (end.HasValue) exp &= h.Where(x => x <= end.Value);
-
-            return HasNull
-                ? exp | h.Where(x => !x.HasValue)
-                : exp & h.Where(x => x.HasValue);
+            default:
+                start = Start;
+                end = End;
+                break;
         }
 
-        public QueryExpression<DateOnly> Filter(QueryHelper<DateOnly> h)
-        {
-            DateOnly? start, end;
-            switch (Type)
-            {
-                case DateOnlyType.Year:
-                    start = Start?.StartOfYear();
-                    end = End?.EndOfYear();
-                    break;
+        var exp = h.Empty;
+        if (start.HasValue) exp &= h.Where(x => start.Value <= x);
+        if (end.HasValue) exp &= h.Where(x => x <= end.Value);
 
-                case DateOnlyType.Month:
-                    start = Start?.StartOfMonth();
-                    end = End?.EndOfMonth();
-                    break;
-
-                default:
-                    start = Start;
-                    end = End;
-                    break;
-            }
-
-            var exp = h.Empty;
-            if (start.HasValue) exp &= h.Where(x => start.Value <= x);
-            if (end.HasValue) exp &= h.Where(x => x <= end.Value);
-
-            return exp;
-        }
-
+        return HasNull
+            ? exp | h.Where(x => !x.HasValue)
+            : exp & h.Where(x => x.HasValue);
     }
+
+    public QueryExpression<DateOnly> Filter(QueryHelper<DateOnly> h)
+    {
+        DateOnly? start, end;
+        switch (Type)
+        {
+            case DateOnlyType.Year:
+                start = Start?.StartOfYear();
+                end = End?.EndOfYear();
+                break;
+
+            case DateOnlyType.Month:
+                start = Start?.StartOfMonth();
+                end = End?.EndOfMonth();
+                break;
+
+            default:
+                start = Start;
+                end = End;
+                break;
+        }
+
+        var exp = h.Empty;
+        if (start.HasValue) exp &= h.Where(x => start.Value <= x);
+        if (end.HasValue) exp &= h.Where(x => x <= end.Value);
+
+        return exp;
+    }
+
 }
 #endif

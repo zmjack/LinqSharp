@@ -5,18 +5,17 @@
 
 using System;
 
-namespace LinqSharp.EFCore.Annotations
+namespace LinqSharp.EFCore.Annotations;
+
+
+[AttributeUsage(AttributeTargets.Property)]
+public class ConcurrencyPolicyAttribute : Attribute
 {
+    public ConcurrencyResolvingMode Mode { get; set; }
 
-    [AttributeUsage(AttributeTargets.Property)]
-    public class ConcurrencyPolicyAttribute : Attribute
+    public ConcurrencyPolicyAttribute(ConcurrencyResolvingMode mode)
     {
-        public ConcurrencyResolvingMode Mode { get; set; }
-
-        public ConcurrencyPolicyAttribute(ConcurrencyResolvingMode mode)
-        {
-            Mode = mode;
-        }
-
+        Mode = mode;
     }
+
 }

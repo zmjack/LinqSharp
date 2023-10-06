@@ -9,100 +9,99 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LinqSharp.Index
+namespace LinqSharp.Index;
+
+public class Indexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>, IIndexing<TKey, T>
 {
-    public class Indexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>, IIndexing<TKey, T>
+    private readonly Lazy<HashMap<TKey, IReadOnlyCollection<T>>> _map;
+
+    private readonly IEnumerable<T> _source;
+    private readonly Func<T, TKey> _selector;
+
+    public Indexing(IEnumerable<T> source, Func<T, TKey> selector)
     {
-        private readonly Lazy<HashMap<TKey, IReadOnlyCollection<T>>> _map;
+        _source = source;
+        _selector = selector;
 
-        private readonly IEnumerable<T> _source;
-        private readonly Func<T, TKey> _selector;
-
-        public Indexing(IEnumerable<T> source, Func<T, TKey> selector)
+        _map = new Lazy<HashMap<TKey, IReadOnlyCollection<T>>>(() =>
         {
-            _source = source;
-            _selector = selector;
-
-            _map = new Lazy<HashMap<TKey, IReadOnlyCollection<T>>>(() =>
+            var map = new HashMap<TKey, IReadOnlyCollection<T>>();
+            foreach (var item in _source)
             {
-                var map = new HashMap<TKey, IReadOnlyCollection<T>>();
-                foreach (var item in _source)
-                {
-                    var key = _selector(item);
+                var key = _selector(item);
 
-                    if (!map.ContainsKey(key))
-                    {
-                        map.Add(key, new List<T>());
-                    }
-                    (map[key] as List<T>).Add(item);
+                if (!map.ContainsKey(key))
+                {
+                    map.Add(key, new List<T>());
                 }
-                return map;
-            });
-        }
+                (map[key] as List<T>).Add(item);
+            }
+            return map;
+        });
+    }
 
-        public ICollection<TKey> Keys => _map.Value.Keys;
+    public ICollection<TKey> Keys => _map.Value.Keys;
 
-        public ICollection<IReadOnlyCollection<T>> Values => _map.Value.Values;
+    public ICollection<IReadOnlyCollection<T>> Values => _map.Value.Values;
 
-        public IEnumerable<T> AllValues
+    public IEnumerable<T> AllValues
+    {
+        get
         {
-            get
+            foreach (var value in Values)
             {
-                foreach (var value in Values)
+                foreach (var item in value)
                 {
-                    foreach (var item in value)
-                    {
-                        yield return item;
-                    }
+                    yield return item;
                 }
             }
         }
+    }
 
-        public int Count => _map.Value.Count;
+    public int Count => _map.Value.Count;
 
-        public bool IsReadOnly => _map.Value.IsReadOnly;
+    public bool IsReadOnly => _map.Value.IsReadOnly;
 
-        public IReadOnlyCollection<T> this[TKey key]
-        {
-            get => _map.Value.ContainsKey(key) ? _map.Value[key] : Array.Empty<T>();
-            set => _map.Value[key] = value;
-        }
+    public IReadOnlyCollection<T> this[TKey key]
+    {
+        get => _map.Value.ContainsKey(key) ? _map.Value[key] : Array.Empty<T>();
+        set => _map.Value[key] = value;
+    }
 
-        public void Add(TKey key, IReadOnlyCollection<T> value) => _map.Value.Add(key, value);
+    public void Add(TKey key, IReadOnlyCollection<T> value) => _map.Value.Add(key, value);
 
-        public bool ContainsKey(TKey key) => _map.Value.ContainsKey(key);
+    public bool ContainsKey(TKey key) => _map.Value.ContainsKey(key);
 
-        public bool Remove(TKey key) => _map.Value.Remove(key);
+    public bool Remove(TKey key) => _map.Value.Remove(key);
 
-        public bool TryGetValue(TKey key, out IReadOnlyCollection<T> value) => _map.Value.TryGetValue(key, out value);
+    public bool TryGetValue(TKey key, out IReadOnlyCollection<T> value) => _map.Value.TryGetValue(key, out value);
 
-        void ICollection<KeyValuePair<TKey, IReadOnlyCollection<T>>>.Add(KeyValuePair<TKey, IReadOnlyCollection<T>> item)
-        {
-            (_map.Value as IDictionary<TKey, IReadOnlyCollection<T>>).Add(item);
-        }
+    void ICollection<KeyValuePair<TKey, IReadOnlyCollection<T>>>.Add(KeyValuePair<TKey, IReadOnlyCollection<T>> item)
+    {
+        (_map.Value as IDictionary<TKey, IReadOnlyCollection<T>>).Add(item);
+    }
 
-        public void Clear() => _map.Value.Clear();
+    public void Clear() => _map.Value.Clear();
 
-        public bool Contains(KeyValuePair<TKey, IReadOnlyCollection<T>> item) => _map.Value.Contains(item);
+    public bool Contains(KeyValuePair<TKey, IReadOnlyCollection<T>> item) => _map.Value.Contains(item);
 
-        void ICollection<KeyValuePair<TKey, IReadOnlyCollection<T>>>.CopyTo(KeyValuePair<TKey, IReadOnlyCollection<T>>[] array, int arrayIndex)
-        {
-            (_map.Value as IDictionary<TKey, IReadOnlyCollection<T>>).CopyTo(array, arrayIndex);
-        }
+    void ICollection<KeyValuePair<TKey, IReadOnlyCollection<T>>>.CopyTo(KeyValuePair<TKey, IReadOnlyCollection<T>>[] array, int arrayIndex)
+    {
+        (_map.Value as IDictionary<TKey, IReadOnlyCollection<T>>).CopyTo(array, arrayIndex);
+    }
 
-        bool ICollection<KeyValuePair<TKey, IReadOnlyCollection<T>>>.Remove(KeyValuePair<TKey, IReadOnlyCollection<T>> item)
-        {
-            return (_map.Value as IDictionary<TKey, IReadOnlyCollection<T>>).Remove(item);
-        }
+    bool ICollection<KeyValuePair<TKey, IReadOnlyCollection<T>>>.Remove(KeyValuePair<TKey, IReadOnlyCollection<T>> item)
+    {
+        return (_map.Value as IDictionary<TKey, IReadOnlyCollection<T>>).Remove(item);
+    }
 
-        public IEnumerator<KeyValuePair<TKey, IReadOnlyCollection<T>>> GetEnumerator()
-        {
-            return _map.Value.GetEnumerator();
-        }
+    public IEnumerator<KeyValuePair<TKey, IReadOnlyCollection<T>>> GetEnumerator()
+    {
+        return _map.Value.GetEnumerator();
+    }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _map.Value.GetEnumerator();
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return _map.Value.GetEnumerator();
     }
 }

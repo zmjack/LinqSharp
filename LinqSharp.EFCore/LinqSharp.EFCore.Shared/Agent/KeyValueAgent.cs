@@ -5,21 +5,20 @@
 
 using LinqSharp.EFCore.Entities;
 
-namespace LinqSharp.EFCore.Agent
+namespace LinqSharp.EFCore.Agent;
+
+/// <summary>
+/// Hint: Each custom properties must be virtual(public).
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
+public abstract class KeyValueAgent<TEntity>
+    where TEntity : KeyValueEntity, new()
 {
-    /// <summary>
-    /// Hint: Each custom properties must be virtual(public).
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    public abstract class KeyValueAgent<TEntity>
-        where TEntity : KeyValueEntity, new()
-    {
 #pragma warning disable IDE1006 // Naming Styles
-        public string __ItemName__ { get; internal set; }
+    public string __ItemName__ { get; internal set; }
 #pragma warning restore IDE1006 // Naming Styles
 
-        internal bool _executed;
-        internal KeyValueEntity[] _entities;
+    internal bool _executed;
+    internal KeyValueEntity[] _entities;
 
-    }
 }

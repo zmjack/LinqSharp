@@ -9,19 +9,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LinqSharp
+namespace LinqSharp;
+
+public static partial class IEnumerableExtensions
 {
-    public static partial class IEnumerableExtensions
+    public static IEnumerable<TEntity> Search<TEntity>(this IEnumerable<TEntity> @this, string searchString, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
     {
-        public static IEnumerable<TEntity> Search<TEntity>(this IEnumerable<TEntity> @this, string searchString, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
-        {
-            return @this.Where(new QuerySearchStrategy<TEntity>(searchString, searchMembers, option).StrategyExpression.Compile());
-        }
-
-        public static IEnumerable<TEntity> Search<TEntity>(this IEnumerable<TEntity> @this, string[] searchStrings, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
-        {
-            return searchStrings.Aggregate(@this, (acc, searchString) => acc.Where(new QuerySearchStrategy<TEntity>(searchString, searchMembers, option).StrategyExpression.Compile()));
-        }
-
+        return @this.Where(new QuerySearchStrategy<TEntity>(searchString, searchMembers, option).StrategyExpression.Compile());
     }
+
+    public static IEnumerable<TEntity> Search<TEntity>(this IEnumerable<TEntity> @this, string[] searchStrings, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
+    {
+        return searchStrings.Aggregate(@this, (acc, searchString) => acc.Where(new QuerySearchStrategy<TEntity>(searchString, searchMembers, option).StrategyExpression.Compile()));
+    }
+
 }

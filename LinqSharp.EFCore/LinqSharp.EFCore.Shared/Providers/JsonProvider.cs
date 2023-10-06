@@ -12,47 +12,46 @@ using System.Text.Json;
 using Newtonsoft.Json;
 #endif
 
-namespace LinqSharp.EFCore.Providers
+namespace LinqSharp.EFCore.Providers;
+
+public static class JsonProvider
 {
-    public static class JsonProvider
+#if EFCORE5_0_OR_GREATER
+    public static JsonSerializerOptions DefaultOptions { get; set; } = null;
+#else
+    public static JsonSerializerSettings DefaultOptions { get; set; } = null;
+#endif
+}
+
+[AttributeUsage(AttributeTargets.Property)]
+public class JsonProviderAttribute : SpecialProviderAttribute
+{
+    public override Attribute GetTargetProvider(PropertyInfo property)
+    {
+        return Activator.CreateInstance(typeof(JsonProviderAttribute<>).MakeGenericType(property.PropertyType)) as Attribute;
+    }
+}
+
+[AttributeUsage(AttributeTargets.Property)]
+public class JsonProviderAttribute<TModel> : ProviderAttribute<TModel, string>
+{
+    public override TModel ReadFromProvider(string value)
     {
 #if EFCORE5_0_OR_GREATER
-        public static JsonSerializerOptions DefaultOptions { get; set; } = null;
+        return JsonSerializer.Deserialize<TModel>(value, JsonProvider.DefaultOptions);
 #else
-        public static JsonSerializerSettings DefaultOptions { get; set; } = null;
+        return JsonConvert.DeserializeObject<TModel>(value, JsonProvider.DefaultOptions);
 #endif
     }
 
-    [AttributeUsage(AttributeTargets.Property)]
-    public class JsonProviderAttribute : SpecialProviderAttribute
+    public override string WriteToProvider(TModel model)
     {
-        public override Attribute GetTargetProvider(PropertyInfo property)
-        {
-            return Activator.CreateInstance(typeof(JsonProviderAttribute<>).MakeGenericType(property.PropertyType)) as Attribute;
-        }
+#if EFCORE5_0_OR_GREATER
+        return JsonSerializer.Serialize(model, JsonProvider.DefaultOptions);
+#else
+        return JsonConvert.SerializeObject(model, JsonProvider.DefaultOptions);
+#endif
     }
 
-    [AttributeUsage(AttributeTargets.Property)]
-    public class JsonProviderAttribute<TModel> : ProviderAttribute<TModel, string>
-    {
-        public override TModel ReadFromProvider(string value)
-        {
-#if EFCORE5_0_OR_GREATER
-            return JsonSerializer.Deserialize<TModel>(value, JsonProvider.DefaultOptions);
-#else
-            return JsonConvert.DeserializeObject<TModel>(value, JsonProvider.DefaultOptions);
-#endif
-        }
-
-        public override string WriteToProvider(TModel model)
-        {
-#if EFCORE5_0_OR_GREATER
-            return JsonSerializer.Serialize(model, JsonProvider.DefaultOptions);
-#else
-            return JsonConvert.SerializeObject(model, JsonProvider.DefaultOptions);
-#endif
-        }
-
-        public override ValueComparer<TModel> GetValueComparer() => GetDefaultMutableClassesComparer();
-    }
+    public override ValueComparer<TModel> GetValueComparer() => GetDefaultMutableClassesComparer();
 }

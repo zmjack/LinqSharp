@@ -5,12 +5,10 @@
 
 using System.Collections.Generic;
 
-namespace LinqSharp.Index
-{
-    public interface IIndexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>
-    {
-        IEnumerable<T> AllValues { get; }
-        IReadOnlyCollection<T> this[TKey key] { get; }
-    }
+namespace LinqSharp;
 
+public interface IIndexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>
+{
+    IEnumerable<T> AllValues { get; }
+    IReadOnlyCollection<T> this[TKey key] { get; }
 }

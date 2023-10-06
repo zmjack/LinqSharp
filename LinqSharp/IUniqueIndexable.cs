@@ -5,7 +5,7 @@
 
 using System;
 
-namespace LinqSharp.Index;
+namespace LinqSharp;
 
 public interface IUniqueIndexable<TKey, TModel>
 {

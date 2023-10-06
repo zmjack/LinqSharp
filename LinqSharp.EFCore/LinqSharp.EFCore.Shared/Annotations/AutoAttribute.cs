@@ -8,37 +8,36 @@ using NStandard;
 using System;
 using System.Linq;
 
-namespace LinqSharp.EFCore.Annotations
+namespace LinqSharp.EFCore.Annotations;
+
+public abstract class AutoAttribute : Attribute
 {
-    public abstract class AutoAttribute : Attribute
+    private readonly EntityState[] SupportedStates = new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted };
+    private readonly EntityState[] _states;
+
+    private ArgumentException Exception_NotSupportedStates(string paramName)
     {
-        private readonly EntityState[] SupportedStates = new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted };
-        private readonly EntityState[] _states;
-
-        private ArgumentException Exception_NotSupportedStates(string paramName)
-        {
-            throw new ArgumentException($"Only {SupportedStates.Join(", ")} are supported.", paramName);
-        }
-
-        protected ArgumentException Exception_NotSupportedTypes(Type propertyType, string paramName)
-        {
-            throw new ArgumentException($"The {propertyType} is not supported for {GetType()}.", paramName);
-        }
-
-        public AutoAttribute()
-        {
-            _states = SupportedStates;
-        }
-
-        public AutoAttribute(params EntityState[] states)
-        {
-            if (!states.All(x => SupportedStates.Contains(x))) throw Exception_NotSupportedStates(nameof(states));
-
-            _states = states;
-        }
-
-        public EntityState[] States => _states;
-
-        public abstract object Format(object entity, Type propertyType, object value);
+        throw new ArgumentException($"Only {SupportedStates.Join(", ")} are supported.", paramName);
     }
+
+    protected ArgumentException Exception_NotSupportedTypes(Type propertyType, string paramName)
+    {
+        throw new ArgumentException($"The {propertyType} is not supported for {GetType()}.", paramName);
+    }
+
+    public AutoAttribute()
+    {
+        _states = SupportedStates;
+    }
+
+    public AutoAttribute(params EntityState[] states)
+    {
+        if (!states.All(x => SupportedStates.Contains(x))) throw Exception_NotSupportedStates(nameof(states));
+
+        _states = states;
+    }
+
+    public EntityState[] States => _states;
+
+    public abstract object Format(object entity, Type propertyType, object value);
 }

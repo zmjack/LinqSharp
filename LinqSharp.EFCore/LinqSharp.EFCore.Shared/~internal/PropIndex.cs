@@ -1,10 +1,9 @@
 ﻿using LinqSharp.EFCore.Annotations;
 
-namespace LinqSharp.EFCore
+namespace LinqSharp.EFCore;
+
+internal class PropIndex
 {
-    internal class PropIndex
-    {
-        public IndexFieldAttribute Index { get; set; }
-        public string Name { get; set; }
-    }
+    public IndexFieldAttribute Index { get; set; }
+    public string Name { get; set; }
 }

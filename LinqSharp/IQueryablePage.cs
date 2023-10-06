@@ -3,13 +3,15 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using System;
+using System.Linq;
 
-namespace LinqSharp.EFCore.Annotations;
+namespace LinqSharp;
 
-[AttributeUsage(AttributeTargets.Property)]
-public class CPKeyAttribute : Attribute
+public interface IQueryablePage : IEnumerablePage, IQueryable
 {
-    public int Order { get; set; }
-    public CPKeyAttribute(int order) { Order = order; }
 }
+
+public interface IQueryablePage<T> : IEnumerablePage<T>, IQueryable<T>
+{
+}
+

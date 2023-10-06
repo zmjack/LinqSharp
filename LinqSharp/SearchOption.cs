@@ -3,10 +3,9 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-namespace LinqSharp
+namespace LinqSharp;
+
+public enum SearchOption
 {
-    public enum SearchOption
-    {
-        Contains, NotContains, Equals, NotEquals
-    }
+    Contains, NotContains, Equals, NotEquals
 }

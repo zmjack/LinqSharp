@@ -3,12 +3,12 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using System.Linq;
+using System;
+using System.Collections.Generic;
 
-namespace LinqSharp.Filter
+namespace LinqSharp;
+
+public interface IUniqueIndexing<TKey, T> : IDictionary<TKey, Tuple<T>>
 {
-    public interface IQueryFilter<TSource>
-    {
-        IQueryable<TSource> Apply(IQueryable<TSource> source);
-    }
+    Tuple<T> this[TKey key] { get; }
 }

@@ -5,19 +5,17 @@
 
 using System;
 
-namespace LinqSharp.EFCore.Annotations
+namespace LinqSharp.EFCore.Annotations;
+
+public enum IndexType { Normal, Unique }
+
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+public class IndexFieldAttribute : Attribute
 {
-    public enum IndexType { Normal, Unique }
-
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class IndexFieldAttribute : Attribute
+    public string Group { get; set; }
+    public IndexType Type { get; set; }
+    public IndexFieldAttribute(IndexType type)
     {
-        public string Group { get; set; }
-        public IndexType Type { get; set; }
-        public IndexFieldAttribute(IndexType type)
-        {
-            Type = type;
-        }
+        Type = type;
     }
-
 }

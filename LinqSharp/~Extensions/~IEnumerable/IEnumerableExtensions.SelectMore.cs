@@ -7,37 +7,36 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LinqSharp
+namespace LinqSharp;
+
+public static partial class IEnumerableExtensions
 {
-    public static partial class IEnumerableExtensions
+    public static IEnumerable<TSource> SelectMore<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector)
     {
-        public static IEnumerable<TSource> SelectMore<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector)
-        {
-            return SelectMore(@this, childrenSelector, null);
-        }
+        return SelectMore(@this, childrenSelector, null);
+    }
 
-        public static IEnumerable<TSource> SelectMore<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector, Func<TSource, bool> predicate)
+    public static IEnumerable<TSource> SelectMore<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector, Func<TSource, bool> predicate)
+    {
+        IEnumerable<TSource> RecursiveChildren(TSource node)
         {
-            IEnumerable<TSource> RecursiveChildren(TSource node)
+            if (predicate?.Invoke(node) ?? true)
+                yield return node;
+
+            var selectNode = childrenSelector(node);
+            if (selectNode?.Any() ?? false)
             {
-                if (predicate?.Invoke(node) ?? true)
-                    yield return node;
-
-                var selectNode = childrenSelector(node);
-                if (selectNode?.Any() ?? false)
+                var children = selectNode.SelectMany(x => RecursiveChildren(x));
+                foreach (var child in children)
                 {
-                    var children = selectNode.SelectMany(x => RecursiveChildren(x));
-                    foreach (var child in children)
-                    {
-                        if (predicate?.Invoke(node) ?? true)
-                            yield return child;
-                    }
+                    if (predicate?.Invoke(node) ?? true)
+                        yield return child;
                 }
             }
-
-            var ret = @this.SelectMany(x => RecursiveChildren(x));
-            return ret;
         }
 
+        var ret = @this.SelectMany(x => RecursiveChildren(x));
+        return ret;
     }
+
 }

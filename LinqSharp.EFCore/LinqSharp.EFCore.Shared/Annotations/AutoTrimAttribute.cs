@@ -6,17 +6,16 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace LinqSharp.EFCore.Annotations
-{
-    [AttributeUsage(AttributeTargets.Property)]
-    public class AutoTrimAttribute : AutoAttribute
-    {
-        public AutoTrimAttribute() : base(EntityState.Added, EntityState.Modified) { }
-        public override object Format(object entity, Type propertyType, object value)
-        {
-            if (propertyType != typeof(string)) throw Exception_NotSupportedTypes(propertyType, nameof(propertyType));
+namespace LinqSharp.EFCore.Annotations;
 
-            return (value as string)?.Trim();
-        }
+[AttributeUsage(AttributeTargets.Property)]
+public class AutoTrimAttribute : AutoAttribute
+{
+    public AutoTrimAttribute() : base(EntityState.Added, EntityState.Modified) { }
+    public override object Format(object entity, Type propertyType, object value)
+    {
+        if (propertyType != typeof(string)) throw Exception_NotSupportedTypes(propertyType, nameof(propertyType));
+
+        return (value as string)?.Trim();
     }
 }

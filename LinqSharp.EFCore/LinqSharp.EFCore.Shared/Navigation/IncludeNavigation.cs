@@ -6,20 +6,18 @@
 using LinqSharp.EFCore.Scopes;
 using System.Collections.Generic;
 
-namespace LinqSharp.EFCore.Navigation
+namespace LinqSharp.EFCore.Navigation;
+
+public class IncludeNavigation<TEntity, TProperty> : IIncludable<TEntity, TProperty>
+    where TEntity : class
+    where TProperty : class
 {
-    public class IncludeNavigation<TEntity, TProperty> : IIncludable<TEntity, TProperty>
-        where TEntity : class
-        where TProperty : class
+    public CompoundQuery<TEntity> Owner { get; }
+    public List<QueryTarget> TargetPath { get; }
+
+    internal IncludeNavigation(CompoundQuery<TEntity> owner, List<QueryTarget> targetPath)
     {
-        public CompoundQuery<TEntity> Owner { get; }
-        public List<QueryTarget> TargetPath { get; }
-
-        internal IncludeNavigation(CompoundQuery<TEntity> owner, List<QueryTarget> targetPath)
-        {
-            Owner = owner;
-            TargetPath = targetPath;
-        }
+        Owner = owner;
+        TargetPath = targetPath;
     }
-
 }

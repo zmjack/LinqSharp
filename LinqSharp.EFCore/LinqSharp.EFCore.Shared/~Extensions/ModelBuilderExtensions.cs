@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace LinqSharp.EFCore
+namespace LinqSharp.EFCore;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public class ModelBuilderExtensions
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public class ModelBuilderExtensions
-    {
-    }
 }

@@ -9,37 +9,36 @@ using NStandard;
 using System;
 using System.Collections.Generic;
 
-namespace LinqSharp.EFCore
+namespace LinqSharp.EFCore;
+
+public static class EntityAudit
 {
-    public static class EntityAudit
+    public static object Parse(EntityEntry entry)
     {
-        public static object Parse(EntityEntry entry)
-        {
-            var entity = entry.Entity;
-            var entityType = entity.GetType();
-            var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
+        var entity = entry.Entity;
+        var entityType = entity.GetType();
+        var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
 
-            var origin = Activator.CreateInstance(entityType);
-            foreach (var originValue in entry.OriginalValues.Properties)
-                origin.GetReflector().Property(originValue.Name).Value = entry.OriginalValues[originValue.Name];
+        var origin = Activator.CreateInstance(entityType);
+        foreach (var originValue in entry.OriginalValues.Properties)
+            origin.GetReflector().Property(originValue.Name).Value = entry.OriginalValues[originValue.Name];
 
-            var audit = Activator.CreateInstance(auditType);
-            var auditReflector = audit.GetReflector();
-            auditReflector.DeclaredProperty(nameof(EntityAudit<object>.State)).Value = entry.State;
-            auditReflector.DeclaredProperty(nameof(EntityAudit<object>.Origin)).Value = origin;
-            auditReflector.DeclaredProperty(nameof(EntityAudit<object>.Current)).Value = entity;
-            auditReflector.DeclaredProperty(nameof(EntityAudit<object>.PropertyEntries)).Value = entry.Properties;
+        var audit = Activator.CreateInstance(auditType);
+        var auditReflector = audit.GetReflector();
+        auditReflector.DeclaredProperty(nameof(EntityAudit<object>.State)).Value = entry.State;
+        auditReflector.DeclaredProperty(nameof(EntityAudit<object>.Origin)).Value = origin;
+        auditReflector.DeclaredProperty(nameof(EntityAudit<object>.Current)).Value = entity;
+        auditReflector.DeclaredProperty(nameof(EntityAudit<object>.PropertyEntries)).Value = entry.Properties;
 
-            return audit;
-        }
+        return audit;
     }
+}
 
-    public class EntityAudit<TEntity>
-        where TEntity : class, new()
-    {
-        public EntityState State { get; set; }
-        public TEntity Origin { get; set; }
-        public TEntity Current { get; set; }
-        public IEnumerable<PropertyEntry> PropertyEntries { get; set; }
-    }
+public class EntityAudit<TEntity>
+    where TEntity : class, new()
+{
+    public EntityState State { get; set; }
+    public TEntity Origin { get; set; }
+    public TEntity Current { get; set; }
+    public IEnumerable<PropertyEntry> PropertyEntries { get; set; }
 }

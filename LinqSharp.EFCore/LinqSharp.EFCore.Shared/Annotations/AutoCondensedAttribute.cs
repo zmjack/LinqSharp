@@ -8,31 +8,30 @@ using NStandard;
 using System;
 using System.Linq;
 
-namespace LinqSharp.EFCore.Annotations
+namespace LinqSharp.EFCore.Annotations;
+
+[AttributeUsage(AttributeTargets.Property)]
+public class AutoCondensedAttribute : AutoAttribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class AutoCondensedAttribute : AutoAttribute
+    public bool ReserveNewLine { get; set; }
+    public bool Nullable { get; set; }
+
+    public AutoCondensedAttribute() : base(EntityState.Added, EntityState.Modified) { }
+
+    public override object Format(object entity, Type propertyType, object value)
     {
-        public bool ReserveNewLine { get; set; }
-        public bool Nullable { get; set; }
+        if (propertyType != typeof(string)) throw Exception_NotSupportedTypes(propertyType, nameof(propertyType));
 
-        public AutoCondensedAttribute() : base(EntityState.Added, EntityState.Modified) { }
+        if (value is null) return Nullable ? null : string.Empty;
 
-        public override object Format(object entity, Type propertyType, object value)
+        var @string = value as string;
+        if (ReserveNewLine)
         {
-            if (propertyType != typeof(string)) throw Exception_NotSupportedTypes(propertyType, nameof(propertyType));
-
-            if (value is null) return Nullable ? null : string.Empty;
-
-            var @string = value as string;
-            if (ReserveNewLine)
-            {
-                //TODO: Optimizable
-                var normalized = @string.NormalizeNewLine();
-                var parts = from part in normalized.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries) select part.Unique();
-                return parts.Join(Environment.NewLine);
-            }
-            else return @string.Unique();
+            //TODO: Optimizable
+            var normalized = @string.NormalizeNewLine();
+            var parts = from part in normalized.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries) select part.Unique();
+            return parts.Join(Environment.NewLine);
         }
+        else return @string.Unique();
     }
 }

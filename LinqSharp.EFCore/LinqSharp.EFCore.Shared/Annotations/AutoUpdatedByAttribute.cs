@@ -7,16 +7,15 @@ using LinqSharp.EFCore.Design.AutoTags;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace LinqSharp.EFCore.Annotations
-{
-    [AttributeUsage(AttributeTargets.Property)]
-    public class AutoUpdatedByAttribute : SpecialAutoAttribute<UserTag>
-    {
-        public AutoUpdatedByAttribute() : base(EntityState.Added, EntityState.Modified) { }
+namespace LinqSharp.EFCore.Annotations;
 
-        public override object Format(object entity, Type propertyType, UserTag value)
-        {
-            return value.CurrentUser;
-        }
+[AttributeUsage(AttributeTargets.Property)]
+public class AutoUpdatedByAttribute : SpecialAutoAttribute<UserTag>
+{
+    public AutoUpdatedByAttribute() : base(EntityState.Added, EntityState.Modified) { }
+
+    public override object Format(object entity, Type propertyType, UserTag value)
+    {
+        return value.CurrentUser;
     }
 }

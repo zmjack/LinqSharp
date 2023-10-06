@@ -5,20 +5,19 @@
 
 using System.Collections.Generic;
 
-namespace LinqSharp
+namespace LinqSharp;
+
+public static partial class IEnumerableExtensions
 {
-    public static partial class IEnumerableExtensions
+    public static IEnumerable<TSource> Repeat<TSource>(this IEnumerable<TSource> source, int repeats)
     {
-        public static IEnumerable<TSource> Repeat<TSource>(this IEnumerable<TSource> source, int repeats)
+        foreach (var item in source)
         {
-            foreach (var item in source)
+            for (int i = 0; i < repeats; i++)
             {
-                for (int i = 0; i < repeats; i++)
-                {
-                    yield return item;
-                }
+                yield return item;
             }
         }
-
     }
+
 }

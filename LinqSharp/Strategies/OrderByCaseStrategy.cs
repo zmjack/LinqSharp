@@ -8,42 +8,41 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LinqSharp.Strategies
+namespace LinqSharp.Strategies;
+
+public class OrderByCaseStrategy<TEntity, TRet> : IQueryStrategy<TEntity, int>
 {
-    public class OrderByCaseStrategy<TEntity, TRet> : IQueryStrategy<TEntity, int>
+    public Expression<Func<TEntity, int>> StrategyExpression { get; }
+
+    public OrderByCaseStrategy(
+        Expression<Func<TEntity, TRet>> memberExp,
+        TRet[] orderValues)
     {
-        public Expression<Func<TEntity, int>> StrategyExpression { get; }
-
-        public OrderByCaseStrategy(
-            Expression<Func<TEntity, TRet>> memberExp,
-            TRet[] orderValues)
+        var valueLenth = orderValues.Length;
+        var lambdaExp = orderValues.Reverse().AsIndexValuePairs().Aggregate(null as Expression, (acc, pair) =>
         {
-            var valueLenth = orderValues.Length;
-            var lambdaExp = orderValues.Reverse().AsIndexValuePairs().Aggregate(null as Expression, (acc, pair) =>
+            var (index, value) = pair;
+            var compareExp = Expression.Equal(memberExp.Body, Expression.Constant(value));
+
+            if (acc is null)
             {
-                var (index, value) = pair;
-                var compareExp = Expression.Equal(memberExp.Body, Expression.Constant(value));
+                return
+                    Expression.Condition(
+                        compareExp,
+                        Expression.Constant(valueLenth - 1 - index),
+                        Expression.Constant(valueLenth));
+            }
+            else
+            {
+                return
+                    Expression.Condition(
+                        compareExp,
+                        Expression.Constant(valueLenth - 1 - index),
+                        acc);
+            }
+        }) ?? Expression.Constant(0);
 
-                if (acc is null)
-                {
-                    return
-                        Expression.Condition(
-                            compareExp,
-                            Expression.Constant(valueLenth - 1 - index),
-                            Expression.Constant(valueLenth));
-                }
-                else
-                {
-                    return
-                        Expression.Condition(
-                            compareExp,
-                            Expression.Constant(valueLenth - 1 - index),
-                            acc);
-                }
-            }) ?? Expression.Constant(0);
-
-            StrategyExpression = Expression.Lambda<Func<TEntity, int>>(lambdaExp, memberExp.Parameters);
-        }
-
+        StrategyExpression = Expression.Lambda<Func<TEntity, int>>(lambdaExp, memberExp.Parameters);
     }
+
 }

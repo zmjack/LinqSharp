@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace LinqSharp.EFCore.Annotations
+namespace LinqSharp.EFCore.Annotations;
+
+[AttributeUsage(AttributeTargets.Class)]
+public class ConcurrencyResolvableAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class ConcurrencyResolvableAttribute : Attribute
-    {
-    }
 }

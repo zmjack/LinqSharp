@@ -5,10 +5,9 @@
 
 using System.ComponentModel;
 
-namespace LinqSharp
+namespace LinqSharp;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public static partial class IEnumerableExtensions
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static partial class IEnumerableExtensions
-    {
-    }
 }

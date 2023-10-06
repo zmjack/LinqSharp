@@ -5,10 +5,9 @@
 
 using System.Collections.Generic;
 
-namespace LinqSharp.Filter
+namespace LinqSharp;
+
+public interface ILocalFilter<TSource>
 {
-    public interface ILocalFilter<TSource>
-    {
-        IEnumerable<TSource> Apply(IEnumerable<TSource> source);
-    }
+    IEnumerable<TSource> Apply(IEnumerable<TSource> source);
 }

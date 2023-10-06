@@ -8,24 +8,23 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LinqSharp
-{
-    public static partial class IQueryableExtensions
-    {
-        public static IQueryable<TSource> WhereMin<TSource, TResult>(this IQueryable<TSource> sources, Expression<Func<TSource, TResult>> selector)
-        {
-            return sources.Filter(h =>
-            {
-                if (sources.Any())
-                {
-                    var min = sources.Min(selector);
-                    var whereExp = Expression.Lambda<Func<TSource, bool>>(
-                        Expression.Equal(selector.Body, Expression.Constant(min, typeof(TResult))), selector.Parameters);
-                    return new QueryExpression<TSource>(whereExp);
-                }
-                else return new QueryExpression<TSource>(x => false);
-            });
-        }
+namespace LinqSharp;
 
+public static partial class IQueryableExtensions
+{
+    public static IQueryable<TSource> WhereMin<TSource, TResult>(this IQueryable<TSource> sources, Expression<Func<TSource, TResult>> selector)
+    {
+        return sources.Filter(h =>
+        {
+            if (sources.Any())
+            {
+                var min = sources.Min(selector);
+                var whereExp = Expression.Lambda<Func<TSource, bool>>(
+                    Expression.Equal(selector.Body, Expression.Constant(min, typeof(TResult))), selector.Parameters);
+                return new QueryExpression<TSource>(whereExp);
+            }
+            else return new QueryExpression<TSource>(x => false);
+        });
     }
+
 }

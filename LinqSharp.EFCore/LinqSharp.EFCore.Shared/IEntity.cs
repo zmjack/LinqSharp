@@ -14,170 +14,169 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace LinqSharp.EFCore
-{
-    /// <summary>
-    /// Use <see cref="IEntity"/> to define entity classes to get some useful extension methods.
-    /// </summary>
-    public interface IEntity { }
+namespace LinqSharp.EFCore;
 
-    /// <summary>
-    /// Use <see cref="IEntity"/> to define entity classes to get some useful extension methods.
-    /// </summary>
-    public interface IEntity<TSelf> : IEntity where TSelf : class, IEntity<TSelf>, new()
+/// <summary>
+/// Use <see cref="IEntity"/> to define entity classes to get some useful extension methods.
+/// </summary>
+public interface IEntity { }
+
+/// <summary>
+/// Use <see cref="IEntity"/> to define entity classes to get some useful extension methods.
+/// </summary>
+public interface IEntity<TSelf> : IEntity where TSelf : class, IEntity<TSelf>, new()
+{
+}
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public static class IEntityExtensions
+{
+    private static readonly Type AutoAttributeType = typeof(AutoAttribute);
+    internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model)
     {
+        var type = typeof(TEntity);
+        var props = type.GetProperties()
+            .Where(x => x.CanRead && x.CanWrite)
+            .Where(x =>
+            {
+                var attrs = x.GetCustomAttributes(false).OfType<Attribute>();
+                return !attrs.Any(attr => attr is KeyAttribute || attr is NotAcceptableAttribute || attr.GetType().BaseType == AutoAttributeType);
+            })
+            .Where(x => x.PropertyType.IsBasicType(true) || x.PropertyType.IsValueType)
+            .ToArray();
+
+        return InnerAccept(entity, model, props);
     }
 
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class IEntityExtensions
+    internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, string[] properties)
     {
-        private static readonly Type AutoAttributeType = typeof(AutoAttribute);
-        internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model)
-        {
-            var type = typeof(TEntity);
-            var props = type.GetProperties()
-                .Where(x => x.CanRead && x.CanWrite)
-                .Where(x =>
-                {
-                    var attrs = x.GetCustomAttributes(false).OfType<Attribute>();
-                    return !attrs.Any(attr => attr is KeyAttribute || attr is NotAcceptableAttribute || attr.GetType().BaseType == AutoAttributeType);
-                })
-                .Where(x => x.PropertyType.IsBasicType(true) || x.PropertyType.IsValueType)
-                .ToArray();
+        var type = typeof(TEntity);
+        var props = type.GetProperties().Where(x => properties.Contains(x.Name));
+        return InnerAccept(entity, model, props);
+    }
 
-            return InnerAccept(entity, model, props);
+    internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, IEnumerable<PropertyInfo> properties)
+    {
+        foreach (var prop in properties)
+        {
+            prop.SetValue(entity, prop.GetValue(model));
+        }
+        return entity;
+    }
+
+    /// <summary>
+    /// Accept all property values which are can be read and write from another model.
+    ///     (Only ValueTypes, exclude 'KeyAttribute' and attributes which are extends <see cref="AutoAttribute"/>.)
+    /// </summary>
+    /// <typeparam name="TEntity">Instance of IEntity</typeparam>
+    /// <param name="this">Source model</param>
+    /// <param name="model">The model which provide values</param>
+    /// <returns></returns>
+    public static TEntity Accept<TEntity>(this TEntity @this, TEntity model) where TEntity : class, IEntity => InnerAccept(@this, model);
+
+    /// <summary>
+    /// Accept the specified property values from another model.
+    /// </summary>
+    /// <typeparam name="TEntity">Instance of IEntity</typeparam>
+    /// <param name="this">Source model</param>
+    /// <param name="model">The model which provide values</param>
+    /// <param name="includes">Specifies properties that are applied to the source model.
+    /// <para>A lambda expression representing the property(s) (x => x.Url).</para>
+    /// <para>
+    ///     If the value is made up of multiple properties then specify an anonymous
+    ///     type including the properties. For example, (x => new { x.Title, x.BlogId }).
+    /// </para>
+    /// </param>
+    /// <returns></returns>
+    public static TEntity Accept<TEntity>(this TEntity @this, TEntity model, Expression<Func<TEntity, object>> includes)
+        where TEntity : class, IEntity
+    {
+        var props = IncludesExpression.GetProperties(includes);
+        return InnerAccept(@this, model, props);
+    }
+
+    /// <summary>
+    /// Accept the specified property values from another model.
+    /// </summary>
+    /// <typeparam name="TEntity">Instance of IEntity</typeparam>
+    /// <param name="this">Source model</param>
+    /// <param name="model">The model which provide values</param>
+    /// <param name="includes_MemberOrNewExp">Specifies properties that are applied to the source model.
+    /// <para>A lambda expression representing the property(s) (x => x.Url).</para>
+    /// <para>
+    ///     If the value is made up of multiple properties then specify an anonymous
+    ///     type including the properties (x => new { x.Title, x.BlogId }).
+    /// </para>
+    /// </param>
+    /// <returns></returns>
+    public static TEntity Accept<TEntity>(this TEntity @this, TEntity model, string[] properties)
+        where TEntity : class, IEntity
+    {
+        return InnerAccept(@this, model, properties);
+    }
+
+    public static void SetValue(this IEntity @this, string propName, object value) => @this.GetType().GetProperty(propName).SetValue(@this, value);
+    public static object GetValue(this IEntity @this, string propName) => @this.GetType().GetProperty(propName).GetValue(@this);
+
+    public static Dictionary<string, string> ToDisplayDictionary(this IEntity @this)
+    {
+        var type = @this.GetType();
+        var props = type.GetProperties();
+
+        var ret = new Dictionary<string, string>();
+        foreach (var prop in props)
+        {
+            var parameter = Expression.Parameter(type);
+            var property = Expression.Property(parameter, prop.Name);
+            var lambda = Expression.Lambda(property, parameter);
+
+            ret.Add(prop.Name, DataAnnotation.GetDisplay(@this, lambda));
         }
 
-        internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, string[] properties)
-        {
-            var type = typeof(TEntity);
-            var props = type.GetProperties().Where(x => properties.Contains(x.Name));
-            return InnerAccept(entity, model, props);
-        }
+        return ret;
+    }
 
-        internal static TEntity InnerAccept<TEntity>(TEntity entity, TEntity model, IEnumerable<PropertyInfo> properties)
-        {
-            foreach (var prop in properties)
-            {
-                prop.SetValue(entity, prop.GetValue(model));
-            }
-            return entity;
-        }
+    public static Dictionary<string, string> ToDisplayDictionary(this IEntity @this, params string[] propNames)
+    {
+        var type = @this.GetType();
+        var props = type.GetProperties().Where(x => propNames.Contains(x.Name));
 
-        /// <summary>
-        /// Accept all property values which are can be read and write from another model.
-        ///     (Only ValueTypes, exclude 'KeyAttribute' and attributes which are extends <see cref="AutoAttribute"/>.)
-        /// </summary>
-        /// <typeparam name="TEntity">Instance of IEntity</typeparam>
-        /// <param name="this">Source model</param>
-        /// <param name="model">The model which provide values</param>
-        /// <returns></returns>
-        public static TEntity Accept<TEntity>(this TEntity @this, TEntity model) where TEntity : class, IEntity => InnerAccept(@this, model);
+        var ret = new Dictionary<string, string>();
+        foreach (var prop in props) ret.Add(prop.Name, DataAnnotation.GetDisplayString(@this, prop.Name));
 
-        /// <summary>
-        /// Accept the specified property values from another model.
-        /// </summary>
-        /// <typeparam name="TEntity">Instance of IEntity</typeparam>
-        /// <param name="this">Source model</param>
-        /// <param name="model">The model which provide values</param>
-        /// <param name="includes">Specifies properties that are applied to the source model.
-        /// <para>A lambda expression representing the property(s) (x => x.Url).</para>
-        /// <para>
-        ///     If the value is made up of multiple properties then specify an anonymous
-        ///     type including the properties. For example, (x => new { x.Title, x.BlogId }).
-        /// </para>
-        /// </param>
-        /// <returns></returns>
-        public static TEntity Accept<TEntity>(this TEntity @this, TEntity model, Expression<Func<TEntity, object>> includes)
-            where TEntity : class, IEntity
-        {
-            var props = IncludesExpression.GetProperties(includes);
-            return InnerAccept(@this, model, props);
-        }
-
-        /// <summary>
-        /// Accept the specified property values from another model.
-        /// </summary>
-        /// <typeparam name="TEntity">Instance of IEntity</typeparam>
-        /// <param name="this">Source model</param>
-        /// <param name="model">The model which provide values</param>
-        /// <param name="includes_MemberOrNewExp">Specifies properties that are applied to the source model.
-        /// <para>A lambda expression representing the property(s) (x => x.Url).</para>
-        /// <para>
-        ///     If the value is made up of multiple properties then specify an anonymous
-        ///     type including the properties (x => new { x.Title, x.BlogId }).
-        /// </para>
-        /// </param>
-        /// <returns></returns>
-        public static TEntity Accept<TEntity>(this TEntity @this, TEntity model, string[] properties)
-            where TEntity : class, IEntity
-        {
-            return InnerAccept(@this, model, properties);
-        }
-
-        public static void SetValue(this IEntity @this, string propName, object value) => @this.GetType().GetProperty(propName).SetValue(@this, value);
-        public static object GetValue(this IEntity @this, string propName) => @this.GetType().GetProperty(propName).GetValue(@this);
-
-        public static Dictionary<string, string> ToDisplayDictionary(this IEntity @this)
-        {
-            var type = @this.GetType();
-            var props = type.GetProperties();
-
-            var ret = new Dictionary<string, string>();
-            foreach (var prop in props)
-            {
-                var parameter = Expression.Parameter(type);
-                var property = Expression.Property(parameter, prop.Name);
-                var lambda = Expression.Lambda(property, parameter);
-
-                ret.Add(prop.Name, DataAnnotation.GetDisplay(@this, lambda));
-            }
-
-            return ret;
-        }
-
-        public static Dictionary<string, string> ToDisplayDictionary(this IEntity @this, params string[] propNames)
-        {
-            var type = @this.GetType();
-            var props = type.GetProperties().Where(x => propNames.Contains(x.Name));
-
-            var ret = new Dictionary<string, string>();
-            foreach (var prop in props) ret.Add(prop.Name, DataAnnotation.GetDisplayString(@this, prop.Name));
-
-            return ret;
-        }
+        return ret;
+    }
 
 #pragma warning disable IDE0060 // Remove unused parameter
-        public static string DisplayName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
-            where TEntity : class, IEntity<TEntity>, new()
-        {
-            return DataAnnotation.GetDisplayName(expression);
-        }
+    public static string DisplayName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
+        where TEntity : class, IEntity<TEntity>, new()
+    {
+        return DataAnnotation.GetDisplayName(expression);
+    }
 
-        public static string DisplayName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
-            where TEntity : class, IEntity<TEntity>, new()
-        {
-            return DataAnnotation.GetDisplayName(expression);
-        }
+    public static string DisplayName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
+        where TEntity : class, IEntity<TEntity>, new()
+    {
+        return DataAnnotation.GetDisplayName(expression);
+    }
 
-        public static string DisplayShortName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
-            where TEntity : class, IEntity<TEntity>, new()
-        {
-            return DataAnnotation.GetDisplayShortName(expression);
-        }
+    public static string DisplayShortName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
+        where TEntity : class, IEntity<TEntity>, new()
+    {
+        return DataAnnotation.GetDisplayShortName(expression);
+    }
 
-        public static string DisplayShortName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
-            where TEntity : class, IEntity<TEntity>, new()
-        {
-            return DataAnnotation.GetDisplayShortName(expression);
-        }
+    public static string DisplayShortName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
+        where TEntity : class, IEntity<TEntity>, new()
+    {
+        return DataAnnotation.GetDisplayShortName(expression);
+    }
 #pragma warning restore IDE0060 // Remove unused parameter
 
-        public static string Display<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression, string defaultReturn = "")
-            where TEntity : class, IEntity<TEntity>, new()
-        {
-            return DataAnnotation.GetDisplay(@this, expression, defaultReturn);
-        }
-
+    public static string Display<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression, string defaultReturn = "")
+        where TEntity : class, IEntity<TEntity>, new()
+    {
+        return DataAnnotation.GetDisplay(@this, expression, defaultReturn);
     }
+
 }

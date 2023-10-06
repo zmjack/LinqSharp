@@ -7,19 +7,18 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LinqSharp
+namespace LinqSharp;
+
+public static partial class IQueryableExtensions
 {
-    public static partial class IQueryableExtensions
+    public static IQueryable<TEntity> Search<TEntity>(this IQueryable<TEntity> @this, string searchString, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
     {
-        public static IQueryable<TEntity> Search<TEntity>(this IQueryable<TEntity> @this, string searchString, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
-        {
-            return @this.Filter(h => h.Search(searchString, searchMembers, option));
-        }
-
-        public static IQueryable<TEntity> Search<TEntity>(this IQueryable<TEntity> @this, string[] searchStrings, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
-        {
-            return @this.Filter(h => h.Search(searchStrings, searchMembers, option));
-        }
-
+        return @this.Filter(h => h.Search(searchString, searchMembers, option));
     }
+
+    public static IQueryable<TEntity> Search<TEntity>(this IQueryable<TEntity> @this, string[] searchStrings, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
+    {
+        return @this.Filter(h => h.Search(searchStrings, searchMembers, option));
+    }
+
 }

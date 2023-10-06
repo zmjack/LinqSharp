@@ -3,12 +3,11 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using LinqSharp.Query;
+using System.Linq;
 
-namespace LinqSharp.Filter
+namespace LinqSharp;
+
+public interface IQueryFilter<TSource>
 {
-    public interface IFieldFilter<T>
-    {
-        QueryExpression<T> Filter(QueryHelper<T> h);
-    }
+    IQueryable<TSource> Apply(IQueryable<TSource> source);
 }
