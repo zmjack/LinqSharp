@@ -46,9 +46,14 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
+### Version：7.0.27
+
+- **中断性更新**：调整了一些命名空间的名称。
+- **Bug 修复**：**AllSame** 方法提供 Null 支持。
+
 ### Version: 7.0.24
 
-- 中断性更新：调整了一些命名空间的名称。
+- **中断性更新**：调整了一些命名空间的名称。
 
 ### Version: 7.0.20
 

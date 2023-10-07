@@ -46,6 +46,11 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version: 7.0.27
+
+- **Breaking Change**: Adjusted some namespace names.
+- **Bug fixed**: Null support for **AllSame**.
+
 ### Version: 7.0.24
 
 - **Breaking Change**: Adjusted some namespace names.
