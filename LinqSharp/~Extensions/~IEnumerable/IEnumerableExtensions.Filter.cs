@@ -32,6 +32,7 @@ public static partial class IEnumerableExtensions
         var ret = @this;
         foreach (var filter in filters)
         {
+            if (filter is null) continue;
             ret = filter.Apply(ret);
         }
         return ret;
