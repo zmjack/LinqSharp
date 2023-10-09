@@ -26,6 +26,8 @@ public static partial class IQueryableExtensions
 
     public static IQueryable<TSource> Filter<TSource>(this IQueryable<TSource> @this, params IQueryFilter<TSource>[] filters)
     {
+        if (filters is null) return @this;
+
         var ret = @this;
         foreach (var filter in filters)
         {

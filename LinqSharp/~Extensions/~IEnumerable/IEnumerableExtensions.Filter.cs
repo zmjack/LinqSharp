@@ -27,6 +27,8 @@ public static partial class IEnumerableExtensions
 
     public static IEnumerable<TSource> Filter<TSource>(this IEnumerable<TSource> @this, params ILocalFilter<TSource>[] filters)
     {
+        if (filters is null) return @this;
+
         var ret = @this;
         foreach (var filter in filters)
         {
