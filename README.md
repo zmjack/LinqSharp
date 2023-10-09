@@ -46,6 +46,10 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version: 7.0.30
+
+- Compatibility updates: NStandard - 0.45.0 - Update DateOnlyType and DateTimeType.
+
 ### Version: 7.0.27
 
 - **Breaking Change**: Adjusted some namespace names.
