@@ -76,6 +76,8 @@ public partial class DateTimeRangeFilter : IFieldFilter<DateTime>, IFieldFilter<
 
     public QueryExpression<DateTime> Filter(QueryHelper<DateTime> h)
     {
+        if (!Start.HasValue && !End.HasValue) return h.Empty;
+
         DateTime? start, end;
         switch (Type)
         {

@@ -50,7 +50,10 @@ public static partial class IEnumerableExtensions
         if (filter is null) return @this;
 
         var helper = new QueryHelper<TProperty>();
-        var predicate = filter.Filter(helper).Expression.Compile();
+        var expression = filter.Filter(helper).Expression;
+        if (expression is null) return @this;
+
+        var predicate = expression.Compile();
         return @this.Where(x => predicate(selector(x)));
     }
 
