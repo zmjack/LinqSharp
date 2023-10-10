@@ -1,4 +1,4 @@
-nuget push "LinqSharp/bin/Release/LinqSharp.7.0.30.7.nupkg" -source nuget.org
+nuget push "LinqSharp/bin/Release/LinqSharp.7.0.30.8.nupkg" -source nuget.org
 
 nuget push "LinqSharp.EFCore/LinqSharp.EFCore.Abstractions/bin/Release/LinqSharp.EFCore.Abstractions.0.1.0.nupkg" -source nuget.org
 nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF2.1/bin/Release/LinqSharp.EFCore.2.1.7030.nupkg" -source nuget.org
