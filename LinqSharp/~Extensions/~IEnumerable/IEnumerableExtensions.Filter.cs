@@ -38,16 +38,20 @@ public static partial class IEnumerableExtensions
         return ret;
     }
 
-    public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> fieldSelector, Func<TProperty, bool> filter)
+    public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> selector, Func<TProperty, bool> filter)
     {
-        return @this.Where(x => filter(fieldSelector(x)));
+        if (filter is null) return @this;
+
+        return @this.Where(x => filter(selector(x)));
     }
 
-    public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> fieldSelector, IFieldFilter<TProperty> fieldFilter)
+    public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> selector, IFieldFilter<TProperty> filter)
     {
+        if (filter is null) return @this;
+
         var helper = new QueryHelper<TProperty>();
-        var predicate = fieldFilter.Filter(helper).Expression.Compile();
-        return @this.Where(x => predicate(fieldSelector(x)));
+        var predicate = filter.Filter(helper).Expression.Compile();
+        return @this.Where(x => predicate(selector(x)));
     }
 
 }

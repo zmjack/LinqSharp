@@ -37,19 +37,23 @@ public static partial class IQueryableExtensions
         return ret;
     }
 
-    public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> fieldSelector, Expression<Func<TProperty, bool>> filter)
+    public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> selector, Expression<Func<TProperty, bool>> filter)
     {
-        var visitor = new ExpressionRebindVisitor(filter.Parameters[0], fieldSelector.Body);
+        if (filter is null) return @this;
+
+        var visitor = new ExpressionRebindVisitor(filter.Parameters[0], selector.Body);
         var body = visitor.Visit(filter.Body);
-        var expression = Expression.Lambda(body, false, fieldSelector.Parameters[0]) as Expression<Func<TSource, bool>>;
+        var expression = Expression.Lambda(body, false, selector.Parameters[0]) as Expression<Func<TSource, bool>>;
         return @this.Where(expression);
     }
 
-    public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> fieldSelector, IFieldFilter<TProperty> filter)
+    public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> selector, IFieldFilter<TProperty> filter)
     {
+        if (filter is null) return @this;
+
         var helper = new QueryHelper<TProperty>();
         var expression = filter.Filter(helper).Expression;
-        return FilterBy(@this, fieldSelector, expression);
+        return FilterBy(@this, selector, expression);
     }
 
 }
