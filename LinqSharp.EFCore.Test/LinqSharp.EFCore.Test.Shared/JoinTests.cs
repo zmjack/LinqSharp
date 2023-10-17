@@ -8,8 +8,8 @@ namespace LinqSharp.EFCore.Test
         private readonly int[] leftNumbers = new[] { 1, 2 };
         private readonly int[] rightNumbers = new[] { 2, 3 };
 
-        private readonly Ref<int>[] leftRefNumbers = new[] { Ref.Clone(1), Ref.Clone(2) };
-        private readonly Ref<int>[] rightRefNumbers = new[] { Ref.Clone(2), Ref.Clone(3) };
+        private readonly Ref<int>[] leftRefNumbers = new Ref<int>[] { 1, 2 };
+        private readonly Ref<int>[] rightRefNumbers = new Ref<int>[] { 2, 3 };
 
         [Fact]
         public void FullJoinTest()
@@ -22,7 +22,7 @@ namespace LinqSharp.EFCore.Test
                 new { Left = 0, Right = 3 },
             }, result);
 
-            var refResult = leftRefNumbers.FullJoin(rightRefNumbers, x => x, x => x, (l, r) => new { Left = l?.Value, Right = r?.Value });
+            var refResult = leftRefNumbers.FullJoin(rightRefNumbers, x => x.Any, x => x.Any, (l, r) => new { Left = l?.Any, Right = r?.Any });
             Assert.Equal(new[]
             {
                 new { Left = (int?)1, Right = (int?)null },
@@ -41,7 +41,7 @@ namespace LinqSharp.EFCore.Test
                 new { Left = 2, Right = 2 },
             }, result);
 
-            var refResult = leftRefNumbers.LeftJoin(rightRefNumbers, x => x, x => x, (l, r) => new { Left = l?.Value, Right = r?.Value });
+            var refResult = leftRefNumbers.LeftJoin(rightRefNumbers, x => x.Any, x => x.Any, (l, r) => new { Left = l?.Any, Right = r?.Any });
             Assert.Equal(new[]
             {
                 new { Left = (int?)1, Right = (int?)null },
@@ -59,7 +59,7 @@ namespace LinqSharp.EFCore.Test
                 new { Left = 0, Right = 3 },
             }, result);
 
-            var refResult = leftRefNumbers.RightJoin(rightRefNumbers, x => x, x => x, (l, r) => new { Left = l?.Value, Right = r?.Value });
+            var refResult = leftRefNumbers.RightJoin(rightRefNumbers, x => x.Any, x => x.Any, (l, r) => new { Left = l?.Any, Right = r?.Any });
             Assert.Equal(new[]
             {
                 new { Left = (int?)2, Right = (int?)2 },

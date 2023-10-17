@@ -43,8 +43,8 @@ namespace LinqSharp.EFCore.Test.Shared
                 select g.First()
             ).UniqueIndexBy(x => x.Tag);
 
-            Assert.Equal("0", modelByTag["0"].Item1.Tag);
-            Assert.Equal("1", modelByTag["1"].Item1.Tag);
+            Assert.Equal("0", modelByTag["0"].Any.Tag);
+            Assert.Equal("1", modelByTag["1"].Any.Tag);
             Assert.Null(modelByTag["2"]);
         }
 
@@ -52,7 +52,7 @@ namespace LinqSharp.EFCore.Test.Shared
         public void UniqueIndexingNullTest()
         {
             var modelByTag = _models.Take(1).UniqueIndexBy(x => (string)null);
-            Assert.Equal("0", modelByTag[null].Item1.Tag);
+            Assert.Equal("0", modelByTag[null].Any.Tag);
         }
 
         [Fact]

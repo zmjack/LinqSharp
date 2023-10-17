@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using NStandard;
 using System;
 
 namespace LinqSharp;
@@ -10,9 +11,5 @@ namespace LinqSharp;
 public interface IUniqueIndexable<TKey, TModel>
 {
     IUniqueIndexing<TKey, TModel> Indexing { get; set; }
-#if NET6_0_OR_GREATER
-    Tuple<TModel> this[TKey key] => Indexing[key];
-#else 
-    Tuple<TModel> this[TKey key] { get; }
-#endif
+    Ref<TModel> this[TKey key] { get; }
 }
