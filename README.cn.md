@@ -1,10 +1,16 @@
-# LinqSharp
+<h1 align="center">LinqSharp</h1>
 
-English: [https://linqsharp.net](https://linqsharp.net)
+<p align="center">
+    <img src="https://img.shields.io/nuget/v/LinqSharp.svg?logo=nuget&label=LinqSharp&link=https%3A%2F%2Fwww.nuget.org%2Fpackages%2FLinqSharp" />
+    <img src="https://img.shields.io/nuget/dt/LinqSharp.svg?logo=nuget&label=LinqSharp&link=https%3A%2F%2Fwww.nuget.org%2Fpackages%2FLinqSharp" />
+    <img src="https://img.shields.io/nuget/v/LinqSharp.EFCore.svg?logo=nuget&label=LinqSharp.EFCore&link=https%3A%2F%2Fwww.nuget.org%2Fpackages%2FLinqSharp.EFCore" />
+    <img src="https://img.shields.io/nuget/dt/LinqSharp.EFCore.svg?logo=nuget&label=LinqSharp.EFCore&link=https%3A%2F%2Fwww.nuget.org%2Fpackages%2FLinqSharp.EFCore" />
+</p>
+<p align="center">
+    <img src="https://img.shields.io/badge/Document-linqsharp.net-orange?link=https%3A%2F%2Flinqsharp.net" />
+    <img src="https://img.shields.io/badge/文档-zh.linqsharp.net-orange?link=https%3A%2F%2Fzh.linqsharp.net" />
+</p>
 
-中文：https://zh.linqsharp.net
-
-<br/>
 
 **LinqSharp** 是个开源 **LINQ** 扩展库，它允许您编写简单代码来生成复杂查询，包括查询扩展和动态查询生成。
 

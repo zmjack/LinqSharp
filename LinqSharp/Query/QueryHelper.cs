@@ -15,7 +15,7 @@ namespace LinqSharp.Query;
 
 public partial class QueryHelper<TSource>
 {
-    public readonly ParameterExpression PropertyParameter = Expression.Parameter(typeof(TSource));
+    internal readonly ParameterExpression PropertyParameter = Expression.Parameter(typeof(TSource));
 
     /// <summary>
     /// <para> This parameter indicates no filtering. </para>
