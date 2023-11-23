@@ -1,15 +1,16 @@
 <h1 align="center">LinqSharp</h1>
 
 <p align="center">
-    <a href="https://www.nuget.org/packages/LinqSharp" rel="nofollow"><img src="https://img.shields.io/nuget/v/LinqSharp.svg?logo=nuget&label=LinqSharp" /></a>
-    <a href="https://www.nuget.org/packages/LinqSharp" rel="nofollow"><img src="https://img.shields.io/nuget/dt/LinqSharp.svg?logo=nuget&label=LinqSharp" /></a>
-    <a href="https://www.nuget.org/packages/LinqSharp.EFCore" rel="nofollow"><img src="https://img.shields.io/nuget/v/LinqSharp.EFCore.svg?logo=nuget&label=LinqSharp.EFCore" /></a>
-    <a href="https://www.nuget.org/packages/LinqSharp.EFCore" rel="nofollow"><img src="https://img.shields.io/nuget/dt/LinqSharp.EFCore.svg?logo=nuget&label=LinqSharp.EFCore" /></a>
+    <a href="https://www.nuget.org/packages/LinqSharp" target="_blank" rel="nofollow"><img src="https://img.shields.io/nuget/v/LinqSharp.svg?logo=nuget&label=LinqSharp" /></a>
+    <a href="https://www.nuget.org/packages/LinqSharp" target="_blank" rel="nofollow"><img src="https://img.shields.io/nuget/dt/LinqSharp.svg?logo=nuget&label=LinqSharp" /></a>
+    <a href="https://www.nuget.org/packages/LinqSharp.EFCore" target="_blank" rel="nofollow"><img src="https://img.shields.io/nuget/v/LinqSharp.EFCore.svg?logo=nuget&label=LinqSharp.EFCore" /></a>
+    <a href="https://www.nuget.org/packages/LinqSharp.EFCore" target="_blank" rel="nofollow"><img src="https://img.shields.io/nuget/dt/LinqSharp.EFCore.svg?logo=nuget&label=LinqSharp.EFCore" /></a>
 </p>
 <p align="center">
-    <a href="https://linqsharp.net" rel="nofollow"><img src="https://img.shields.io/badge/Document-linqsharp.net-orange" /></a>
-    <a href="https://zh.linqsharp.net" rel="nofollow"><img src="https://img.shields.io/badge/文档-zh.linqsharp.net-orange" /></a>
+    <a href="https://linqsharp.net" target="_blank" rel="nofollow"><img src="https://img.shields.io/badge/Document-linqsharp.net-orange" /></a>
+    <a href="https://zh.linqsharp.net" target="_blank" rel="nofollow"><img src="https://img.shields.io/badge/文档-zh.linqsharp.net-orange" /></a>
 </p>
+
 
 **LinqSharp** is an open source **LINQ** extension library that allows you to write simple code to generate complex queries, including query extensions and dynamic query generation.
 
