@@ -56,4 +56,19 @@ public static partial class IQueryableExtensions
         return FilterBy(@this, selector, expression);
     }
 
+    public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> selector, IExtraFieldFilter<TProperty> extraFilter)
+    {
+        if (extraFilter is null) return @this;
+
+        var helper = new QueryHelper<TProperty>();
+        var ret = @this;
+        foreach (var filter in extraFilter.Filter(helper))
+        {
+            var expression = filter.Expression;
+            if (expression is null) return ret;
+            ret = FilterBy(ret, selector, expression);
+        }
+        return ret;
+    }
+
 }

@@ -1,16 +1,15 @@
 <h1 align="center">LinqSharp</h1>
 
 <p align="center">
+    <a href="https://linqsharp.net" rel="nofollow"><img src="https://img.shields.io/badge/English-linqsharp.net-orange" /></a>
+    <a href="https://zh.linqsharp.net" rel="nofollow"><img src="https://img.shields.io/badge/中文-zh.linqsharp.net-orange" /></a>
+</p>
+<p align="center">
     <a href="https://www.nuget.org/packages/LinqSharp" rel="nofollow"><img src="https://img.shields.io/nuget/v/LinqSharp.svg?logo=nuget&label=LinqSharp" /></a>
     <a href="https://www.nuget.org/packages/LinqSharp" rel="nofollow"><img src="https://img.shields.io/nuget/dt/LinqSharp.svg?logo=nuget&label=Download" /></a>
     <a href="https://www.nuget.org/packages/LinqSharp.EFCore" rel="nofollow"><img src="https://img.shields.io/nuget/v/LinqSharp.EFCore.svg?logo=nuget&label=LinqSharp.EFCore" /></a>
     <a href="https://www.nuget.org/packages/LinqSharp.EFCore" rel="nofollow"><img src="https://img.shields.io/nuget/dt/LinqSharp.EFCore.svg?logo=nuget&label=Download" /></a>
 </p>
-<p align="center">
-    <a href="https://linqsharp.net" rel="nofollow"><img src="https://img.shields.io/badge/English-linqsharp.net-orange" /></a>
-    <a href="https://zh.linqsharp.net" rel="nofollow"><img src="https://img.shields.io/badge/Chinese-zh.linqsharp.net-orange" /></a>
-</p>
-
 **LinqSharp** is an open source **LINQ** extension library that allows you to write simple code to generate complex queries, including query extensions and dynamic query generation.
 
 **LinqSharp.EFCore** is an enhanced library for **EntityFramework**, providing more data annotations, database functions, and custom storage rules, etc.
@@ -49,13 +48,17 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version: 7.0.34
+
+- New Feature: Added **IExtraFieldFilter** interface for more flexible field filtering.
+
 ### Version: 7.0.32
 
-- Compatibility updates: NStandard - 0.48.0 - Update Ref.
+- Compatibility updates: **NStandard - 0.48.0 - Update**, **Ref**.
 
 ### Version: 7.0.30
 
-- Compatibility updates: NStandard - 0.45.0 - Update DateOnlyType and DateTimeType.
+- Compatibility updates: **NStandard - 0.45.0 - Update**, **DateOnlyType** and **DateTimeType**.
 
 ### Version: 7.0.27
 
@@ -69,8 +72,6 @@ dotnet add package LinqSharp.EFCore
 ### Version: 7.0.20
 
 - **Indexing** / **UniqueIndexing** modified to lazy query.
-
-<br/>
 
 ### Version: 7.0.18.1
 
