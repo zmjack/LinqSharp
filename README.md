@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="https://github.com/zmjack/LinqSharp/blob/master/LinqSharp.png" />
+    <img src="https://github.com/zmjack/LinqSharp/blob/master/LinqSharp.png" height="32" />
     LinqSharp
 </h1>
 
