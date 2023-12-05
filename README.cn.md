@@ -1,4 +1,7 @@
-<h1 align="center">LinqSharp</h1>
+<h1 align="center">
+    <img src="https://github.com/zmjack/LinqSharp/blob/master/LinqSharp.png" />
+    LinqSharp
+</h1>
 
 <p align="center">
     <a href="https://linqsharp.net" rel="nofollow"><img src="https://img.shields.io/badge/English-linqsharp.net-orange" /></a>
