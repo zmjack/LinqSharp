@@ -32,7 +32,7 @@ public class QueryStringStrategy<TEntity> : IQueryStrategy<TEntity, bool>
         if (expression is null) return new ParameterExpression[0];
 
         if (expression is ParameterExpression)
-            return new[] { expression as ParameterExpression };
+            return [expression as ParameterExpression];
 
         //TODO: Maybe this expression can be converted to another expression in static.
         if (expression.NodeType == ExpressionType.Lambda)

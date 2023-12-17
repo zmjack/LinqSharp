@@ -36,7 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)QSum_And_QAverageTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SameOrDefaultTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SearchTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SelectXTests.cs" />
+    <Compile Include="..\LinqSharp.EFCore.Test.Shared\SelectAnyTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PartitionTests.cs" />
     <Compile Include="..\LinqSharp.EFCore.Test.Shared\LayerTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToSqlTests.cs" />

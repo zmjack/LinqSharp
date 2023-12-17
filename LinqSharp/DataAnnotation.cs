@@ -60,7 +60,7 @@ public static class DataAnnotation
         object value;
         try
         {
-            value = expression.Compile().DynamicInvoke(new object[] { model });
+            value = expression.Compile().DynamicInvoke([model]);
         }
         catch { value = null; }
 

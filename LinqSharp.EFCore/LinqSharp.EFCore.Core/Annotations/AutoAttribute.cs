@@ -3,7 +3,6 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.EntityFrameworkCore;
 using NStandard;
 using System;
 using System.Linq;
@@ -12,8 +11,8 @@ namespace LinqSharp.EFCore.Annotations;
 
 public abstract class AutoAttribute : Attribute
 {
-    private readonly EntityState[] SupportedStates = new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted };
-    private readonly EntityState[] _states;
+    private readonly AutoState[] SupportedStates = [AutoState.Added, AutoState.Modified, AutoState.Deleted];
+    private readonly AutoState[] _states;
 
     private ArgumentException Exception_NotSupportedStates(string paramName)
     {
@@ -30,14 +29,14 @@ public abstract class AutoAttribute : Attribute
         _states = SupportedStates;
     }
 
-    public AutoAttribute(params EntityState[] states)
+    public AutoAttribute(params AutoState[] states)
     {
         if (!states.All(x => SupportedStates.Contains(x))) throw Exception_NotSupportedStates(nameof(states));
 
         _states = states;
     }
 
-    public EntityState[] States => _states;
+    public AutoState[] States => _states;
 
     public abstract object Format(object entity, Type propertyType, object value);
 }

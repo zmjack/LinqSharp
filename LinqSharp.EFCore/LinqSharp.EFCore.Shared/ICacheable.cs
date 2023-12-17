@@ -68,7 +68,7 @@ public static class ICacheableExtensions
                     var preQuery = prop.GetValue(value.Source);
                     preQueries.SetValue(preQuery, index);
                 }
-                queryMethod.Invoke(null, new object[] { preQueries, context });
+                queryMethod.Invoke(null, [preQueries, context]);
             }
         }
 

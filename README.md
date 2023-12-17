@@ -36,7 +36,25 @@
 - <font color="orange">[Chinese]</font> [Agent query for Key-Value structure](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-agent-query.md)
 - <font color="orange">[Chinese]</font> [Direct handling](https://github.com/zmjack/LinqSharp/blob/master/docs/cn/ef-direct-handling.md)
 
-**Supported version of Entity Framework:** **EF Core 7.0** / 6.0 / 5.0 / 3.1 / 2.1
+<br/>
+
+#### Supported versions of .NET
+
+| Frameworks        | Versions                                                     |
+| ----------------- | ------------------------------------------------------------ |
+| **.NET**          | ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
+| **.NET Standard** | ![Static Badge](https://img.shields.io/badge/-2.1-orange) ![Static Badge](https://img.shields.io/badge/-2.0-orange) |
+
+#### Supported versions of Entity Framework
+
+| **Entity Framework Core** | Versions                                                     |
+| ------------------------- | ------------------------------------------------------------ |
+| **Supported**             | ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-3.1-8A2BE2) |
+| **Preparing to end**      | ![Static Badge](https://img.shields.io/badge/-2.1-ff0000)    |
+
+We are preparing to discontinue support for **LinqSharp.EFCore - EF2.1** because projects that reference it may encounter the following error when compiling:
+
+System.Runtime.CompilerServices.Unsafe doesn't support **netcoreapp2.1**. Consider updating your TargetFramework to **netcoreapp3.1 or later**.
 
 <br/>
 
@@ -52,6 +70,16 @@ dotnet add package LinqSharp.EFCore
 <br/>
 
 ## Recent
+
+### Version 7.0.35
+
+- **Experimental:**
+
+  Some methods in **LinqSharp.EFCore** that do not depend on **EntityFramework** have been extracted to **LinqSharp.EFCore**.
+
+  Third-party libraries can use these methods more conveniently by referencing **LinqSharp.EFCore.Core**.
+
+- **DirectQuery** has been renamed to **DirectQueryScope**.
 
 ### Version: 7.0.34
 

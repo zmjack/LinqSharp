@@ -22,7 +22,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.16" />
     <PackageReference Include="Northwnd" Version="3.1.5" />
-    <PackageReference Include="NStandard" Version="0.48.0" />
+    <PackageReference Include="NStandard" Version="0.53.1" />
     <PackageReference Include="PerfProbe" Version="1.4.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0" />
     <PackageReference Include="SQLib" Version="0.13.0" />
@@ -38,10 +38,8 @@
     <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF5.0\LinqSharp.EFCore - EF5.0.csproj" />
   </ItemGroup>
 
-  <Import Project="..\LinqSharp.EFCore.Test.Shared\LinqSharp.EFCore.Test.Shared.projitems" Label="Shared" />
-
   <Import Project="..\..\LinqSharp.Dev.Shared\LinqSharp.Dev.Shared.projitems" Label="Shared" />
-
+  <Import Project="..\LinqSharp.EFCore.Test.Shared\LinqSharp.EFCore.Test.Shared.projitems" Label="Shared" />
   <Import Project="..\LinqSharp.EFCore.Test.Data.Shared\LinqSharp.EFCore.Test.Data.Shared.projitems" Label="Shared" />
 
 </Project>

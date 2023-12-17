@@ -19,11 +19,11 @@ namespace LinqSharp.EFCore.Test
                     select chunk.Select(x => x.RegionDescription).ToArray()
                 ).ToArray();
 
-                Assert.Equal(new[]
-                {
-                    new [] { "Eastern", "Western" },
-                    new [] { "Northern", "Southern" },
-                }, chunks);
+                Assert.Equal(
+                [
+                    ["Eastern", "Western"],
+                    ["Northern", "Southern"],
+                ], chunks);
             }
 
             {
@@ -32,11 +32,11 @@ namespace LinqSharp.EFCore.Test
                     select chunk.Select(x => x.RegionDescription).ToArray()
                 ).ToArray();
 
-                Assert.Equal(new[]
-                {
-                    new [] { "Eastern", "Western", "Northern" },
-                    new [] { "Southern" },
-                }, chunks);
+                Assert.Equal(
+                [
+                    ["Eastern", "Western", "Northern"],
+                    ["Southern"],
+                ], chunks);
             }
         }
 
@@ -54,11 +54,11 @@ namespace LinqSharp.EFCore.Test
                 ).ToArray();
 #pragma warning restore CS0618 // Type or member is obsolete
 
-                Assert.Equal(new[]
-                {
-                    new [] { "Eastern", "Western" },
-                    new [] { "Northern", "Southern" },
-                }, chunks);
+                Assert.Equal(
+                [
+                    ["Eastern", "Western"],
+                    ["Northern", "Southern"],
+                ], chunks);
             }
 
             {
@@ -69,11 +69,11 @@ namespace LinqSharp.EFCore.Test
                 ).ToArray();
 #pragma warning restore CS0618 // Type or member is obsolete
 
-                Assert.Equal(new[]
-                {
-                    new [] { "Eastern", "Western", "Northern" },
-                    new [] { "Southern" },
-                }, chunks);
+                Assert.Equal(
+                [
+                    ["Eastern", "Western", "Northern"],
+                    ["Southern"],
+                ], chunks);
             }
 
             {
@@ -82,11 +82,11 @@ namespace LinqSharp.EFCore.Test
                     select chunk.Select(x => x.RegionDescription).ToArray()
                 ).ToArray();
 
-                Assert.Equal(new[]
-                {
-                    new [] { "Eastern" },
-                    new [] { "Western", "Northern", "Southern" },
-                }, chunks);
+                Assert.Equal(
+                [
+                    ["Eastern"],
+                    ["Western", "Northern", "Southern"],
+                ], chunks);
             }
         }
 

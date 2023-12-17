@@ -26,13 +26,13 @@ namespace LinqSharp.Cli
 
             foreach (var table in DbTables.Values)
             {
-                appendLine(new[] { table.Name, table.DisplayName.Pipe(name => name == table.Name ? "" : name) });
-                appendLine(new[] { "Field", "Display", "Runtime Type", "Max Length", "Index", "Required", "Reference", "Note" });
+                appendLine([table.Name, table.DisplayName.Pipe(name => name == table.Name ? "" : name)]);
+                appendLine(["Field", "Display", "Runtime Type", "Max Length", "Index", "Required", "Reference", "Note"]);
 
                 foreach (var field in table.TableFields)
                 {
-                    appendLine(new[]
-                    {
+                    appendLine(
+                    [
                         field.Name,
                         field.DisplayName,
                         field.RuntimeType.GetSimplifiedName(),
@@ -40,7 +40,7 @@ namespace LinqSharp.Cli
                         field.Index,
                         field.Required ? "Required" : "",
                         field.ReferenceType?.Pipe(type => DbTables[type].Name),
-                        field.RuntimeType.Pipe(type=>
+                        field.RuntimeType.Pipe(type =>
                         {
                             if (type.IsEnum)
                             {
@@ -54,9 +54,9 @@ namespace LinqSharp.Cli
                             }
                             else return "";
                         }),
-                    });
+                    ]);
                 }
-                appendLine(new[] { "" });
+                appendLine([""]);
             }
 
             return sb.ToString();
@@ -107,8 +107,8 @@ namespace LinqSharp.Cli
                 sb.AppendLine(@"<table style=""border-collapse:collapse; width:100%"" border=""1"">");
                 sb.AppendLine(@"<col width=""10%"">".Repeat(7));
 
-                appendLine(new[] { table.Name, table.DisplayName.Pipe(name => name == table.Name ? "" : name) });
-                appendLine(new[] { "Field", "Display", "Runtime Type", "Max Length", "Index", "Required", "Reference", "Note" }, "th");
+                appendLine([table.Name, table.DisplayName.Pipe(name => name == table.Name ? "" : name)]);
+                appendLine(["Field", "Display", "Runtime Type", "Max Length", "Index", "Required", "Reference", "Note"], "th");
 
                 foreach (var field in table.TableFields)
                 {
@@ -129,8 +129,8 @@ namespace LinqSharp.Cli
                         noteBuilder.AppendLine($"<ul>{note}</ul>");
                     }
 
-                    appendLine(new[]
-                    {
+                    appendLine(
+                    [
                         field.Name,
                         field.DisplayName.Pipe(StringFlow.HtmlEncode),
                         field.RuntimeType.GetSimplifiedName().Pipe(StringFlow.HtmlEncode),
@@ -139,7 +139,7 @@ namespace LinqSharp.Cli
                         field.Required ? "Required" : "",
                         field.ReferenceType?.Pipe(type => DbTables[type].Name),
                         noteBuilder.ToString(),
-                    });
+                    ]);
                 }
                 sb.AppendLine("</table>");
                 sb.AppendLine("<p></p>");

@@ -40,7 +40,7 @@ public static partial class DbSetExtensions
     /// <summary>
     /// Bulk insert into table.
     /// <para>[Warning] This method will not throw any exception.</para>
-    /// <para>( Need <see cref="DirectQuery" />. )</para>
+    /// <para>( Need <see cref="DirectQueryScope" />. )</para>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="this"></param>
@@ -78,7 +78,7 @@ public static partial class DbSetExtensions
             }
         }
 
-        if (DirectQuery.Current is null) throw DirectQuery.RunningOutsideScopeException;
+        if (DirectQueryScope.Current is null) throw DirectQueryScope.RunningOutsideScopeException;
 
         var context = @this.GetDbContext();
         var name = @this.GetProviderName();
@@ -95,13 +95,13 @@ public static partial class DbSetExtensions
 
     /// <summary>
     /// Truncate table.
-    /// <para>( Need <see cref="DirectQuery" />. )</para>
+    /// <para>( Need <see cref="DirectQueryScope" />. )</para>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="this"></param>
     public static void Truncate<TEntity>(this DbSet<TEntity> @this) where TEntity : class
     {
-        if (DirectQuery.Current is null) throw DirectQuery.RunningOutsideScopeException;
+        if (DirectQueryScope.Current is null) throw DirectQueryScope.RunningOutsideScopeException;
 
         var context = @this.GetDbContext();
         var table = context.GetTableName<TEntity>();

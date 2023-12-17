@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="Northwnd" Version="2.0.5" />
-    <PackageReference Include="NStandard" Version="0.48.0" />
+    <PackageReference Include="NStandard" Version="0.53.1" />
     <PackageReference Include="PerfProbe" Version="1.4.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
     <PackageReference Include="SQLib" Version="0.9.0" />
@@ -36,15 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.Compatible\LinqSharp.EFCore.MySql.Compatible.csproj" />
-    <ProjectReference Include="..\..\LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.Compatible\LinqSharp.EFCore.SqlServer.Compatible.csproj" />
     <ProjectReference Include="..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF2.1\LinqSharp.EFCore - EF2.1.csproj" />
   </ItemGroup>
-
-  <Import Project="..\LinqSharp.EFCore.Test.Shared\LinqSharp.EFCore.Test.Shared.projitems" Label="Shared" />
-
-  <Import Project="..\LinqSharp.EFCore.Test.Data.Shared\LinqSharp.EFCore.Test.Data.Shared.projitems" Label="Shared" />
-
-  <Import Project="..\..\LinqSharp.Dev.Shared\LinqSharp.Dev.Shared.projitems" Label="Shared" />
 
 </Project>

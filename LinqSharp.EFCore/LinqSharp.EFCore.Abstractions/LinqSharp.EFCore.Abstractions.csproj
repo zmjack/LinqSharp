@@ -10,9 +10,9 @@
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
-    <Copyright>Copyright © linqsharp.net 2023</Copyright>
+    <Copyright>©2020 linqsharp.net</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -20,7 +20,6 @@
     <PackageTags>Linq EntityFramework</PackageTags>
     <PackageIcon>LinqSharp.png</PackageIcon>
     <RootNamespace>LinqSharp.EFCore</RootNamespace>
-    <AssemblyName>LinqSharp.EFCore.Abstractions</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,7 +31,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE.md">
+    <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

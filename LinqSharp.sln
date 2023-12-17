@@ -6,7 +6,7 @@ MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{69CCCCD4-B3BF-4882-8B20-AC3548E642A4}"
 	ProjectSection(SolutionItems) = preProject
 		Issues.md = Issues.md
-		LICENSE.md = LICENSE.md
+		LICENSE = LICENSE
 		push.cmd = push.cmd
 		README.cn.md = README.cn.md
 		README.md = README.md
@@ -69,6 +69,8 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.EFCore.Test.Data.Shared", "LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.Data.Shared\LinqSharp.EFCore.Test.Data.Shared.shproj", "{C25F26B1-F307-474F-B9C6-E2D94E6C4C1A}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LinqSharp.Dev.Shared", "LinqSharp.Dev.Shared\LinqSharp.Dev.Shared.shproj", "{CDCCA828-BD26-4090-9484-67762143932F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore.Core", "LinqSharp.EFCore\LinqSharp.EFCore.Core\LinqSharp.EFCore.Core.csproj", "{8847F5DA-D305-4F69-B9D0-31DD994CC043}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,6 +154,10 @@ Global
 		{0B855805-FB29-444E-A0B4-FA472B7BF748}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B855805-FB29-444E-A0B4-FA472B7BF748}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B855805-FB29-444E-A0B4-FA472B7BF748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8847F5DA-D305-4F69-B9D0-31DD994CC043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8847F5DA-D305-4F69-B9D0-31DD994CC043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8847F5DA-D305-4F69-B9D0-31DD994CC043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8847F5DA-D305-4F69-B9D0-31DD994CC043}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -180,6 +186,7 @@ Global
 		{2B434169-A544-40CB-89FD-D275466F5AA1} = {34B2B130-D9AA-46F3-BA89-38437A29BF90}
 		{0B9E78ED-EC9E-4ED2-BE97-5CF09B0B429D} = {6519DE43-5391-45BE-9436-5366955616B1}
 		{C25F26B1-F307-474F-B9C6-E2D94E6C4C1A} = {6519DE43-5391-45BE-9436-5366955616B1}
+		{8847F5DA-D305-4F69-B9D0-31DD994CC043} = {4643D67F-F9F7-4E6C-B5FC-F4ABED43357B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE8FFA56-A385-4D18-8E81-93227E276884}
@@ -200,9 +207,6 @@ Global
 		LinqSharp.EFCore\LinqSharp.EFCore.Shared\LinqSharp.EFCore.Shared.projitems*{92e992f1-d231-4f26-9835-57050ece9a69}*SharedItemsImports = 5
 		LinqSharp.EFCore.MySql\LinqSharp.EFCore.MySql.Shared\LinqSharp.EFCore.MySql.Shared.projitems*{96a2eaeb-21c8-4c34-96d0-61108fb67cc3}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.Data.Shared\LinqSharp.EFCore.Test.Data.Shared.projitems*{aba8683f-b5ce-4ae5-bc35-7ae81c7127ee}*SharedItemsImports = 5
-		LinqSharp.Dev.Shared\LinqSharp.Dev.Shared.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.Data.Shared\LinqSharp.EFCore.Test.Data.Shared.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
-		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.Shared\LinqSharp.EFCore.Test.Shared.projitems*{b5b74598-6da2-42f5-8aac-eb130de84b8f}*SharedItemsImports = 5
 		LinqSharp.EFCore\LinqSharp.EFCore.Shared\LinqSharp.EFCore.Shared.projitems*{bdd0d5b8-85e2-4834-9b21-6226ef90d5a8}*SharedItemsImports = 13
 		LinqSharp.EFCore\LinqSharp.EFCore.Shared\LinqSharp.EFCore.Shared.projitems*{c09d74ce-3524-41d9-a7c0-a55ddbefaef7}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.Data.Shared\LinqSharp.EFCore.Test.Data.Shared.projitems*{c25f26b1-f307-474f-b9c6-e2d94e6c4c1a}*SharedItemsImports = 13

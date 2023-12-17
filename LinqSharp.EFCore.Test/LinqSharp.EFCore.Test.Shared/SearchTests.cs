@@ -23,11 +23,11 @@ namespace LinqSharp.EFCore.Test
                 new SimpleModel
                 {
                     Id = 2,
-                    Subs = new[]
-                    {
+                    Subs =
+                    [
                         //new SimpleModel { Id = 3 },
                         new SimpleModel { Id = 3, Name = "a" },
-                    }
+                    ]
                 },
             };
 

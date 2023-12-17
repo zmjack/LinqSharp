@@ -17,12 +17,12 @@
     <Owners>zmjack</Owners>
     <Description>LinqSharp cli tools.</Description>
     <PackageId>dotnet-orm</PackageId>
-    <Copyright>Copyright © linqsharp.net 2020</Copyright>
+    <Copyright>©2020 linqsharp.net</Copyright>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
-    <Version>0.43.0</Version>
+    <Version>0.44.0</Version>
     <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageType>DotnetCliTool</PackageType>
     <PackAsTool>true</PackAsTool>
     <PackageIcon>LinqSharp.png</PackageIcon>
@@ -46,12 +46,12 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetCli" Version="0.3.0" />
-    <PackageReference Include="NStandard" Version="0.48.0" />
+    <PackageReference Include="NStandard" Version="0.53.1" />
     <PackageReference Include="NStandard.Runtime" Version="0.21.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE.md">
+    <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

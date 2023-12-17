@@ -3,7 +3,6 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.EntityFrameworkCore;
 using NStandard;
 using System;
 using System.Linq;
@@ -16,7 +15,7 @@ public class AutoCondensedAttribute : AutoAttribute
     public bool ReserveNewLine { get; set; }
     public bool Nullable { get; set; }
 
-    public AutoCondensedAttribute() : base(EntityState.Added, EntityState.Modified) { }
+    public AutoCondensedAttribute() : base(AutoState.Added, AutoState.Modified) { }
 
     public override object Format(object entity, Type propertyType, object value)
     {

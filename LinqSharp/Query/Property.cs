@@ -66,7 +66,7 @@ public class Property<TSource>
         if (array is object[])
         {
             var ofType = MethodContainer.GenericOfType.MakeGenericMethod(PropertyType);
-            constant = Expression.Constant(ofType.Invoke(null, new object[] { array }));
+            constant = Expression.Constant(ofType.Invoke(null, [array]));
         }
         else constant = Expression.Constant(array);
 

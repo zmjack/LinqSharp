@@ -8,12 +8,11 @@ using System;
 
 namespace LinqSharp.EFCore.Scopes;
 
-public class DirectQuery : Scope<DirectQuery>
+public class DirectQueryScope : Scope<DirectQueryScope>
 {
-    public static InvalidOperationException RunningOutsideScopeException => new($"Direct action is running outside {nameof(DirectQuery)}.");
+    public static InvalidOperationException RunningOutsideScopeException => new($"Direct action is running outside {nameof(DirectQueryScope)}.");
 
-    internal DirectQuery()
+    public DirectQueryScope()
     {
     }
-
 }

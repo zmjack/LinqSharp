@@ -11,33 +11,10 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgentProxy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoCondensedAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoCreatedByAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoCreationTimeAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoLastWriteTimeAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoLowerAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoTags\IAutoTag.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoTags\NowTag.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoTags\UserTag.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoTrimAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoUpdatedByAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\AutoUpperAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\ConcurrencyPolicyAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\ConcurrencyResolvableAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\ConcurrencyResolvingMode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\CPKeyAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\IndexFieldAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\NotAcceptableAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Annotations\SpecialAutoAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuditPredictor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Design\EntityAuditAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Design\IConcurrencyResolvable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Design\IUserTraceable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\RowChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\FieldChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\KeyValueEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Entities\RowChangeInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EntityAnnotation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityAudit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Facades\EntityMonitoringFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ICacheable.cs" />
@@ -54,7 +31,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\IIncludable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\IncludeNavigation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\QueryTarget.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProviderName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\JsonProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\ProviderAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\SpecialProviderAttribute.cs" />
@@ -64,17 +40,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Query\UpdateOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scopes\AgentQuery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scopes\CompoundQuery.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Scopes\DirectQuery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbConcat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbDateTime.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbDouble.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbRandom.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\ModelBuilderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Extensions\DbContextExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Extensions\DbSetExtensions.AddOrUpdate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Extensions\DbSetExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~internal\PropIndex.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\IQueryableExtensions.Random.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)~Extensions\IQueryableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\IQueryableExtensions.Random.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\ModelBuilderExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropIndex.cs" />
   </ItemGroup>
 </Project>

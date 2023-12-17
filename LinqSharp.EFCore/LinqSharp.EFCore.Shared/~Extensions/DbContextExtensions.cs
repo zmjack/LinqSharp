@@ -17,7 +17,7 @@ namespace LinqSharp.EFCore;
 public static class DbContextExtensions
 {
 #pragma warning disable IDE0060 // Remove unused parameter
-    public static DirectQuery BeginDirectQuery(this DbContext @this) => new();
+    public static DirectQueryScope BeginDirectQuery(this DbContext @this) => new();
 #pragma warning restore IDE0060 // Remove unused parameter
 
     public static CompoundQuery<TEntity> BeginCompoundQuery<TContext, TEntity>(this TContext @this, Func<TContext, IQueryable<TEntity>> querySelector)

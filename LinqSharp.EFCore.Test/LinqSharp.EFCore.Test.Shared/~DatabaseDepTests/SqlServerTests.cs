@@ -16,12 +16,12 @@ namespace LinqSharp.EFCore.Test
             using var db = ApplicationDbContext.UseSqlServer();
             using var trans = db.Database.BeginTransaction();
 
-            db.YearMonthModels.AddRange(new[]
-            {
+            db.YearMonthModels.AddRange(
+            [
                 new YearMonthModel { Date = new DateTime(2012, 1, 1), Year = 2012, Month = 1, Day = 1 },
                 new YearMonthModel { Date = new DateTime(2012, 4, 16), Year = 2012, Month = 4, Day = 16 },
                 new YearMonthModel { Date = new DateTime(2012, 5, 18), Year = 2012, Month = 5, Day = 18 },
-            });
+            ]);
             db.SaveChanges();
 
             var query = db.YearMonthModels.Where(x => DbDateTime.Create(x.Year, x.Month, x.Day, 1, 1, 1) >= DateTime.Now);
@@ -37,12 +37,12 @@ namespace LinqSharp.EFCore.Test
             using var db = ApplicationDbContext.UseSqlServer();
             using var trans = db.Database.BeginTransaction();
 
-            db.YearMonthModels.AddRange(new[]
-            {
+            db.YearMonthModels.AddRange(
+            [
                 new YearMonthModel { Date = new DateTime(2012, 1, 1), Year = 2012, Month = 1, Day = 1 },
                 new YearMonthModel { Date = new DateTime(2012, 4, 16), Year = 2012, Month = 4, Day = 16 },
                 new YearMonthModel { Date = new DateTime(2012, 5, 18), Year = 2012, Month = 5, Day = 18 },
-            });
+            ]);
             db.SaveChanges();
 
             var query = db.YearMonthModels.Random(2);

@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Design.AutoTags;
-using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace LinqSharp.EFCore.Annotations;
@@ -12,7 +11,7 @@ namespace LinqSharp.EFCore.Annotations;
 public abstract class SpecialAutoAttribute<TAutoTag> : AutoAttribute where TAutoTag : IAutoTag
 {
     public SpecialAutoAttribute() : base() { }
-    public SpecialAutoAttribute(params EntityState[] states) : base(states) { }
+    public SpecialAutoAttribute(params AutoState[] states) : base(states) { }
 
     public override object Format(object entity, Type propertyType, object value)
     {

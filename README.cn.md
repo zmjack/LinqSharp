@@ -38,7 +38,23 @@
 
 <br/>
 
-支持的 Entity Framework 版本： **EF Core 7.0** / 6.0 / 5.0 / 3.1 / 2.1
+#### Supported versions of .NET
+
+| Frameworks        | Versions                                                     |
+| ----------------- | ------------------------------------------------------------ |
+| **.NET**          | ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
+| **.NET Standard** | ![Static Badge](https://img.shields.io/badge/-2.1-orange) ![Static Badge](https://img.shields.io/badge/-2.0-orange) |
+
+#### Supported versions of Entity Framework
+
+| **Entity Framework Core** | Versions                                                     |
+| ------------------------- | ------------------------------------------------------------ |
+| **Supported**             | ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-3.1-8A2BE2) |
+| **Preparing to end**      | ![Static Badge](https://img.shields.io/badge/-2.1-ff0000)    |
+
+我们正在准备停止对 **LinqSharp.EFCore - EF2.1** 支持，因为引用它的项目可能在编译时遇到以下错误：
+
+System.Runtime.CompilerServices.Unsafe doesn't support **netcoreapp2.1**. Consider updating your TargetFramework to **netcoreapp3.1 or later**.
 
 <br/>
 
@@ -55,28 +71,36 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
-### Version: 7.0.34
+### 版本：7.0.35
+
+- **实验性更新：**
+
+  **LinqSharp.EFCore** 中不依赖于 **EntityFramework** 的部分方法已被提取到 **LinqSharp.EFCore.Core**。
+
+  第三方库可以通过引用 **LinqSharp.EFCore.Core** 更方便地使用这些方法。
+
+### 版本：7.0.34
 
 - 新功能：增加 **IExtraFieldFilter** 接口用于更灵活的字段筛选。
 
-### Version：7.0.32
+### 版本：7.0.32
 
 - 兼容性更新：**NStandard - 0.48.0 - 更新**，**Ref**。
 
-### Version：7.0.30
+### 版本：7.0.30
 
 - 兼容性更新：**NStandard - 0.45.0 - 更新**，**DateOnlyType**、**DateTimeType**。
 
-### Version：7.0.27
+### 版本：7.0.27
 
 - **中断性更新**：调整了一些命名空间的名称。
 - **Bug 修复**：**AllSame** 方法提供 Null 支持。
 
-### Version: 7.0.24
+### 版本：7.0.24
 
 - **中断性更新**：调整了一些命名空间的名称。
 
-### Version: 7.0.20
+### 版本：7.0.20
 
 - **Indexing** / **UniqueIndexing** 修改为惰性查询。
 

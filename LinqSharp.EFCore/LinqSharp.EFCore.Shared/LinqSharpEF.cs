@@ -362,7 +362,7 @@ public static partial class LinqSharpEF
 
     private static void ApplyCompositeKey(object entityTypeBuilder, Type modelClass)
     {
-        var hasKeyMethod = entityTypeBuilder.GetType().GetMethod(nameof(EntityTypeBuilder.HasKey), new[] { typeof(string[]) });
+        var hasKeyMethod = entityTypeBuilder.GetType().GetMethod(nameof(EntityTypeBuilder.HasKey), [typeof(string[])]);
 
         var modelProps = modelClass.GetProperties()
             .Where(x => x.GetCustomAttribute<CPKeyAttribute>() is not null)
@@ -370,17 +370,17 @@ public static partial class LinqSharpEF
         var propNames = modelProps.Select(x => x.Name).ToArray();
 
         if (propNames.Any())
-            hasKeyMethod.Invoke(entityTypeBuilder, new object[] { propNames });
+            hasKeyMethod.Invoke(entityTypeBuilder, [propNames]);
     }
 
     private static void ApplyIndexes(object entityTypeBuilder, Type modelClass)
     {
-        var hasIndexMethod = entityTypeBuilder.GetType().GetMethod(nameof(EntityTypeBuilder.HasIndex), new[] { typeof(string[]) });
+        var hasIndexMethod = entityTypeBuilder.GetType().GetMethod(nameof(EntityTypeBuilder.HasIndex), [typeof(string[])]);
         void SetIndex(string[] propertyNames, IndexType type)
         {
             if (propertyNames.Length == 0) throw new ArgumentException("No property specified.", nameof(propertyNames));
 
-            var indexBuilder = hasIndexMethod.Invoke(entityTypeBuilder, new object[] { propertyNames }) as IndexBuilder;
+            var indexBuilder = hasIndexMethod.Invoke(entityTypeBuilder, [propertyNames]) as IndexBuilder;
             if (type == IndexType.Unique) indexBuilder.IsUnique();
         }
 
@@ -417,7 +417,7 @@ public static partial class LinqSharpEF
 
         foreach (var prop in props.Where(x => x.Index.Group is null))
         {
-            SetIndex(new[] { prop.Name }, prop.Index.Type);
+            SetIndex([prop.Name], prop.Index.Type);
         }
         foreach (var group in props.Where(x => x.Index.Group is not null).GroupBy(x => new { x.Index.Type, x.Index.Group }))
         {
@@ -445,14 +445,14 @@ public static partial class LinqSharpEF
 
             if (providerAttr is not null)
             {
-                var propertyBuilder = propertyMethod.Invoke(entityTypeBuilder, new object[] { modelProp.Name }) as PropertyBuilder;
-                var hasConversionMethod = typeof(PropertyBuilder).GetMethod(nameof(PropertyBuilder.HasConversion), new[] { typeof(ValueConverter) });
+                var propertyBuilder = propertyMethod.Invoke(entityTypeBuilder, [modelProp.Name]) as PropertyBuilder;
+                var hasConversionMethod = typeof(PropertyBuilder).GetMethod(nameof(PropertyBuilder.HasConversion), [typeof(ValueConverter)]);
 
                 var providerAttrType = providerAttr.GetType();
                 dynamic provider = Activator.CreateInstance(providerAttrType);
 
                 var converter = LinqSharpEF.BuildConverter(provider);
-                hasConversionMethod.Invoke(propertyBuilder, new object[] { converter });
+                hasConversionMethod.Invoke(propertyBuilder, [converter]);
 
                 var comparer = LinqSharpEF.BuildComparer(provider);
                 if (comparer is not null)
@@ -464,7 +464,7 @@ public static partial class LinqSharpEF
                     setValueComparerMethod.Invoke(metadata, new object[] { comparer });
 #else
                     var setValueComparerMethod = typeof(MutablePropertyExtensions).GetMethod(nameof(MutablePropertyExtensions.SetValueComparer));
-                    setValueComparerMethod.Invoke(null, new object[] { metadata, comparer });
+                    setValueComparerMethod.Invoke(null, [metadata, comparer]);
 #endif
                 }
             }
@@ -503,7 +503,7 @@ public static partial class LinqSharpEF
 
             foreach (var attr in attrs)
             {
-                if (!attr.States.Contains(entry.State)) continue;
+                if (!attr.States.Contains((AutoState)entry.State)) continue;
 
                 if (attr is SpecialAutoAttribute<NowTag> attr_nowTag)
                 {

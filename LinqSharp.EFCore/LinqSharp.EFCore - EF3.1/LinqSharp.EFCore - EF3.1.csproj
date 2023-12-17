@@ -5,13 +5,13 @@
       netstandard2.0
     </TargetFrameworks>
     <LangVersion>preview</LangVersion>
-    <Version>3.1.7032</Version>
+    <Version>3.1.7035</Version>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
-    <Copyright>Copyright © linqsharp.net 2020</Copyright>
+    <Copyright>©2020 linqsharp.net</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -19,7 +19,6 @@
     <PackageTags>Linq EntityFramework</PackageTags>
     <PackageIcon>LinqSharp.png</PackageIcon>
     <RootNamespace>LinqSharp.EFCore</RootNamespace>
-    <AssemblyName>LinqSharp.EFCore</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -38,11 +37,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NStandard" Version="0.48.0" />
+    <PackageReference Include="NStandard" Version="0.53.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE.md">
+    <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
@@ -55,6 +54,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\LinqSharp\LinqSharp.csproj" />
     <ProjectReference Include="..\LinqSharp.EFCore.Abstractions\LinqSharp.EFCore.Abstractions.csproj" />
+    <ProjectReference Include="..\LinqSharp.EFCore.Core\LinqSharp.EFCore.Core.csproj" />
   </ItemGroup>
 
   <Import Project="..\LinqSharp.EFCore.Shared\LinqSharp.EFCore.Shared.projitems" Label="Shared" />

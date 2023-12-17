@@ -1,5 +1,4 @@
 ﻿using LinqSharp.EFCore.Annotations;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -41,7 +40,7 @@ namespace LinqSharp.EFCore.Data.Test
 
     public class AutoEvenAttribute : AutoAttribute
     {
-        public AutoEvenAttribute() : base(EntityState.Added, EntityState.Modified) { }
+        public AutoEvenAttribute() : base(AutoState.Added, AutoState.Modified) { }
 
         public override object Format(object entity, Type propertyType, object value)
         {

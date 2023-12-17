@@ -15,8 +15,8 @@ namespace LinqSharp.EFCore.Test
             Assert.Equal(2, items.Page(2, 5).PageCount);
             Assert.True(items.Page(1, 3).IsFristPage);
             Assert.True(items.Page(4, 3).IsLastPage);
-            Assert.Equal(new[] { 0, 1, 2, 3, 4 }, items.Page(1, 5).ToArray());
-            Assert.Equal(new[] { 5, 6, 7, 8, 9 }, items.Page(2, 5).ToArray());
+            Assert.Equal([0, 1, 2, 3, 4], items.Page(1, 5).ToArray());
+            Assert.Equal([5, 6, 7, 8, 9], items.Page(2, 5).ToArray());
         }
 
         [Fact]
@@ -28,18 +28,18 @@ namespace LinqSharp.EFCore.Test
                 new NameModel { Name = "C", NickName = "c", Tag = "01" },
             };
 
-            var filled1 = items.Pad(x => x.Name, new[] { "A", "B", "C" }, key => new NameModel { Name = key, NickName = $":{key.ToLower()}" });
-            Assert.Equal(new[] { "A", "C", "B" }, filled1.Select(x => x.Name).ToArray());
-            Assert.Equal(new[] { "a", "c", ":b" }, filled1.Select(x => x.NickName).ToArray());
+            var filled1 = items.Pad(x => x.Name, ["A", "B", "C"], key => new NameModel { Name = key, NickName = $":{key.ToLower()}" });
+            Assert.Equal(["A", "C", "B"], filled1.Select(x => x.Name).ToArray());
+            Assert.Equal(["a", "c", ":b"], filled1.Select(x => x.NickName).ToArray());
 
-            var filled2 = items.Pad(x => new { x.Name, x.Tag }, new[]
-            {
+            var filled2 = items.Pad(x => new { x.Name, x.Tag },
+            [
                 new { Name = "A", Tag = "01" },
                 new { Name = "B", Tag = "01" },
                 new { Name = "C", Tag = "01" },
-            }, key => new NameModel { Name = key.Name, NickName = $":{key.Name.ToLower()}", Tag = key.Tag });
-            Assert.Equal(new[] { "A", "C", "B" }, filled2.Select(x => x.Name).ToArray());
-            Assert.Equal(new[] { "a", "c", ":b" }, filled2.Select(x => x.NickName).ToArray());
+            ], key => new NameModel { Name = key.Name, NickName = $":{key.Name.ToLower()}", Tag = key.Tag });
+            Assert.Equal(["A", "C", "B"], filled2.Select(x => x.Name).ToArray());
+            Assert.Equal(["a", "c", ":b"], filled2.Select(x => x.NickName).ToArray());
         }
 
         [Fact]

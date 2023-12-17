@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Design.AutoTags;
-using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace LinqSharp.EFCore.Annotations;
@@ -12,7 +11,7 @@ namespace LinqSharp.EFCore.Annotations;
 [AttributeUsage(AttributeTargets.Property)]
 public class AutoUpdatedByAttribute : SpecialAutoAttribute<UserTag>
 {
-    public AutoUpdatedByAttribute() : base(EntityState.Added, EntityState.Modified) { }
+    public AutoUpdatedByAttribute() : base(AutoState.Added, AutoState.Modified) { }
 
     public override object Format(object entity, Type propertyType, UserTag value)
     {

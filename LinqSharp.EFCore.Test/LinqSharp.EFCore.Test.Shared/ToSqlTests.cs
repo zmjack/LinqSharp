@@ -85,7 +85,7 @@ namespace LinqSharp.EFCore.Test
             using var mysql = ApplicationDbContext.UseMySql();
             var originResult = mysql.Regions;
             var orderedResult =
-                mysql.Regions.OrderByCase(x => x.RegionDescription, new[] { "Northern", "Eastern", "Western", "Southern" });
+                mysql.Regions.OrderByCase(x => x.RegionDescription, ["Northern", "Eastern", "Western", "Southern"]);
 
             Assert.Equal(new[] { 1, 2, 3, 4 }, originResult.Select(x => x.RegionID));
             Assert.Equal(new[] { 3, 1, 2, 4 }, orderedResult.Select(x => x.RegionID));
@@ -103,7 +103,7 @@ namespace LinqSharp.EFCore.Test
             using var mysql = ApplicationDbContext.UseMySql();
             var originResult = mysql.Regions;
             var orderedResult =
-                mysql.Regions.OrderByCase(x => x.RegionID, new[] { 3, 1, 2, 4 });
+                mysql.Regions.OrderByCase(x => x.RegionID, [3, 1, 2, 4]);
 
             Assert.Equal(new[] { 1, 2, 3, 4 }, originResult.Select(x => x.RegionID));
             Assert.Equal(new[] { 3, 1, 2, 4 }, orderedResult.Select(x => x.RegionID));

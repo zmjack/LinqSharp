@@ -74,10 +74,10 @@ public static partial class IEnumerableExtensions
         var type = typeof(TType);
         if (type.IsNullable()) type = type.GetGenericArguments()[0];
 
-        var op_Addition = GetOpMethod<TType, TType, TType>("op_Addition", new[]
-        {
+        var op_Addition = GetOpMethod<TType, TType, TType>("op_Addition",
+        [
             new[] { type, type },
-        });
+        ]);
 
         if (op_Addition is null) throw new InvalidOperationException($"There is no matching op_Addition method for {type.FullName}.");
         return op_Addition;
@@ -87,13 +87,13 @@ public static partial class IEnumerableExtensions
         var type = typeof(TType);
         if (type.IsNullable()) type = type.GetGenericArguments()[0];
 
-        var op_Division = GetOpMethod<TType, long, TType>("op_Division", new[]
-        {
-            new[] { type, typeof(long) },
-            new[] { type, typeof(int) },
-            new[] { type, typeof(double) },
-            new[] { type, typeof(float) },
-        });
+        var op_Division = GetOpMethod<TType, long, TType>("op_Division",
+        [
+            [type, typeof(long)],
+            [type, typeof(int)],
+            [type, typeof(double)],
+            [type, typeof(float)],
+        ]);
 
         if (op_Division is null) throw new InvalidOperationException($"There is no matching op_Division method for {type.FullName}.");
         return op_Division;

@@ -5,11 +5,11 @@ namespace LinqSharp.EFCore.Test
 {
     public class JoinTests
     {
-        private readonly int[] leftNumbers = new[] { 1, 2 };
-        private readonly int[] rightNumbers = new[] { 2, 3 };
+        private readonly int[] leftNumbers = [1, 2];
+        private readonly int[] rightNumbers = [2, 3];
 
-        private readonly Ref<int>[] leftRefNumbers = new Ref<int>[] { 1, 2 };
-        private readonly Ref<int>[] rightRefNumbers = new Ref<int>[] { 2, 3 };
+        private readonly Ref<int>[] leftRefNumbers = [1, 2];
+        private readonly Ref<int>[] rightRefNumbers = [2, 3];
 
         [Fact]
         public void LeftJoinTest()

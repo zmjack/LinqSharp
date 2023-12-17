@@ -73,7 +73,7 @@ public class CompoundQuery<TEntity> : Scope<CompoundQuery<TEntity>>
             {
                 var firstNavigation = enumerator.Current;
                 var includeMethod = CompoundQuery.Include_Cache.GetOrCreate($"{entityType}|{firstNavigation.Property}", entry => CompoundQuery.Lazy_IncludeMethod.Value.MakeGenericMethod(entityType, firstNavigation.Property));
-                queryable = includeMethod.Invoke(null, new object[] { queryable, firstNavigation.Expression }) as IQueryable<TEntity>;
+                queryable = includeMethod.Invoke(null, [queryable, firstNavigation.Expression]) as IQueryable<TEntity>;
 
                 while (enumerator.MoveNext())
                 {
@@ -97,7 +97,7 @@ public class CompoundQuery<TEntity> : Scope<CompoundQuery<TEntity>>
                         return thenIncludeMethod.MakeGenericMethod(entityType, lambdaProperty, navigation.Property);
                     });
 
-                    queryable = thenIncludeMethod.Invoke(null, new object[] { queryable, navigation.Expression }) as IQueryable<TEntity>;
+                    queryable = thenIncludeMethod.Invoke(null, [queryable, navigation.Expression]) as IQueryable<TEntity>;
                 }
             }
         }

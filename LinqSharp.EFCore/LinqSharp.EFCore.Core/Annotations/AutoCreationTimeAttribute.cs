@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Design.AutoTags;
-using Microsoft.EntityFrameworkCore;
 using NStandard;
 using System;
 using System.Linq;
@@ -14,10 +13,10 @@ namespace LinqSharp.EFCore.Annotations;
 [AttributeUsage(AttributeTargets.Property)]
 public class AutoCreationTimeAttribute : SpecialAutoAttribute<NowTag>
 {
-    private static readonly Type[] DateTimeTypes = new Type[] { typeof(DateTime), typeof(DateTime?) };
-    private static readonly Type[] DateTimeOffsetTypes = new Type[] { typeof(DateTimeOffset), typeof(DateTimeOffset?) };
+    private static readonly Type[] DateTimeTypes = [typeof(DateTime), typeof(DateTime?)];
+    private static readonly Type[] DateTimeOffsetTypes = [typeof(DateTimeOffset), typeof(DateTimeOffset?)];
 
-    public AutoCreationTimeAttribute() : base(EntityState.Added) { }
+    public AutoCreationTimeAttribute() : base(AutoState.Added) { }
 
     public override object Format(object entity, Type propertyType, NowTag value)
     {

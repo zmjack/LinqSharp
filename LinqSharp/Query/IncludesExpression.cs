@@ -19,7 +19,7 @@ public static class IncludesExpression
         switch (keys.Body)
         {
             case MemberExpression exp:
-                propNames = new[] { exp.Member.Name };
+                propNames = [exp.Member.Name];
                 break;
 
             case NewExpression exp:
@@ -32,7 +32,7 @@ public static class IncludesExpression
                     var mexp = exp.Operand as MemberExpression;
                     if (mexp is not null)
                     {
-                        propNames = new[] { mexp.Member.Name };
+                        propNames = [mexp.Member.Name];
                         break;
                     }
                     else goto default;

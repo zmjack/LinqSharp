@@ -45,20 +45,20 @@ namespace LinqSharp.EFCore.Test
         public void QueryFilterTest()
         {
             using var mysql = ApplicationDbContext.UseMySql();
-            var filter = new EntityFilter { Ids = new[] { 1 } };
+            var filter = new EntityFilter { Ids = [1] };
 
             var productIds = mysql.Products.Filter(filter).Select(x => x.ProductID).ToArray();
             var employeeIds = mysql.Employees.Filter(filter).Select(x => x.EmployeeID).ToArray();
 
-            Assert.Equal(new[] { 1 }, productIds);
-            Assert.Equal(new[] { 1 }, employeeIds);
+            Assert.Equal([1], productIds);
+            Assert.Equal([1], employeeIds);
         }
 
         [Fact]
         public void FilterFilterByTest()
         {
             using var mysql = ApplicationDbContext.UseMySql();
-            var filter = new IdsFilter { Ids = new[] { 1 } };
+            var filter = new IdsFilter { Ids = [1] };
 
             var productIds = mysql.Products.Filter(h =>
             {
@@ -69,8 +69,8 @@ namespace LinqSharp.EFCore.Test
                 return h.FilterBy(x => x.EmployeeID, filter);
             }).Select(x => x.EmployeeID).ToArray();
 
-            Assert.Equal(new[] { 1 }, productIds);
-            Assert.Equal(new[] { 1 }, employeeIds);
+            Assert.Equal([1], productIds);
+            Assert.Equal([1], employeeIds);
         }
 
         [Fact]
@@ -83,7 +83,7 @@ namespace LinqSharp.EFCore.Test
             });
 
             var actual = query.Select(x => x.EmployeeID).ToArray();
-            Assert.Equal(new[] { 1, 2 }, actual);
+            Assert.Equal([1, 2], actual);
         }
 
         [Fact]
@@ -96,14 +96,14 @@ namespace LinqSharp.EFCore.Test
             });
 
             var actual = query.Select(x => x.EmployeeID).ToArray();
-            Assert.Equal(new[] { 1, 2 }, actual);
+            Assert.Equal([1, 2], actual);
         }
 
         [Fact]
         public void Test0()
         {
             using var mysql = ApplicationDbContext.UseMySql();
-            string[] values = { "T", "F" };
+            string[] values = ["T", "F"];
 
             var query1 = mysql.Products.Filter(h => h.Or(values.Select(v => h.Where(x => x.ProductName.Contains(v)))));
             var sql1 = query1.ToQueryString();

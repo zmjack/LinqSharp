@@ -1,11 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>
-      net5.0
-    </TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <Version>5.0.7035</Version>
+    <Version>0.0.1</Version>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
@@ -15,27 +13,22 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageId>LinqSharp.EFCore</PackageId>
+    <PackageId>LinqSharp.EFCore.Core</PackageId>
     <PackageTags>Linq EntityFramework</PackageTags>
     <PackageIcon>LinqSharp.png</PackageIcon>
-    <RootNamespace>LinqSharp.EFCore</RootNamespace>
+    <RootNamespace>LinqSharp.EFCore.Core</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;EFCORE2_1_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER</DefineConstants>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>EFCORE2_1_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER</DefineConstants>
     <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.4.0" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
     <PackageReference Include="NStandard" Version="0.53.1" />
   </ItemGroup>
 
@@ -49,13 +42,5 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\LinqSharp\LinqSharp.csproj" />
-    <ProjectReference Include="..\LinqSharp.EFCore.Abstractions\LinqSharp.EFCore.Abstractions.csproj" />
-    <ProjectReference Include="..\LinqSharp.EFCore.Core\LinqSharp.EFCore.Core.csproj" />
-  </ItemGroup>
-
-  <Import Project="..\LinqSharp.EFCore.Shared\LinqSharp.EFCore.Shared.projitems" Label="Shared" />
 
 </Project>
