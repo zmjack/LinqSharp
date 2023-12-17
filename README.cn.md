@@ -79,6 +79,8 @@ dotnet add package LinqSharp.EFCore
 
   第三方库可以通过引用 **LinqSharp.EFCore.Core** 更方便地使用这些方法。
 
+- **DirectQuery** 已重命名为 **DirectQueryScope**。
+
 ### 版本：7.0.34
 
 - 新功能：增加 **IExtraFieldFilter** 接口用于更灵活的字段筛选。
