@@ -494,11 +494,12 @@ public static partial class LinqSharpEF
             else return default;
         });
 
+        var originValues = entry.GetDatabaseValues();
         foreach (var prop in properties)
         {
             var propertyType = prop.PropertyType;
-            var originValue = prop.GetValue(entry.Entity);
-            var finalValue = originValue;
+            var currentValue = prop.GetValue(entry.Entity);
+            var finalValue = currentValue;
             var attrs = prop.GetCustomAttributes<AutoAttribute>();
 
             foreach (var attr in attrs)
@@ -507,7 +508,7 @@ public static partial class LinqSharpEF
                 {
                     if (!attr.States.Contains((AutoState)entry.State))
                     {
-                        entry.State = EntityState.Unchanged;
+                        finalValue = originValues[prop.Name];
                         continue;
                     }
 
@@ -527,11 +528,11 @@ public static partial class LinqSharpEF
                 {
                     if (!attr.States.Contains((AutoState)entry.State)) continue;
 
-                    finalValue = attr.Format(entry.Entity, propertyType, originValue);
+                    finalValue = attr.Format(entry.Entity, propertyType, currentValue);
                 }
             }
 
-            if (originValue != finalValue)
+            if (currentValue != finalValue)
             {
                 prop.SetValue(entry.Entity, finalValue);
             }
