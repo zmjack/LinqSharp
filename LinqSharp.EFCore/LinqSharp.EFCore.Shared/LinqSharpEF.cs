@@ -505,15 +505,25 @@ public static partial class LinqSharpEF
             {
                 if (!attr.States.Contains((AutoState)entry.State)) continue;
 
-                if (attr is SpecialAutoAttribute<NowTag> attr_nowTag)
+                if (attr is ISpecialAutoAttribute)
                 {
-                    finalValue = attr_nowTag.Format(entry.Entity, propertyType, nowTag);
-                }
-                else if (attr is SpecialAutoAttribute<UserTag> attr_userTag)
-                {
-                    if (!isUserTraceable) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
+                    if (!attr.States.Contains((AutoState)entry.State))
+                    {
+                        entry.State = EntityState.Unchanged;
+                        continue;
+                    }
 
-                    finalValue = attr_userTag.Format(entry.Entity, propertyType, lazy_userTag.Value);
+                    if (attr is SpecialAutoAttribute<NowTag> attr_nowTag)
+                    {
+                        finalValue = attr_nowTag.Format(entry.Entity, propertyType, nowTag);
+                    }
+                    else if (attr is SpecialAutoAttribute<UserTag> attr_userTag)
+                    {
+                        if (!isUserTraceable) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
+
+                        finalValue = attr_userTag.Format(entry.Entity, propertyType, lazy_userTag.Value);
+                    }
+                    else throw new NotImplementedException($"{attr.GetType()} was not processed.");
                 }
                 else
                 {

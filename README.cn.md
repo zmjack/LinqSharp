@@ -71,6 +71,14 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
+### 版本：7.0.36
+
+- 新方法：增加 **Random()** 和 **RandomOrDefault()** 用来获取一个随机记录。
+
+- **中断性变更**：标记 **SpecialAutoAttribute** 的列不能被手动修改，它们的值将由引擎自动维护。
+
+  该项变更将能与 **EFCore** 提供 **Update** 方法配合得更好。
+
 ### 版本：7.0.35
 
 - **实验性更新：**

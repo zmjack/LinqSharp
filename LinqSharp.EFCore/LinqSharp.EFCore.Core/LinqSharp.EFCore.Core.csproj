@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <Version>0.0.1.1</Version>
+    <Version>0.0.2</Version>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>

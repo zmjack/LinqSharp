@@ -71,6 +71,14 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version 7.0.36
+
+- New Methods: Added **Random()** and **RandomOrDefault()** to get a random record.
+
+- **Breaking Change**: Columns marked by **SpecialAutoAttribute** cannot be modified manually, and their values can only be maintained by the engine.
+
+  This change will work better with the **Update** method provided by EFCore.
+
 ### Version 7.0.35
 
 - **Experimental:**

@@ -23,4 +23,26 @@ public static partial class IEnumerableExtensions
         return @this.OrderBy(x => Guid.NewGuid()).Take(takeCount);
     }
 
+    /// <summary>
+    /// Get a random record from a source set.
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static TSource Random<TSource>(this IEnumerable<TSource> @this)
+    {
+        return @this.OrderBy(x => Guid.NewGuid()).Take(1).First();
+    }
+
+    /// <summary>
+    /// Get a random record from a source set.
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static TSource RandomOrDefault<TSource>(this IEnumerable<TSource> @this)
+    {
+        return @this.OrderBy(x => Guid.NewGuid()).Take(1).FirstOrDefault();
+    }
+
 }

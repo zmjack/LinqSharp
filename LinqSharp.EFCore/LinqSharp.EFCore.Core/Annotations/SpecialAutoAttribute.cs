@@ -8,7 +8,11 @@ using System;
 
 namespace LinqSharp.EFCore.Annotations;
 
-public abstract class SpecialAutoAttribute<TAutoTag> : AutoAttribute where TAutoTag : IAutoTag
+public interface ISpecialAutoAttribute
+{
+}
+
+public abstract class SpecialAutoAttribute<TAutoTag> : AutoAttribute, ISpecialAutoAttribute where TAutoTag : IAutoTag
 {
     public SpecialAutoAttribute() : base() { }
     public SpecialAutoAttribute(params AutoState[] states) : base(states) { }

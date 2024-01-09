@@ -24,4 +24,32 @@ public static partial class IQueryableExtensions
         return @this.OrderBy(x => DbRandom.NextDouble()).Take(takeCount);
     }
 
+    /// <summary>
+    /// Get a random record from a source set.
+    /// <para> Before calling this function, you need to enable DbRandom functions. </para>
+    /// <para> Use LinqSharpEF.UseTranslator&lt;DbRandom&gt;(this, modelBuilder) on ModelCreating. </para>
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static TSource Random<TSource>(this IQueryable<TSource> @this)
+        where TSource : class
+    {
+        return @this.OrderBy(x => DbRandom.NextDouble()).Take(1).First();
+    }
+
+    /// <summary>
+    /// Get a random record from a source set.
+    /// <para> Before calling this function, you need to enable DbRandom functions. </para>
+    /// <para> Use LinqSharpEF.UseTranslator&lt;DbRandom&gt;(this, modelBuilder) on ModelCreating. </para>
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static TSource RandomOrDefault<TSource>(this IQueryable<TSource> @this)
+        where TSource : class
+    {
+        return @this.OrderBy(x => DbRandom.NextDouble()).Take(1).FirstOrDefault();
+    }
+
 }
