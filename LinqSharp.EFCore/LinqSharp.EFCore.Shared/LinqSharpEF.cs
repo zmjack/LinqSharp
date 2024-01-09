@@ -503,8 +503,6 @@ public static partial class LinqSharpEF
 
             foreach (var attr in attrs)
             {
-                if (!attr.States.Contains((AutoState)entry.State)) continue;
-
                 if (attr is ISpecialAutoAttribute)
                 {
                     if (!attr.States.Contains((AutoState)entry.State))
@@ -527,6 +525,8 @@ public static partial class LinqSharpEF
                 }
                 else
                 {
+                    if (!attr.States.Contains((AutoState)entry.State)) continue;
+
                     finalValue = attr.Format(entry.Entity, propertyType, originValue);
                 }
             }
