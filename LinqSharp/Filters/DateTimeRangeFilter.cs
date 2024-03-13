@@ -7,9 +7,11 @@
 using LinqSharp.Query;
 using NStandard;
 using System;
+using System.Diagnostics;
 
 namespace LinqSharp.Filters;
 
+[DebuggerDisplay("{Type}, {(Start.HasValue ? Start.ToString() : \"<null>\")} to {(End.HasValue ? End.ToString() : \"<null>\")}")]
 public partial class DateTimeRangeFilter : IFieldFilter<DateTime>, IFieldFilter<DateTime?>
 {
     public DateTimeType Type { get; set; }
