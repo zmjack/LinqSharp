@@ -5,7 +5,7 @@
       netstandard2.0
     </TargetFrameworks>
     <AssemblyName>LinqSharp.EFCore</AssemblyName>
-    <Version>2.1.7036.7</Version>
+    <Version>2.1.7036.8</Version>
     <LangVersion>preview</LangVersion>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
@@ -20,6 +20,7 @@
     <PackageTags>Linq EntityFramework</PackageTags>
     <PackageIcon>LinqSharp.png</PackageIcon>
     <RootNamespace>LinqSharp.EFCore</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
