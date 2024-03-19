@@ -57,7 +57,7 @@ public static partial class IEnumerableExtensions
         return @this.Where(x => predicate(selector(x)));
     }
 
-    public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> selector, IExtraFieldFilter<TProperty> extraFilter)
+    public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> selector, IAdvancedFieldFilter<TProperty> extraFilter)
     {
         if (extraFilter is null) return @this;
 

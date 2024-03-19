@@ -56,7 +56,7 @@ public static partial class IQueryableExtensions
         return FilterBy(@this, selector, expression);
     }
 
-    public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> selector, IExtraFieldFilter<TProperty> extraFilter)
+    public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> selector, IAdvancedFieldFilter<TProperty> extraFilter)
     {
         if (extraFilter is null) return @this;
 

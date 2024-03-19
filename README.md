@@ -71,6 +71,10 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version 7.0.37
+
+- Rename **IExtraFieldFilter** to **IAdvancedFieldFilter**.
+
 ### Version 7.0.36
 
 - New Methods: Added **Random()** and **RandomOrDefault()** to get a random record.
