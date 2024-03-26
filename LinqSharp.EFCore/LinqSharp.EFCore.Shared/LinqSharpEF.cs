@@ -32,6 +32,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using LinqSharp.EFCore.Query;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace LinqSharp.EFCore;
 
@@ -299,14 +300,11 @@ public static partial class LinqSharpEF
         RefreshEntries();
         foreach (var entriesOfType in entriesByType)
         {
-            var entityType = entriesOfType.Key;
-
             foreach (var entry in entriesOfType)
             {
                 if (new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(entry.State))
                 {
-                    var props = entityType.GetProperties().Where(x => x.CanWrite).ToArray();
-                    ResolveAutoAttributes(context, entry, props);
+                    ResolveAutoAttributes(context, entry, entriesOfType.Key);
                 }
             }
         }
@@ -490,8 +488,10 @@ public static partial class LinqSharpEF
         }
     }
 
-    private static void ResolveAutoAttributes(DbContext context, EntityEntry entry, PropertyInfo[] properties)
+    private static void ResolveAutoAttributes(DbContext context, EntityEntry entry, Type entityType)
     {
+        var props = entityType.GetProperties().Where(x => x.CanWrite).ToArray();
+
         var nowTag = new NowParam
         {
             Now = DateTime.Now,
@@ -511,7 +511,7 @@ public static partial class LinqSharpEF
         });
 
         var originValues = entry.GetDatabaseValues();
-        foreach (var prop in properties)
+        foreach (var prop in props)
         {
             var propertyType = prop.PropertyType;
             var currentValue = prop.GetValue(entry.Entity);
