@@ -97,7 +97,8 @@ namespace DbCreator.Migrations
                         .HasColumnType("nvarchar(127)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(768)
+                        .HasColumnType("nvarchar(768)");
 
                     b.HasKey("Id");
 

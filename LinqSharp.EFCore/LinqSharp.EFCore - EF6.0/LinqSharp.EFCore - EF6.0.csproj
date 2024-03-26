@@ -5,7 +5,7 @@
       net6.0
     </TargetFrameworks>
     <AssemblyName>LinqSharp.EFCore</AssemblyName>
-    <Version>6.0.7037.5</Version>
+    <Version>6.0.7037.6</Version>
     <LangVersion>preview</LangVersion>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>

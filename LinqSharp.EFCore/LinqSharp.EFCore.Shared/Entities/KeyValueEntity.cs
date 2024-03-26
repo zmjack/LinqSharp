@@ -25,5 +25,6 @@ public abstract class KeyValueEntity
     [StringLength(127)]
     public string Key { get; set; }
 
+    [StringLength(768)]
     public string Value { get; set; }
 }
