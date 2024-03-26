@@ -3,7 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using LinqSharp.EFCore.Design.AutoTags;
+using LinqSharp.EFCore.Annotations.Params;
 using System;
 
 namespace LinqSharp.EFCore.Annotations;
@@ -12,7 +12,7 @@ public interface ISpecialAutoAttribute
 {
 }
 
-public abstract class SpecialAutoAttribute<TAutoTag> : AutoAttribute, ISpecialAutoAttribute where TAutoTag : IAutoTag
+public abstract class SpecialAutoAttribute<TAutoTag> : AutoAttribute, ISpecialAutoAttribute where TAutoTag : IAutoParam
 {
     public SpecialAutoAttribute() : base() { }
     public SpecialAutoAttribute(params AutoState[] states) : base(states) { }

@@ -8,4 +8,4 @@ using System;
 namespace LinqSharp.EFCore.Annotations;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class NotAcceptableAttribute : Attribute { }
+public sealed class NotAcceptableAttribute : Attribute { }

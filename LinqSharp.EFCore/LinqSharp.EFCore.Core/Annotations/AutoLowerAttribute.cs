@@ -8,7 +8,7 @@ using System;
 namespace LinqSharp.EFCore.Annotations;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class AutoLowerAttribute : AutoAttribute
+public sealed class AutoLowerAttribute : AutoAttribute
 {
     public AutoLowerAttribute() : base(AutoState.Added, AutoState.Modified) { }
     public override object Format(object entity, Type propertyType, object value)

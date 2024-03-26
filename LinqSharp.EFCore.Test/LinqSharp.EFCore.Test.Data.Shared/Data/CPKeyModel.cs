@@ -1,15 +1,14 @@
 ﻿using LinqSharp.EFCore.Annotations;
 using System;
 
-namespace LinqSharp.EFCore.Data.Test
+namespace LinqSharp.EFCore.Data.Test;
+
+public class CPKeyModel
 {
-    public class CPKeyModel
-    {
-        [CPKey(1)]
-        public Guid Id1 { get; set; }
+    [CPKey(1)]
+    public Guid Id1 { get; set; }
 
-        [CPKey(2)]
-        public Guid Id2 { get; set; }
+    [CPKey(2)]
+    public Guid Id2 { get; set; }
 
-    }
 }

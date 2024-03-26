@@ -5,7 +5,7 @@
 
 using LinqSharp.EFCore.Annotations;
 using LinqSharp.EFCore.Design;
-using LinqSharp.EFCore.Design.AutoTags;
+using LinqSharp.EFCore.Annotations.Params;
 using LinqSharp.EFCore.Translators;
 using LinqSharp.EFCore.Infrastructure;
 using LinqSharp.EFCore.Providers;
@@ -40,6 +40,8 @@ public static partial class LinqSharpEF
     private static readonly MemoryCache ComplexTypesCache = new(new MemoryCacheOptions());
     private static readonly MemoryCache ConcurrencyResolvingCache = new(new MemoryCacheOptions());
     private static readonly MemoryCache ConcurrencyResolvableEntityCache = new(new MemoryCacheOptions());
+
+    private static InvalidOperationException CanNotUpdate(Type entityType, string id) => new($"Record is locked by client. (#{id})");
 
     public static Dictionary<ConcurrencyResolvingMode, string[]> GetConcurrencyResolvingDict(Type type)
     {
@@ -265,42 +267,59 @@ public static partial class LinqSharpEF
     public static void IntelliTrack(DbContext context, bool acceptAllChangesOnSuccess)
     {
         EntityEntry[] entries;
-        IGrouping<Type, EntityEntry>[] auditEntriesByTypes;
+        IGrouping<Type, EntityEntry>[] entriesByType;
+        IGrouping<Type, EntityEntry>[] auditEntriesByType;
+
         void RefreshEntries()
         {
-            entries = context.ChangeTracker.Entries()
-               .Where(x => new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(x.State))
-               .ToArray();
-            auditEntriesByTypes = entries
-                .GroupBy(x => x.Entity.GetType())
-                .Where(x => x.Key.HasAttribute<EntityAuditAttribute>())
-                .ToArray();
+            entries =
+            [
+                .. from x in context.ChangeTracker.Entries()
+                   where new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(x.State)
+                   select x
+            ];
+
+            entriesByType =
+            [
+                .. from x in entries
+                   group x by x.Entity.GetType() into g
+                   select g
+            ];
+
+            auditEntriesByType =
+            [
+                .. from g in entriesByType
+                   where g.Key.HasAttribute<EntityAuditAttribute>()
+                   select g
+            ];
         }
 
         var auditorCaches = new CacheSet<Type, Reflector>(auditType => () => Activator.CreateInstance(auditType).GetReflector());
 
         RefreshEntries();
-        foreach (var entry in entries)
+        foreach (var entriesOfType in entriesByType)
         {
-            // Resolve AutoAttributes
-            var entity = entry.Entity;
-            var entityType = entity.GetType();
-            if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+            var entityType = entriesOfType.Key;
+
+            foreach (var entry in entriesOfType)
             {
-                var props = entityType.GetProperties().Where(x => x.CanWrite).ToArray();
-                ResolveAutoAttributes(context, entry, props);
+                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                {
+                    var props = entityType.GetProperties().Where(x => x.CanWrite).ToArray();
+                    ResolveAutoAttributes(context, entry, props);
+                }
             }
         }
 
         // Resolve BeforeAudit
-        foreach (var entriesByType in auditEntriesByTypes)
+        foreach (var entriesOfType in auditEntriesByType)
         {
-            var entityType = entriesByType.Key;
+            var entityType = entriesOfType.Key;
             var attr = entityType.GetCustomAttribute<EntityAuditAttribute>();
 
             var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
-            var audits = Array.CreateInstance(auditType, entriesByType.Count());
-            foreach (var (index, value) in entriesByType.AsIndexValuePairs())
+            var audits = Array.CreateInstance(auditType, entriesOfType.Count());
+            foreach (var (index, value) in entriesOfType.AsIndexValuePairs())
             {
                 audits.SetValue(EntityAudit.Parse(value), index);
             }
@@ -310,14 +329,14 @@ public static partial class LinqSharpEF
 
         // Resolve OnAuditing
         RefreshEntries();
-        foreach (var entriesByType in auditEntriesByTypes)
+        foreach (var entriesOfType in auditEntriesByType)
         {
-            var entityType = entriesByType.Key;
+            var entityType = entriesOfType.Key;
             var attr = entityType.GetCustomAttribute<EntityAuditAttribute>();
 
             var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
-            var audits = Array.CreateInstance(auditType, entriesByType.Count());
-            foreach (var (index, value) in entriesByType.AsIndexValuePairs())
+            var audits = Array.CreateInstance(auditType, entriesOfType.Count());
+            foreach (var (index, value) in entriesOfType.AsIndexValuePairs())
             {
                 audits.SetValue(EntityAudit.Parse(value), index);
             }
@@ -475,23 +494,22 @@ public static partial class LinqSharpEF
     {
         if (!new[] { EntityState.Added, EntityState.Modified }.Contains(entry.State)) return;
 
-        var nowTag = new NowTag
+        var nowTag = new NowParam
         {
             Now = DateTime.Now,
             NowOffset = DateTimeOffset.Now,
         };
 
         var isUserTraceable = context is IUserTraceable;
-        var lazy_userTag = new Lazy<UserTag>(() =>
+        var currentUser = new Lazy<string>(() =>
         {
-            if (isUserTraceable)
-            {
-                return new UserTag
-                {
-                    CurrentUser = (context as IUserTraceable).CurrentUser
-                };
-            }
-            else return default;
+            return (context as IUserTraceable).CurrentUser;
+        });
+
+        var isRowLockable = context is IRowLockable;
+        var ignoreRowLock = new Lazy<bool>(() =>
+        {
+            return (context as IRowLockable).IgnoreRowLock;
         });
 
         var originValues = entry.GetDatabaseValues();
@@ -508,19 +526,36 @@ public static partial class LinqSharpEF
                 {
                     if (!attr.States.Contains((AutoState)entry.State))
                     {
-                        finalValue = originValues[prop.Name];
+                        if (entry.State == EntityState.Modified)
+                        {
+                            finalValue = originValues[prop.Name];
+                        }
                         continue;
                     }
 
-                    if (attr is SpecialAutoAttribute<NowTag> attr_nowTag)
+                    if (attr is SpecialAutoAttribute<NowParam> attr_now)
                     {
-                        finalValue = attr_nowTag.Format(entry.Entity, propertyType, nowTag);
+                        finalValue = attr_now.Format(entry.Entity, propertyType, nowTag);
                     }
-                    else if (attr is SpecialAutoAttribute<UserTag> attr_userTag)
+                    else if (attr is SpecialAutoAttribute<UserParam> attr_user)
                     {
                         if (!isUserTraceable) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
 
-                        finalValue = attr_userTag.Format(entry.Entity, propertyType, lazy_userTag.Value);
+                        finalValue = attr_user.Format(entry.Entity, propertyType, new UserParam
+                        {
+                            CurrentUser = currentUser.Value,
+                        });
+                    }
+                    else if (attr is SpecialAutoAttribute<LockParam> attr_lock)
+                    {
+                        if (!isRowLockable) throw new InvalidOperationException($"The context needs to implement {nameof(IRowLockable)}.");
+
+                        finalValue = attr_lock.Format(entry.Entity, propertyType, new LockParam
+                        {
+                            IgnoreRowLock = ignoreRowLock.Value,
+                            Origin = originValues[prop.Name],
+                            Current = currentValue,
+                        });
                     }
                     else throw new NotImplementedException($"{attr.GetType()} was not processed.");
                 }

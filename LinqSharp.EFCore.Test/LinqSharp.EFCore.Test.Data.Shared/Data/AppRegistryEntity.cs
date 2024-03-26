@@ -2,18 +2,16 @@
 using LinqSharp.EFCore.Entities;
 using System;
 
-namespace LinqSharp.EFCore.Data.Test
+namespace LinqSharp.EFCore.Data.Test;
+
+public class AppRegistryEntity : KeyValueEntity { }
+public class AppRegistry : KeyValueAgent<AppRegistryEntity>
 {
-    public class AppRegistryEntity : KeyValueEntity { }
-    public class AppRegistry : KeyValueAgent<AppRegistryEntity>
-    {
-        public virtual string Theme { get; set; } = "Default";
-        public virtual string Color { get; set; }
+    public virtual string Theme { get; set; } = "Default";
+    public virtual string Color { get; set; }
 
-        public virtual int Volume { get; set; }
-        public virtual DateTime? LoginTime { get; set; }
+    public virtual int Volume { get; set; }
+    public virtual DateTime? LoginTime { get; set; }
 
-        public virtual bool Lock { get; set; }
-    }
-
+    public virtual bool Lock { get; set; }
 }

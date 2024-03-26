@@ -10,12 +10,8 @@ namespace LinqSharp.EFCore.Annotations;
 public enum IndexType { Normal, Unique }
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-public class IndexFieldAttribute : Attribute
+public sealed class IndexFieldAttribute(IndexType type) : Attribute
 {
     public string Group { get; set; }
-    public IndexType Type { get; set; }
-    public IndexFieldAttribute(IndexType type)
-    {
-        Type = type;
-    }
+    public IndexType Type { get; set; } = type;
 }

@@ -3,7 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using LinqSharp.EFCore.Design.AutoTags;
+using LinqSharp.EFCore.Annotations.Params;
 using NStandard;
 using System;
 using System.Linq;
@@ -11,14 +11,14 @@ using System.Linq;
 namespace LinqSharp.EFCore.Annotations;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class AutoLastWriteTimeAttribute : SpecialAutoAttribute<NowTag>
+public sealed class AutoLastWriteTimeAttribute : SpecialAutoAttribute<NowParam>
 {
     private static readonly Type[] DateTimeTypes = [typeof(DateTime), typeof(DateTime?)];
     private static readonly Type[] DateTimeOffsetTypes = [typeof(DateTimeOffset), typeof(DateTimeOffset?)];
 
     public AutoLastWriteTimeAttribute() : base(AutoState.Added, AutoState.Modified) { }
 
-    public override object Format(object entity, Type propertyType, NowTag value)
+    public override object Format(object entity, Type propertyType, NowParam value)
     {
         if (DateTimeTypes.Contains(propertyType)) return value.Now;
         else if (DateTimeOffsetTypes.Contains(propertyType)) return value.NowOffset;

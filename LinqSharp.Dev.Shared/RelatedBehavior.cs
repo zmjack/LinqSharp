@@ -1,13 +1,12 @@
-﻿namespace LinqSharp.EFCore
+﻿namespace LinqSharp.EFCore;
+
+public enum RelatedBehavior
 {
-    public enum RelatedBehavior
-    {
-        ClientSetNull,
+    ClientSetNull,
 
-        Restrict,
+    Restrict,
 
-        SetNull,
+    SetNull,
 
-        Cascade
-    }
+    Cascade
 }

@@ -8,8 +8,7 @@ using System;
 namespace LinqSharp.EFCore.Annotations;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class CPKeyAttribute : Attribute
+public sealed class CPKeyAttribute(int order) : Attribute
 {
-    public int Order { get; set; }
-    public CPKeyAttribute(int order) { Order = order; }
+    public int Order { get; set; } = order;
 }

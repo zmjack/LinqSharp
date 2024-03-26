@@ -6,66 +6,65 @@ using System;
 using System.Linq;
 using Xunit;
 
-namespace LinqSharp.EFCore.Test
+namespace LinqSharp.EFCore.Test;
+
+public class AddOrUpdateTests
 {
-    public class AddOrUpdateTests
+    [Fact]
+    public void Test1()
     {
-        [Fact]
-        public void Test1()
+        var now = DateTime.Now;
+        using var mysql = ApplicationDbContext.UseMySql();
+
+        using (mysql.BeginDirectQuery())
         {
-            var now = DateTime.Now;
-            using var mysql = ApplicationDbContext.UseMySql();
-
-            using (mysql.BeginDirectQuery())
-            {
-                mysql.LS_Names.Truncate();
-            }
-
-            var item1 = new LS_Name { Name = "zmjack", CreationTime = now, Note = "Added" };
-            // AddOrUpdate
-            var state1 = mysql.LS_Names.AddOrUpdate(x => new { x.Name, x.CreationTime }, ref item1);
-            Assert.Equal(EntityState.Added, state1.State);
-            mysql.SaveChanges();
-
-            var item2 = new LS_Name { Name = "zmjack", CreationTime = now, Note = "Modified" };
-            var state2 = mysql.LS_Names.AddOrUpdate(x => new { x.Name, x.CreationTime }, ref item2, options => options.Update = (record, entity) => record.Accept(entity));
-            Assert.Equal(EntityState.Modified, state2.State);
-            mysql.SaveChanges();
-
-            // AddOrUpdateRange
-            mysql.LS_Names.AddOrUpdateRange(x => new { x.Name, x.CreationTime },
-            [
-                new LS_Name { Name = "zmjack", CreationTime = now, Note = "Unchanged" },
-                new LS_Name { Name = "zmjack(2)", CreationTime = now, Note = "Added" },
-            ]);
-            mysql.SaveChanges();
-            Assert.Equal(2, mysql.LS_Names.Count());
-            Assert.Equal(1, mysql.LS_Names.Count(x => x.Note == "Modified"));
-
-            mysql.LS_Names.AddOrUpdateRange(x => new { x.Name, x.CreationTime },
-            [
-                new LS_Name { Name = "zmjack", CreationTime = now, Note = "Modified - 3" },
-                new LS_Name { Name = "zmjack(2)", CreationTime = now, Note = "Modified - 3" },
-            ], options => options.Update = (record, entity) => record.Note = entity.Note + " -- Changed");
-            mysql.SaveChanges();
-            Assert.Equal(2, mysql.LS_Names.Count(x => x.Note.Contains("Changed")));
-
-            // Clear
-            using (mysql.BeginDirectQuery())
-            {
-                mysql.LS_Names.Truncate();
-            }
+            mysql.LS_Names.Truncate();
         }
 
-        [Fact]
-        public void Test2()
+        var item1 = new LS_Name { Name = "zmjack", CreationTime = now, Note = "Added" };
+        // AddOrUpdate
+        var state1 = mysql.LS_Names.AddOrUpdate(x => new { x.Name, x.CreationTime }, ref item1);
+        Assert.Equal(EntityState.Added, state1.State);
+        mysql.SaveChanges();
+
+        var item2 = new LS_Name { Name = "zmjack", CreationTime = now, Note = "Modified" };
+        var state2 = mysql.LS_Names.AddOrUpdate(x => new { x.Name, x.CreationTime }, ref item2, options => options.Update = (record, entity) => record.Accept(entity));
+        Assert.Equal(EntityState.Modified, state2.State);
+        mysql.SaveChanges();
+
+        // AddOrUpdateRange
+        mysql.LS_Names.AddOrUpdateRange(x => new { x.Name, x.CreationTime },
+        [
+            new LS_Name { Name = "zmjack", CreationTime = now, Note = "Unchanged" },
+            new LS_Name { Name = "zmjack(2)", CreationTime = now, Note = "Added" },
+        ]);
+        mysql.SaveChanges();
+        Assert.Equal(2, mysql.LS_Names.Count());
+        Assert.Equal(1, mysql.LS_Names.Count(x => x.Note == "Modified"));
+
+        mysql.LS_Names.AddOrUpdateRange(x => new { x.Name, x.CreationTime },
+        [
+            new LS_Name { Name = "zmjack", CreationTime = now, Note = "Modified - 3" },
+            new LS_Name { Name = "zmjack(2)", CreationTime = now, Note = "Modified - 3" },
+        ], options => options.Update = (record, entity) => record.Note = entity.Note + " -- Changed");
+        mysql.SaveChanges();
+        Assert.Equal(2, mysql.LS_Names.Count(x => x.Note.Contains("Changed")));
+
+        // Clear
+        using (mysql.BeginDirectQuery())
         {
-            using var mysql = ApplicationDbContext.UseMySql();
-
-            // AddOrUpdateRange - Empty
-            mysql.LS_Names.AddOrUpdateRange(x => new { x.Name, x.CreationTime }, new LS_Name[0]);
-            mysql.SaveChanges();
+            mysql.LS_Names.Truncate();
         }
-
     }
+
+    [Fact]
+    public void Test2()
+    {
+        using var mysql = ApplicationDbContext.UseMySql();
+
+        // AddOrUpdateRange - Empty
+        mysql.LS_Names.AddOrUpdateRange(x => new { x.Name, x.CreationTime }, new LS_Name[0]);
+        mysql.SaveChanges();
+    }
+
 }

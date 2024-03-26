@@ -1,9 +1,8 @@
-﻿namespace LinqSharp.EFCore.Models.Test
+﻿namespace LinqSharp.EFCore.Models.Test;
+
+public class NameModel
 {
-    public class NameModel
-    {
-        public string Name { get; set; }
-        public string NickName { get; set; }
-        public string Tag { get; set; }
-    }
+    public string Name { get; set; }
+    public string NickName { get; set; }
+    public string Tag { get; set; }
 }

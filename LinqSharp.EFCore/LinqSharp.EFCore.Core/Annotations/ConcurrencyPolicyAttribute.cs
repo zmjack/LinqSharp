@@ -9,13 +9,7 @@ namespace LinqSharp.EFCore.Annotations;
 
 
 [AttributeUsage(AttributeTargets.Property)]
-public class ConcurrencyPolicyAttribute : Attribute
+public sealed class ConcurrencyPolicyAttribute(ConcurrencyResolvingMode mode) : Attribute
 {
-    public ConcurrencyResolvingMode Mode { get; set; }
-
-    public ConcurrencyPolicyAttribute(ConcurrencyResolvingMode mode)
-    {
-        Mode = mode;
-    }
-
+    public ConcurrencyResolvingMode Mode { get; set; } = mode;
 }

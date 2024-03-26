@@ -12,52 +12,51 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace LinqSharp.EFCore.Dev
+namespace LinqSharp.EFCore.Dev;
+
+public class UpdateWrapper<TEntity>
+    where TEntity : class
 {
-    public class UpdateWrapper<TEntity>
-        where TEntity : class
+    public WhereWrapper<TEntity> WhereWrapper { get; }
+
+    public Dictionary<string, object> FieldChanges = new();
+
+    public UpdateWrapper(WhereWrapper<TEntity> whereWrapper)
     {
-        public WhereWrapper<TEntity> WhereWrapper { get; }
+        WhereWrapper = whereWrapper;
+    }
 
-        public Dictionary<string, object> FieldChanges = new();
-
-        public UpdateWrapper(WhereWrapper<TEntity> whereWrapper)
+    public UpdateWrapper<TEntity> Set<TRet>(Expression<Func<TEntity, TRet>> expression, TRet value)
+    {
+        if (expression.Body.NodeType == ExpressionType.MemberAccess)
         {
-            WhereWrapper = whereWrapper;
-        }
+            var body = (expression.Body as MemberExpression).Member;
+            string setValue;
 
-        public UpdateWrapper<TEntity> Set<TRet>(Expression<Func<TEntity, TRet>> expression, TRet value)
+            if (value.GetType().IsNumberType())
+                setValue = value.ToString();
+            else setValue = $"'{value}'";
+
+            FieldChanges.Add(body.GetCustomAttribute<ColumnAttribute>()?.Name ?? body.Name, setValue);
+        }
+        return this;
+    }
+
+    public string ToSql()
+    {
+        if (!FieldChanges.Any()) throw new ArgumentException("The `set` statement is null.");
+
+        var set = FieldChanges.Select(x =>
         {
-            if (expression.Body.NodeType == ExpressionType.MemberAccess)
-            {
-                var body = (expression.Body as MemberExpression).Member;
-                string setValue;
-
-                if (value.GetType().IsNumberType())
-                    setValue = value.ToString();
-                else setValue = $"'{value}'";
-
-                FieldChanges.Add(body.GetCustomAttribute<ColumnAttribute>()?.Name ?? body.Name, setValue);
-            }
-            return this;
-        }
-
-        public string ToSql()
-        {
-            if (!FieldChanges.Any()) throw new ArgumentException("The `set` statement is null.");
-
-            var set = FieldChanges.Select(x =>
-            {
-                var key = $"{WhereWrapper.ReferenceTagA}{x.Key}{WhereWrapper.ReferenceTagB}";
-                return $"{key}={x.Value}";
-            }).Join(",");
-            return $"UPDATE {WhereWrapper.TableName} SET {set} WHERE {WhereWrapper.WhereString}";
-        }
+            var key = $"{WhereWrapper.ReferenceTagA}{x.Key}{WhereWrapper.ReferenceTagB}";
+            return $"{key}={x.Value}";
+        }).Join(",");
+        return $"UPDATE {WhereWrapper.TableName} SET {set} WHERE {WhereWrapper.WhereString}";
+    }
 
 #if EFCORE3_1_OR_GREATER
-        public int Save() => WhereWrapper.DbContext.Database.ExecuteSqlRaw(ToSql());
+    public int Save() => WhereWrapper.DbContext.Database.ExecuteSqlRaw(ToSql());
 #else
-        public int Save() => WhereWrapper.DbContext.Database.ExecuteSqlCommand(ToSql());
+    public int Save() => WhereWrapper.DbContext.Database.ExecuteSqlCommand(ToSql());
 #endif
-    }
 }

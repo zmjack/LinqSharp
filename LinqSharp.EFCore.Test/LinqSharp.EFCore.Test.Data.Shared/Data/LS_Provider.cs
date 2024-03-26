@@ -6,34 +6,33 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace LinqSharp.EFCore.Data.Test
+namespace LinqSharp.EFCore.Data.Test;
+
+public class LS_Provider
 {
-    public class LS_Provider
+    [Key]
+    public Guid Id { get; set; }
+
+    [StringLength(127)]
+    [PasswordProvider]
+    public string Password { get; set; }
+
+    [StringLength(127)]
+    [JsonProvider]
+    public NameModel NameModel { get; set; }
+
+    [StringLength(127)]
+    [JsonProvider]
+    public object JsonModel { get; set; }
+
+    [StringLength(127)]
+    [JsonProvider]
+    public Dictionary<string, string> DictionaryModel { get; set; }
+
+    public class PasswordProvider : ProviderAttribute<string, string>
     {
-        [Key]
-        public Guid Id { get; set; }
-
-        [StringLength(127)]
-        [PasswordProvider]
-        public string Password { get; set; }
-
-        [StringLength(127)]
-        [JsonProvider]
-        public NameModel NameModel { get; set; }
-
-        [StringLength(127)]
-        [JsonProvider]
-        public object JsonModel { get; set; }
-
-        [StringLength(127)]
-        [JsonProvider]
-        public Dictionary<string, string> DictionaryModel { get; set; }
-
-        public class PasswordProvider : ProviderAttribute<string, string>
-        {
-            public override string ReadFromProvider(string value) => value.Pipe(StringFlow.BytesFromBase64).String();
-            public override string WriteToProvider(string model) => model.Bytes().Pipe(BytesFlow.Base64);
-        }
-
+        public override string ReadFromProvider(string value) => value.Pipe(StringFlow.BytesFromBase64).String();
+        public override string WriteToProvider(string model) => model.Bytes().Pipe(BytesFlow.Base64);
     }
+
 }

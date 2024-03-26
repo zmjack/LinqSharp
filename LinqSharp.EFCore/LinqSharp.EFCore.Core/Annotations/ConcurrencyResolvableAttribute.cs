@@ -3,6 +3,6 @@
 namespace LinqSharp.EFCore.Annotations;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class ConcurrencyResolvableAttribute : Attribute
+public sealed class ConcurrencyResolvableAttribute : Attribute
 {
 }

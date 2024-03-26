@@ -59,6 +59,23 @@ namespace DbCreator.Migrations
                     b.ToTable("LS_Names");
                 });
 
+            modelBuilder.Entity("LinqSharp.EFCore.Data.RowLockModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("LockDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RowLockModels");
+                });
+
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AppRegistryEntity", b =>
                 {
                     b.Property<Guid>("Id")

@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\LS_Index.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\LS_Name.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\LS_Provider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\RowLockModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SimpleModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SimpleRow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\TrackModel.cs" />

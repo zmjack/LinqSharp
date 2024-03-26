@@ -1,6 +1,6 @@
 ﻿namespace LinqSharp;
 
-public interface IVersioned<T>
+public interface IVersionable<T>
 {
     T Version { set; }
 }

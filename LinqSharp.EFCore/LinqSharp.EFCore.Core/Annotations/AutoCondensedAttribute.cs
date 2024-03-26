@@ -10,7 +10,7 @@ using System.Linq;
 namespace LinqSharp.EFCore.Annotations;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class AutoCondensedAttribute : AutoAttribute
+public sealed class AutoCondensedAttribute : AutoAttribute
 {
     public bool ReserveNewLine { get; set; }
     public bool Nullable { get; set; }

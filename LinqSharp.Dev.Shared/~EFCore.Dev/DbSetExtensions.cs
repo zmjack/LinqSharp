@@ -8,22 +8,21 @@ using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
 
-namespace LinqSharp.EFCore.Dev
+namespace LinqSharp.EFCore.Dev;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public static class DbSetExtensions
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class DbSetExtensions
+    [Obsolete("The API is part of the experimental feature and may be modified or removed in the future.")]
+    public static UpdateWrapper<TEntity> TryUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> expression) where TEntity : class
     {
-        [Obsolete("The API is part of the experimental feature and may be modified or removed in the future.")]
-        public static UpdateWrapper<TEntity> TryUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> expression) where TEntity : class
-        {
-            return new UpdateWrapper<TEntity>(new WhereWrapper<TEntity>(@this, expression));
-        }
-
-        [Obsolete("The API is part of the experimental feature and may be modified or removed in the future.")]
-        public static DeleteWrapper<TEntity> TryDelete<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> expression) where TEntity : class
-        {
-            return new DeleteWrapper<TEntity>(new WhereWrapper<TEntity>(@this, expression));
-        }
-
+        return new UpdateWrapper<TEntity>(new WhereWrapper<TEntity>(@this, expression));
     }
+
+    [Obsolete("The API is part of the experimental feature and may be modified or removed in the future.")]
+    public static DeleteWrapper<TEntity> TryDelete<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, bool>> expression) where TEntity : class
+    {
+        return new DeleteWrapper<TEntity>(new WhereWrapper<TEntity>(@this, expression));
+    }
+
 }

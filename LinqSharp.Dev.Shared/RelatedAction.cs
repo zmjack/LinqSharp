@@ -1,10 +1,9 @@
-﻿namespace LinqSharp.EFCore
+﻿namespace LinqSharp.EFCore;
+
+public enum RelatedAction
 {
-    public enum RelatedAction
-    {
-        None,
-        OneToOne,
-        OneToMany,
-        ManyToOne,
-    }
+    None,
+    OneToOne,
+    OneToMany,
+    ManyToOne,
 }

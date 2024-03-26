@@ -8,7 +8,7 @@ using System;
 namespace LinqSharp.EFCore.Annotations;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class AutoUpperAttribute : AutoAttribute
+public sealed class AutoUpperAttribute : AutoAttribute
 {
     public AutoUpperAttribute() : base(AutoState.Added, AutoState.Modified) { }
     public override object Format(object entity, Type propertyType, object value)

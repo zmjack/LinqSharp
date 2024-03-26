@@ -8,7 +8,7 @@ using System;
 namespace LinqSharp.EFCore.Annotations;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class AutoTrimAttribute : AutoAttribute
+public sealed class AutoTrimAttribute : AutoAttribute
 {
     public AutoTrimAttribute() : base(AutoState.Added, AutoState.Modified) { }
     public override object Format(object entity, Type propertyType, object value)
