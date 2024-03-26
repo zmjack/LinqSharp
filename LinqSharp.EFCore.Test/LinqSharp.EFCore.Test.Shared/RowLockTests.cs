@@ -79,18 +79,25 @@ public class RowLockTests
             Assert.True(mysql.IgnoreRowLock);
             using (mysql.BeginIgnoreRowLock())
             {
-                var record = mysql.RowLockModels.Find(item.Id);
-                record.LockDate = null;
-                mysql.SaveChanges();
             }
             Assert.True(mysql.IgnoreRowLock);
         }
         Assert.False(mysql.IgnoreRowLock);
 
-        // Clear
-        using (mysql.BeginDirectQuery())
         {
-            mysql.RowLockModels.Truncate();
+            var record = mysql.RowLockModels.Find(item.Id);
+            mysql.RowLockModels.Remove(record);
+            Assert.ThrowsAny<InvalidOperationException>(() =>
+            {
+                mysql.SaveChanges();
+            });
+        }
+
+        using (mysql.BeginIgnoreRowLock())
+        {
+            var record = mysql.RowLockModels.Find(item.Id);
+            mysql.RowLockModels.Remove(record);
+            mysql.SaveChanges();
         }
     }
 

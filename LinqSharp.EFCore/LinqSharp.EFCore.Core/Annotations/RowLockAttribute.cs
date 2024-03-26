@@ -11,7 +11,7 @@ namespace LinqSharp.EFCore.Annotations;
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class RowLockAttribute : SpecialAutoAttribute<LockParam>
 {
-    public RowLockAttribute() : base(AutoState.Modified) { }
+    public RowLockAttribute() : base(AutoState.Modified, AutoState.Deleted) { }
 
     public override object Format(object entity, Type propertyType, LockParam value)
     {

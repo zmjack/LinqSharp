@@ -303,7 +303,7 @@ public static partial class LinqSharpEF
 
             foreach (var entry in entriesOfType)
             {
-                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                if (new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(entry.State))
                 {
                     var props = entityType.GetProperties().Where(x => x.CanWrite).ToArray();
                     ResolveAutoAttributes(context, entry, props);
@@ -492,8 +492,6 @@ public static partial class LinqSharpEF
 
     private static void ResolveAutoAttributes(DbContext context, EntityEntry entry, PropertyInfo[] properties)
     {
-        if (!new[] { EntityState.Added, EntityState.Modified }.Contains(entry.State)) return;
-
         var nowTag = new NowParam
         {
             Now = DateTime.Now,
