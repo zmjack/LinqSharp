@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LinqSharp.EFCore.Data.Test;
 
-public class TrackModel : IEntity<TrackModel>
+public class AutoModel : IEntity<AutoModel>
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
@@ -16,20 +16,32 @@ public class TrackModel : IEntity<TrackModel>
     [AutoLastWriteTime]
     public DateTime LastWriteTime { get; set; }
 
+    [AutoMonthOnly]
+    public DateTime Month_DateTime { get; set; }
+
+    [AutoMonthOnly]
+    public DateTimeOffset Month_DateTimeOffset { get; set; }
+
+    [AutoMonthOnly]
+    public DateTime? Month_NullableDateTime { get; set; }
+
+    [AutoMonthOnly]
+    public DateTimeOffset? Month_NullableDateTimeOffset { get; set; }
+
     [AutoTrim]
-    public string ForTrim { get; set; }
+    public string Trim { get; set; }
 
     [AutoUpper]
-    public string ForUpper { get; set; }
+    public string Upper { get; set; }
 
     [AutoLower]
-    public string ForLower { get; set; }
+    public string Lower { get; set; }
 
     [AutoCondensed]
-    public string ForCondensed { get; set; }
+    public string Condensed { get; set; }
 
     [AutoEven]
-    public int ForEven { get; set; }
+    public int Even { get; set; }
 
     [AutoCreatedBy]
     public string CreatedBy { get; set; }

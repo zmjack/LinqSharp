@@ -71,6 +71,11 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
+### 版本：7.0.37.5 - EFCore
+
+- 添加新注释 **RowLock** 以防止锁定的记录被更改或删除。
+- 添加新特性 **AutoMonthOnly** 以格式化 **DateTime** / **DateTimeOffset** / **DateOnly** 仅保留年份和月份。
+
 ### 版本：7.0.36
 
 - 新方法：增加 **Random()** 和 **RandomOrDefault()** 用来获取一个随机记录。

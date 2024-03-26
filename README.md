@@ -71,6 +71,11 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version 7.0.37.5 - EFCore
+
+- Add new annotation **RowLock** to prevent locked records from being changed or deleted.
+- Add new annotation **AutoMonthOnly** to format **DateTime** / **DateTimeOffset** / **DateOnly** only keeping the year and month.
+
 ### Version 7.0.37
 
 - Rename **IExtraFieldFilter** to **IAdvancedFieldFilter**.

@@ -102,7 +102,7 @@ public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableConte
     public override DbSet<EmployeeTerritory> EmployeeTerritories { get; set; }
 
     public DbSet<AppRegistryEntity> AppRegistries { get; set; }
-    public DbSet<TrackModel> TrackModels { get; set; }
+    public DbSet<AutoModel> AutoModels { get; set; }
     public DbSet<EntityMonitorModel> EntityMonitorModels { get; set; }
     public DbSet<SimpleModel> SimpleModels { get; set; }
     public DbSet<CPKeyModel> CompositeKeyModels { get; set; }

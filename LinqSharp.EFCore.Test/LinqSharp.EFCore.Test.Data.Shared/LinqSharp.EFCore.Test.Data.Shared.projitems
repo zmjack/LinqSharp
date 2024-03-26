@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\AuditLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\AuditRoot.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\AuditValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\AutoModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\BulkTestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\Client.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ConcurrencyModel.cs" />
@@ -27,7 +28,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\RowLockModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SimpleModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SimpleRow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\TrackModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\YearMonthModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbFuncProviders\DbYearMonthNumber.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NameModel.cs" />

@@ -166,6 +166,56 @@ namespace DbCreator.Migrations
                     b.ToTable("AuditValues");
                 });
 
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AutoModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Condensed")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Even")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastWriteTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Lower")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("Month_DateTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Month_DateTimeOffset")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("Month_NullableDateTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset?>("Month_NullableDateTimeOffset")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Trim")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Upper")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AutoModels");
+                });
+
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.BulkTestModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -342,44 +392,6 @@ namespace DbCreator.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SimpleRows");
-                });
-
-            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.TrackModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("ForCondensed")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("ForEven")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ForLower")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ForTrim")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ForUpper")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("LastWriteTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TrackModels");
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.YearMonthModel", b =>

@@ -3,7 +3,9 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+#if !NETSTANDARD2_1
 using System.ComponentModel.DataAnnotations;
+#endif
 
 namespace LinqSharp.EFCore.Annotations;
 
@@ -19,8 +21,16 @@ public enum ConcurrencyResolvingMode
     /// </summary>
     DatabaseWins = 1,
 
+#if !NETSTANDARD2_1
     /// <summary>
-    /// [Warning] Do not specify manually. If property is one of <see cref="ConcurrencyCheckAttribute" /> or <see cref="TimestampAttribute", it will be set automatically.
+    /// [Warning] Do not specify manually.
+    /// If property is one of <see cref="ConcurrencyCheckAttribute" /> or <see cref="TimestampAttribute", it will be set automatically.
     /// </summary>
+#else
+    /// <summary>
+    /// [Warning] Do not specify manually.
+    /// If property is one of ConcurrencyCheckAttribute or TimestampAttribute, it will be set automatically.
+    /// </summary>
+#endif
     Check = 0x100,
 }
