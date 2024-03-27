@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Scopes;
-using System.Collections.Generic;
 
 namespace LinqSharp.EFCore.Navigation;
 

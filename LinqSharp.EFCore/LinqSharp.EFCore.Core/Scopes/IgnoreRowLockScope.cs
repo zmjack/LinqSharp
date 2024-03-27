@@ -1,6 +1,5 @@
 ﻿using LinqSharp.EFCore.Design;
 using NStandard;
-using System;
 
 namespace LinqSharp.EFCore.Scopes;
 

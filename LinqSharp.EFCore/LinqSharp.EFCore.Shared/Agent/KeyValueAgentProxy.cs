@@ -7,9 +7,7 @@ using Castle.DynamicProxy;
 using LinqSharp.EFCore.Entities;
 using LinqSharp.EFCore.Scopes;
 using NStandard;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace LinqSharp.EFCore.Agent;
 

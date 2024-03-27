@@ -7,9 +7,7 @@ using LinqSharp.EFCore.Entities;
 using LinqSharp.EFCore.Scopes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using System;
 using System.ComponentModel;
-using System.Linq;
 
 namespace LinqSharp.EFCore;
 

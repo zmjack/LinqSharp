@@ -6,8 +6,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NStandard;
-using System;
-using System.Collections.Generic;
 
 namespace LinqSharp.EFCore;
 

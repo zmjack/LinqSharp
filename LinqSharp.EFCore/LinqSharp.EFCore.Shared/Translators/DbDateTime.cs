@@ -5,7 +5,6 @@
 
 using LinqSharp.EFCore.Query;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 #if EFCORE3_1_OR_GREATER
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;

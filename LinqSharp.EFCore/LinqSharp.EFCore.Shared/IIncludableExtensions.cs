@@ -4,8 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Navigation;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
 

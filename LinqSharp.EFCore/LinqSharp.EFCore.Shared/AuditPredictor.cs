@@ -5,10 +5,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using NStandard;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace LinqSharp.EFCore;
 

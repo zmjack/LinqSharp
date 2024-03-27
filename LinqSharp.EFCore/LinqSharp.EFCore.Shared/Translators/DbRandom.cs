@@ -5,7 +5,6 @@
 
 using LinqSharp.EFCore.Query;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace LinqSharp.EFCore.Translators;
 

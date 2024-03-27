@@ -7,8 +7,6 @@ using LinqSharp.EFCore.Scopes;
 using LinqSharp.Query;
 using Microsoft.EntityFrameworkCore.Internal;
 using NStandard;
-using System;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace LinqSharp.EFCore;

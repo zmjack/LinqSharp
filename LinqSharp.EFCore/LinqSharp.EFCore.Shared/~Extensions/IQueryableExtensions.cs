@@ -13,9 +13,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Remotion.Linq.Parsing.Structure;
 #endif
 using NStandard;
-using System;
 using System.ComponentModel;
-using System.Linq;
 
 namespace LinqSharp.EFCore;
 

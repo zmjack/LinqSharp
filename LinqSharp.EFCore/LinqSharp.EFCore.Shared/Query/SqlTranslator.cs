@@ -3,8 +3,6 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 #if EFCORE3_1_OR_GREATER
 using Microsoft.EntityFrameworkCore.Storage;

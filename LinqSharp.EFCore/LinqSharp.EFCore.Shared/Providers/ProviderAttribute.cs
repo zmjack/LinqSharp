@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
 #if EFCORE5_0_OR_GREATER
 using System.Text.Json;
 #else

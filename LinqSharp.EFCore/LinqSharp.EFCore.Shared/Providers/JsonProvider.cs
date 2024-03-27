@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
 using System.Reflection;
 #if EFCORE5_0_OR_GREATER
 using System.Text.Json;

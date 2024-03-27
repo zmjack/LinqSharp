@@ -4,8 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 #if EFCORE3_1_OR_GREATER
