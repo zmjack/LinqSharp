@@ -145,7 +145,7 @@ public static partial class LinqSharpEF
 
     public static int SaveChanges(DbContext context, Func<bool, int> base_SaveChanges, bool acceptAllChangesOnSuccess)
     {
-        int @return;
+        int ret;
 
         IntelliTrack(context, acceptAllChangesOnSuccess);
 
@@ -155,26 +155,26 @@ public static partial class LinqSharpEF
         {
             try
             {
-                @return = base_SaveChanges(acceptAllChangesOnSuccess);
+                ret = base_SaveChanges(acceptAllChangesOnSuccess);
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                @return = HandleConcurrencyException(ex, () => base_SaveChanges(acceptAllChangesOnSuccess), resolvable.MaxConcurrencyRetry);
+                ret = HandleConcurrencyException(ex, () => base_SaveChanges(acceptAllChangesOnSuccess), resolvable.MaxConcurrencyRetry);
             }
         }
-        else @return = base_SaveChanges(acceptAllChangesOnSuccess);
+        else ret = base_SaveChanges(acceptAllChangesOnSuccess);
 
         if (context.Database is IFacade facade && context.Database.CurrentTransaction is null && facade.EnableWithoutTransaction)
         {
             facade.Trigger_OnCommitted();
         }
 
-        return @return;
+        return ret;
     }
 
     public static async Task<int> SaveChangesAsync(DbContext context, Func<bool, CancellationToken, Task<int>> base_SaveChangesAsync, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
-        Task<int> @return;
+        Task<int> ret;
 
         IntelliTrack(context, acceptAllChangesOnSuccess);
 
@@ -184,16 +184,16 @@ public static partial class LinqSharpEF
         {
             try
             {
-                @return = base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+                ret = base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                @return = HandleConcurrencyException(ex, () => base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken), resolvable.MaxConcurrencyRetry);
+                ret = HandleConcurrencyException(ex, () => base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken), resolvable.MaxConcurrencyRetry);
             }
         }
-        else @return = base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        else ret = base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
 
-        var result = await @return;
+        var result = await ret;
 
         if (context.Database is IFacade facade && facade.EnableWithoutTransaction && context.Database.CurrentTransaction is null)
         {
@@ -498,7 +498,8 @@ public static partial class LinqSharpEF
         var isRowLockable = context is IRowLockable;
         var rowLock = new Lazy<IRowLockable>(() => context as IRowLockable);
 
-        var ignoreTimestampFormat = (context as ITimestampFormattable)?.IgnoreTimestampFormat ?? false;
+        var isTimestampFormat = context is ITimestampable;
+        var timestampFormattable = new Lazy<ITimestampable>(() => context as ITimestampable);
 
         var originValues = entry.GetDatabaseValues();
         foreach (var prop in props)
@@ -521,9 +522,14 @@ public static partial class LinqSharpEF
                         continue;
                     }
 
-                    if (!ignoreTimestampFormat && attr is SpecialAutoAttribute<TimestampParam> attr_now)
+                    if (attr is SpecialAutoAttribute<TimestampParam> attr_now)
                     {
-                        finalValue = attr_now.Format(entry.Entity, propertyType, timestampParam);
+                        if (!isTimestampFormat) throw new InvalidOperationException($"The context needs to implement {nameof(ITimestampable)}.");
+
+                        if (!timestampFormattable.Value.IgnoreTimestamp)
+                        {
+                            finalValue = attr_now.Format(entry.Entity, propertyType, timestampParam);
+                        }
                     }
                     else if (attr is SpecialAutoAttribute<UserParam> attr_user)
                     {

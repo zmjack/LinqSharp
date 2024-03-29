@@ -14,12 +14,12 @@ using System.Threading.Tasks;
 
 namespace LinqSharp.EFCore.Data.Test;
 
-public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableContext, IUserTraceable, IRowLockable, ITimestampFormattable
+public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableContext, IUserTraceable, IRowLockable, ITimestampable
 {
     public int MaxConcurrencyRetry => 2;
     public bool IgnoreUserTrace { get; set; }
     public bool IgnoreRowLock { get; set; }
-    public bool IgnoreTimestampFormat { get; set; }
+    public bool IgnoreTimestamp { get; set; }
 
     public const string DatabaseName = "linqsharp";
 
