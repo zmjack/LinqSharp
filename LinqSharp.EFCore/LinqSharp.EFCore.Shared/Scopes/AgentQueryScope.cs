@@ -13,12 +13,12 @@ using System.Runtime.CompilerServices;
 
 namespace LinqSharp.EFCore.Scopes;
 
-public static class AgentQuery
+public static class AgentQueryScope
 {
     public static InvalidOperationException NoScopeException => new("This operation needs to be contained within a AgentQuery scope.");
 }
 
-public class AgentQuery<TEntity> : Scope<AgentQuery<TEntity>> where TEntity : KeyValueEntity, new()
+public class AgentQueryScope<TEntity> : Scope<AgentQueryScope<TEntity>> where TEntity : KeyValueEntity, new()
 {
     private static readonly MemoryCache _agentProperties = new(new MemoryCacheOptions());
 
@@ -28,7 +28,7 @@ public class AgentQuery<TEntity> : Scope<AgentQuery<TEntity>> where TEntity : Ke
     private readonly Dictionary<string, KeyValueAgent<TEntity>> _agentList = new();
     private readonly List<string> _uncreatedNameList = new();
 
-    internal AgentQuery(DbContext context, DbSet<TEntity> dbSet)
+    internal AgentQueryScope(DbContext context, DbSet<TEntity> dbSet)
     {
         Context = context;
         DbSet = dbSet;
@@ -101,5 +101,4 @@ public class AgentQuery<TEntity> : Scope<AgentQuery<TEntity>> where TEntity : Ke
     {
         Execute();
     }
-
 }

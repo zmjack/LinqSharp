@@ -76,7 +76,7 @@ public class QueryDef<TEntity> where TEntity : class
         else return this;
     }
 
-    public IQueryable ToQueryable(CompoundQuery<TEntity> compoundQuery)
+    public IQueryable ToQueryable(CompoundQueryScope<TEntity> compoundQuery)
     {
         return compoundQuery.BuildQuery(this);
     }

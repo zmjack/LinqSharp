@@ -57,7 +57,7 @@ public static class ICacheableExtensions
                 var entityType = args[1];
                 var queryMethod = CacheableQueryMethodCache.GetOrCreate($"{preQueryContextType},{entityType}", entry =>
                 {
-                    return typeof(CompoundQuery<>).MakeGenericType(preQueryContextType, entityType).GetMethod(nameof(CompoundQuery<string>.Feed));
+                    return typeof(CompoundQueryScope<>).MakeGenericType(preQueryContextType, entityType).GetMethod(nameof(CompoundQueryScope<string>.Feed));
                 });
 
                 var preQueries = Array.CreateInstance(propertyType, cacheables.Length);

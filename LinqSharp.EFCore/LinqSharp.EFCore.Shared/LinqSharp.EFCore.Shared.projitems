@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgentProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuditPredictor.cs" />
+    <Compile Include="..\LinqSharp.EFCore.Shared\Design\ITimestampFormattable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Design\IRowLockable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\RowChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\FieldChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\KeyValueEntity.cs" />
@@ -38,8 +40,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Query\SqlTranslator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Query\Translator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Query\UpdateOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Scopes\AgentQuery.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Scopes\CompoundQuery.cs" />
+    <Compile Include="..\LinqSharp.EFCore.Shared\Scopes\TimestampFormatterScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scopes\RowLockScope.cs" />
+    <Compile Include="..\LinqSharp.EFCore.Shared\Scopes\AgentQueryScope.cs" />
+    <Compile Include="..\LinqSharp.EFCore.Shared\Scopes\CompoundQueryScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbConcat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbDateTime.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbDouble.cs" />

@@ -21,7 +21,7 @@ public class KeyValueAgentProxy<TAgent, TEntity> : IInterceptor
         var agent = (TAgent)invocation.Proxy;
         if (!agent._executed)
         {
-            var query = AgentQuery<TEntity>.Current ?? throw AgentQuery.NoScopeException;
+            var query = AgentQueryScope<TEntity>.Current ?? throw AgentQueryScope.NoScopeException;
             query.Execute();
         }
 

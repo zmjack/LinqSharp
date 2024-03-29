@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace LinqSharp.EFCore.Scopes;
 
-internal static class CompoundQuery
+internal static class CompoundQueryScope
 {
     internal static readonly MemoryCache Include_Cache = new(new MemoryCacheOptions());
     internal static readonly MemoryCache ThenInclude_Cache = new(new MemoryCacheOptions());
@@ -31,13 +31,13 @@ internal static class CompoundQuery
     });
 }
 
-public class CompoundQuery<TEntity> : Scope<CompoundQuery<TEntity>>
+public class CompoundQueryScope<TEntity> : Scope<CompoundQueryScope<TEntity>>
     where TEntity : class
 {
     public IQueryable<TEntity> Queryable { get; }
     internal List<List<QueryTarget>> PropertyPathLists { get; } = new();
 
-    internal CompoundQuery(IQueryable<TEntity> queryable)
+    internal CompoundQueryScope(IQueryable<TEntity> queryable)
     {
         Queryable = queryable;
     }
@@ -69,25 +69,25 @@ public class CompoundQuery<TEntity> : Scope<CompoundQuery<TEntity>>
             if (enumerator.MoveNext())
             {
                 var firstNavigation = enumerator.Current;
-                var includeMethod = CompoundQuery.Include_Cache.GetOrCreate($"{entityType}|{firstNavigation.Property}", entry => CompoundQuery.Lazy_IncludeMethod.Value.MakeGenericMethod(entityType, firstNavigation.Property));
+                var includeMethod = CompoundQueryScope.Include_Cache.GetOrCreate($"{entityType}|{firstNavigation.Property}", entry => CompoundQueryScope.Lazy_IncludeMethod.Value.MakeGenericMethod(entityType, firstNavigation.Property));
                 queryable = includeMethod.Invoke(null, [queryable, firstNavigation.Expression]) as IQueryable<TEntity>;
 
                 while (enumerator.MoveNext())
                 {
                     var navigation = enumerator.Current;
-                    var thenIncludeMethod = CompoundQuery.ThenInclude_Cache.GetOrCreate($"{entityType}|{navigation.PreviousProperty}|{navigation.Property}", entry =>
+                    var thenIncludeMethod = CompoundQueryScope.ThenInclude_Cache.GetOrCreate($"{entityType}|{navigation.PreviousProperty}|{navigation.Property}", entry =>
                     {
                         MethodInfo thenIncludeMethod;
                         Type lambdaProperty;
 
                         if (navigation.PreviousPropertyElement is not null)
                         {
-                            thenIncludeMethod = CompoundQuery.Lazy_ThenIncludeMethod_Enumerable.Value;
+                            thenIncludeMethod = CompoundQueryScope.Lazy_ThenIncludeMethod_Enumerable.Value;
                             lambdaProperty = navigation.PreviousPropertyElement;
                         }
                         else
                         {
-                            thenIncludeMethod = CompoundQuery.Lazy_ThenIncludeMethod.Value;
+                            thenIncludeMethod = CompoundQueryScope.Lazy_ThenIncludeMethod.Value;
                             lambdaProperty = navigation.PreviousProperty;
                         }
 
@@ -144,5 +144,4 @@ public class CompoundQuery<TEntity> : Scope<CompoundQuery<TEntity>>
         }
         return entities;
     }
-
 }

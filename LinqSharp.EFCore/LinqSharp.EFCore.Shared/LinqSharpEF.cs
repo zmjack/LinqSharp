@@ -486,7 +486,7 @@ public static partial class LinqSharpEF
     {
         var props = entityType.GetProperties().Where(x => x.CanWrite).ToArray();
 
-        var nowTag = new NowParam
+        var timestampParam = new TimestampParam
         {
             Now = DateTime.Now,
             NowOffset = DateTimeOffset.Now,
@@ -503,6 +503,8 @@ public static partial class LinqSharpEF
         {
             return (context as IRowLockable).IgnoreRowLock;
         });
+
+        var ignoreTimestampFormattable = (context as ITimestampFormattable)?.IgnoreTimestampFormatter ?? false;
 
         var originValues = entry.GetDatabaseValues();
         foreach (var prop in props)
@@ -525,9 +527,9 @@ public static partial class LinqSharpEF
                         continue;
                     }
 
-                    if (attr is SpecialAutoAttribute<NowParam> attr_now)
+                    if (!ignoreTimestampFormattable && attr is SpecialAutoAttribute<TimestampParam> attr_now)
                     {
-                        finalValue = attr_now.Format(entry.Entity, propertyType, nowTag);
+                        finalValue = attr_now.Format(entry.Entity, propertyType, timestampParam);
                     }
                     else if (attr is SpecialAutoAttribute<UserParam> attr_user)
                     {

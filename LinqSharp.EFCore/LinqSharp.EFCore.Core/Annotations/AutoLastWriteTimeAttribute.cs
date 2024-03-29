@@ -11,14 +11,14 @@ using System.Linq;
 namespace LinqSharp.EFCore.Annotations;
 
 [AttributeUsage(AttributeTargets.Property)]
-public sealed class AutoLastWriteTimeAttribute : SpecialAutoAttribute<NowParam>
+public sealed class AutoLastWriteTimeAttribute : SpecialAutoAttribute<TimestampParam>
 {
     private static readonly Type[] DateTimeTypes = [typeof(DateTime), typeof(DateTime?)];
     private static readonly Type[] DateTimeOffsetTypes = [typeof(DateTimeOffset), typeof(DateTimeOffset?)];
 
     public AutoLastWriteTimeAttribute() : base(AutoState.Added, AutoState.Modified) { }
 
-    public override object Format(object entity, Type propertyType, NowParam value)
+    public override object Format(object entity, Type propertyType, TimestampParam value)
     {
         if (DateTimeTypes.Contains(propertyType)) return value.Now;
         else if (DateTimeOffsetTypes.Contains(propertyType)) return value.NowOffset;

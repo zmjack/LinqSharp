@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.EFCore.Design;
 using LinqSharp.EFCore.Entities;
 using LinqSharp.EFCore.Scopes;
 using Microsoft.EntityFrameworkCore;
@@ -18,20 +19,30 @@ public static class DbContextExtensions
     public static DirectQueryScope BeginDirectQuery(this DbContext @this) => new();
 #pragma warning restore IDE0060 // Remove unused parameter
 
-    public static CompoundQuery<TEntity> BeginCompoundQuery<TContext, TEntity>(this TContext @this, Func<TContext, IQueryable<TEntity>> querySelector)
-        where TContext : DbContext
-        where TEntity : class
-    {
-        var query = querySelector(@this);
-        return new CompoundQuery<TEntity>(query);
-    }
-
-    public static AgentQuery<TEntity> BeginAgentQuery<TContext, TEntity>(this TContext @this, Func<TContext, DbSet<TEntity>> dbSetSelector)
+    public static AgentQueryScope<TEntity> BeginAgentQuery<TContext, TEntity>(this TContext @this, Func<TContext, DbSet<TEntity>> dbSetSelector)
         where TContext : DbContext
         where TEntity : KeyValueEntity, new()
     {
         var dbSet = dbSetSelector(@this);
-        return new AgentQuery<TEntity>(@this, dbSet);
+        return new AgentQueryScope<TEntity>(@this, dbSet);
+    }
+
+    public static CompoundQueryScope<TEntity> BeginCompoundQuery<TContext, TEntity>(this TContext @this, Func<TContext, IQueryable<TEntity>> querySelector)
+        where TContext : DbContext
+        where TEntity : class
+    {
+        var query = querySelector(@this);
+        return new CompoundQueryScope<TEntity>(query);
+    }
+
+    public static RowLockScope BeginIgnoreRowLock(this IRowLockable @this)
+    {
+        return new RowLockScope(@this, @this.IgnoreRowLock);
+    }
+
+    public static TimestampFormatterScope BeginIgnoreTimestampFormatter(this ITimestampFormattable @this)
+    {
+        return new TimestampFormatterScope(@this, @this.IgnoreTimestampFormatter);
     }
 
     public static ProviderName GetProviderName(this DbContext @this)

@@ -11,10 +11,10 @@ public class IncludeNavigation<TEntity, TProperty> : IIncludable<TEntity, TPrope
     where TEntity : class
     where TProperty : class
 {
-    public CompoundQuery<TEntity> Owner { get; }
+    public CompoundQueryScope<TEntity> Owner { get; }
     public List<QueryTarget> TargetPath { get; }
 
-    internal IncludeNavigation(CompoundQuery<TEntity> owner, List<QueryTarget> targetPath)
+    internal IncludeNavigation(CompoundQueryScope<TEntity> owner, List<QueryTarget> targetPath)
     {
         Owner = owner;
         TargetPath = targetPath;

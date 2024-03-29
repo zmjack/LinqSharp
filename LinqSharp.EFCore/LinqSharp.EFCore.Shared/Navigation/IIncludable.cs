@@ -10,6 +10,6 @@ namespace LinqSharp.EFCore.Navigation;
 public interface IIncludable<TEntity, out TProperty>
     where TEntity : class
 {
-    CompoundQuery<TEntity> Owner { get; }
+    CompoundQueryScope<TEntity> Owner { get; }
     List<QueryTarget> TargetPath { get; }
 }

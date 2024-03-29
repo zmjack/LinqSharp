@@ -50,7 +50,6 @@ public class AutoTests
             Assert.Equal("User A", model.CreatedBy);
             Assert.Equal("User A", model.UpdatedBy);
         }
-
         Thread.Sleep(10);
 
         using (var context = ApplicationDbContext.UseMySql())
@@ -74,6 +73,7 @@ public class AutoTests
             context.AutoModels.Remove(model);
             context.SaveChanges();
         }
+        Thread.Sleep(10);
     }
 
     [Fact]
