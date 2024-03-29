@@ -5,7 +5,7 @@
       netstandard2.0
     </TargetFrameworks>
     <AssemblyName>LinqSharp.EFCore</AssemblyName>
-    <Version>2.1.7037.8</Version>
+    <Version>2.1.7037.9</Version>
     <LangVersion>preview</LangVersion>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
@@ -39,7 +39,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NStandard" Version="0.53.1" />
+    <PackageReference Include="NStandard" Version="0.63.1" />
   </ItemGroup>
 
   <ItemGroup>

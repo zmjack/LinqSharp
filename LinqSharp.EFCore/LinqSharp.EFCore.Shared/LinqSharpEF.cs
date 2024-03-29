@@ -493,18 +493,12 @@ public static partial class LinqSharpEF
         };
 
         var isUserTraceable = context is IUserTraceable;
-        var currentUser = new Lazy<string>(() =>
-        {
-            return (context as IUserTraceable).CurrentUser;
-        });
+        var userTrace = new Lazy<IUserTraceable>(() => context as IUserTraceable);
 
         var isRowLockable = context is IRowLockable;
-        var ignoreRowLock = new Lazy<bool>(() =>
-        {
-            return (context as IRowLockable).IgnoreRowLock;
-        });
+        var rowLock = new Lazy<IRowLockable>(() => context as IRowLockable);
 
-        var ignoreTimestampFormattable = (context as ITimestampFormattable)?.IgnoreTimestampFormatter ?? false;
+        var ignoreTimestampFormat = (context as ITimestampFormattable)?.IgnoreTimestampFormat ?? false;
 
         var originValues = entry.GetDatabaseValues();
         foreach (var prop in props)
@@ -527,7 +521,7 @@ public static partial class LinqSharpEF
                         continue;
                     }
 
-                    if (!ignoreTimestampFormattable && attr is SpecialAutoAttribute<TimestampParam> attr_now)
+                    if (!ignoreTimestampFormat && attr is SpecialAutoAttribute<TimestampParam> attr_now)
                     {
                         finalValue = attr_now.Format(entry.Entity, propertyType, timestampParam);
                     }
@@ -535,21 +529,26 @@ public static partial class LinqSharpEF
                     {
                         if (!isUserTraceable) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
 
-                        finalValue = attr_user.Format(entry.Entity, propertyType, new UserParam
+                        if (!userTrace.Value.IgnoreUserTrace)
                         {
-                            CurrentUser = currentUser.Value,
-                        });
+                            finalValue = attr_user.Format(entry.Entity, propertyType, new UserParam
+                            {
+                                CurrentUser = userTrace.Value.CurrentUser,
+                            });
+                        }
                     }
                     else if (attr is SpecialAutoAttribute<LockParam> attr_lock)
                     {
                         if (!isRowLockable) throw new InvalidOperationException($"The context needs to implement {nameof(IRowLockable)}.");
 
-                        finalValue = attr_lock.Format(entry.Entity, propertyType, new LockParam
+                        if (!rowLock.Value.IgnoreRowLock)
                         {
-                            IgnoreRowLock = ignoreRowLock.Value,
-                            Origin = originValues[prop.Name],
-                            Current = currentValue,
-                        });
+                            finalValue = attr_lock.Format(entry.Entity, propertyType, new LockParam
+                            {
+                                Origin = originValues[prop.Name],
+                                Current = currentValue,
+                            });
+                        }
                     }
                     else throw new NotImplementedException($"{attr.GetType()} was not processed.");
                 }

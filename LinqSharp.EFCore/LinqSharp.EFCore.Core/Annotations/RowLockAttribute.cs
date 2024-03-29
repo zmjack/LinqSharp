@@ -15,9 +15,7 @@ public sealed class RowLockAttribute : SpecialAutoAttribute<LockParam>
 
     public override object Format(object entity, Type propertyType, LockParam value)
     {
-        if (value.IgnoreRowLock) return value.Current;
         if (value.Origin is null) return value.Current;
-
         throw new InvalidOperationException("Must be unlocked before updating records.");
     }
 }

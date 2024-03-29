@@ -35,14 +35,32 @@ public static class DbContextExtensions
         return new CompoundQueryScope<TEntity>(query);
     }
 
+    /// <summary>
+    /// Disable all the trace features.
+    /// <para>
+    /// Use <see cref="RowLockScope" /> | <see cref="TimestampFormatScope" /> | <see cref="UserTraceScope" />.
+    /// </para>
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static RawQueryScope BeginRawQuery(this DbContext @this)
+    {
+        return new RawQueryScope(@this);
+    }
+
     public static RowLockScope BeginIgnoreRowLock(this IRowLockable @this)
     {
         return new RowLockScope(@this, @this.IgnoreRowLock);
     }
 
-    public static TimestampFormatterScope BeginIgnoreTimestampFormatter(this ITimestampFormattable @this)
+    public static TimestampFormatScope BeginIgnoreTimestampFormat(this ITimestampFormattable @this)
     {
-        return new TimestampFormatterScope(@this, @this.IgnoreTimestampFormatter);
+        return new TimestampFormatScope(@this, @this.IgnoreTimestampFormat);
+    }
+
+    public static UserTraceScope BeginIgnoreUserTrace(this IUserTraceable @this)
+    {
+        return new UserTraceScope(@this, @this.IgnoreUserTrace);
     }
 
     public static ProviderName GetProviderName(this DbContext @this)

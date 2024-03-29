@@ -7,7 +7,6 @@ namespace LinqSharp.EFCore.Annotations.Params;
 
 public sealed class LockParam : IAutoParam
 {
-    public bool IgnoreRowLock { get; set; }
     public object Origin { get; set; }
     public object Current { get; set; }
 }

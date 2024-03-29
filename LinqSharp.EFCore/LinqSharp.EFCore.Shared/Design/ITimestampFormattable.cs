@@ -7,5 +7,5 @@ namespace LinqSharp.EFCore.Design;
 
 public interface ITimestampFormattable
 {
-    public bool IgnoreTimestampFormatter { get; set; }
+    public bool IgnoreTimestampFormat { get; set; }
 }

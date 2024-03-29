@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgentProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuditPredictor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scopes\RawQueryScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scopes\UserTraceScope.cs" />
     <Compile Include="..\LinqSharp.EFCore.Shared\Design\ITimestampFormattable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Design\IRowLockable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\RowChangeInfo.cs" />
@@ -40,7 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Query\SqlTranslator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Query\Translator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Query\UpdateOptions.cs" />
-    <Compile Include="..\LinqSharp.EFCore.Shared\Scopes\TimestampFormatterScope.cs" />
+    <Compile Include="..\LinqSharp.EFCore.Shared\Scopes\TimestampFormatScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scopes\RowLockScope.cs" />
     <Compile Include="..\LinqSharp.EFCore.Shared\Scopes\AgentQueryScope.cs" />
     <Compile Include="..\LinqSharp.EFCore.Shared\Scopes\CompoundQueryScope.cs" />

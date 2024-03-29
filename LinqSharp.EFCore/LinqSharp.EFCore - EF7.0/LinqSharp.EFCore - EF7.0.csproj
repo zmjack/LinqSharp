@@ -5,7 +5,7 @@
       net6.0
     </TargetFrameworks>
     <AssemblyName>LinqSharp.EFCore</AssemblyName>
-    <Version>7.0.37.8</Version>
+    <Version>7.0.37.9</Version>
     <LangVersion>preview</LangVersion>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
@@ -38,7 +38,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
-    <PackageReference Include="NStandard" Version="0.53.1" />
+    <PackageReference Include="NStandard" Version="0.63.1" />
   </ItemGroup>
 
   <ItemGroup>

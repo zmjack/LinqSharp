@@ -8,21 +8,21 @@ using NStandard;
 
 namespace LinqSharp.EFCore.Scopes;
 
-public class TimestampFormatterScope : Scope<TimestampFormatterScope>
+public class TimestampFormatScope : Scope<TimestampFormatScope>
 {
     private readonly ITimestampFormattable _context;
     private readonly bool _origin;
 
-    public TimestampFormatterScope(ITimestampFormattable context, bool origin)
+    public TimestampFormatScope(ITimestampFormattable context, bool origin)
     {
         _context = context;
         _origin = origin;
 
-        context.IgnoreTimestampFormatter = true;
+        context.IgnoreTimestampFormat = true;
     }
 
     public override void Disposing()
     {
-        _context.IgnoreTimestampFormatter = _origin;
+        _context.IgnoreTimestampFormat = _origin;
     }
 }
