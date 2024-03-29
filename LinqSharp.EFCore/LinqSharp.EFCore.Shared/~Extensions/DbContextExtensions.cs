@@ -43,7 +43,7 @@ public static class DbContextExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static PureQueryScope BeginIgnorePureQuery(this DbContext @this)
+    public static PureQueryScope BeginPureQuery(this DbContext @this)
     {
         return new PureQueryScope(@this);
     }
