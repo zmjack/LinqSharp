@@ -71,7 +71,7 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
-### 版本：7.0.37.9 - EFCore
+### 版本：7.0.37.10 - EFCore
 
 - 添加新注释 **RowLock** 以防止锁定的记录被更改或删除。
 - 添加新特性 **AutoMonthOnly** 以格式化 **DateTime** / **DateTimeOffset** / **DateOnly** 仅保留年份和月份。
@@ -79,7 +79,6 @@ dotnet add package LinqSharp.EFCore
   - **IRowLockable** 控制 **RowLock** 是否生效。
   - **ITimestampFormattable** 控制 **AutoCreationTime** / **AutoLastWriteTime** 是否生效。
   - **IUserTraceable** 控制 **AutoCreatedBy** / **AutoUpdatedBy** 是否生效。
-  - 添加了新的扩展方法 **BeginRawQuery** 以创建无需智能跟踪的查询。
 - **中断性变更**：**KeyValueEntity** 中 **Value** 的长度默认设置为 **768**。
 - **中断性变更**：更改一些内部类名称。
 

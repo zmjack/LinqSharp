@@ -35,19 +35,6 @@ public static class DbContextExtensions
         return new CompoundQueryScope<TEntity>(query);
     }
 
-    /// <summary>
-    /// Disable all the trace features.
-    /// <para>
-    /// Use <see cref="RowLockScope" /> | <see cref="TimestampFormatScope" /> | <see cref="UserTraceScope" />.
-    /// </para>
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
-    public static RawQueryScope BeginRawQuery(this DbContext @this)
-    {
-        return new RawQueryScope(@this);
-    }
-
     public static RowLockScope BeginIgnoreRowLock(this IRowLockable @this)
     {
         return new RowLockScope(@this, @this.IgnoreRowLock);

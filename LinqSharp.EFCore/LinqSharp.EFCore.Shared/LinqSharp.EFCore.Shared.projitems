@@ -12,7 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgentProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuditPredictor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Scopes\RawQueryScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scopes\UserTraceScope.cs" />
     <Compile Include="..\LinqSharp.EFCore.Shared\Design\ITimestampFormattable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Design\IRowLockable.cs" />
