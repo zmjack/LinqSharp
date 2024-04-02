@@ -13,11 +13,11 @@ public class PureQueryScope : Scope<PureQueryScope>
 {
     private readonly List<IDisposable> _scopes = [];
 
-    public PureQueryScope(DbContext context)
+    public PureQueryScope(DbContext context, FieldOption option)
     {
-        (context as ITimestampable)?.BeginIgnoreTimestamp().Pipe(_scopes.Add);
-        (context as IRowLockable)?.BeginIgnoreRowLock().Pipe(_scopes.Add);
-        (context as IUserTraceable)?.BeginIgnoreUserTrace().Pipe(_scopes.Add);
+        (context as ITimestampable)?.BeginTimestamp(option).Pipe(_scopes.Add);
+        (context as IRowLockable)?.BeginRowLock(option).Pipe(_scopes.Add);
+        (context as IUserTraceable)?.BeginUserTrace(option).Pipe(_scopes.Add);
     }
 
     public override void Disposing()

@@ -7,5 +7,5 @@ namespace LinqSharp.EFCore.Design;
 
 public interface IRowLockable
 {
-    bool IgnoreRowLock { get; set; }
+    FieldOption RowLockOption { get; set; }
 }

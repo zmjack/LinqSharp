@@ -7,5 +7,5 @@ namespace LinqSharp.EFCore.Design;
 
 public interface ITimestampable
 {
-    public bool IgnoreTimestamp { get; set; }
+    public FieldOption TimestampOption { get; set; }
 }

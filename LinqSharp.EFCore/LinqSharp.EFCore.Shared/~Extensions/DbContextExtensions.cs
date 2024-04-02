@@ -43,24 +43,25 @@ public static class DbContextExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static PureQueryScope BeginPureQuery(this DbContext @this)
+    public static PureQueryScope BeginPureQuery(this DbContext @this, FieldOption option)
     {
-        return new PureQueryScope(@this);
+        return new PureQueryScope(@this, option);
     }
 
-    public static TimestampScope BeginIgnoreTimestamp(this ITimestampable @this)
+    public static TimestampScope BeginTimestamp(this ITimestampable @this, FieldOption option)
     {
-        return new TimestampScope(@this, @this.IgnoreTimestamp);
+        return new TimestampScope(@this, option);
     }
 
-    public static RowLockScope BeginIgnoreRowLock(this IRowLockable @this)
+    public static RowLockScope BeginRowLock(this IRowLockable @this, FieldOption option)
     {
-        return new RowLockScope(@this, @this.IgnoreRowLock);
+
+        return new RowLockScope(@this, option);
     }
 
-    public static UserTraceScope BeginIgnoreUserTrace(this IUserTraceable @this)
+    public static UserTraceScope BeginUserTrace(this IUserTraceable @this, FieldOption option)
     {
-        return new UserTraceScope(@this, @this.IgnoreUserTrace);
+        return new UserTraceScope(@this, option);
     }
 
     public static ProviderName GetProviderName(this DbContext @this)

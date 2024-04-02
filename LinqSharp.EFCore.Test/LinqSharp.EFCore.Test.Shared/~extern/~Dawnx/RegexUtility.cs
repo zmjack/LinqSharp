@@ -20,7 +20,7 @@ public static class RegexUtility
 
         var parts = expression.Split('.').Select(x => x.Trim());
         var regexParts = new string[4];
-        foreach (var (index, part) in parts.AsIndexValuePairs())
+        foreach (var (index, part) in parts.Pairs())
         {
             switch (part)
             {

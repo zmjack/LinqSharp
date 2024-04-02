@@ -61,7 +61,7 @@ public static class ICacheableExtensions
                 });
 
                 var preQueries = Array.CreateInstance(propertyType, cacheables.Length);
-                foreach (var (index, value) in cacheables.AsIndexValuePairs())
+                foreach (var (index, value) in cacheables.Pairs())
                 {
                     var preQuery = prop.GetValue(value.Source);
                     preQueries.SetValue(preQuery, index);

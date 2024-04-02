@@ -1,6 +1,7 @@
 ﻿using LinqSharp.EFCore.Data;
 using LinqSharp.EFCore.Data.Test;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test;
@@ -58,11 +59,12 @@ public class RowLockTests
             });
         }
 
-        using (mysql.BeginIgnoreRowLock())
+        using (mysql.BeginRowLock(FieldOption.Specified))
         {
             var record = mysql.RowLockModels.Find(item.Id);
             record.LockDate = null;
             mysql.SaveChanges();
+            Assert.Null(record.LockDate);
         }
 
         {
@@ -73,15 +75,16 @@ public class RowLockTests
             Assert.Equal(50, record.Value);
         }
 
-        using (mysql.BeginIgnoreRowLock())
+        using (mysql.BeginRowLock(FieldOption.Reserve))
         {
-            Assert.True(mysql.IgnoreRowLock);
-            using (mysql.BeginIgnoreRowLock())
+            Assert.Equal(FieldOption.Reserve, mysql.RowLockOption);
+            using (mysql.BeginRowLock(FieldOption.Specified))
             {
+                Assert.Equal(FieldOption.Specified, mysql.RowLockOption);
             }
-            Assert.True(mysql.IgnoreRowLock);
+            Assert.Equal(FieldOption.Reserve, mysql.RowLockOption);
         }
-        Assert.False(mysql.IgnoreRowLock);
+        Assert.Equal(FieldOption.Auto, mysql.RowLockOption);
 
         {
             var record = mysql.RowLockModels.Find(item.Id);
@@ -92,11 +95,12 @@ public class RowLockTests
             });
         }
 
-        using (mysql.BeginIgnoreRowLock())
+        using (mysql.BeginRowLock(FieldOption.Specified))
         {
             var record = mysql.RowLockModels.Find(item.Id);
             mysql.RowLockModels.Remove(record);
             mysql.SaveChanges();
+            Assert.Null(mysql.RowLockModels.FirstOrDefault(x => x.Id == item.Id));
         }
     }
 

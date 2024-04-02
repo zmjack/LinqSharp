@@ -11,18 +11,18 @@ namespace LinqSharp.EFCore.Scopes;
 public class TimestampScope : Scope<TimestampScope>
 {
     private readonly ITimestampable _context;
-    private readonly bool _origin;
+    private readonly FieldOption _origin;
 
-    public TimestampScope(ITimestampable context, bool origin)
+    public TimestampScope(ITimestampable context, FieldOption value)
     {
         _context = context;
-        _origin = origin;
+        _origin = context.TimestampOption;
 
-        context.IgnoreTimestamp = true;
+        context.TimestampOption = value;
     }
 
     public override void Disposing()
     {
-        _context.IgnoreTimestamp = _origin;
+        _context.TimestampOption = _origin;
     }
 }

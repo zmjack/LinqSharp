@@ -19,7 +19,7 @@ public class OrderByCaseStrategy<TEntity, TRet> : IQueryStrategy<TEntity, int>
         TRet[] orderValues)
     {
         var valueLenth = orderValues.Length;
-        var lambdaExp = orderValues.Reverse().AsIndexValuePairs().Aggregate(null as Expression, (acc, pair) =>
+        var lambdaExp = orderValues.Reverse().Pairs().Aggregate(null as Expression, (acc, pair) =>
         {
             var (index, value) = pair;
             var compareExp = Expression.Equal(memberExp.Body, Expression.Constant(value));

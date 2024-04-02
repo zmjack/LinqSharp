@@ -43,7 +43,7 @@ public class AgentQueryScope<TEntity> : Scope<AgentQueryScope<TEntity>> where TE
 
         var proxy = new KeyValueAgentProxy<TAgent, TEntity>();
         var agent = new ProxyGenerator().CreateClassProxyWithTarget(new TAgent(), proxy);
-        agent.__ItemName__ = itemName;
+        agent.ItemName = itemName;
 
         _agentList[itemName] = agent;
 

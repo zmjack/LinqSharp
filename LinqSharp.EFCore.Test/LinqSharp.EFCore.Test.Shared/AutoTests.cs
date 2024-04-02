@@ -100,4 +100,46 @@ public class AutoTests
         context.SaveChanges();
     }
 
+    [Fact]
+    public void Test3()
+    {
+        Guid id;
+        DateTime time;
+
+        {
+            using var context = ApplicationDbContext.UseMySql();
+            var model = new AutoModel
+            {
+                Trim = null,
+                Lower = null,
+                Upper = null,
+                Condensed = null,
+            };
+            context.AutoModels.Add(model);
+            context.SaveChanges();
+
+            id = model.Id;
+            time = model.LastWriteTime;
+        }
+
+        {
+            using var context = ApplicationDbContext.UseMySql();
+            using (context.BeginTimestamp(FieldOption.Reserve))
+            {
+                var model = new AutoModel
+                {
+                    Id = id,
+                };
+
+                context.AutoModels.Update(model);
+                context.SaveChanges();
+
+                Assert.Equal(time.ToFixed(), model.LastWriteTime.ToFixed());
+
+                context.AutoModels.Remove(model);
+                context.SaveChanges();
+            }
+        }
+    }
+
 }

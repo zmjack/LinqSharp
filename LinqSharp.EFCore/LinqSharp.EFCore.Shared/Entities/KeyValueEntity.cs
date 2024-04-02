@@ -6,9 +6,11 @@
 using LinqSharp.EFCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 
 namespace LinqSharp.EFCore.Entities;
 
+[DebuggerDisplay("{Item}:{Key} = {Value} {(Value is not null ? (\"(\" + Value.GetType().Name + \")\") : \"\")}")]
 public abstract class KeyValueEntity
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

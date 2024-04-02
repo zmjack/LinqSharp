@@ -14,9 +14,7 @@ namespace LinqSharp.EFCore.Agent;
 public abstract class KeyValueAgent<TEntity>
     where TEntity : KeyValueEntity, new()
 {
-#pragma warning disable IDE1006 // Naming Styles
-    public string __ItemName__ { get; internal set; }
-#pragma warning restore IDE1006 // Naming Styles
+    public string ItemName { get; internal set; }
 
     internal bool _executed;
     internal KeyValueEntity[] _entities;

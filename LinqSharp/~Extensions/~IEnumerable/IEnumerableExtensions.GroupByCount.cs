@@ -24,7 +24,7 @@ public static partial class IEnumerableExtensions
     {
         IEnumerable<StructTuple<int, TSource>> GetEnumerable()
         {
-            foreach (var (index, sources) in @this.Chunk(size).AsIndexValuePairs())
+            foreach (var (index, sources) in @this.Chunk(size).Pairs())
             {
                 foreach (var source in sources)
                 {

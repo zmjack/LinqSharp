@@ -11,18 +11,18 @@ namespace LinqSharp.EFCore.Scopes;
 public class UserTraceScope : Scope<UserTraceScope>
 {
     private readonly IUserTraceable _context;
-    private readonly bool _origin;
+    private readonly FieldOption _origin;
 
-    public UserTraceScope(IUserTraceable context, bool origin)
+    public UserTraceScope(IUserTraceable context, FieldOption value)
     {
         _context = context;
-        _origin = origin;
+        _origin = context.UserTraceOption;
 
-        context.IgnoreUserTrace = true;
+        context.UserTraceOption = value;
     }
 
     public override void Disposing()
     {
-        _context.IgnoreUserTrace = _origin;
+        _context.UserTraceOption = _origin;
     }
 }

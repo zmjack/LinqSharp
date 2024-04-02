@@ -146,7 +146,6 @@ public static partial class LinqSharpEF
     public static int SaveChanges(DbContext context, Func<bool, int> base_SaveChanges, bool acceptAllChangesOnSuccess)
     {
         int ret;
-
         IntelliTrack(context, acceptAllChangesOnSuccess);
 
         if (context.Database is IFacade) (context.Database as IFacade).UpdateState();
@@ -311,7 +310,7 @@ public static partial class LinqSharpEF
 
             var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
             var audits = Array.CreateInstance(auditType, entriesOfType.Count());
-            foreach (var (index, value) in entriesOfType.AsIndexValuePairs())
+            foreach (var (index, value) in entriesOfType.Pairs())
             {
                 audits.SetValue(EntityAudit.Parse(value), index);
             }
@@ -328,7 +327,7 @@ public static partial class LinqSharpEF
 
             var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
             var audits = Array.CreateInstance(auditType, entriesOfType.Count());
-            foreach (var (index, value) in entriesOfType.AsIndexValuePairs())
+            foreach (var (index, value) in entriesOfType.Pairs())
             {
                 audits.SetValue(EntityAudit.Parse(value), index);
             }
@@ -492,22 +491,22 @@ public static partial class LinqSharpEF
             NowOffset = DateTimeOffset.Now,
         };
 
-        var isUserTraceable = context is IUserTraceable;
+        var isUserTrace = context is IUserTraceable;
         var userTrace = new Lazy<IUserTraceable>(() => context as IUserTraceable);
 
-        var isRowLockable = context is IRowLockable;
+        var isRowLock = context is IRowLockable;
         var rowLock = new Lazy<IRowLockable>(() => context as IRowLockable);
 
-        var isTimestampFormat = context is ITimestampable;
-        var timestampFormattable = new Lazy<ITimestampable>(() => context as ITimestampable);
+        var isTimestamp = context is ITimestampable;
+        var timestamp = new Lazy<ITimestampable>(() => context as ITimestampable);
 
         var originValues = entry.GetDatabaseValues();
         foreach (var prop in props)
         {
             var propertyType = prop.PropertyType;
             var currentValue = prop.GetValue(entry.Entity);
-            var finalValue = currentValue;
             var attrs = prop.GetCustomAttributes<AutoAttribute>();
+            var finalValue = currentValue;
 
             foreach (var attr in attrs)
             {
@@ -517,25 +516,42 @@ public static partial class LinqSharpEF
                     {
                         if (entry.State == EntityState.Modified)
                         {
-                            finalValue = originValues[prop.Name];
+                            finalValue = originValues?[prop.Name] ?? default;
                         }
                         continue;
                     }
 
+                    FieldOption option;
                     if (attr is SpecialAutoAttribute<TimestampParam> attr_now)
                     {
-                        if (!isTimestampFormat) throw new InvalidOperationException($"The context needs to implement {nameof(ITimestampable)}.");
+                        if (!isTimestamp) throw new InvalidOperationException($"The context needs to implement {nameof(ITimestampable)}.");
 
-                        if (!timestampFormattable.Value.IgnoreTimestamp)
+                        option = timestamp.Value.TimestampOption;
+                        if (option == FieldOption.Auto)
                         {
                             finalValue = attr_now.Format(entry.Entity, propertyType, timestampParam);
                         }
                     }
+                    else if (attr is SpecialAutoAttribute<LockParam> attr_lock)
+                    {
+                        if (!isRowLock) throw new InvalidOperationException($"The context needs to implement {nameof(IRowLockable)}.");
+
+                        option = rowLock.Value.RowLockOption;
+                        if (option == FieldOption.Auto)
+                        {
+                            finalValue = attr_lock.Format(entry.Entity, propertyType, new LockParam
+                            {
+                                Origin = originValues?[prop.Name] ?? default,
+                                Current = currentValue,
+                            });
+                        }
+                    }
                     else if (attr is SpecialAutoAttribute<UserParam> attr_user)
                     {
-                        if (!isUserTraceable) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
+                        if (!isUserTrace) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
 
-                        if (!userTrace.Value.IgnoreUserTrace)
+                        option = userTrace.Value.UserTraceOption;
+                        if (option == FieldOption.Auto)
                         {
                             finalValue = attr_user.Format(entry.Entity, propertyType, new UserParam
                             {
@@ -543,20 +559,18 @@ public static partial class LinqSharpEF
                             });
                         }
                     }
-                    else if (attr is SpecialAutoAttribute<LockParam> attr_lock)
-                    {
-                        if (!isRowLockable) throw new InvalidOperationException($"The context needs to implement {nameof(IRowLockable)}.");
+                    else throw new NotImplementedException($"{attr.GetType()} is not processed.");
 
-                        if (!rowLock.Value.IgnoreRowLock)
-                        {
-                            finalValue = attr_lock.Format(entry.Entity, propertyType, new LockParam
-                            {
-                                Origin = originValues[prop.Name],
-                                Current = currentValue,
-                            });
-                        }
+                    if (option == FieldOption.Auto) { }
+                    else if (option == FieldOption.Reserve)
+                    {
+                        finalValue = originValues?[prop.Name] ?? default;
                     }
-                    else throw new NotImplementedException($"{attr.GetType()} was not processed.");
+                    else if (option == FieldOption.Specified)
+                    {
+                        finalValue = currentValue;
+                    }
+                    else throw new NotImplementedException($"The option is not supported. ({option}).");
                 }
                 else
                 {

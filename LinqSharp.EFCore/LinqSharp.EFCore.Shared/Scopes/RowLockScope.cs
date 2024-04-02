@@ -11,18 +11,18 @@ namespace LinqSharp.EFCore.Scopes;
 public class RowLockScope : Scope<RowLockScope>
 {
     private readonly IRowLockable _context;
-    private readonly bool _origin;
+    private readonly FieldOption _origin;
 
-    public RowLockScope(IRowLockable context, bool origin)
+    public RowLockScope(IRowLockable context, FieldOption value)
     {
         _context = context;
-        _origin = origin;
+        _origin = context.RowLockOption;
 
-        context.IgnoreRowLock = true;
+        context.RowLockOption = value;
     }
 
     public override void Disposing()
     {
-        _context.IgnoreRowLock = _origin;
+        _context.RowLockOption = _origin;
     }
 }
