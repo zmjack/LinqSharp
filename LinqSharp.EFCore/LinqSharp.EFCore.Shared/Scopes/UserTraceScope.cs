@@ -3,26 +3,13 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using LinqSharp.EFCore.Design;
+using Microsoft.EntityFrameworkCore;
 using NStandard;
 
 namespace LinqSharp.EFCore.Scopes;
 
-public class UserTraceScope : Scope<UserTraceScope>
+public sealed class UserTraceScope<TContext>(FieldOption option) : Scope<UserTraceScope<TContext>>, IFieldOptionScope
+    where TContext : DbContext
 {
-    private readonly IUserTraceable _context;
-    private readonly FieldOption _origin;
-
-    public UserTraceScope(IUserTraceable context, FieldOption value)
-    {
-        _context = context;
-        _origin = context.UserTraceOption;
-
-        context.UserTraceOption = value;
-    }
-
-    public override void Disposing()
-    {
-        _context.UserTraceOption = _origin;
-    }
+    public FieldOption Option { get; } = option;
 }

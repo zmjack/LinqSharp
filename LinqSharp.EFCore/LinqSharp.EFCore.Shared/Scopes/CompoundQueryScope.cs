@@ -31,7 +31,7 @@ internal static class CompoundQueryScope
     });
 }
 
-public class CompoundQueryScope<TEntity> : Scope<CompoundQueryScope<TEntity>>
+public sealed class CompoundQueryScope<TEntity> : Scope<CompoundQueryScope<TEntity>>
     where TEntity : class
 {
     public IQueryable<TEntity> Queryable { get; }

@@ -71,16 +71,14 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
-### Version 7.0.37.13 - EFCore
+### Version 7.0.37.17 - EFCore
 
-- Add new annotation **RowLock** to prevent locked records from being changed or deleted.
+- Add new annotation **RowLock** to disable locked records from being changed or deleted.
 - Add new annotation **AutoMonthOnly** to format **DateTime** / **DateTimeOffset** / **DateOnly** only keeping the year and month.
-- Now you can let **DbContext** implement these interfaces to control trace action.
-  - **IRowLockable** to control whether **RowLock** take effect.
-  - **ITimestampable** to control whether **AutoCreationTime** / **AutoLastWriteTime** takes effect.
-  - **IUserTraceable** to control whether **AutoCreatedBy** / **AutoUpdatedBy** takes effect.
-  - Added new extension method **BeginPureQuery** to create queries without intelligent tracking.
-  - **Breaking Change**: The database context must implement **ITimestampable** to use **AutoCreationTime** / **AutoLastWriteTime** 
+- Add these new extension methods to create intelligently tracked queries with specified behavior for **DbContext**.
+  - **BeginRowLock**
+  - **BeginTimestamp**
+  - **BeginUserTrace**
 - **Breaking Change**: The length of **Value** in **KeyValueEntity** is set to **768** by default.
 - **Breaking Change**: Change some internal class names.
 

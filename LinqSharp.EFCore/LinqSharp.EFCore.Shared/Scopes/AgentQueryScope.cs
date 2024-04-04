@@ -18,7 +18,7 @@ public static class AgentQueryScope
     public static InvalidOperationException NoScopeException => new("This operation needs to be contained within a AgentQuery scope.");
 }
 
-public class AgentQueryScope<TEntity> : Scope<AgentQueryScope<TEntity>> where TEntity : KeyValueEntity, new()
+public sealed class AgentQueryScope<TEntity> : Scope<AgentQueryScope<TEntity>> where TEntity : KeyValueEntity, new()
 {
     private static readonly MemoryCache _agentProperties = new(new MemoryCacheOptions());
 

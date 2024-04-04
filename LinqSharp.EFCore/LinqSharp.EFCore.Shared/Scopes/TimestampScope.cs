@@ -3,26 +3,13 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using LinqSharp.EFCore.Design;
+using Microsoft.EntityFrameworkCore;
 using NStandard;
 
 namespace LinqSharp.EFCore.Scopes;
 
-public class TimestampScope : Scope<TimestampScope>
+public sealed class TimestampScope<TContext>(FieldOption option) : Scope<TimestampScope<TContext>>, IFieldOptionScope
+    where TContext : DbContext
 {
-    private readonly ITimestampable _context;
-    private readonly FieldOption _origin;
-
-    public TimestampScope(ITimestampable context, FieldOption value)
-    {
-        _context = context;
-        _origin = context.TimestampOption;
-
-        context.TimestampOption = value;
-    }
-
-    public override void Disposing()
-    {
-        _context.TimestampOption = _origin;
-    }
+    public FieldOption Option { get; } = option;
 }

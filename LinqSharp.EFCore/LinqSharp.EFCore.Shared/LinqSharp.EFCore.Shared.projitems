@@ -12,10 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgentProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuditPredictor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Scopes\PureQueryScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scopes\IFieldOptionScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scopes\UserTraceScope.cs" />
-    <Compile Include="..\LinqSharp.EFCore.Shared\Design\ITimestampable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Design\IRowLockable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\RowChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\FieldChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\KeyValueEntity.cs" />

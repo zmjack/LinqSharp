@@ -1,5 +1,6 @@
 ﻿using LinqSharp.EFCore.Data;
 using LinqSharp.EFCore.Data.Test;
+using LinqSharp.EFCore.Scopes;
 using System;
 using System.Linq;
 using Xunit;
@@ -8,100 +9,209 @@ namespace LinqSharp.EFCore.Test;
 
 public class RowLockTests
 {
-    [Fact]
-    public void Test1()
-    {
-        var now = DateTime.Now;
-        using var mysql = ApplicationDbContext.UseMySql();
+    private readonly FieldOption[] _allOptions = [FieldOption.Auto, FieldOption.Reserve, FieldOption.Free];
 
+    static RowLockTests()
+    {
+        using var mysql = ApplicationDbContext.UseMySql();
         using (mysql.BeginDirectQuery())
         {
             mysql.RowLockModels.Truncate();
         }
+    }
 
-        var item = new RowLockModel
-        {
-            Value = 10,
-        };
-        mysql.RowLockModels.Add(item);
-        mysql.SaveChanges();
+    private static RowLockModel AddTest(ApplicationDbContext context, RowLockModel model)
+    {
+        context.RowLockModels.Add(model);
+        context.SaveChanges();
+        return model;
+    }
 
+    private static void UpdateTest(ApplicationDbContext context, RowLockModel model)
+    {
+        context.RowLockModels.Update(model);
+        context.SaveChanges();
+    }
+
+    private static void DeleteTest(ApplicationDbContext context, Guid id)
+    {
+        var record = context.RowLockModels.Find(id);
+        context.RowLockModels.Remove(record);
+        context.SaveChanges();
+    }
+
+    private static RowLockModel Find(ApplicationDbContext context, Guid id)
+    {
+        return context.RowLockModels.Find(id);
+    }
+
+    [Fact]
+    public void OriginNullTest_Add_Delete()
+    {
+        var now = DateTime.Now;
+        foreach (var option in _allOptions)
         {
-            var record = mysql.RowLockModels.Find(item.Id);
-            record.Value = 20;
-            mysql.SaveChanges();
-            Assert.Equal(20, record.Value);
+            Guid id;
+            using (var mysql = ApplicationDbContext.UseMySql())
+            {
+                id = AddTest(mysql, new RowLockModel
+                {
+                    Value = 10,
+                }).Id;
+            }
+
+            using (var mysql = ApplicationDbContext.UseMySql())
+            {
+                DeleteTest(mysql, id);
+            }
+        }
+    }
+
+    [Fact]
+    public void OriginNotNullTest_Add_Delete()
+    {
+        var now = DateTime.Now;
+        foreach (var option in new[] { FieldOption.Auto, FieldOption.Reserve })
+        {
+            Guid id;
+            using (var mysql = ApplicationDbContext.UseMySql())
+            {
+                id = AddTest(mysql, new RowLockModel
+                {
+                    Value = 10,
+                    LockDate = now,
+                }).Id;
+            }
+
+            using (var mysql = ApplicationDbContext.UseMySql())
+            using (mysql.BeginRowLock(option))
+            {
+                Assert.ThrowsAny<InvalidOperationException>(() =>
+                {
+                    DeleteTest(mysql, id);
+                });
+            }
+
+            using (var mysql = ApplicationDbContext.UseMySql())
+            using (mysql.BeginRowLock(FieldOption.Free))
+            {
+                DeleteTest(mysql, id);
+            }
+        }
+    }
+
+    [Fact]
+    public void OriginNullTest_Add_Update()
+    {
+        var now = DateTime.Now;
+        foreach (var option in _allOptions)
+        {
+            Guid id;
+            using (var mysql = ApplicationDbContext.UseMySql())
+            {
+                id = AddTest(mysql, new RowLockModel
+                {
+                    Value = 10,
+                }).Id;
+            }
+
+            using (var mysql = ApplicationDbContext.UseMySql())
+            using (mysql.BeginRowLock(option))
+            {
+                UpdateTest(mysql, new RowLockModel
+                {
+                    Id = id,
+                    Value = 30,
+                });
+                var model = Find(mysql, id);
+                Assert.Equal(30, model.Value);
+            }
+
+            using (var mysql = ApplicationDbContext.UseMySql())
+            using (mysql.BeginRowLock(FieldOption.Free))
+            {
+                DeleteTest(mysql, id);
+            }
+        }
+    }
+
+    [Fact]
+    public void OriginNotNullTest_Add_Update()
+    {
+        var now = DateTime.Now;
+
+        Guid id;
+        using (var mysql = ApplicationDbContext.UseMySql())
+        {
+            id = AddTest(mysql, new RowLockModel
+            {
+                Value = 10,
+                LockDate = now,
+            }).Id;
         }
 
+        using (var mysql = ApplicationDbContext.UseMySql())
         {
-            var record = mysql.RowLockModels.Find(item.Id);
-            record.Value = 30;
-            record.LockDate = DateTime.Now;
-            mysql.SaveChanges();
-            Assert.Equal(30, record.Value);
-        }
-
-        {
-            var record = mysql.RowLockModels.Find(item.Id);
-            record.Value = 40;
             Assert.ThrowsAny<InvalidOperationException>(() =>
             {
-                mysql.SaveChanges();
+                UpdateTest(mysql, new RowLockModel
+                {
+                    Id = id,
+                    Value = 20,
+                });
             });
         }
 
-        {
-            var record = mysql.RowLockModels.Find(item.Id);
-            record.LockDate = null;
-            Assert.ThrowsAny<InvalidOperationException>(() =>
-            {
-                mysql.SaveChanges();
-            });
-        }
-
-        using (mysql.BeginRowLock(FieldOption.Specified))
-        {
-            var record = mysql.RowLockModels.Find(item.Id);
-            record.LockDate = null;
-            mysql.SaveChanges();
-            Assert.Null(record.LockDate);
-        }
-
-        {
-            var record = mysql.RowLockModels.Find(item.Id);
-            record.Value = 50;
-            record.LockDate = DateTime.Now;
-            mysql.SaveChanges();
-            Assert.Equal(50, record.Value);
-        }
-
+        using (var mysql = ApplicationDbContext.UseMySql())
         using (mysql.BeginRowLock(FieldOption.Reserve))
         {
-            Assert.Equal(FieldOption.Reserve, mysql.RowLockOption);
-            using (mysql.BeginRowLock(FieldOption.Specified))
+            UpdateTest(mysql, new RowLockModel
             {
-                Assert.Equal(FieldOption.Specified, mysql.RowLockOption);
-            }
-            Assert.Equal(FieldOption.Reserve, mysql.RowLockOption);
-        }
-        Assert.Equal(FieldOption.Auto, mysql.RowLockOption);
-
-        {
-            var record = mysql.RowLockModels.Find(item.Id);
-            mysql.RowLockModels.Remove(record);
-            Assert.ThrowsAny<InvalidOperationException>(() =>
-            {
-                mysql.SaveChanges();
+                Id = id,
+                Value = 30,
             });
+            var model = Find(mysql, id);
+            Assert.Equal(10, model.Value);
         }
 
-        using (mysql.BeginRowLock(FieldOption.Specified))
+        using (var mysql = ApplicationDbContext.UseMySql())
+        using (mysql.BeginRowLock(FieldOption.Free))
         {
-            var record = mysql.RowLockModels.Find(item.Id);
-            mysql.RowLockModels.Remove(record);
-            mysql.SaveChanges();
-            Assert.Null(mysql.RowLockModels.FirstOrDefault(x => x.Id == item.Id));
+            UpdateTest(mysql, new RowLockModel
+            {
+                Id = id,
+                Value = 40,
+            });
+            var model = Find(mysql, id);
+            Assert.Equal(40, model.Value);
         }
+
+        using (var mysql = ApplicationDbContext.UseMySql())
+        using (mysql.BeginRowLock(FieldOption.Free))
+        {
+            DeleteTest(mysql, id);
+        }
+    }
+
+    [Fact]
+    public void ScopeTest()
+    {
+        static FieldOption GetOption()
+        {
+            return RowLockScope<ApplicationDbContext>.Current?.Option ?? FieldOption.Auto;
+        }
+
+        using var mysql = ApplicationDbContext.UseMySql();
+        using (mysql.BeginRowLock(FieldOption.Reserve))
+        {
+            Assert.Equal(FieldOption.Reserve, GetOption());
+            using (mysql.BeginRowLock(FieldOption.Free))
+            {
+                Assert.Equal(FieldOption.Free, GetOption());
+            }
+            Assert.Equal(FieldOption.Reserve, GetOption());
+        }
+        Assert.Equal(FieldOption.Auto, GetOption());
     }
 
 }

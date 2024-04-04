@@ -134,7 +134,7 @@ public class AutoTests
                 context.AutoModels.Update(model);
                 context.SaveChanges();
 
-                Assert.Equal(time.ToFixed(), model.LastWriteTime.ToFixed());
+                Assert.Equal(time.StartOfSecond(), model.LastWriteTime.StartOfSecond());
 
                 context.AutoModels.Remove(model);
                 context.SaveChanges();

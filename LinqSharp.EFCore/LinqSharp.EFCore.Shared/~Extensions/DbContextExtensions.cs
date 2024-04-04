@@ -35,34 +35,25 @@ public static class DbContextExtensions
         return new CompoundQueryScope<TEntity>(query);
     }
 
-    /// <summary>
-    /// Disable all the trace features.
-    /// <para>
-    /// Use <see cref="TimestampScope" /> | <see cref="RowLockScope" /> | <see cref="UserTraceScope" />.
-    /// </para>
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
-    public static PureQueryScope BeginPureQuery(this DbContext @this, FieldOption option)
+#pragma warning disable IDE0060 // Remove unused parameter
+    public static TimestampScope<TContext> BeginTimestamp<TContext>(this TContext @this, FieldOption option)
+        where TContext : DbContext
     {
-        return new PureQueryScope(@this, option);
+        return new TimestampScope<TContext>(option);
     }
 
-    public static TimestampScope BeginTimestamp(this ITimestampable @this, FieldOption option)
+    public static RowLockScope<TContext> BeginRowLock<TContext>(this TContext @this, FieldOption option)
+        where TContext : DbContext
     {
-        return new TimestampScope(@this, option);
+        return new RowLockScope<TContext>(option);
     }
 
-    public static RowLockScope BeginRowLock(this IRowLockable @this, FieldOption option)
+    public static UserTraceScope<TContext> BeginUserTrace<TContext>(this TContext @this, FieldOption option)
+        where TContext : DbContext
     {
-
-        return new RowLockScope(@this, option);
+        return new UserTraceScope<TContext>(option);
     }
-
-    public static UserTraceScope BeginUserTrace(this IUserTraceable @this, FieldOption option)
-    {
-        return new UserTraceScope(@this, option);
-    }
+#pragma warning restore IDE0060 // Remove unused parameter
 
     public static ProviderName GetProviderName(this DbContext @this)
     {

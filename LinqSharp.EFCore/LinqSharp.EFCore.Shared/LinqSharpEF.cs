@@ -27,20 +27,22 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using LinqSharp.EFCore.Query;
+using LinqSharp.EFCore.Scopes;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Castle.Core;
 
 namespace LinqSharp.EFCore;
 
 public static partial class LinqSharpEF
 {
-    private static readonly MemoryCache ComplexTypesCache = new(new MemoryCacheOptions());
-    private static readonly MemoryCache ConcurrencyResolvingCache = new(new MemoryCacheOptions());
-    private static readonly MemoryCache ConcurrencyResolvableEntityCache = new(new MemoryCacheOptions());
+    private static readonly MemoryCache _complexTypesCache = new(new MemoryCacheOptions());
+    private static readonly MemoryCache _fieldOptionScopeCache = new(new MemoryCacheOptions());
+    private static readonly MemoryCache _concurrencyResolvingCache = new(new MemoryCacheOptions());
+    private static readonly MemoryCache _concurrencyResolvableEntityCache = new(new MemoryCacheOptions());
 
-    private static InvalidOperationException CanNotUpdate(Type entityType, string id) => new($"Record is locked by client. (#{id})");
-
-    public static Dictionary<ConcurrencyResolvingMode, string[]> GetConcurrencyResolvingDict(Type type)
+    public static Dictionary<ConcurrencyResolvingMode, string[]>? GetConcurrencyResolvingDict(Type type)
     {
-        return ConcurrencyResolvingCache.GetOrCreate(type, entry =>
+        return _concurrencyResolvingCache.GetOrCreate(type, entry =>
         {
             var databaseWinList = new List<string>();
             var checkList = new List<string>();
@@ -103,7 +105,7 @@ public static partial class LinqSharpEF
         var resolvablesByTypeGroups = entries.GroupBy(x => x.Entity.GetType()).Where(entriesByType =>
         {
             var entityType = entriesByType.Key;
-            var isResolvable = ConcurrencyResolvableEntityCache.GetOrCreate(entityType, entry =>
+            var isResolvable = _concurrencyResolvableEntityCache.GetOrCreate(entityType, entry =>
             {
                 return entityType.GetCustomAttribute<ConcurrencyResolvableAttribute>() is not null;
             });
@@ -124,12 +126,12 @@ public static partial class LinqSharpEF
 
                     foreach (var propName in resolvingDict[ConcurrencyResolvingMode.DatabaseWins])
                     {
-                        entry.CurrentValues[propName] = storeValues[propName];
+                        entry.CurrentValues[propName] = storeValues?[propName];
                     }
 
                     foreach (var propName in resolvingDict[ConcurrencyResolvingMode.Check])
                     {
-                        entry.OriginalValues[propName] = storeValues[propName];
+                        entry.OriginalValues[propName] = storeValues?[propName];
                     }
                 }
             }
@@ -146,9 +148,9 @@ public static partial class LinqSharpEF
     public static int SaveChanges(DbContext context, Func<bool, int> base_SaveChanges, bool acceptAllChangesOnSuccess)
     {
         int ret;
-        IntelliTrack(context, acceptAllChangesOnSuccess);
 
-        if (context.Database is IFacade) (context.Database as IFacade).UpdateState();
+        IntelliTrack(context, acceptAllChangesOnSuccess);
+        (context.Database as IFacade)?.UpdateState();
 
         if (context is IConcurrencyResolvableContext resolvable)
         {
@@ -176,8 +178,7 @@ public static partial class LinqSharpEF
         Task<int> ret;
 
         IntelliTrack(context, acceptAllChangesOnSuccess);
-
-        if (context.Database is IFacade) (context.Database as IFacade).UpdateState();
+        (context.Database as IFacade)?.UpdateState();
 
         if (context is IConcurrencyResolvableContext resolvable)
         {
@@ -212,13 +213,13 @@ public static partial class LinqSharpEF
     public static void UseAnnotations(DbContext context, ModelBuilder modelBuilder, EntityAnnotation annotation = EntityAnnotation.All)
     {
         var entityMethod = modelBuilder.GetType().GetMethodViaQualifiedName("Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder`1[TEntity] Entity[TEntity]()");
-        var dbSetProps = context.GetType().GetProperties().Where(x => x.ToString().StartsWith("Microsoft.EntityFrameworkCore.DbSet`1"));
+        var dbSetProps = context.GetType().GetProperties().Where(x => x.ToString()!.StartsWith("Microsoft.EntityFrameworkCore.DbSet`1"));
 
         foreach (var dbSetProp in dbSetProps)
         {
             var modelClass = dbSetProp.PropertyType.GenericTypeArguments[0];
             var entityMethod1 = entityMethod.MakeGenericMethod(modelClass);
-            var entityTypeBuilder = entityMethod1.Invoke(modelBuilder, new object[0]);
+            var entityTypeBuilder = entityMethod1.Invoke(modelBuilder, []);
 
             if (annotation.HasFlag(EntityAnnotation.Index)) ApplyIndexes(entityTypeBuilder, modelClass);
             if (annotation.HasFlag(EntityAnnotation.Provider)) ApplyProviders(entityTypeBuilder, modelClass);
@@ -228,7 +229,7 @@ public static partial class LinqSharpEF
 
     public static void UseComplexTypes(DbContext context, ModelBuilder modelBuilder)
     {
-        var types = ComplexTypesCache.GetOrCreate(context.GetType().FullName, entry =>
+        var types = _complexTypesCache.GetOrCreate(context.GetType().FullName, entry =>
         {
             var typeList = new HashSet<Type>();
             var dbSetTypes = context.GetType().GetProperties().Where(x => x.PropertyType.IsType(typeof(DbSet<>)));
@@ -250,6 +251,12 @@ public static partial class LinqSharpEF
         });
 
         foreach (var type in types) modelBuilder.Owned(type);
+    }
+
+    private class RowLockItem
+    {
+        public PropertyInfo Property { get; set; }
+        public PropertyInfo[]? LockedProperties { get; set; }
     }
 
     /// <summary>
@@ -293,12 +300,38 @@ public static partial class LinqSharpEF
         RefreshEntries();
         foreach (var entriesOfType in entriesByType)
         {
+            RowLockItem[]? rowLockItems = null;
+
+            var properties = entriesOfType.Key.GetProperties().Where(x => x.CanWrite).ToArray();
+            if (properties.Any(x => x.GetCustomAttribute<RowLockAttribute>() is not null))
+            {
+                var propDict = properties.ToDictionary(x => x.Name, x => x);
+
+                rowLockItems =
+                [
+                    .. from prop in properties
+                       let attr = prop.GetCustomAttribute<RowLockAttribute>()
+                       where attr is not null
+                       orderby attr.Order
+                       select new RowLockItem
+                       {
+                           Property = prop,
+                           LockedProperties = attr.Columns is not null ?
+                           [
+                               .. from column in attr.Columns select propDict[column]
+                           ] : null,
+                       }
+                ];
+            }
+
             foreach (var entry in entriesOfType)
             {
-                if (new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(entry.State))
+                if (rowLockItems is not null)
                 {
-                    ResolveAutoAttributes(context, entry, entriesOfType.Key);
+                    ResolveRowLock(context, entry, rowLockItems);
                 }
+
+                ResolveAutoAttributes(context, entry, properties);
             }
         }
 
@@ -306,7 +339,7 @@ public static partial class LinqSharpEF
         foreach (var entriesOfType in auditEntriesByType)
         {
             var entityType = entriesOfType.Key;
-            var attr = entityType.GetCustomAttribute<EntityAuditAttribute>();
+            var attr = entityType.GetCustomAttribute<EntityAuditAttribute>()!;
 
             var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
             var audits = Array.CreateInstance(auditType, entriesOfType.Count());
@@ -354,7 +387,6 @@ public static partial class LinqSharpEF
         // Complete EntityAudit
         foreach (var entriesByType in auditEntriesByTypes)
         {
-            var attr = entriesByType.Key.GetCustomAttribute<EntityAuditAttribute>();
             foreach (var entry in entriesByType)
             {
                 predictor.Add(EntityAudit.Parse(entry));
@@ -364,7 +396,7 @@ public static partial class LinqSharpEF
         foreach (var entriesByType in auditEntriesByTypes)
         {
             var entityType = entriesByType.Key;
-            var attr = entityType.GetCustomAttribute<EntityAuditAttribute>();
+            var attr = entityType.GetCustomAttribute<EntityAuditAttribute>()!;
             var auditor = Activator.CreateInstance(attr.EntityAuditorType);
             auditor.GetReflector().DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.OnAudited)).Call(context, predictor);
         }
@@ -372,25 +404,27 @@ public static partial class LinqSharpEF
 
     private static void ApplyCompositeKey(object entityTypeBuilder, Type modelClass)
     {
-        var hasKeyMethod = entityTypeBuilder.GetType().GetMethod(nameof(EntityTypeBuilder.HasKey), [typeof(string[])]);
+        var hasKeyMethod = entityTypeBuilder.GetType().GetMethod(nameof(EntityTypeBuilder.HasKey), [typeof(string[])])!;
 
         var modelProps = modelClass.GetProperties()
             .Where(x => x.GetCustomAttribute<CPKeyAttribute>() is not null)
-            .OrderBy(x => x.GetCustomAttribute<CPKeyAttribute>().Order);
+            .OrderBy(x => x.GetCustomAttribute<CPKeyAttribute>()!.Order);
         var propNames = modelProps.Select(x => x.Name).ToArray();
 
         if (propNames.Any())
+        {
             hasKeyMethod.Invoke(entityTypeBuilder, [propNames]);
+        }
     }
 
     private static void ApplyIndexes(object entityTypeBuilder, Type modelClass)
     {
-        var hasIndexMethod = entityTypeBuilder.GetType().GetMethod(nameof(EntityTypeBuilder.HasIndex), [typeof(string[])]);
+        var hasIndexMethod = entityTypeBuilder.GetType().GetMethod(nameof(EntityTypeBuilder.HasIndex), [typeof(string[])])!;
         void SetIndex(string[] propertyNames, IndexType type)
         {
             if (propertyNames.Length == 0) throw new ArgumentException("No property specified.", nameof(propertyNames));
 
-            var indexBuilder = hasIndexMethod.Invoke(entityTypeBuilder, [propertyNames]) as IndexBuilder;
+            var indexBuilder = (hasIndexMethod.Invoke(entityTypeBuilder, [propertyNames]) as IndexBuilder)!;
             if (type == IndexType.Unique) indexBuilder.IsUnique();
         }
 
@@ -450,16 +484,16 @@ public static partial class LinqSharpEF
                 var specialProviderAttr = modelProp.GetCustomAttributes().FirstOrDefault(x => x.GetType().IsExtend(typeof(SpecialProviderAttribute), true));
                 if (specialProviderAttr is null) continue;
 
-                providerAttr = (specialProviderAttr as SpecialProviderAttribute).GetTargetProvider(modelProp);
+                providerAttr = (specialProviderAttr as SpecialProviderAttribute)!.GetTargetProvider(modelProp);
             }
 
             if (providerAttr is not null)
             {
                 var propertyBuilder = propertyMethod.Invoke(entityTypeBuilder, [modelProp.Name]) as PropertyBuilder;
-                var hasConversionMethod = typeof(PropertyBuilder).GetMethod(nameof(PropertyBuilder.HasConversion), [typeof(ValueConverter)]);
+                var hasConversionMethod = typeof(PropertyBuilder).GetMethod(nameof(PropertyBuilder.HasConversion), [typeof(ValueConverter)])!;
 
                 var providerAttrType = providerAttr.GetType();
-                dynamic provider = Activator.CreateInstance(providerAttrType);
+                dynamic provider = Activator.CreateInstance(providerAttrType)!;
 
                 var converter = LinqSharpEF.BuildConverter(provider);
                 hasConversionMethod.Invoke(propertyBuilder, [converter]);
@@ -467,13 +501,13 @@ public static partial class LinqSharpEF
                 var comparer = LinqSharpEF.BuildComparer(provider);
                 if (comparer is not null)
                 {
-                    var metadataProperty = typeof(PropertyBuilder).GetProperty(nameof(PropertyBuilder.Metadata));
+                    var metadataProperty = typeof(PropertyBuilder).GetProperty(nameof(PropertyBuilder.Metadata))!;
                     var metadata = metadataProperty.GetValue(propertyBuilder);
 #if EFCORE6_0_OR_GREATER
-                    var setValueComparerMethod = typeof(IMutableProperty).GetMethod(nameof(IMutableProperty.SetValueComparer), new[] { typeof(ValueComparer) });
+                    var setValueComparerMethod = typeof(IMutableProperty).GetMethod(nameof(IMutableProperty.SetValueComparer), new[] { typeof(ValueComparer) })!;
                     setValueComparerMethod.Invoke(metadata, new object[] { comparer });
 #else
-                    var setValueComparerMethod = typeof(MutablePropertyExtensions).GetMethod(nameof(MutablePropertyExtensions.SetValueComparer));
+                    var setValueComparerMethod = typeof(MutablePropertyExtensions).GetMethod(nameof(MutablePropertyExtensions.SetValueComparer))!;
                     setValueComparerMethod.Invoke(null, [metadata, comparer]);
 #endif
                 }
@@ -481,9 +515,100 @@ public static partial class LinqSharpEF
         }
     }
 
-    private static void ResolveAutoAttributes(DbContext context, EntityEntry entry, Type entityType)
+    private static FieldOption GetFieldOption(DbContext context, Type genericScope, string scopeName)
     {
-        var props = entityType.GetProperties().Where(x => x.CanWrite).ToArray();
+        var scopeProp = _fieldOptionScopeCache.GetOrCreate($"{scopeName}&{context.GetType()}", entry =>
+        {
+            return genericScope
+                .MakeGenericType(context.GetType())
+                .GetProperty(nameof(Scope<RowLockScope<DbContext>>.Current), BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+        })!;
+        var scope = scopeProp.GetValue(null) as IFieldOptionScope;
+        return scope?.Option ?? FieldOption.Auto;
+    }
+
+    private static InvalidOperationException LockedRowUpdatingException(Type type) => new($"Must be unlocked before updating. ({type.Name} can not be modified.)");
+    private static InvalidOperationException LockedRowUpdatingException(Type type, PropertyInfo prop) => new($"Must be unlocked before updating. ({type.Name}.{prop.Name} can not be changed.)");
+    private static InvalidOperationException LockedRowDeletingException(Type type) => new($"Must be unlocked before deleting. ({type} can not be deleted.)");
+
+    private static void ResolveRowLock(DbContext context, EntityEntry entry, RowLockItem[] lockItems)
+    {
+        if (!new[] { EntityState.Modified, EntityState.Deleted }.Contains(entry.State)) return;
+
+        var originValues = entry.GetDatabaseValues();
+        void OperateThrow(PropertyInfo prop)
+        {
+            var originValue = originValues?[prop.Name] ?? default;
+            var currentValue = prop.GetValue(entry.Entity);
+
+            if (originValue != currentValue)
+            {
+                throw LockedRowUpdatingException(prop.DeclaringType!, prop);
+            }
+        }
+
+        void OperateRestore(PropertyInfo prop)
+        {
+            var originValue = originValues?[prop.Name] ?? default;
+            var currentValue = prop.GetValue(entry.Entity);
+
+            if (originValue != currentValue)
+            {
+                prop.SetValue(entry.Entity, originValue);
+            }
+        }
+
+        var rowLockOption = GetFieldOption(context, typeof(RowLockScope<>), nameof(RowLockScope<DbContext>));
+        if (rowLockOption == FieldOption.Auto || rowLockOption == FieldOption.Reserve)
+        {
+            foreach (var item in lockItems)
+            {
+                var originValue = originValues?[item.Property.Name] ?? default;
+                if (originValue is null) continue;
+
+                if (entry.State == EntityState.Deleted) throw LockedRowDeletingException(entry.Entity.GetType());
+
+                if (rowLockOption == FieldOption.Auto)
+                {
+                    if (item.LockedProperties is null)
+                    {
+                        if (entry.State == EntityState.Modified) throw LockedRowUpdatingException(entry.Entity.GetType());
+                    }
+                    else
+                    {
+                        OperateThrow(item.Property);
+                        foreach (var prop in item.LockedProperties)
+                        {
+                            OperateThrow(prop);
+                        }
+                    }
+                }
+                else
+                {
+                    // Reserve
+                    if (item.LockedProperties is null)
+                    {
+                        if (entry.State == EntityState.Modified)
+                        {
+                            entry.State = EntityState.Detached;
+                        }
+                    }
+                    else
+                    {
+                        OperateRestore(item.Property);
+                        foreach (var prop in item.LockedProperties)
+                        {
+                            OperateRestore(prop);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void ResolveAutoAttributes(DbContext context, EntityEntry entry, PropertyInfo[] properties)
+    {
+        if (!new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(entry.State)) return;
 
         var timestampParam = new TimestampParam
         {
@@ -491,17 +616,18 @@ public static partial class LinqSharpEF
             NowOffset = DateTimeOffset.Now,
         };
 
-        var isUserTrace = context is IUserTraceable;
-        var userTrace = new Lazy<IUserTraceable>(() => context as IUserTraceable);
-
-        var isRowLock = context is IRowLockable;
-        var rowLock = new Lazy<IRowLockable>(() => context as IRowLockable);
-
-        var isTimestamp = context is ITimestampable;
-        var timestamp = new Lazy<ITimestampable>(() => context as ITimestampable);
+        var userTrace = context as IUserTraceable;
+        var userTraceOption = new Lazy<FieldOption>(() =>
+        {
+            return GetFieldOption(context, typeof(UserTraceScope<>), nameof(UserTraceScope<DbContext>));
+        });
+        var timestampOption = new Lazy<FieldOption>(() =>
+        {
+            return GetFieldOption(context, typeof(TimestampScope<>), nameof(TimestampScope<DbContext>));
+        });
 
         var originValues = entry.GetDatabaseValues();
-        foreach (var prop in props)
+        foreach (var prop in properties)
         {
             var propertyType = prop.PropertyType;
             var currentValue = prop.GetValue(entry.Entity);
@@ -524,38 +650,22 @@ public static partial class LinqSharpEF
                     FieldOption option;
                     if (attr is SpecialAutoAttribute<TimestampParam> attr_now)
                     {
-                        if (!isTimestamp) throw new InvalidOperationException($"The context needs to implement {nameof(ITimestampable)}.");
-
-                        option = timestamp.Value.TimestampOption;
+                        option = timestampOption.Value;
                         if (option == FieldOption.Auto)
                         {
                             finalValue = attr_now.Format(entry.Entity, propertyType, timestampParam);
                         }
                     }
-                    else if (attr is SpecialAutoAttribute<LockParam> attr_lock)
-                    {
-                        if (!isRowLock) throw new InvalidOperationException($"The context needs to implement {nameof(IRowLockable)}.");
-
-                        option = rowLock.Value.RowLockOption;
-                        if (option == FieldOption.Auto)
-                        {
-                            finalValue = attr_lock.Format(entry.Entity, propertyType, new LockParam
-                            {
-                                Origin = originValues?[prop.Name] ?? default,
-                                Current = currentValue,
-                            });
-                        }
-                    }
                     else if (attr is SpecialAutoAttribute<UserParam> attr_user)
                     {
-                        if (!isUserTrace) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
+                        if (userTrace is null) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
 
-                        option = userTrace.Value.UserTraceOption;
+                        option = userTraceOption.Value;
                         if (option == FieldOption.Auto)
                         {
                             finalValue = attr_user.Format(entry.Entity, propertyType, new UserParam
                             {
-                                CurrentUser = userTrace.Value.CurrentUser,
+                                CurrentUser = userTrace.CurrentUser,
                             });
                         }
                     }
@@ -566,7 +676,7 @@ public static partial class LinqSharpEF
                     {
                         finalValue = originValues?[prop.Name] ?? default;
                     }
-                    else if (option == FieldOption.Specified)
+                    else if (option == FieldOption.Free)
                     {
                         finalValue = currentValue;
                     }

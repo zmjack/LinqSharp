@@ -9,13 +9,14 @@ using System;
 namespace LinqSharp.EFCore.Annotations;
 
 [AttributeUsage(AttributeTargets.Property)]
-public sealed class RowLockAttribute : SpecialAutoAttribute<LockParam>
+public sealed class RowLockAttribute : Attribute
 {
-    public RowLockAttribute() : base(AutoState.Modified, AutoState.Deleted) { }
+    public string[] Columns { get; }
+    public int Order { get; set; }
 
-    public override object Format(object entity, Type propertyType, LockParam value)
+    public RowLockAttribute(string[] columns = null, int order = 0)
     {
-        if (value.Origin is null) return value.Current;
-        throw new InvalidOperationException("Must be unlocked before updating records.");
+        Columns = columns;
+        Order = order;
     }
 }

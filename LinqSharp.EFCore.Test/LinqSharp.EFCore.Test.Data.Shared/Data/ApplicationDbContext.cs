@@ -14,12 +14,9 @@ using System.Threading.Tasks;
 
 namespace LinqSharp.EFCore.Data.Test;
 
-public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableContext, IUserTraceable, IRowLockable, ITimestampable
+public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableContext, IUserTraceable
 {
     public int MaxConcurrencyRetry => 2;
-    public FieldOption UserTraceOption { get; set; }
-    public FieldOption RowLockOption { get; set; }
-    public FieldOption TimestampOption { get; set; }
 
     public const string DatabaseName = "linqsharp";
 
