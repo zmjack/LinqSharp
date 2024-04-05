@@ -21,15 +21,15 @@ public class Property<TSource>
         if (propertyChain is null) throw new ArgumentNullException(nameof(propertyChain));
         if (!propertyChain.Any()) throw new ArgumentException($"The argument can not be empty.", nameof(propertyChain));
 
+        Expression? exp = parameter;
         var chainEnumerator = propertyChain.GetEnumerator();
-        chainEnumerator.MoveNext();
-        var propertyName = chainEnumerator.Current as string;
-
-        var exp = Expression.Property(parameter, propertyName);
         while (chainEnumerator.MoveNext())
         {
-            exp = Expression.Property(exp, chainEnumerator.Current as string);
+            var propertyName = chainEnumerator.Current as string ?? throw new ArgumentException("Each property can not be empty.", nameof(propertyChain));
+            exp = Expression.Property(exp, propertyName);
         }
+
+        if (exp is null) throw new NullReferenceException($"The expression is null.");
 
         PropertyType = propertyType;
         Parameter = parameter;

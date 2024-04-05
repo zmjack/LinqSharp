@@ -14,12 +14,12 @@ namespace LinqSharp.Layer;
 public class QueryLayer<TSource> : IQueryLayer<TSource>
 {
     public int Span { get; }
-    public object Key { get; }
+    public object? Key { get; }
 
     private readonly TSource[] _elements;
-    private readonly IEnumerable<IQueryLayer<TSource>> _subLayers;
+    private readonly IEnumerable<IQueryLayer<TSource>>? _subLayers;
 
-    internal QueryLayer(int span, object key, TSource[] elements, IEnumerable<IQueryLayer<TSource>> nestedLayers)
+    internal QueryLayer(int span, object? key, TSource[] elements, IEnumerable<IQueryLayer<TSource>>? nestedLayers)
     {
         Span = span;
         Key = key;

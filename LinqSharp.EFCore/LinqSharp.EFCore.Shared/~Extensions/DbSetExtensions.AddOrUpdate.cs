@@ -16,6 +16,8 @@ public static partial class DbSetExtensions
 {
     private static Expression<Func<TEntity, bool>> GetAbsoluteAddOrUpdateLambda<TEntity>(string[] propNames, TEntity entity)
     {
+        if (propNames.Length == 0) throw new ArgumentException("Property names must be specified.", nameof(propNames));
+
         var record = Expression.Parameter(typeof(TEntity));
         var entityExp = Expression.Constant(entity);
 
@@ -35,12 +37,14 @@ public static partial class DbSetExtensions
             return lambda;
         }).ToArray();
 
-        var predicate = parts.LambdaJoin(Expression.AndAlso);
+        var predicate = parts.LambdaJoin(Expression.AndAlso)!;
         return predicate;
     }
 
     private static Expression<Func<TEntity, TEntity, bool>> GetAddOrUpdateLambda<TEntity>(string[] propNames)
     {
+        if (!(propNames?.Any() ?? false)) throw new ArgumentException("The property names can not be empty.", nameof(propNames));
+
         var record = Expression.Parameter(typeof(TEntity), "record");
         var entity = Expression.Parameter(typeof(TEntity), "entity");
 
@@ -60,7 +64,7 @@ public static partial class DbSetExtensions
             return lambda;
         }).ToArray();
 
-        var predicate = parts.LambdaJoin(Expression.AndAlso);
+        var predicate = parts.LambdaJoin(Expression.AndAlso)!;
         return predicate;
     }
 
@@ -87,7 +91,7 @@ public static partial class DbSetExtensions
     /// <param name="entity"></param>
     /// <param name="initOptions"></param>
     /// <returns></returns>
-    public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, ref TEntity entity, Action<UpdateOptions<TEntity>> initOptions)
+    public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, ref TEntity entity, Action<UpdateOptions<TEntity>>? initOptions)
         where TEntity : class
     {
         var options = new UpdateOptions<TEntity>();
@@ -127,7 +131,7 @@ public static partial class DbSetExtensions
     /// <param name="keys">[Member or NewSelector]</param>
     /// <param name="entities"></param>
     /// <param name="initOptions"></param>
-    public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, TEntity[] entities, Action<UpdateOptions<TEntity>> initOptions)
+    public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, TEntity[] entities, Action<UpdateOptions<TEntity>>? initOptions)
         where TEntity : class
     {
         if (!entities.Any()) return;
@@ -146,8 +150,8 @@ public static partial class DbSetExtensions
                 Entity = x,
                 Predicate = GetAbsoluteAddOrUpdateLambda(propNames, x),
             }).ToArray();
-            var lambdas = parts.Select(x => x.Predicate).ToArray();
-            predicate = lambdas.LambdaJoin(Expression.OrElse);
+            var lambdas = parts.Select(x => x.Predicate!).ToArray();
+            predicate = lambdas.LambdaJoin(Expression.OrElse)!;
         }
         else predicate = options.Predicate;
 

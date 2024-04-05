@@ -11,10 +11,10 @@ namespace LinqSharp.EFCore.Annotations;
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class RowLockAttribute : Attribute
 {
-    public string[] Columns { get; }
+    public string[]? Columns { get; }
     public int Order { get; set; }
 
-    public RowLockAttribute(string[] columns = null, int order = 0)
+    public RowLockAttribute(string[]? columns = null, int order = 0)
     {
         Columns = columns;
         Order = order;

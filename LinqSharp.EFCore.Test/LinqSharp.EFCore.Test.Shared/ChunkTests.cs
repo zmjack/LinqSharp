@@ -49,7 +49,7 @@ public class ChunkTests
         {
 #pragma warning disable CS0618 // Type or member is obsolete
             var chunks = (
-                from chunk in regions.GroupByCount(2)
+                from chunk in regions.Chunk(2)
                 select chunk.Select(x => x.RegionDescription).ToArray()
             ).ToArray();
 #pragma warning restore CS0618 // Type or member is obsolete
@@ -64,7 +64,7 @@ public class ChunkTests
         {
 #pragma warning disable CS0618 // Type or member is obsolete
             var chunks = (
-                from chunk in regions.GroupByCount(3)
+                from chunk in regions.Chunk(3)
                 select chunk.Select(x => x.RegionDescription).ToArray()
             ).ToArray();
 #pragma warning restore CS0618 // Type or member is obsolete

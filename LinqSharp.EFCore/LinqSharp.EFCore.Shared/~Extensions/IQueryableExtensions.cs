@@ -29,15 +29,17 @@ public static partial class IQueryableExtensions
     public static ProviderName GetProviderName<TEntity>(this IQueryable<TEntity> @this)
         where TEntity : class
     {
+#pragma warning disable EF1001 // Internal EF Core API usage.
         var queryFactoryReflector = @this.Provider.GetReflector()
             .DeclaredField<QueryCompiler>("_queryCompiler")
             .DeclaredField<RelationalQueryContextFactory>("_queryContextFactory");
+#pragma warning restore EF1001 // Internal EF Core API usage.
         string factoryName;
 
 #if EFCORE6_0_OR_GREATER
-        factoryName = queryFactoryReflector.DeclaredProperty("RelationalDependencies").DeclaredProperty("RelationalQueryStringFactory").Value.ToString();
+        factoryName = queryFactoryReflector.DeclaredProperty("RelationalDependencies").DeclaredProperty("RelationalQueryStringFactory").Value.ToString()!;
 #elif EFCORE5_0_OR_GREATER
-        factoryName = queryFactoryReflector.DeclaredField("_relationalDependencies").DeclaredProperty("RelationalQueryStringFactory").Value.ToString();
+        factoryName = queryFactoryReflector.DeclaredField("_relationalDependencies").DeclaredProperty("RelationalQueryStringFactory").Value.ToString()!;
 #elif EFCORE3_1_OR_GREATER
         factoryName = queryFactoryReflector.DeclaredField("_relationalDependencies").DeclaredProperty("ExecutionStrategyFactory").Value.ToString();
 #else
@@ -105,7 +107,7 @@ public static partial class IQueryableExtensions
         var queryModel = queryCompilerReflector.DeclaredField<QueryModelGenerator>("_queryModelGenerator").Value.ParseQuery(@this.Expression);
 
         var dependencies = queryCompilerReflector.DeclaredProperty<Database>("Database").DeclaredProperty<DatabaseDependencies>("Dependencies").Value;
-        var modelVisitor = dependencies.QueryCompilationContextFactory.Create(false).CreateQueryModelVisitor() as RelationalQueryModelVisitor;
+        var modelVisitor = (dependencies.QueryCompilationContextFactory.Create(false).CreateQueryModelVisitor() as RelationalQueryModelVisitor)!;
         modelVisitor.CreateQueryExecutor<TEntity>(queryModel);
 
         var sql = modelVisitor.Queries.Select(x => $"{x.ToString().TrimEnd(';')};{Environment.NewLine}").Join("");

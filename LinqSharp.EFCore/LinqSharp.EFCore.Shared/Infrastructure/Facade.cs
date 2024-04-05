@@ -15,7 +15,7 @@ namespace LinqSharp.EFCore.Infrastructure;
 
 public abstract class Facade<TState> : DatabaseFacade, IFacade where TState : class, IFacadeState, new()
 {
-    private static InvalidOperationException Exception_NotUpdated() => new InvalidOperationException("The state has not been updated. (Did you forget to call the LinqSharp.SaveChanges method in DbContext.SaveChanges ?)");
+    private static InvalidOperationException Exception_NotUpdated() => new("The state has not been updated. (Did you forget to call the LinqSharp.SaveChanges method in DbContext.SaveChanges ?)");
 
     protected DbContext _context;
 
@@ -24,9 +24,9 @@ public abstract class Facade<TState> : DatabaseFacade, IFacade where TState : cl
 
     public delegate void StateDelegate(TState state);
 
-    public event StateDelegate OnCommitted;
-    public event StateDelegate OnRollbacked;
-    public event StateDelegate OnDisposing;
+    public event StateDelegate? OnCommitted;
+    public event StateDelegate? OnRollbacked;
+    public event StateDelegate? OnDisposing;
 
     public Facade(DbContext context, bool enableWithoutTransaction) : base(context)
     {
@@ -34,7 +34,7 @@ public abstract class Facade<TState> : DatabaseFacade, IFacade where TState : cl
         EnableWithoutTransaction = enableWithoutTransaction;
     }
 
-    private IDbContextTransaction baseTransaction;
+    private IDbContextTransaction? baseTransaction;
 
     public override IDbContextTransaction BeginTransaction()
     {

@@ -43,7 +43,7 @@ public sealed class AgentQueryScope<TEntity> : Scope<AgentQueryScope<TEntity>> w
 
         var proxy = new KeyValueAgentProxy<TAgent, TEntity>();
         var agent = new ProxyGenerator().CreateClassProxyWithTarget(new TAgent(), proxy);
-        agent.ItemName = itemName;
+        agent._itemName = itemName;
 
         _agentList[itemName] = agent;
 
@@ -55,7 +55,7 @@ public sealed class AgentQueryScope<TEntity> : Scope<AgentQueryScope<TEntity>> w
     {
         if (_uncreatedNameList.Any())
         {
-            var itemNamesByType = _uncreatedNameList.GroupBy(name => _agentList[name].GetType().BaseType);
+            var itemNamesByType = _uncreatedNameList.GroupBy(name => _agentList[name].GetType().BaseType!);
             foreach (var itemNames in itemNamesByType)
             {
                 var agentType = itemNames.Key;
@@ -63,8 +63,8 @@ public sealed class AgentQueryScope<TEntity> : Scope<AgentQueryScope<TEntity>> w
 
                 var props = _agentProperties.GetOrCreate(agentType, entry =>
                 {
-                    return agentType.GetProperties().Where(x => x.GetMethod.IsVirtual).ToArray();
-                });
+                    return agentType.GetProperties().Where(x => x.GetMethod!.IsVirtual).ToArray();
+                })!;
 
                 var entities = (
                     from name in itemNames

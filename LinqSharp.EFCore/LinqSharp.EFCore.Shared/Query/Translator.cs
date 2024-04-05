@@ -30,7 +30,7 @@ public abstract class Translator
 
     public void Register(ModelBuilder modelBuilder, Expression<Func<object>> methodGetter, Func<SqlExpression[], SqlExpression> build)
     {
-        MethodInfo method = null;
+        MethodInfo? method = null;
 
         if (methodGetter.Body is UnaryExpression unary)
         {

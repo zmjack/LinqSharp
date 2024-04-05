@@ -43,8 +43,8 @@ public class IndexTests
             select g.First()
         ).UniqueIndexBy(x => x.Tag);
 
-        Assert.Equal("0", modelByTag["0"].Any.Tag);
-        Assert.Equal("1", modelByTag["1"].Any.Tag);
+        Assert.Equal("0", modelByTag["0"].Target.Tag);
+        Assert.Equal("1", modelByTag["1"].Target.Tag);
         Assert.Null(modelByTag["2"]);
     }
 
@@ -52,7 +52,7 @@ public class IndexTests
     public void UniqueIndexingNullTest()
     {
         var modelByTag = _models.Take(1).UniqueIndexBy(x => (string)null);
-        Assert.Equal("0", modelByTag[null].Any.Tag);
+        Assert.Equal("0", modelByTag[null].Target.Tag);
     }
 
     [Fact]

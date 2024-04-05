@@ -80,6 +80,6 @@ public static class DbContextExtensions
     {
         var entityTypes = @this.Model.GetEntityTypes();
         var entityType = entityTypes.First(x => x.ClrType == typeof(TEntity));
-        return entityType.GetAnnotation("Relational:TableName").Value.ToString();
+        return entityType.GetAnnotation("Relational:TableName").Value!.ToString()!;
     }
 }

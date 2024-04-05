@@ -106,9 +106,15 @@ public static partial class IEnumerableExtensions
         if (source.Any())
         {
             var max = source.Max(selector);
-            return source.Where(x => selector(x).Equals(max));
+            if (max is null)
+            {
+                return source.Where(x => selector(x) is null);
+            }
+            else
+            {
+                return source.Where(x => max.Equals(selector(x)));
+            }
         }
         else return source;
     }
-
 }

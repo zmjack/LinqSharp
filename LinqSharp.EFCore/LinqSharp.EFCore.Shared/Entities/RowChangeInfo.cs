@@ -27,7 +27,7 @@ public class RowChangeInfo : Dictionary<string, FieldChangeInfo>
 
         foreach (var entry in entries)
         {
-            Add(entry.Metadata.PropertyInfo.Name, new FieldChangeInfo
+            Add(entry.Metadata.PropertyInfo!.Name, new FieldChangeInfo
             {
                 Display = DataAnnotation.GetDisplayName(entry.Metadata.PropertyInfo),
                 IsModified = entry.IsModified,

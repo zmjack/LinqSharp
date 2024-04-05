@@ -12,7 +12,7 @@ namespace LinqSharp;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class EnumExtensions
 {
-    public static string DisplayName(this Enum @this)
+    public static string? DisplayName(this Enum @this)
     {
         var field = @this.GetType().GetFields().First(x => x.Name == @this.ToString());
         return DataAnnotation.GetDisplayName(field);

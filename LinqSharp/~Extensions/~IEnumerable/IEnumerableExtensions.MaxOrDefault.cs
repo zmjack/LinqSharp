@@ -35,7 +35,7 @@ public static partial class IEnumerableExtensions
     public static double? MaxOrDefault(this IEnumerable<double?> source, double? @default = default) => source.Any() ? source.Max() : @default;
     public static decimal? MaxOrDefault(this IEnumerable<decimal?> source, decimal? @default = default) => source.Any() ? source.Max() : @default;
 
-    public static TResult MaxOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult @default = default) => source.Any() ? source.Max(selector) : @default;
-    public static TSource MaxOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default) => source.Any() ? source.Max() : @default;
+    public static TResult? MaxOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult? @default = default) => source.Any() ? source.Max(selector) : @default;
+    public static TSource? MaxOrDefault<TSource>(this IEnumerable<TSource> source, TSource? @default = default) => source.Any() ? source.Max() : @default;
 
 }

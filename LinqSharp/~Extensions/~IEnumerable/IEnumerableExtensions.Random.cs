@@ -40,7 +40,7 @@ public static partial class IEnumerableExtensions
     /// <typeparam name="TSource"></typeparam>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static TSource RandomOrDefault<TSource>(this IEnumerable<TSource> @this)
+    public static TSource? RandomOrDefault<TSource>(this IEnumerable<TSource> @this)
     {
         return @this.OrderBy(x => Guid.NewGuid()).Take(1).FirstOrDefault();
     }

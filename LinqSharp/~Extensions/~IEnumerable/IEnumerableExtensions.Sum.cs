@@ -36,7 +36,7 @@ public static partial class IEnumerableExtensions
                 return sum;
             }
         }
-        return default;
+        return default!;
     }
     public static TSource Sum<TSource>(this IEnumerable<TSource> source) where TSource : ISummable => Sum(source, x => x);
     public static TSource? Sum<TSource>(this IEnumerable<TSource?> source) where TSource : struct, ISummable => Sum(source, x => x);

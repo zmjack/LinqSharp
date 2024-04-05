@@ -15,7 +15,7 @@ public class QueryExpression<TSource>
     internal static readonly Lazy<QueryExpression<TSource>> True = new(() => new(x => true));
 
     public ParameterExpression Parameter { get; }
-    public Expression<Func<TSource, bool>> Expression { get; }
+    public Expression<Func<TSource, bool>>? Expression { get; }
 
     public QueryExpression()
     {
@@ -40,7 +40,7 @@ public class QueryExpression<TSource>
     public static QueryExpression<TSource> operator &(QueryExpression<TSource> left, QueryExpression<TSource> right)
     {
         if (left.Expression is null && right.Expression is null) return Empty.Value;
-        else if (left.Expression is null) return new QueryExpression<TSource>(right.Expression);
+        else if (left.Expression is null) return new QueryExpression<TSource>(right.Expression!);
         else if (right.Expression is null) return new QueryExpression<TSource>(left.Expression);
 
         var leftExp = left.Expression.Body;
@@ -52,7 +52,7 @@ public class QueryExpression<TSource>
     public static QueryExpression<TSource> operator |(QueryExpression<TSource> left, QueryExpression<TSource> right)
     {
         if (left.Expression is null && right.Expression is null) return Empty.Value;
-        else if (left.Expression is null) return new QueryExpression<TSource>(right.Expression);
+        else if (left.Expression is null) return new QueryExpression<TSource>(right.Expression!);
         else if (right.Expression is null) return new QueryExpression<TSource>(left.Expression);
 
         var leftExp = left.Expression.Body;
@@ -70,7 +70,7 @@ public class QueryExpression<TSource>
         return new QueryExpression<TSource>(exp);
     }
 
-    public override string ToString()
+    public override string? ToString()
     {
         return Expression?.ToString();
     }

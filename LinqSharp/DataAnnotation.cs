@@ -15,13 +15,13 @@ namespace LinqSharp;
 
 public static class DataAnnotation
 {
-    public static string GetDisplayName<TEntity, TRet>(Expression<Func<TEntity, TRet>> expression)
+    public static string? GetDisplayName<TEntity, TRet>(Expression<Func<TEntity, TRet>> expression)
     {
         if (expression.Body is not MemberExpression exp) throw new NotSupportedException("This argument 'expression' must be MemberExpression.");
         return GetDisplayName(exp.Member);
     }
 
-    public static string GetDisplayName(MemberInfo memberInfo, bool inherit = true)
+    public static string? GetDisplayName(MemberInfo memberInfo, bool inherit = true)
     {
         var attr_DispalyName = memberInfo.GetCustomAttribute<DisplayNameAttribute>(inherit);
         if (attr_DispalyName is not null) return attr_DispalyName.DisplayName;
@@ -32,13 +32,13 @@ public static class DataAnnotation
         return memberInfo.Name;
     }
 
-    public static string GetDisplayShortName<TEntity, TRet>(Expression<Func<TEntity, TRet>> expression)
+    public static string? GetDisplayShortName<TEntity, TRet>(Expression<Func<TEntity, TRet>> expression)
     {
         if (expression.Body is not MemberExpression exp) throw new NotSupportedException("This argument 'expression' must be MemberExpression.");
         return exp.Member.GetCustomAttribute<DisplayAttribute>()?.ShortName ?? exp.Member.Name;
     }
 
-    public static string GetDisplayString(object model, string propOrFieldName, string defaultReturn = "")
+    public static string? GetDisplayString(object model, string propOrFieldName, string defaultReturn = "")
     {
         var parameter = Expression.Parameter(model.GetType());
         var property = Expression.PropertyOrField(parameter, propOrFieldName);
@@ -46,23 +46,26 @@ public static class DataAnnotation
         return GetDisplay(model, lambda, defaultReturn);
     }
 
-    public static string GetDisplay<TEntity, TRet>(object model, Expression<Func<TEntity, TRet>> expression, string defaultReturn = "")
+    public static string? GetDisplay<TEntity, TRet>(object model, Expression<Func<TEntity, TRet>> expression, string defaultReturn = "")
     {
         return GetDisplay(model, expression as LambdaExpression, defaultReturn);
     }
 
     private static readonly Regex _formatCheckRegex = new(@"\{0:(.+?)\}");
 
-    public static string GetDisplay(object model, LambdaExpression expression, string defaultReturn = "")
+    public static string? GetDisplay(object model, LambdaExpression expression, string defaultReturn = "")
     {
         if (expression.Body is not MemberExpression exp) throw new NotSupportedException("This argument 'expression' must be MemberExpression.");
 
-        object value;
+        object? value;
         try
         {
             value = expression.Compile().DynamicInvoke([model]);
         }
-        catch { value = null; }
+        catch
+        {
+            value = null;
+        }
 
         if (value is not null)
         {
@@ -72,7 +75,11 @@ public static class DataAnnotation
 
             if (displayFormatAttrType is not null)
             {
-                var attrValue_DataFormatString = displayFormatAttrType.DataFormatString as string;
+                var attrValue_DataFormatString = displayFormatAttrType.DataFormatString;
+                if (attrValue_DataFormatString is null)
+                {
+                    return "";
+                }
 
                 var ret = attrValue_DataFormatString.Replace("{0}", dValue.ToString());
                 int startat = 0;

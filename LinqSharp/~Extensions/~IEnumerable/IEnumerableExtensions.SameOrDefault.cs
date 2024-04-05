@@ -6,7 +6,7 @@ namespace LinqSharp;
 
 public static partial class IEnumerableExtensions
 {
-    public static TSource SameOrDefault<TSource>(this IEnumerable<TSource> enumerable)
+    public static TSource? SameOrDefault<TSource>(this IEnumerable<TSource> enumerable)
     {
         if (!enumerable.Any()) return default;
 
@@ -25,7 +25,7 @@ public static partial class IEnumerableExtensions
         return first;
     }
 
-    public static TResult SameOrDefault<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector)
+    public static TResult? SameOrDefault<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector)
     {
         if (!enumerable.Any()) return default;
 

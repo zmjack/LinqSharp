@@ -47,7 +47,7 @@ public static class ICacheableExtensions
                     }
                     else return false;
                 }).ToArray();
-            });
+            })!;
 
             foreach (var prop in props)
             {
@@ -58,7 +58,7 @@ public static class ICacheableExtensions
                 var queryMethod = CacheableQueryMethodCache.GetOrCreate($"{preQueryContextType},{entityType}", entry =>
                 {
                     return typeof(CompoundQueryScope<>).MakeGenericType(preQueryContextType, entityType).GetMethod(nameof(CompoundQueryScope<string>.Feed));
-                });
+                })!;
 
                 var preQueries = Array.CreateInstance(propertyType, cacheables.Length);
                 foreach (var (index, value) in cacheables.Pairs())

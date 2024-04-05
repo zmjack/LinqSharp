@@ -19,8 +19,8 @@ public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
     private static readonly MethodInfo _Method_String_CompareeTo = typeof(string).GetMethodViaQualifiedName("Int32 CompareTo(System.String)");
     private static readonly MethodInfo _Method_DateTime_op_GreaterThanOrEqual = typeof(DateTime).GetMethodViaQualifiedName("Boolean op_GreaterThanOrEqual(System.DateTime, System.DateTime)");
     private static readonly MethodInfo _Method_DateTime_op_GreaterThan = typeof(DateTime).GetMethodViaQualifiedName("Boolean op_GreaterThan(System.DateTime, System.DateTime)");
-    private static readonly PropertyInfo _Property_DateTime_HasValue = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.HasValue));
-    private static readonly PropertyInfo _Property_DateTime_Value = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.Value));
+    private static readonly PropertyInfo _Property_DateTime_HasValue = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.HasValue))!;
+    private static readonly PropertyInfo _Property_DateTime_Value = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.Value))!;
 
     public QueryAfterStrategy(
         Expression<Func<TEntity, DateTime>> memberExp,
@@ -95,7 +95,7 @@ public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
 
         Expression GetFilledExpression(Expression bodyExp, int padLength)
         {
-            return new int[padLength - 1].Let(i => i).Aggregate(null as Expression, (_acc, i) =>
+            return RangeEx.Create(0, padLength - 1).Aggregate(null as Expression, (_acc, i) =>
             {
                 var stringBody = Expression.Convert(bodyExp, typeof(string));
                 return
@@ -108,7 +108,7 @@ public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
                             stringBody,
                             _Method_String_Concat),
                         _acc is null ? stringBody : _acc);
-            });
+            })!;
         }
 
         var compareExp =
@@ -120,7 +120,7 @@ public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
                     dayExp,
                 }.Aggregate(null as Expression, (acc, exp) =>
                 {
-                    Expression fullExp;
+                    Expression? fullExp;
                     switch (exp)
                     {
                         case Expression<Func<TEntity, object>> e when e == yearExp:

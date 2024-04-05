@@ -38,5 +38,5 @@ public abstract class AutoAttribute : Attribute
 
     public AutoState[] States => _states;
 
-    public abstract object Format(object entity, Type propertyType, object value);
+    public abstract object? Format(object entity, Type propertyType, object? value);
 }

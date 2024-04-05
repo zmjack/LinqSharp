@@ -19,13 +19,13 @@ public abstract class KeyValueEntity
     [Required]
     [IndexField(IndexType.Unique, Group = "Item&Key")]
     [StringLength(127)]
-    public string Item { get; set; }
+    public string? Item { get; set; }
 
     [Required]
     [IndexField(IndexType.Unique, Group = "Item&Key")]
     [StringLength(127)]
-    public string Key { get; set; }
+    public string? Key { get; set; }
 
     [StringLength(768)]
-    public string Value { get; set; }
+    public string? Value { get; set; }
 }

@@ -13,7 +13,7 @@ public sealed class AutoUpdatedByAttribute : SpecialAutoAttribute<UserParam>
 {
     public AutoUpdatedByAttribute() : base(AutoState.Added, AutoState.Modified) { }
 
-    public override object Format(object entity, Type propertyType, UserParam value)
+    public override object? Format(object entity, Type propertyType, UserParam value)
     {
         return value.CurrentUser;
     }

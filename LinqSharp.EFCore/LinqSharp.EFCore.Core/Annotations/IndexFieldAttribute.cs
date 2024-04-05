@@ -12,6 +12,6 @@ public enum IndexType { Normal, Unique }
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
 public sealed class IndexFieldAttribute(IndexType type) : Attribute
 {
-    public string Group { get; set; }
+    public string? Group { get; set; }
     public IndexType Type { get; set; } = type;
 }

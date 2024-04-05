@@ -4,16 +4,26 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace LinqSharp.Page;
 
-public class QueryablePage<T> : EnumerablePage<T>, IQueryablePage<T>
+public class QueryablePage<T> : IQueryablePage<T>
 {
-    public Type ElementType => (Items as IQueryable<T>).ElementType;
-    public Expression Expression => (Items as IQueryable<T>).Expression;
-    public IQueryProvider Provider => (Items as IQueryable<T>).Provider;
+    public IEnumerable<T> Items { get; protected set; }
+    public int PageNumber { get; protected set; }
+    public int PageSize { get; protected set; }
+    public int PageCount { get; protected set; }
+    public int SourceCount { get; protected set; }
+    public bool IsFristPage => PageNumber == 1;
+    public bool IsLastPage => PageNumber == PageCount;
+
+    public Type ElementType => (Items as IQueryable<T>)!.ElementType;
+    public Expression Expression => (Items as IQueryable<T>)!.Expression;
+    public IQueryProvider Provider => (Items as IQueryable<T>)!.Provider;
 
     public QueryablePage(IQueryable<T> source, int page, int pageSize)
     {
@@ -29,4 +39,6 @@ public class QueryablePage<T> : EnumerablePage<T>, IQueryablePage<T>
 
     public EnumerablePage<T> ToEnumerable() => new(this);
 
+    public IEnumerator<T> GetEnumerator() => Items.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator();
 }

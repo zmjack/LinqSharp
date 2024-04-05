@@ -16,9 +16,9 @@ namespace LinqSharp.EFCore.Providers;
 public static class JsonProvider
 {
 #if EFCORE5_0_OR_GREATER
-    public static JsonSerializerOptions DefaultOptions { get; set; } = null;
+    public static JsonSerializerOptions? DefaultOptions { get; set; } = null;
 #else
-    public static JsonSerializerSettings DefaultOptions { get; set; } = null;
+    public static JsonSerializerSettings? DefaultOptions { get; set; } = null;
 #endif
 }
 
@@ -27,7 +27,7 @@ public class JsonProviderAttribute : SpecialProviderAttribute
 {
     public override Attribute GetTargetProvider(PropertyInfo property)
     {
-        return Activator.CreateInstance(typeof(JsonProviderAttribute<>).MakeGenericType(property.PropertyType)) as Attribute;
+        return (Activator.CreateInstance(typeof(JsonProviderAttribute<>).MakeGenericType(property.PropertyType)) as Attribute)!;
     }
 }
 
@@ -37,9 +37,9 @@ public class JsonProviderAttribute<TModel> : ProviderAttribute<TModel, string>
     public override TModel ReadFromProvider(string value)
     {
 #if EFCORE5_0_OR_GREATER
-        return JsonSerializer.Deserialize<TModel>(value, JsonProvider.DefaultOptions);
+        return (JsonSerializer.Deserialize<TModel>(value, JsonProvider.DefaultOptions))!;
 #else
-        return JsonConvert.DeserializeObject<TModel>(value, JsonProvider.DefaultOptions);
+        return (JsonConvert.DeserializeObject<TModel>(value, JsonProvider.DefaultOptions))!;
 #endif
     }
 

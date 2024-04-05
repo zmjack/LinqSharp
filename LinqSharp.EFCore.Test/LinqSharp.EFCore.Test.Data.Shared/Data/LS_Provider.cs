@@ -5,6 +5,7 @@ using NStandard.Flows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace LinqSharp.EFCore.Data.Test;
 
@@ -31,8 +32,8 @@ public class LS_Provider
 
     public class PasswordProvider : ProviderAttribute<string, string>
     {
-        public override string ReadFromProvider(string value) => value.Pipe(StringFlow.BytesFromBase64).String();
-        public override string WriteToProvider(string model) => model.Bytes().Pipe(BytesFlow.Base64);
+        public override string ReadFromProvider(string value) => StringFlow.BytesFromBase64(value).Pipe(Encoding.Unicode.GetString);
+        public override string WriteToProvider(string model) => model.Pipe(Encoding.Unicode.GetBytes).Pipe(BytesFlow.Base64);
     }
 
 }

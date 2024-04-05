@@ -16,8 +16,8 @@ public class QueryBetweenStrategy<TEntity> : IQueryStrategy<TEntity, bool>
     public Expression<Func<TEntity, bool>> StrategyExpression { get; }
 
     private static readonly MethodInfo _Method_op_LessThanOrEqual = typeof(DateTime).GetMethodViaQualifiedName("Boolean op_LessThanOrEqual(System.DateTime, System.DateTime)");
-    private static readonly PropertyInfo _Property_DateTime_HasValue = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.HasValue));
-    private static readonly PropertyInfo _Property_DateTime_Value = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.Value));
+    private static readonly PropertyInfo _Property_DateTime_HasValue = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.HasValue))!;
+    private static readonly PropertyInfo _Property_DateTime_Value = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.Value))!;
 
     #region Return DateTime
     public QueryBetweenStrategy(

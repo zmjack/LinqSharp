@@ -17,11 +17,11 @@ public abstract class SpecialAutoAttribute<TAutoTag> : AutoAttribute, ISpecialAu
     public SpecialAutoAttribute() : base() { }
     public SpecialAutoAttribute(params AutoState[] states) : base(states) { }
 
-    public override object Format(object entity, Type propertyType, object value)
+    public override object? Format(object entity, Type propertyType, object? value)
     {
         if (value is not TAutoTag autoTag) throw new ArgumentException($"Only {typeof(TAutoTag)} is supported.", nameof(value));
 
         return Format(entity, propertyType, autoTag);
     }
-    public abstract object Format(object entity, Type propertyType, TAutoTag value);
+    public abstract object? Format(object entity, Type propertyType, TAutoTag value);
 }

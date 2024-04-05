@@ -44,8 +44,8 @@ namespace LinqSharp.Cli
                 builder.Cache(type);
                 var csvContent = builder.GetHtml();
                 var bytes = SetBOM
-                    ? new byte[] { 0xef, 0xbb, 0xbf }.Concat(csvContent.Bytes(Encoding.UTF8)).ToArray()
-                    : csvContent.Bytes(Encoding.UTF8).ToArray();
+                    ? [0xef, 0xbb, 0xbf, .. Encoding.UTF8.GetBytes(csvContent)]
+                    : Encoding.UTF8.GetBytes(csvContent).ToArray();
 
                 File.WriteAllBytes(outFile, bytes);
                 Console.WriteLine($"File Saved: {outFile}");

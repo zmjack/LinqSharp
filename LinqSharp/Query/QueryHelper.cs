@@ -106,7 +106,7 @@ public partial class QueryHelper<TSource>
     public QueryExpression<TSource> Search(string searchString, Expression<Func<TSource, object>> searchMembers, SearchOption option = SearchOption.Contains)
     {
         var strategy = new QuerySearchStrategy<TSource>(searchString, searchMembers, option);
-        return new QueryExpression<TSource>(strategy.StrategyExpression);
+        return new QueryExpression<TSource>(strategy.StrategyExpression!);
     }
 
     public QueryExpression<TSource> Search(string[] searchStrings, Expression<Func<TSource, object>> searchMembers, SearchOption option = SearchOption.Contains)
@@ -114,22 +114,22 @@ public partial class QueryHelper<TSource>
         return And(searchStrings.Select(searchString =>
         {
             var strategy = new QuerySearchStrategy<TSource>(searchString, searchMembers, option);
-            return new QueryExpression<TSource>(strategy.StrategyExpression);
+            return new QueryExpression<TSource>(strategy.StrategyExpression!);
         }));
     }
 
     public QueryExpression<TSource> FilterBy<TProperty>(Expression<Func<TSource, TProperty>> fieldSelector, Expression<Func<TProperty, bool>> filter)
     {
         var visitor = new ExpressionRebindVisitor(filter.Parameters[0], fieldSelector.Body);
-        var body = visitor.Visit(filter.Body);
-        var expression = Expression.Lambda(body, false, fieldSelector.Parameters[0]) as Expression<Func<TSource, bool>>;
+        var body = visitor.Visit(filter.Body)!;
+        var expression = (Expression.Lambda(body, false, fieldSelector.Parameters[0]) as Expression<Func<TSource, bool>>)!;
         return Where(expression);
     }
 
     public QueryExpression<TSource> FilterBy<TProperty>(Expression<Func<TSource, TProperty>> fieldSelector, IFieldFilter<TProperty> fieldFilter)
     {
         var helper = new QueryHelper<TProperty>();
-        var expression = fieldFilter.Filter(helper).Expression;
+        var expression = (fieldFilter.Filter(helper).Expression)!;
         return FilterBy(fieldSelector, expression);
     }
 

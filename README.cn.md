@@ -71,6 +71,11 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
+### 版本 7.0.40.0-alpha
+
+- 启用 **nullable** 检查。
+- 修复一些 **Bug**。
+
 ### 版本：7.0.37.17 - EFCore
 
 - 添加新注释 **RowLock** 用于禁止更改或删除锁定记录。

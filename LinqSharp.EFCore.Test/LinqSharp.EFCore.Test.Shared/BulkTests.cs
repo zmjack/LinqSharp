@@ -5,6 +5,7 @@ using NStandard;
 using NStandard.Flows;
 using System;
 using System.Linq;
+using System.Text;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test;
@@ -29,7 +30,7 @@ public class BulkTests
             {
                 Id = guid,
                 Code = $"{guid} code",
-                Name = guid.ToString().Bytes().Pipe(BytesFlow.Base58),
+                Name = guid.ToString().Pipe(Encoding.Unicode.GetBytes).Pipe(BytesFlow.Base58),
             };
         });
 

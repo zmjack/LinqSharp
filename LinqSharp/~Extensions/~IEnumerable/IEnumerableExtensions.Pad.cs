@@ -31,7 +31,7 @@ public static partial class IEnumerableExtensions
 
     public static IEnumerable<TSource> PadFirst<TSource>(this IEnumerable<TSource> @this, int totalWidth)
     {
-        return PadFirst(@this, totalWidth, () => default);
+        return PadFirst(@this, totalWidth, () => default!);
     }
     public static IEnumerable<TSource> PadFirst<TSource>(this IEnumerable<TSource> @this, int totalWidth, Func<TSource> createPaddingItem)
     {
@@ -51,7 +51,7 @@ public static partial class IEnumerableExtensions
 
     public static IEnumerable<TSource> PadLast<TSource>(this IEnumerable<TSource> @this, int totalWidth)
     {
-        return PadLast(@this, totalWidth, () => default);
+        return PadLast(@this, totalWidth, () => default!);
     }
     public static IEnumerable<TSource> PadLast<TSource>(this IEnumerable<TSource> @this, int totalWidth, Func<TSource> createPaddingItem)
     {

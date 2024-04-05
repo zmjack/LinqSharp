@@ -18,7 +18,7 @@ public sealed class AutoLastWriteTimeAttribute : SpecialAutoAttribute<TimestampP
 
     public AutoLastWriteTimeAttribute() : base(AutoState.Added, AutoState.Modified) { }
 
-    public override object Format(object entity, Type propertyType, TimestampParam value)
+    public override object? Format(object entity, Type propertyType, TimestampParam value)
     {
         if (DateTimeTypes.Contains(propertyType)) return value.Now;
         else if (DateTimeOffsetTypes.Contains(propertyType)) return value.NowOffset;

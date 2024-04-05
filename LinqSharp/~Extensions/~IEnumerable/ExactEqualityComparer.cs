@@ -11,10 +11,10 @@ namespace LinqSharp;
 
 public class ExactEqualityComparer<TEntity> : IEqualityComparer<TEntity>
 {
-    private Func<TEntity, object> _compare;
+    private readonly Func<TEntity?, object?> _compare;
 
     //TODO: Use TypeReflectionCacheContainer to optimize it in the futrue.
-    public ExactEqualityComparer(Expression<Func<TEntity, object>> compare_MemberOrNewExp)
+    public ExactEqualityComparer(Expression<Func<TEntity?, object?>> compare_MemberOrNewExp)
     {
         _compare = compare_MemberOrNewExp.Compile();
 
@@ -38,7 +38,7 @@ public class ExactEqualityComparer<TEntity> : IEqualityComparer<TEntity>
     }
 
     //TODO: Use TypeReflectionCacheContainer to optimize it in the futrue.
-    public ExactEqualityComparer(Func<TEntity, object> compare)
+    public ExactEqualityComparer(Func<TEntity?, object?> compare)
     {
         _compare = compare;
 
@@ -61,6 +61,13 @@ public class ExactEqualityComparer<TEntity> : IEqualityComparer<TEntity>
         //_compares = compareList.ToArray();
     }
 
-    public bool Equals(TEntity v1, TEntity v2) => _compare(v1).Equals(_compare(v2));
+    public bool Equals(TEntity? left, TEntity? right)
+    {
+        var _left = _compare(left);
+        var _right = _compare(right);
+
+        if (_left is null) return _right is null;
+        else return _left!.Equals(_right);
+    }
     public int GetHashCode(TEntity obj) => 0;
 }

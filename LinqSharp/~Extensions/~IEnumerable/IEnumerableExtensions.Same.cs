@@ -8,7 +8,7 @@ public static partial class IEnumerableExtensions
 {
     public static TSource Same<TSource>(this IEnumerable<TSource> enumerable)
     {
-        if (!enumerable.Any()) return default;
+        if (!enumerable.Any()) return default!;
 
         var first = enumerable.First();
         foreach (var element in enumerable)
@@ -27,7 +27,7 @@ public static partial class IEnumerableExtensions
 
     public static TResult Same<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector)
     {
-        if (!enumerable.Any()) return default;
+        if (!enumerable.Any()) return default!;
 
         var first = enumerable.First();
         var firstValue = selector(first);

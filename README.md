@@ -71,6 +71,11 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version 7.0.40.0-alpha
+
+- Enable **nullable** checking.
+- Fix some bugs.
+
 ### Version 7.0.37.17 - EFCore
 
 - Add new annotation **RowLock** to disable locked records from being changed or deleted.

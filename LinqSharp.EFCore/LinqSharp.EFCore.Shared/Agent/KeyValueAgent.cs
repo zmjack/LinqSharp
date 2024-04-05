@@ -14,9 +14,9 @@ namespace LinqSharp.EFCore.Agent;
 public abstract class KeyValueAgent<TEntity>
     where TEntity : KeyValueEntity, new()
 {
-    public string ItemName { get; internal set; }
-
     internal bool _executed;
-    internal KeyValueEntity[] _entities;
+    internal KeyValueEntity[] _entities = [];
 
+    internal string? _itemName;
+    public string? GetItemName() => _itemName;
 }

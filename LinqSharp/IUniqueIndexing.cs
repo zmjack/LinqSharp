@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 namespace LinqSharp;
 
-public interface IUniqueIndexing<TKey, T> : IDictionary<TKey, Ref<T>>
+public interface IUniqueIndexing<TKey, T> : IDictionary<TKey, Ref<T>?>
 {
-    Ref<T> this[TKey key] { get; }
 }

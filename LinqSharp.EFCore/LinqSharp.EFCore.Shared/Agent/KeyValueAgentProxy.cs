@@ -43,7 +43,7 @@ public class KeyValueAgentProxy<TAgent, TEntity> : IInterceptor
                 return;
             }
 
-            var proxyProperty = agent.GetType().GetProperty(property);
+            var proxyProperty = agent.GetType().GetProperty(property)!;
             if (entity.Value is null)
             {
                 invocation.ReturnValue = proxyProperty.PropertyType.CreateDefault();
@@ -54,7 +54,7 @@ public class KeyValueAgentProxy<TAgent, TEntity> : IInterceptor
                 {
 #if NET6_0_OR_GREATER
                     //TODO: DateOnly and TimeOnly can not use Convert.
-                    object returnValue = proxyProperty.PropertyType switch
+                    object? returnValue = proxyProperty.PropertyType switch
                     {
                         Type type when type == typeof(DateOnly) => DateOnly.TryParse(entity.Value, out var date) ? date : default,
                         Type type when type == typeof(TimeOnly) => TimeOnly.TryParse(entity.Value, out var time) ? time : default,

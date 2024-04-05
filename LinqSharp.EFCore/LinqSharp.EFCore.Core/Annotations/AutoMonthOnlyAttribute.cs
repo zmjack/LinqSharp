@@ -12,16 +12,16 @@ namespace LinqSharp.EFCore.Annotations;
 public sealed class AutoMonthOnlyAttribute : AutoAttribute
 {
     public AutoMonthOnlyAttribute() : base(AutoState.Added, AutoState.Modified) { }
-    public override object Format(object entity, Type propertyType, object value)
+    public override object? Format(object entity, Type propertyType, object? value)
     {
-        if (propertyType == typeof(DateTime)) return ((DateTime)value).StartOfMonth();
+        if (propertyType == typeof(DateTime)) return ((DateTime)value!).StartOfMonth();
         if (propertyType == typeof(DateTime?)) return ((DateTime?)value)?.StartOfMonth();
 
-        if (propertyType == typeof(DateTimeOffset)) return ((DateTimeOffset)value).StartOfMonth();
+        if (propertyType == typeof(DateTimeOffset)) return ((DateTimeOffset)value!).StartOfMonth();
         if (propertyType == typeof(DateTimeOffset?)) return ((DateTimeOffset?)value)?.StartOfMonth();
 
 #if NET6_0_OR_GREATER
-        if (propertyType == typeof(DateOnly)) return ((DateOnly)value).StartOfMonth();
+        if (propertyType == typeof(DateOnly)) return ((DateOnly)value!).StartOfMonth();
         if (propertyType == typeof(DateOnly?)) return ((DateOnly?)value)?.StartOfMonth();
 
         throw new ArgumentException($"Only DateTime, DateTimeOffset, DateOnly are supported.", nameof(propertyType));

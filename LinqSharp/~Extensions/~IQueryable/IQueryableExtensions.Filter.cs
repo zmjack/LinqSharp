@@ -42,8 +42,8 @@ public static partial class IQueryableExtensions
         if (filter is null) return @this;
 
         var visitor = new ExpressionRebindVisitor(filter.Parameters[0], selector.Body);
-        var body = visitor.Visit(filter.Body);
-        var expression = Expression.Lambda(body, false, selector.Parameters[0]) as Expression<Func<TSource, bool>>;
+        var body = visitor.Visit(filter.Body)!;
+        var expression = (Expression.Lambda(body, false, selector.Parameters[0]) as Expression<Func<TSource, bool>>)!;
         return @this.Where(expression);
     }
 
@@ -52,7 +52,7 @@ public static partial class IQueryableExtensions
         if (filter is null) return @this;
 
         var helper = new QueryHelper<TProperty>();
-        var expression = filter.Filter(helper).Expression;
+        var expression = (filter.Filter(helper).Expression)!;
         return FilterBy(@this, selector, expression);
     }
 

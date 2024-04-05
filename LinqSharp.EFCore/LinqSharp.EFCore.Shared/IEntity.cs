@@ -112,65 +112,68 @@ public static class IEntityExtensions
         return InnerAccept(@this, model, properties);
     }
 
-    public static void SetValue(this IEntity @this, string propName, object value) => @this.GetType().GetProperty(propName).SetValue(@this, value);
-    public static object GetValue(this IEntity @this, string propName) => @this.GetType().GetProperty(propName).GetValue(@this);
+    public static void SetValue(this IEntity @this, string propName, object value) => @this.GetType().GetProperty(propName)!.SetValue(@this, value);
+    public static object? GetValue(this IEntity @this, string propName) => @this.GetType().GetProperty(propName)!.GetValue(@this);
 
-    public static Dictionary<string, string> ToDisplayDictionary(this IEntity @this)
+    public static Dictionary<string, string?> ToDisplayDictionary(this IEntity @this)
     {
         var type = @this.GetType();
         var props = type.GetProperties();
 
-        var ret = new Dictionary<string, string>();
+        var dict = new Dictionary<string, string?>();
         foreach (var prop in props)
         {
             var parameter = Expression.Parameter(type);
             var property = Expression.Property(parameter, prop.Name);
             var lambda = Expression.Lambda(property, parameter);
 
-            ret.Add(prop.Name, DataAnnotation.GetDisplay(@this, lambda));
+            dict.Add(prop.Name, DataAnnotation.GetDisplay(@this, lambda));
         }
 
-        return ret;
+        return dict;
     }
 
-    public static Dictionary<string, string> ToDisplayDictionary(this IEntity @this, params string[] propNames)
+    public static Dictionary<string, string?> ToDisplayDictionary(this IEntity @this, params string[] propNames)
     {
         var type = @this.GetType();
         var props = type.GetProperties().Where(x => propNames.Contains(x.Name));
 
-        var ret = new Dictionary<string, string>();
-        foreach (var prop in props) ret.Add(prop.Name, DataAnnotation.GetDisplayString(@this, prop.Name));
+        var dict = new Dictionary<string, string?>();
+        foreach (var prop in props)
+        {
+            dict.Add(prop.Name, DataAnnotation.GetDisplayString(@this, prop.Name));
+        }
 
-        return ret;
+        return dict;
     }
 
 #pragma warning disable IDE0060 // Remove unused parameter
-    public static string DisplayName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
+    public static string? DisplayName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
         where TEntity : class, IEntity<TEntity>, new()
     {
         return DataAnnotation.GetDisplayName(expression);
     }
 
-    public static string DisplayName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
+    public static string? DisplayName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
         where TEntity : class, IEntity<TEntity>, new()
     {
         return DataAnnotation.GetDisplayName(expression);
     }
 
-    public static string DisplayShortName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
+    public static string? DisplayShortName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
         where TEntity : class, IEntity<TEntity>, new()
     {
         return DataAnnotation.GetDisplayShortName(expression);
     }
 
-    public static string DisplayShortName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
+    public static string? DisplayShortName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
         where TEntity : class, IEntity<TEntity>, new()
     {
         return DataAnnotation.GetDisplayShortName(expression);
     }
 #pragma warning restore IDE0060 // Remove unused parameter
 
-    public static string Display<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression, string defaultReturn = "")
+    public static string? Display<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression, string defaultReturn = "")
         where TEntity : class, IEntity<TEntity>, new()
     {
         return DataAnnotation.GetDisplay(@this, expression, defaultReturn);

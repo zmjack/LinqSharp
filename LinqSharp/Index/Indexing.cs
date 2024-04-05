@@ -32,9 +32,14 @@ public class Indexing<TKey, T> : IDictionary<TKey, IReadOnlyCollection<T>>, IInd
 
                 if (!map.ContainsKey(key))
                 {
-                    map.Add(key, new List<T>());
+#pragma warning disable IDE0028 // Simplify collection initialization
+                    map.Add(key, new List<T> { item });
+#pragma warning restore IDE0028 // Simplify collection initialization
                 }
-                (map[key] as List<T>).Add(item);
+                else
+                {
+                    (map[key] as List<T>)!.Add(item);
+                }
             }
             return map;
         });

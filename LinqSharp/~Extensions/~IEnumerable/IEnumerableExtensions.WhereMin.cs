@@ -106,9 +106,15 @@ public static partial class IEnumerableExtensions
         if (source.Any())
         {
             var min = source.Min(selector);
-            return source.Where(x => selector(x).Equals(min));
+            if (min is null)
+            {
+                return source.Where(x => selector(x) is null);
+            }
+            else
+            {
+                return source.Where(x => min.Equals(selector(x)));
+            }
         }
         else return source;
     }
-
 }

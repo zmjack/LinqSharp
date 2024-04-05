@@ -16,14 +16,14 @@ public static partial class IEnumerableExtensions
         return SelectMore(@this, childrenSelector, null);
     }
 
-    public static IEnumerable<TSource> SelectMore<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector, Func<TSource, bool> predicate)
+    public static IEnumerable<TSource> SelectMore<TSource>(this IEnumerable<TSource> @this, Func<TSource, IEnumerable<TSource>> childrenSelector, Func<TSource, bool>? predicate)
     {
         IEnumerable<TSource> RecursiveChildren(TSource node)
         {
             if (predicate?.Invoke(node) ?? true)
                 yield return node;
 
-            var selectNode = childrenSelector(node);
+            var selectNode = childrenSelector(node)!;
             if (selectNode?.Any() ?? false)
             {
                 var children = selectNode.SelectMany(x => RecursiveChildren(x));
@@ -35,7 +35,7 @@ public static partial class IEnumerableExtensions
             }
         }
 
-        var ret = @this.SelectMany(x => RecursiveChildren(x));
+        var ret = @this.SelectMany(RecursiveChildren)!;
         return ret;
     }
 

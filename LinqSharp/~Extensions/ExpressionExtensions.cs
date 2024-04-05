@@ -30,7 +30,7 @@ public static class ExpressionExtensions
         else
         {
             var visitor = new ExpressionRebindVisitor(origin, target);
-            return visitor.Visit(@this) as TExpression;
+            return (visitor.Visit(@this) as TExpression)!;
         }
     }
 
@@ -41,7 +41,7 @@ public static class ExpressionExtensions
     /// <param name="this"></param>
     /// <param name="binary"></param>
     /// <returns></returns>
-    public static TLambdaExpression LambdaJoin<TLambdaExpression>(this TLambdaExpression[] @this, Func<Expression, Expression, BinaryExpression> binary)
+    public static TLambdaExpression? LambdaJoin<TLambdaExpression>(this TLambdaExpression[] @this, Func<Expression, Expression, BinaryExpression> binary)
         where TLambdaExpression : LambdaExpression
     {
         if (@this.AllSame(x => x.Parameters.Count))
@@ -59,7 +59,7 @@ public static class ExpressionExtensions
                     }
                     return binary(acc, rebindExp.Body);
                 }
-            }), parameters) as TLambdaExpression;
+            })!, parameters) as TLambdaExpression;
             return lambda;
         }
         else return null;

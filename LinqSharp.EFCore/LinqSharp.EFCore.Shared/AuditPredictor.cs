@@ -22,7 +22,7 @@ public class AuditPredictor
     public TEntity[] Predict<TEntity>(DbSet<TEntity> dbSet, Func<TEntity, bool> predicate)
         where TEntity : class, new()
     {
-        var locals = Pick<TEntity>().Where(x => predicate(x.Current));
+        var locals = Pick<TEntity>().Where(x => predicate(x.Current!));
         var localsOfAdded = locals.Where(x => x.State == EntityState.Added).ToArray();
         var localsOfModified = locals.Where(x => x.State == EntityState.Modified).ToArray();
         var localsOfDeleted = locals.Where(x => x.State == EntityState.Deleted).ToArray();
@@ -31,13 +31,13 @@ public class AuditPredictor
         var keyProps = typeof(TEntity).GetProperties().Where(x => x.HasAttribute<KeyAttribute>());
         var ret = stores.Where(store =>
         {
-            var ret = !localsOfModified.Any(x => keyProps.All(keyProp => keyProp.GetValue(x.Current).Equals(keyProp.GetValue(store))))
-                   && !localsOfDeleted.Any(x => keyProps.All(keyProp => keyProp.GetValue(x.Current).Equals(keyProp.GetValue(store))));
+            var ret = !localsOfModified.Any(x => keyProps.All(keyProp => keyProp.GetValue(x.Current)!.Equals(keyProp.GetValue(store))))
+                   && !localsOfDeleted.Any(x => keyProps.All(keyProp => keyProp.GetValue(x.Current)!.Equals(keyProp.GetValue(store))));
             return ret;
         })
-            .Concat(localsOfAdded.Select(x => x.Current))
-            .Concat(localsOfModified.Select(x => x.Current))
-            .ToArray();
+            .Concat(localsOfAdded.Select(x => x.Current!))
+            .Concat(localsOfModified.Select(x => x.Current!))
+            .ToArray()!;
 
         return ret;
     }

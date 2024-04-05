@@ -10,7 +10,7 @@ public class EntityMonitoringFacade : Facade<EntityMonitoringFacade.FacadeState>
     {
         public bool Updated { get; internal set; }
 
-        internal Dictionary<(Type, EntityState), EntityEntry[]> _entityEntries;
+        internal Dictionary<(Type, EntityState), EntityEntry[]>? _entityEntries;
 
         /// <summary>
         /// Returns entries of the specified states.
@@ -27,7 +27,7 @@ public class EntityMonitoringFacade : Facade<EntityMonitoringFacade.FacadeState>
             foreach (var state in originEntityStates)
             {
                 var key = (type, state);
-                if (_entityEntries.ContainsKey(key))
+                if (_entityEntries?.ContainsKey(key) ?? false)
                 {
                     foreach (var entry in _entityEntries[key])
                     {

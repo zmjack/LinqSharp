@@ -9,12 +9,10 @@ using System.Linq;
 
 namespace LinqSharp;
 
-public interface IQueryLayer<TSource> : IEnumerable<TSource>, IGrouping<object, TSource>
+public interface IQueryLayer<TSource> : IEnumerable<TSource>, IGrouping<object?, TSource>
 {
-    object Key { get; }
     int Span { get; }
     IEnumerable<IQueryLayer<TSource>> SubLayers { get; }
 
     IEnumerable<ChainIterator<IQueryLayer<TSource>>> AsChain();
-    IEnumerator<TSource> GetEnumerator();
 }

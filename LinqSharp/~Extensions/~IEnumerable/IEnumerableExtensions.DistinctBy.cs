@@ -18,7 +18,7 @@ public static partial class IEnumerableExtensions
     /// <param name="source"></param>
     /// <param name="compare"></param>
     /// <returns></returns>
-    public static IEnumerable<TSource> DistinctBy<TSource>(this IEnumerable<TSource> source, Func<TSource, object> compare)
+    public static IEnumerable<TSource> DistinctBy<TSource>(this IEnumerable<TSource> source, Func<TSource?, object?> compare)
     {
         return Enumerable.Distinct(source, new ExactEqualityComparer<TSource>(compare));
     }

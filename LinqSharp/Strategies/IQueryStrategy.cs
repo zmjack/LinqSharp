@@ -10,5 +10,5 @@ namespace LinqSharp.Strategies;
 
 public interface IQueryStrategy<TEntity, TResult>
 {
-    Expression<Func<TEntity, TResult>> StrategyExpression { get; }
+    Expression<Func<TEntity, TResult>>? StrategyExpression { get; }
 }

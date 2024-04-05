@@ -23,7 +23,7 @@ public static class IncludesExpression
                 break;
 
             case NewExpression exp:
-                propNames = exp.Members.Select(x => x.Name).ToArray();
+                propNames = exp.Members!.Select(x => x.Name).ToArray();
                 break;
 
             case UnaryExpression exp:

@@ -40,7 +40,7 @@ public static partial class IEnumerableExtensions
             }
         }
 
-        if (default(TResult) is null) return default;
+        if (default(TResult) is null) return default!;
         else throw new InvalidOperationException("Sequence contains no elements");
     }
     public static TSource Average<TSource>(this IEnumerable<TSource> source) where TSource : ISummable => Average(source, x => x);

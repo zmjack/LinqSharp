@@ -87,7 +87,7 @@ public static partial class LinqSharpEF
         return new ValueConverter<TModel, TProvider>(v => field.WriteToProvider(v), v => field.ReadFromProvider(v));
     }
 
-    public static ValueComparer<TModel> BuildComparer<TModel, TProvider>(ProviderAttribute<TModel, TProvider> field)
+    public static ValueComparer<TModel>? BuildComparer<TModel, TProvider>(ProviderAttribute<TModel, TProvider> field)
     {
         return field.GetValueComparer();
     }
@@ -219,7 +219,7 @@ public static partial class LinqSharpEF
         {
             var modelClass = dbSetProp.PropertyType.GenericTypeArguments[0];
             var entityMethod1 = entityMethod.MakeGenericMethod(modelClass);
-            var entityTypeBuilder = entityMethod1.Invoke(modelBuilder, []);
+            var entityTypeBuilder = entityMethod1.Invoke(modelBuilder, [])!;
 
             if (annotation.HasFlag(EntityAnnotation.Index)) ApplyIndexes(entityTypeBuilder, modelClass);
             if (annotation.HasFlag(EntityAnnotation.Provider)) ApplyProviders(entityTypeBuilder, modelClass);
@@ -229,7 +229,7 @@ public static partial class LinqSharpEF
 
     public static void UseComplexTypes(DbContext context, ModelBuilder modelBuilder)
     {
-        var types = _complexTypesCache.GetOrCreate(context.GetType().FullName, entry =>
+        var types = _complexTypesCache.GetOrCreate(context.GetType().FullName!, entry =>
         {
             var typeList = new HashSet<Type>();
             var dbSetTypes = context.GetType().GetProperties().Where(x => x.PropertyType.IsType(typeof(DbSet<>)));
@@ -248,14 +248,17 @@ public static partial class LinqSharpEF
             }
 
             return typeList.ToArray();
-        });
+        })!;
 
-        foreach (var type in types) modelBuilder.Owned(type);
+        foreach (var type in types)
+        {
+            modelBuilder.Owned(type);
+        }
     }
 
     private class RowLockItem
     {
-        public PropertyInfo Property { get; set; }
+        public PropertyInfo? Property { get; set; }
         public PropertyInfo[]? LockedProperties { get; set; }
     }
 
@@ -356,7 +359,7 @@ public static partial class LinqSharpEF
         foreach (var entriesOfType in auditEntriesByType)
         {
             var entityType = entriesOfType.Key;
-            var attr = entityType.GetCustomAttribute<EntityAuditAttribute>();
+            var attr = entityType.GetCustomAttribute<EntityAuditAttribute>()!;
 
             var auditType = typeof(EntityAudit<>).MakeGenericType(entityType);
             var audits = Array.CreateInstance(auditType, entriesOfType.Count());
@@ -459,13 +462,17 @@ public static partial class LinqSharpEF
             props = list.ToArray();
         }
 
-        foreach (var prop in props.Where(x => x.Index.Group is null))
+        foreach (var prop in props.Where(x => x.Index!.Group is null))
         {
-            SetIndex([prop.Name], prop.Index.Type);
+            SetIndex([prop.Name!], prop.Index!.Type);
         }
-        foreach (var group in props.Where(x => x.Index.Group is not null).GroupBy(x => new { x.Index.Type, x.Index.Group }))
+        foreach (var group in props.Where(x => x.Index!.Group is not null).GroupBy(x => new
         {
-            SetIndex(group.Select(x => x.Name).ToArray(), group.Key.Type);
+            x.Index!.Type,
+            x.Index.Group
+        }))
+        {
+            SetIndex(group.Select(x => x.Name!).ToArray(), group.Key.Type);
         }
     }
 
@@ -563,7 +570,7 @@ public static partial class LinqSharpEF
         {
             foreach (var item in lockItems)
             {
-                var originValue = originValues?[item.Property.Name] ?? default;
+                var originValue = originValues?[item.Property!.Name] ?? default;
                 if (originValue is null) continue;
 
                 if (entry.State == EntityState.Deleted) throw LockedRowDeletingException(entry.Entity.GetType());
@@ -576,7 +583,7 @@ public static partial class LinqSharpEF
                     }
                     else
                     {
-                        OperateThrow(item.Property);
+                        OperateThrow(item.Property!);
                         foreach (var prop in item.LockedProperties)
                         {
                             OperateThrow(prop);
@@ -595,7 +602,7 @@ public static partial class LinqSharpEF
                     }
                     else
                     {
-                        OperateRestore(item.Property);
+                        OperateRestore(item.Property!);
                         foreach (var prop in item.LockedProperties)
                         {
                             OperateRestore(prop);

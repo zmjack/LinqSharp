@@ -8,6 +8,7 @@ using LinqSharp.EFCore.Scopes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel;
 using System.Data;
 using System.Linq.Expressions;
@@ -22,7 +23,7 @@ public static partial class DbSetExtensions
         where TEntity : class
     {
         var provider = (@this as IInfrastructure<IServiceProvider>).Instance;
-        var context = (provider.GetService(typeof(ICurrentDbContext)) as ICurrentDbContext).Context;
+        var context = (provider.GetService(typeof(ICurrentDbContext)) as ICurrentDbContext)!.Context;
         return context;
     }
 
@@ -51,14 +52,18 @@ public static partial class DbSetExtensions
             var columnNames = engine.GetOrderedColumns(connection, tableName);
             var entityTypes = context.Model.GetEntityTypes();
             var entityType = entityTypes.First(x => x.ClrType == typeof(TEntity));
-            var props = entityType.GetProperties().Select(x => new
-            {
-                x.Name,
-                ColumnName = x.GetAnnotations().FirstOrDefault(x => x.Name == "Relational:ColumnName")?.Value.ToString() ?? x.Name,
-            }).OrderBy(x => Array.IndexOf(columnNames, x.ColumnName));
+            var props =
+                from x in entityType.GetProperties()
+                let columnName = x.GetAnnotations().FirstOrDefault(x => x.Name == "Relational:ColumnName")?.Value!.ToString() ?? x.Name
+                orderby Array.IndexOf(columnNames, columnName)
+                select new
+                {
+                    x.Name,
+                    ColumnName = columnName,
+                };
 
-            var map = props.ToDictionary(x => x.ColumnName, x => type.GetProperty(x.Name));
-            return map;
+            var dict = props.ToDictionary(x => x.ColumnName, x => type.GetProperty(x.Name)!);
+            return dict;
         }
 
         static IEnumerable<DataTable> BuildSources(BulkCopyEngine engine, DbContext context, string tableName, IEnumerable<TEntity> entities, int? bulkSize = null)
@@ -83,9 +88,9 @@ public static partial class DbSetExtensions
 
         if (LinqSharpEFRegister.TryGetBulkCopyEngine(name, out var engine))
         {
-            var sources = BuildSources(engine, context, tableName, entities, bulkSize).ToArray();
+            var sources = BuildSources(engine!, context, tableName, entities, bulkSize).ToArray();
             var connection = context.Database.GetDbConnection();
-            engine.WriteToServer(connection, tableName, sources);
+            engine!.WriteToServer(connection, tableName, sources);
         }
         else throw new InvalidOperationException($"No engine was found for {name}. Please use 'LinqSharpEFRegister.RegisterBulkCopyEngine(DatabaseProviderName.{name}, ...)' to register an engine.");
     }

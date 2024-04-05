@@ -69,8 +69,11 @@ public sealed class CompoundQueryScope<TEntity> : Scope<CompoundQueryScope<TEnti
             if (enumerator.MoveNext())
             {
                 var firstNavigation = enumerator.Current;
-                var includeMethod = CompoundQueryScope.Include_Cache.GetOrCreate($"{entityType}|{firstNavigation.Property}", entry => CompoundQueryScope.Lazy_IncludeMethod.Value.MakeGenericMethod(entityType, firstNavigation.Property));
-                queryable = includeMethod.Invoke(null, [queryable, firstNavigation.Expression]) as IQueryable<TEntity>;
+                var includeMethod = CompoundQueryScope.Include_Cache.GetOrCreate($"{entityType}|{firstNavigation.Property}", entry =>
+                {
+                    return CompoundQueryScope.Lazy_IncludeMethod.Value.MakeGenericMethod(entityType, firstNavigation.Property)!;
+                })!;
+                queryable = (includeMethod.Invoke(null, [queryable, firstNavigation.Expression]) as IQueryable<TEntity>)!;
 
                 while (enumerator.MoveNext())
                 {
@@ -92,9 +95,9 @@ public sealed class CompoundQueryScope<TEntity> : Scope<CompoundQueryScope<TEnti
                         }
 
                         return thenIncludeMethod.MakeGenericMethod(entityType, lambdaProperty, navigation.Property);
-                    });
+                    })!;
 
-                    queryable = thenIncludeMethod.Invoke(null, [queryable, navigation.Expression]) as IQueryable<TEntity>;
+                    queryable = (thenIncludeMethod.Invoke(null, [queryable, navigation.Expression]) as IQueryable<TEntity>)!;
                 }
             }
         }
@@ -137,7 +140,7 @@ public sealed class CompoundQueryScope<TEntity> : Scope<CompoundQueryScope<TEnti
 
             if (def.HasFiltered)
             {
-                var predicate = def.Predicate.Compile();
+                var predicate = def.Predicate!.Compile();
                 def.Result = entities.Where(predicate).ToArray();
             }
             else def.Result = entities;

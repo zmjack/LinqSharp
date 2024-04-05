@@ -45,7 +45,7 @@ public static partial class IQueryableExtensions
     /// <typeparam name="TSource"></typeparam>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static TSource RandomOrDefault<TSource>(this IQueryable<TSource> @this)
+    public static TSource? RandomOrDefault<TSource>(this IQueryable<TSource> @this)
         where TSource : class
     {
         return @this.OrderBy(x => DbRandom.NextDouble()).Take(1).FirstOrDefault();

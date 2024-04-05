@@ -13,13 +13,13 @@ namespace LinqSharp.EFCore;
 
 public class QueryDef<TEntity> where TEntity : class
 {
-    public string Name { get; }
-    public Expression<Func<TEntity, bool>> Predicate { get; private set; }
-    public Expression Selector { get; private set; }
+    public string? Name { get; }
+    public Expression<Func<TEntity, bool>>? Predicate { get; private set; }
+    public Expression? Selector { get; private set; }
     public bool HasFiltered { get; private set; }
 
-    public TEntity[] Source { get; internal set; }
-    public TEntity[] Result { get; internal set; }
+    public TEntity[]? Source { get; internal set; }
+    public TEntity[]? Result { get; internal set; }
 
     public QueryDef()
     {
@@ -42,7 +42,7 @@ public class QueryDef<TEntity> where TEntity : class
 
         if (queryable.Expression.Type == typeof(IQueryable<TEntity>))
         {
-            predicate = ((queryable.Expression as MethodCallExpression).Arguments[1] as UnaryExpression).Operand as Expression<Func<TEntity, bool>>;
+            predicate = (((queryable.Expression as MethodCallExpression)!.Arguments[1] as UnaryExpression)!.Operand as Expression<Func<TEntity, bool>>)!;
         }
         else if (queryable.Expression.Type.IsType(typeof(Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<,>)))
         {

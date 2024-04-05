@@ -17,9 +17,9 @@ public class QuerySearchStrategy<TEntity> : QueryStringStrategy<TEntity>
     private static readonly MethodInfo _Method_Enumerable_op_Any = typeof(Enumerable)
         .GetMethodViaQualifiedName("Boolean Any[TSource](System.Collections.Generic.IEnumerable`1[TSource], System.Func`2[TSource,System.Boolean])")
         .MakeGenericMethod(typeof(string));
-    private static readonly MethodInfo _Method_String_op_Contains = typeof(string).GetMethod(nameof(string.Contains), [typeof(string)]);
-    private static readonly MethodInfo _Method_String_op_Equals1 = typeof(string).GetMethod(nameof(string.Equals), [typeof(string)]);
-    private static readonly MethodInfo _Method_String_op_Equals2 = typeof(string).GetMethod(nameof(string.Equals), [typeof(string), typeof(string)]);
+    private static readonly MethodInfo _Method_String_op_Contains = typeof(string).GetMethod(nameof(string.Contains), [typeof(string)])!;
+    private static readonly MethodInfo _Method_String_op_Equals1 = typeof(string).GetMethod(nameof(string.Equals), [typeof(string)])!;
+    private static readonly MethodInfo _Method_String_op_Equals2 = typeof(string).GetMethod(nameof(string.Equals), [typeof(string), typeof(string)])!;
     //private static readonly MethodInfo _Method_String_op_Inequality = typeof(string).GetMethod("op_Inequality");
 
     public QuerySearchStrategy(string searchString, Expression<Func<TEntity, object>> searchMembers, SearchOption option)
@@ -61,7 +61,7 @@ public class QuerySearchStrategy<TEntity> : QueryStringStrategy<TEntity>
                     default: throw new NotImplementedException();
                 }
             }
-            else if (selectorExp.Type.GetInterface(typeof(IEnumerable).FullName) is not null)
+            else if (selectorExp.Type.GetInterface(typeof(IEnumerable).FullName!) is not null)
             {
                 var parameter = Expression.Parameter(typeof(string));
                 Expression<Func<string, bool>> lambda;

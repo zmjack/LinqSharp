@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace LinqSharp.Page;
 
-public class EnumerablePage<T> : IEnumerablePage<T>, IEnumerable<T>
+public class EnumerablePage<T> : IEnumerablePage<T>
 {
     public IEnumerable<T> Items { get; protected set; }
     public int PageNumber { get; protected set; }
@@ -19,8 +19,6 @@ public class EnumerablePage<T> : IEnumerablePage<T>, IEnumerable<T>
     public int SourceCount { get; protected set; }
     public bool IsFristPage => PageNumber == 1;
     public bool IsLastPage => PageNumber == PageCount;
-
-    protected EnumerablePage() { }
 
     public EnumerablePage(IEnumerable<T> source, int page, int pageSize)
     {

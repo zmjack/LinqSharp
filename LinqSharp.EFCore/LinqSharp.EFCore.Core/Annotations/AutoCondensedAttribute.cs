@@ -17,7 +17,7 @@ public sealed class AutoCondensedAttribute : AutoAttribute
 
     public AutoCondensedAttribute() : base(AutoState.Added, AutoState.Modified) { }
 
-    public override object Format(object entity, Type propertyType, object value)
+    public override object? Format(object entity, Type propertyType, object? value)
     {
         if (propertyType != typeof(string)) throw Exception_NotSupportedTypes(propertyType, nameof(propertyType));
 

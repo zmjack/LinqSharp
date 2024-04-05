@@ -66,7 +66,7 @@ public static partial class IEnumerableExtensions
 
             var func = Expression.Lambda<Func<TObj, TRight, TResult>>(body, p0, p1).Compile();
             return func;
-        });
+        })!;
         return opMethod;
     }
     private static Func<TType, TType, TType> GetOpAddition<TType>()
@@ -107,7 +107,7 @@ public static partial class IEnumerableExtensions
     /// <param name="second"></param>
     /// <param name="compare"></param>
     /// <returns></returns>
-    public static IEnumerable<TSource> ExceptBy<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Expression<Func<TSource, object>> compare)
+    public static IEnumerable<TSource> ExceptBy<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Expression<Func<TSource?, object?>> compare)
     {
         return Enumerable.Except(first, second, new ExactEqualityComparer<TSource>(compare));
     }
@@ -120,7 +120,7 @@ public static partial class IEnumerableExtensions
     /// <param name="second"></param>
     /// <param name="compare"></param>
     /// <returns></returns>
-    public static IEnumerable<TSource> UnionBy<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Expression<Func<TSource, object>> compare)
+    public static IEnumerable<TSource> UnionBy<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Expression<Func<TSource?, object?>> compare)
     {
         return Enumerable.Union(first, second, new ExactEqualityComparer<TSource>(compare));
     }
@@ -133,7 +133,7 @@ public static partial class IEnumerableExtensions
     /// <param name="second"></param>
     /// <param name="compare"></param>
     /// <returns></returns>
-    public static IEnumerable<TSource> IntersectBy<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Expression<Func<TSource, object>> compare)
+    public static IEnumerable<TSource> IntersectBy<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Expression<Func<TSource?, object?>> compare)
     {
         return Enumerable.Intersect(first, second, new ExactEqualityComparer<TSource>(compare));
     }

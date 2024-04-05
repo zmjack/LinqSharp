@@ -42,6 +42,7 @@ public static partial class IEnumerableExtensions
     /// <typeparam name="TSource"></typeparam>
     /// <param name="this"></param>
     /// <param name="size"></param>
+    /// <param name="padDirection"></param>
     /// <returns></returns>
     [Obsolete("Plan to remove, submit an issue if necessary.")]
     public static IEnumerable<IGrouping<int, TSource>> GroupByCount<TSource>(this IEnumerable<TSource> @this, int size, PadDirection padDirection)

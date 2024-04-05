@@ -35,7 +35,7 @@ public static partial class IEnumerableExtensions
     public static double? MinOrDefault(this IEnumerable<double?> source, double? @default = default) => source.Any() ? source.Min() : @default;
     public static decimal? MinOrDefault(this IEnumerable<decimal?> source, decimal? @default = default) => source.Any() ? source.Min() : @default;
 
-    public static TResult MinOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult @default = default) => source.Any() ? source.Min(selector) : @default;
-    public static TSource MinOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default) => source.Any() ? source.Min() : @default;
+    public static TResult? MinOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult? @default = default) => source.Any() ? source.Min(selector) : @default;
+    public static TSource? MinOrDefault<TSource>(this IEnumerable<TSource> source, TSource? @default = default) => source.Any() ? source.Min() : @default;
 
 }

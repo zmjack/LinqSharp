@@ -14,7 +14,7 @@ namespace LinqSharp.Strategies;
 
 public class QueryStringStrategy<TEntity> : IQueryStrategy<TEntity, bool>
 {
-    public Expression<Func<TEntity, bool>> StrategyExpression { get; private set; }
+    public Expression<Func<TEntity, bool>>? StrategyExpression { get; private set; }
 
     internal QueryStringStrategy()
     {
@@ -29,24 +29,26 @@ public class QueryStringStrategy<TEntity> : IQueryStrategy<TEntity, bool>
 
     private ParameterExpression[] GetParameters(Expression expression)
     {
-        if (expression is null) return new ParameterExpression[0];
+        if (expression is null) return [];
 
         if (expression is ParameterExpression)
-            return [expression as ParameterExpression];
+        {
+            return [(expression as ParameterExpression)!];
+        }
 
         //TODO: Maybe this expression can be converted to another expression in static.
         if (expression.NodeType == ExpressionType.Lambda)
         {
-            return Enumerable.ToArray((expression as LambdaExpression).Parameters);
+            return Enumerable.ToArray((expression as LambdaExpression)!.Parameters);
         }
 
         return expression switch
         {
-            MemberExpression exp => GetParameters(exp.Expression),
+            MemberExpression exp => GetParameters(exp.Expression!),
             UnaryExpression exp => GetParameters(exp.Operand),
-            MethodCallExpression exp => GetParameters(exp.Object).Concat(exp.Arguments.SelectMany(x => GetParameters(x))).ToArray(),
+            MethodCallExpression exp => GetParameters(exp.Object!).Concat(exp.Arguments.SelectMany(x => GetParameters(x))).ToArray(),
             NewExpression exp => exp.Arguments.SelectMany(x => GetParameters(x)).ToArray(),
-            _ => new ParameterExpression[0],
+            _ => [],
         };
     }
 
@@ -71,7 +73,7 @@ public class QueryStringStrategy<TEntity> : IQueryStrategy<TEntity, bool>
                 }
 
                 throw new NotSupportedException("Only IEnumerable<T> is supported.");
-            });
+            })!;
 
             if (ienumerableGenericType != typeof(string))
             {
@@ -83,12 +85,12 @@ public class QueryStringStrategy<TEntity> : IQueryStrategy<TEntity, bool>
 
                 var parameter = Expression.Parameter(ienumerableGenericType);
                 var lambda = Expression.Lambda(
-                    Expression.Call(parameter, typeof(object).GetMethod(nameof(object.ToString))), parameter);
+                    Expression.Call(parameter, typeof(object).GetMethod(nameof(ToString))!), parameter);
                 return Expression.Call(selectMethod, expression, lambda);
             }
             else return expression;
         }
-        else return Expression.Call(expression, typeof(object).GetMethod(nameof(object.ToString)));
+        else return Expression.Call(expression, typeof(object).GetMethod(nameof(ToString))!);
     }
 
     private Expression<Func<TEntity, bool>> GenerateExpression(
@@ -101,13 +103,15 @@ public class QueryStringStrategy<TEntity> : IQueryStrategy<TEntity, bool>
         switch (inExp.Body)
         {
             case NewExpression exp:
+                if (exp.Arguments.Count == 0) throw new InvalidOperationException("There is no argument in expression body.");
+
                 var lambdaExp = exp.Arguments.Aggregate(null as Expression, (acc, argExp) =>
                 {
                     if (acc is null)
                         return compareExp(GetReturnStringOrArrayExpression(argExp), rightExp);
                     else return Expression.OrElse(acc,
                         compareExp(GetReturnStringOrArrayExpression(argExp), rightExp));
-                });
+                })!;
                 return Expression.Lambda<Func<TEntity, bool>>(lambdaExp, inExp.Parameters);
 
             default:
