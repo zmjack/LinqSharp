@@ -593,21 +593,7 @@ public static partial class LinqSharpEF
                 else
                 {
                     // Reserve
-                    if (item.LockedProperties is null)
-                    {
-                        if (entry.State == EntityState.Modified)
-                        {
-                            entry.State = EntityState.Detached;
-                        }
-                    }
-                    else
-                    {
-                        OperateRestore(item.Property!);
-                        foreach (var prop in item.LockedProperties)
-                        {
-                            OperateRestore(prop);
-                        }
-                    }
+                    OperateRestore(item.Property!);
                 }
             }
         }
