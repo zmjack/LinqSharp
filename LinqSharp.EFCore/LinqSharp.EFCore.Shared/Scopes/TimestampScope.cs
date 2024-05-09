@@ -8,8 +8,8 @@ using NStandard;
 
 namespace LinqSharp.EFCore.Scopes;
 
-public sealed class TimestampScope<TContext>(FieldOption option) : Scope<TimestampScope<TContext>>, IFieldOptionScope
+public sealed class TimestampScope<TContext>(AutoMode mode) : Scope<TimestampScope<TContext>>, IAutoModeScope
     where TContext : DbContext
 {
-    public FieldOption Option { get; } = option;
+    public AutoMode Mode { get; } = mode;
 }

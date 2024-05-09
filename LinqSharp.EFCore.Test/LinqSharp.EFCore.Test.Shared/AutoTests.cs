@@ -124,7 +124,7 @@ public class AutoTests
 
         {
             using var context = ApplicationDbContext.UseMySql();
-            using (context.BeginTimestamp(FieldOption.Reserve))
+            using (context.BeginTimestamp(AutoMode.Suppress))
             {
                 var model = new AutoModel
                 {

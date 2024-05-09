@@ -36,19 +36,19 @@ public static class DbContextExtensions
     }
 
 #pragma warning disable IDE0060 // Remove unused parameter
-    public static TimestampScope<TContext> BeginTimestamp<TContext>(this TContext @this, FieldOption option)
+    public static TimestampScope<TContext> BeginTimestamp<TContext>(this TContext @this, AutoMode option)
         where TContext : DbContext
     {
         return new TimestampScope<TContext>(option);
     }
 
-    public static RowLockScope<TContext> BeginRowLock<TContext>(this TContext @this, FieldOption option)
+    public static RowLockScope<TContext> BeginRowLock<TContext>(this TContext @this, AutoMode option)
         where TContext : DbContext
     {
         return new RowLockScope<TContext>(option);
     }
 
-    public static UserTraceScope<TContext> BeginUserTrace<TContext>(this TContext @this, FieldOption option)
+    public static UserTraceScope<TContext> BeginUserTrace<TContext>(this TContext @this, AutoMode option)
         where TContext : DbContext
     {
         return new UserTraceScope<TContext>(option);

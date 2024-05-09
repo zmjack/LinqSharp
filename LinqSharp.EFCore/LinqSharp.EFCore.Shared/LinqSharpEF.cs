@@ -522,7 +522,7 @@ public static partial class LinqSharpEF
         }
     }
 
-    private static FieldOption GetFieldOption(DbContext context, Type genericScope, string scopeName)
+    private static AutoMode GetFieldMode(DbContext context, Type genericScope, string scopeName)
     {
         var scopeProp = _fieldOptionScopeCache.GetOrCreate($"{scopeName}&{context.GetType()}", entry =>
         {
@@ -530,8 +530,8 @@ public static partial class LinqSharpEF
                 .MakeGenericType(context.GetType())
                 .GetProperty(nameof(Scope<RowLockScope<DbContext>>.Current), BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
         })!;
-        var scope = scopeProp.GetValue(null) as IFieldOptionScope;
-        return scope?.Option ?? FieldOption.Auto;
+        var scope = scopeProp.GetValue(null) as IAutoModeScope;
+        return scope?.Mode ?? AutoMode.Auto;
     }
 
     private static InvalidOperationException LockedRowUpdatingException(Type type) => new($"Must be unlocked before updating. ({type.Name} can not be modified.)");
@@ -565,17 +565,22 @@ public static partial class LinqSharpEF
             }
         }
 
-        var rowLockOption = GetFieldOption(context, typeof(RowLockScope<>), nameof(RowLockScope<DbContext>));
-        if (rowLockOption == FieldOption.Auto || rowLockOption == FieldOption.Reserve)
+        var mode = GetFieldMode(context, typeof(RowLockScope<>), nameof(RowLockScope<DbContext>));
+        if (mode == AutoMode.Free) return;
+
+        if (mode == AutoMode.Auto || mode == AutoMode.Suppress)
         {
             foreach (var item in lockItems)
             {
                 var originValue = originValues?[item.Property!.Name] ?? default;
                 if (originValue is null) continue;
 
-                if (entry.State == EntityState.Deleted) throw LockedRowDeletingException(entry.Entity.GetType());
+                if (entry.State == EntityState.Deleted)
+                {
+                    throw LockedRowDeletingException(entry.Entity.GetType());
+                }
 
-                if (rowLockOption == FieldOption.Auto)
+                if (mode == AutoMode.Auto)
                 {
                     if (item.LockedProperties is null)
                     {
@@ -610,13 +615,13 @@ public static partial class LinqSharpEF
         };
 
         var userTrace = context as IUserTraceable;
-        var userTraceOption = new Lazy<FieldOption>(() =>
+        var userTraceOption = new Lazy<AutoMode>(() =>
         {
-            return GetFieldOption(context, typeof(UserTraceScope<>), nameof(UserTraceScope<DbContext>));
+            return GetFieldMode(context, typeof(UserTraceScope<>), nameof(UserTraceScope<DbContext>));
         });
-        var timestampOption = new Lazy<FieldOption>(() =>
+        var timestampOption = new Lazy<AutoMode>(() =>
         {
-            return GetFieldOption(context, typeof(TimestampScope<>), nameof(TimestampScope<DbContext>));
+            return GetFieldMode(context, typeof(TimestampScope<>), nameof(TimestampScope<DbContext>));
         });
 
         var originValues = entry.GetDatabaseValues();
@@ -640,11 +645,11 @@ public static partial class LinqSharpEF
                         continue;
                     }
 
-                    FieldOption option;
+                    AutoMode mode;
                     if (attr is SpecialAutoAttribute<TimestampParam> attr_now)
                     {
-                        option = timestampOption.Value;
-                        if (option == FieldOption.Auto)
+                        mode = timestampOption.Value;
+                        if (mode == AutoMode.Auto)
                         {
                             finalValue = attr_now.Format(entry.Entity, propertyType, timestampParam);
                         }
@@ -653,8 +658,8 @@ public static partial class LinqSharpEF
                     {
                         if (userTrace is null) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
 
-                        option = userTraceOption.Value;
-                        if (option == FieldOption.Auto)
+                        mode = userTraceOption.Value;
+                        if (mode == AutoMode.Auto)
                         {
                             finalValue = attr_user.Format(entry.Entity, propertyType, new UserParam
                             {
@@ -664,16 +669,16 @@ public static partial class LinqSharpEF
                     }
                     else throw new NotImplementedException($"{attr.GetType()} is not processed.");
 
-                    if (option == FieldOption.Auto) { }
-                    else if (option == FieldOption.Reserve)
+                    if (mode == AutoMode.Auto) { }
+                    else if (mode == AutoMode.Suppress)
                     {
                         finalValue = originValues?[prop.Name] ?? default;
                     }
-                    else if (option == FieldOption.Free)
+                    else if (mode == AutoMode.Free)
                     {
                         finalValue = currentValue;
                     }
-                    else throw new NotImplementedException($"The option is not supported. ({option}).");
+                    else throw new NotImplementedException($"The option is not supported. ({mode}).");
                 }
                 else
                 {

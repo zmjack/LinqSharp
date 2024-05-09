@@ -71,10 +71,12 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
-### Version 7.0.40.0-alpha
+### Version 7.0.41 - EFCore
 
 - Enable **nullable** checking.
 - Fix some bugs.
+- Rename **FieldOption** to **AutoMode**.
+- Rename **IFieldOptionScope** to **IAutoModeScope**.
 
 ### Version 7.0.37.17 - EFCore
 

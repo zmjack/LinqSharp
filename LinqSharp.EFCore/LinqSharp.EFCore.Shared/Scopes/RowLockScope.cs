@@ -8,8 +8,8 @@ using NStandard;
 
 namespace LinqSharp.EFCore.Scopes;
 
-public sealed class RowLockScope<TContext>(FieldOption option) : Scope<RowLockScope<TContext>>, IFieldOptionScope
+public sealed class RowLockScope<TContext>(AutoMode option) : Scope<RowLockScope<TContext>>, IAutoModeScope
     where TContext : DbContext
 {
-    public FieldOption Option { get; } = option;
+    public AutoMode Mode { get; } = option;
 }

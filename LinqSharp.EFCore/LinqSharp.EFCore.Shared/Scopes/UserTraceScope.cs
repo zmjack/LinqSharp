@@ -8,8 +8,8 @@ using NStandard;
 
 namespace LinqSharp.EFCore.Scopes;
 
-public sealed class UserTraceScope<TContext>(FieldOption option) : Scope<UserTraceScope<TContext>>, IFieldOptionScope
+public sealed class UserTraceScope<TContext>(AutoMode mode) : Scope<UserTraceScope<TContext>>, IAutoModeScope
     where TContext : DbContext
 {
-    public FieldOption Option { get; } = option;
+    public AutoMode Mode { get; } = mode;
 }

@@ -1,6 +1,7 @@
 ﻿using LinqSharp.EFCore.Data;
 using LinqSharp.EFCore.Data.Test;
 using LinqSharp.EFCore.Scopes;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Xunit;
@@ -9,7 +10,7 @@ namespace LinqSharp.EFCore.Test;
 
 public class RowLockTests
 {
-    private readonly FieldOption[] _allOptions = [FieldOption.Auto, FieldOption.Reserve, FieldOption.Free];
+    private readonly AutoMode[] _allOptions = [AutoMode.Auto, AutoMode.Suppress, AutoMode.Free];
 
     static RowLockTests()
     {
@@ -42,7 +43,7 @@ public class RowLockTests
 
     private static RowLockModel Find(ApplicationDbContext context, Guid id)
     {
-        return context.RowLockModels.Find(id);
+        return context.RowLockModels.AsNoTracking().First(x => x.Id == id);
     }
 
     [Fact]
@@ -71,7 +72,7 @@ public class RowLockTests
     public void OriginNotNullTest_Add_Delete()
     {
         var now = DateTime.Now;
-        foreach (var option in new[] { FieldOption.Auto, FieldOption.Reserve })
+        foreach (var option in new[] { AutoMode.Auto, AutoMode.Suppress })
         {
             Guid id;
             using (var mysql = ApplicationDbContext.UseMySql())
@@ -93,7 +94,7 @@ public class RowLockTests
             }
 
             using (var mysql = ApplicationDbContext.UseMySql())
-            using (mysql.BeginRowLock(FieldOption.Free))
+            using (mysql.BeginRowLock(AutoMode.Free))
             {
                 DeleteTest(mysql, id);
             }
@@ -128,7 +129,7 @@ public class RowLockTests
             }
 
             using (var mysql = ApplicationDbContext.UseMySql())
-            using (mysql.BeginRowLock(FieldOption.Free))
+            using (mysql.BeginRowLock(AutoMode.Free))
             {
                 DeleteTest(mysql, id);
             }
@@ -163,7 +164,7 @@ public class RowLockTests
         }
 
         using (var mysql = ApplicationDbContext.UseMySql())
-        using (mysql.BeginRowLock(FieldOption.Reserve))
+        using (mysql.BeginRowLock(AutoMode.Suppress))
         {
             UpdateTest(mysql, new RowLockModel
             {
@@ -171,11 +172,11 @@ public class RowLockTests
                 Value = 30,
             });
             var model = Find(mysql, id);
-            Assert.Equal(10, model.Value);
+            Assert.Equal(30, model.Value);
         }
 
         using (var mysql = ApplicationDbContext.UseMySql())
-        using (mysql.BeginRowLock(FieldOption.Free))
+        using (mysql.BeginRowLock(AutoMode.Free))
         {
             UpdateTest(mysql, new RowLockModel
             {
@@ -187,7 +188,7 @@ public class RowLockTests
         }
 
         using (var mysql = ApplicationDbContext.UseMySql())
-        using (mysql.BeginRowLock(FieldOption.Free))
+        using (mysql.BeginRowLock(AutoMode.Free))
         {
             DeleteTest(mysql, id);
         }
@@ -196,22 +197,22 @@ public class RowLockTests
     [Fact]
     public void ScopeTest()
     {
-        static FieldOption GetOption()
+        static AutoMode GetOption()
         {
-            return RowLockScope<ApplicationDbContext>.Current?.Option ?? FieldOption.Auto;
+            return RowLockScope<ApplicationDbContext>.Current?.Mode ?? AutoMode.Auto;
         }
 
         using var mysql = ApplicationDbContext.UseMySql();
-        using (mysql.BeginRowLock(FieldOption.Reserve))
+        using (mysql.BeginRowLock(AutoMode.Suppress))
         {
-            Assert.Equal(FieldOption.Reserve, GetOption());
-            using (mysql.BeginRowLock(FieldOption.Free))
+            Assert.Equal(AutoMode.Suppress, GetOption());
+            using (mysql.BeginRowLock(AutoMode.Free))
             {
-                Assert.Equal(FieldOption.Free, GetOption());
+                Assert.Equal(AutoMode.Free, GetOption());
             }
-            Assert.Equal(FieldOption.Reserve, GetOption());
+            Assert.Equal(AutoMode.Suppress, GetOption());
         }
-        Assert.Equal(FieldOption.Auto, GetOption());
+        Assert.Equal(AutoMode.Auto, GetOption());
     }
 
 }
