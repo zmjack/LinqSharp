@@ -100,7 +100,7 @@ public static partial class DbSetExtensions
         var propNames = IncludesExpression.GetPropertyNames(keys);
         var predicate = GetAbsoluteAddOrUpdateLambda(propNames, entity);
 
-        var record = @this.FirstOrDefault(predicate);
+        var record = @this.SingleOrDefault(predicate);
         if (record is not null)
         {
             options.Update?.Invoke(record, entity);
@@ -160,7 +160,7 @@ public static partial class DbSetExtensions
         foreach (ref var entity in entities.AsSpan())
         {
             var _entity = entity;
-            var record = recordlist.FirstOrDefault(x => predicateBuilder(x, _entity));
+            var record = recordlist.SingleOrDefault(x => predicateBuilder(x, _entity));
             if (record is null) @this.Add(entity);
             else
             {
