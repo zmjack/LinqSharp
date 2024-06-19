@@ -1,5 +1,7 @@
 ﻿using LinqSharp.EFCore.Data.Test;
+using LinqSharp.EFCore.Translators;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test;
@@ -36,6 +38,32 @@ LIMIT 2;
 ";
 #endif
         Assert.Equal(expectedSql, sql);
+    }
+
+    [Fact]
+    public void RowNumberTest()
+    {
+        using var mysql = ApplicationDbContext.UseMySql();
+        var query =
+        (
+            from x in mysql.Orders
+            let rn = DbRowNumber.RowNumber(
+                x.EmployeeID,  // partition by
+                x.OrderID,  // order by
+                true        // desc
+            )
+            select new
+            {
+                rn,
+                x.OrderID,
+                x.EmployeeID,
+            }
+        );
+        var sql = query.ToQueryString();
+
+        var results = query.ToArray();
+
+        string expectedSql;
     }
 
 }

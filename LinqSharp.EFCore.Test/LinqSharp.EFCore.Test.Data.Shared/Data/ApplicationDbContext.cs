@@ -22,7 +22,7 @@ public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableConte
 
     public static ApplicationDbContext UseMySql(Action<MySqlDbContextOptionsBuilder> mySqlOptionsAction = null)
     {
-        var connectionString = $"server=127.0.0.1;database={DatabaseName};AllowLoadLocalInfile=true";
+        var connectionString = $"server=127.0.0.1;port=33306;user=root;pwd=root;database={DatabaseName};AllowLoadLocalInfile=true";
 #if EFCORE5_0_OR_GREATER
         var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), mySqlOptionsAction).Options;
 #else
@@ -132,6 +132,7 @@ public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableConte
         LinqSharpEF.UseTranslator<DbDouble>(this, modelBuilder);
         LinqSharpEF.UseTranslator<DbDateTime>(this, modelBuilder);
         LinqSharpEF.UseTranslator<DbYearMonthNumber>(this, modelBuilder);
+        LinqSharpEF.UseTranslator<DbRowNumber>(this, modelBuilder);
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)

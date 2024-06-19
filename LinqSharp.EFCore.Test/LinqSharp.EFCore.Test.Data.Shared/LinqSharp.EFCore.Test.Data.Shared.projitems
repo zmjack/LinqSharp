@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\Client.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ConcurrencyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\CPKeyModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbRowNumber.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\EntityMonitorModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\FacadeModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\LS_Index.cs" />

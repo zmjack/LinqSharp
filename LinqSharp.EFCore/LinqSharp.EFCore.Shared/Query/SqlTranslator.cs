@@ -57,7 +57,7 @@ public static class SqlTranslator
 #if EFCORE3_1_OR_GREATER
         var typeMapping = GetTypeMapping(value.GetType());
         return new SqlConstantExpression(Expression.Constant(value), typeMapping);
-#else 
+#else
         return SqlExpression.Constant(value);
 #endif
     }

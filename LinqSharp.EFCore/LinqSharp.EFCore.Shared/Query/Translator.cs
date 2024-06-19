@@ -20,6 +20,11 @@ namespace LinqSharp.EFCore.Query;
 
 public abstract class Translator
 {
+    public class Builder(Func<SqlExpression[], SqlExpression> build)
+    {
+        public Func<SqlExpression[], SqlExpression> Build { get; set; } = build;
+    }
+
     protected static NotSupportedException CannotBeCalled() => new($"This method does not support direct evaluation.");
 
     public Translator()
@@ -27,6 +32,11 @@ public abstract class Translator
     }
 
     public abstract void RegisterAll(ProviderName providerName, ModelBuilder modelBuilder);
+
+    public void Register(ModelBuilder modelBuilder, Expression<Func<object>> methodGetter, Builder builder)
+    {
+        Register(modelBuilder, methodGetter, builder.Build);
+    }
 
     public void Register(ModelBuilder modelBuilder, Expression<Func<object>> methodGetter, Func<SqlExpression[], SqlExpression> build)
     {
@@ -44,6 +54,6 @@ public abstract class Translator
         if (method is null) throw new ArgumentException("Invalid expression.", nameof(methodGetter));
         if (!method.IsStatic) throw new ArgumentException("The registration method must be a static method.", nameof(methodGetter));
 
-        modelBuilder.HasDbFunction(method).HasTranslation(args => build(args.ToArray()));
+        modelBuilder.HasDbFunction(method).HasTranslation(args => build([.. args]));
     }
 }

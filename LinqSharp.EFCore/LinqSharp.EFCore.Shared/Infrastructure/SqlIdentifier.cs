@@ -5,18 +5,18 @@
 
 namespace LinqSharp.EFCore.Infrastructure;
 
-public class Identifiers
+public readonly struct SqlIdentifier
 {
     public char LeftChar { get; }
     public char RightChar { get; }
 
-    public Identifiers(char leftChar, char rightChar)
+    public SqlIdentifier(char leftChar, char rightChar)
     {
         LeftChar = leftChar;
         RightChar = rightChar;
     }
 
-    public Identifiers(ProviderName name)
+    public SqlIdentifier(ProviderName name)
     {
         switch (name)
         {
@@ -39,6 +39,6 @@ public class Identifiers
         };
     }
 
-    public string Content(string content) => $"{LeftChar}{content}{RightChar}";
+    public string QuoteName(string content) => $"{LeftChar}{content}{RightChar}";
 
 }

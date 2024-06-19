@@ -124,17 +124,17 @@ public static partial class DbSetExtensions
         }.Contains(providerName);
         if (!hasTruncateMethod) throw new NotSupportedException($"The database does not support the {nameof(Truncate)} method.");
 
-        var identifiers = new Identifiers(providerName);
+        var identifier = new SqlIdentifier(providerName);
 
 #if EFCORE3_1_OR_GREATER
         if (new[] { ProviderName.Sqlite }.Contains(providerName))
-            context.Database.ExecuteSqlRaw($"DELETE FROM {identifiers.Content(table) ?? table};");
-        else context.Database.ExecuteSqlRaw($"TRUNCATE TABLE {identifiers.Content(table) ?? table};");
+            context.Database.ExecuteSqlRaw($"DELETE FROM {identifier.QuoteName(table) ?? table};");
+        else context.Database.ExecuteSqlRaw($"TRUNCATE TABLE {identifier.QuoteName(table) ?? table};");
 #else
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
         if (new[] { ProviderName.Sqlite }.Contains(providerName))
-            context.Database.ExecuteSqlCommand(new RawSqlString($"DELETE FROM {identifiers.Content(table) ?? table};"));
-        else context.Database.ExecuteSqlCommand(new RawSqlString($"TRUNCATE TABLE {identifiers.Content(table) ?? table};"));
+            context.Database.ExecuteSqlCommand(new RawSqlString($"DELETE FROM {identifier.QuoteName(table) ?? table};"));
+        else context.Database.ExecuteSqlCommand(new RawSqlString($"TRUNCATE TABLE {identifier.QuoteName(table) ?? table};"));
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
 #endif
     }

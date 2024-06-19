@@ -24,7 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IEntityAuditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IIncludableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Facade.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Identifiers.cs" />
+    <Compile Include="..\LinqSharp.EFCore.Shared\Infrastructure\SqlIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\IFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\IFacadeState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Transaction.cs" />
