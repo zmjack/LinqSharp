@@ -73,6 +73,10 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version 7.0.42
+
+- Compatibility updates: **NStandard - 0.70.0 - Update**.
+
 ### Version 7.0.41 - EFCore
 
 - Enable **nullable** checking.

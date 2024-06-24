@@ -15,14 +15,14 @@ namespace LinqSharp.Cli
     {
         public static readonly string CLI_VERSION = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public static CmdContainer CmdContainer;
-        public static ProjectInfo ProjectInfo { get; private set; }
+        public static Project ProjectInfo { get; private set; }
 
         static void Main(string[] args)
         {
-            CmdContainer = new CmdContainer("orm", Assembly.GetExecutingAssembly(), ProjectInfo.GetFromDirectory(Directory.GetCurrentDirectory()));
-            if (CmdContainer.ProjectInfo.HasValue)
+            CmdContainer = new CmdContainer("orm", Assembly.GetExecutingAssembly(), Project.GetFromDirectory(Directory.GetCurrentDirectory()));
+            if (CmdContainer.Project.HasValue)
             {
-                ProjectInfo = CmdContainer.ProjectInfo.Value;
+                ProjectInfo = CmdContainer.Project.Value;
             }
             else throw new InvalidOperationException("No project found.");
 

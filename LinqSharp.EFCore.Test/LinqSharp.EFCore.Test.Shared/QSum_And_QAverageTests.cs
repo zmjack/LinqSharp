@@ -1,6 +1,6 @@
-﻿using NStandard.UnitValues;
-using System;
+﻿using System;
 using Xunit;
+using static NStandard.Measures.StorageCapacity;
 
 namespace LinqSharp.EFCore.Test;
 
@@ -9,41 +9,41 @@ public class QSum_And_QAverageTests
     [Fact]
     public void ValueTest()
     {
-        var values = new StorageValue[] { new StorageValue(10), new StorageValue(20), new StorageValue(45) };
-        Assert.Equal(75, values.QSum().BitValue);
-        Assert.Equal(25, values.QAverage().BitValue);
-        Assert.Equal(25, values.QAverageOrDefault().BitValue);
-        Assert.Equal(25, values.QAverageOrDefault(new StorageValue(-1)).BitValue);
+        b[] values = [10, 20, 45];
+        Assert.Equal(75, values.QSum());
+        Assert.Equal(25, values.QAverage());
+        Assert.Equal(25, values.QAverageOrDefault());
+        Assert.Equal(25, values.QAverageOrDefault(-1));
     }
 
     [Fact]
     public void NullableValueTest()
     {
-        var values = new StorageValue?[] { new StorageValue(10), new StorageValue(20), new StorageValue(45) };
-        Assert.Equal(75, values.QSum().Value.BitValue);
-        Assert.Equal(25, values.QAverage().Value.BitValue);
-        Assert.Equal(25, values.QAverageOrDefault().Value.BitValue);
-        Assert.Equal(25, values.QAverageOrDefault(new StorageValue(-1)).Value.BitValue);
+        b?[] values = [10, 20, 45];
+        Assert.Equal(75, values.QSum());
+        Assert.Equal(25, values.QAverage());
+        Assert.Equal(25, values.QAverageOrDefault());
+        Assert.Equal(25, values.QAverageOrDefault(-1));
     }
 
     [Fact]
     public void EmptyValueTest()
     {
-        var values = new StorageValue[] { };
-        Assert.Equal(0, values.QSum().BitValue);
+        b[] values = [];
+        Assert.Equal(0, values.QSum());
         Assert.ThrowsAny<InvalidOperationException>(() => values.QAverage());
         Assert.Equal(default, values.QAverageOrDefault());
-        Assert.Equal(-1, values.QAverageOrDefault(new StorageValue(-1)).BitValue);
+        Assert.Equal(-1, values.QAverageOrDefault(-1));
     }
 
     [Fact]
     public void EmptyNullableValueTest()
     {
-        var values = new StorageValue?[] { };
-        Assert.Equal(0, values.QSum().Value.BitValue);
+        b?[] values = [];
+        Assert.Equal(0, values.QSum());
         Assert.Null(values.QAverage());
         Assert.Null(values.QAverageOrDefault());
-        Assert.Equal(-1, values.QAverageOrDefault(new StorageValue(-1)).Value.BitValue);
+        Assert.Equal(-1, values.QAverageOrDefault(-1));
     }
 
 }

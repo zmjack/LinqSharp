@@ -4,7 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.Numeric;
-using NStandard.UnitValues;
+using NStandard.Measures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,24 +41,24 @@ public static partial class IEnumerableExtensions
     public static TSource? AverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource? @default = default) where TSource : ISummable => source.Any() ? source.Average() : @default;
 
     public static TSource? AverageOrDefault<TSource>(this IEnumerable<TSource?> source, TSource? @default = default) where TSource : struct, ISummable => source.Any() ? source.Average() : @default;
-    public static TSource QAverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default) where TSource : struct, IUnitValue, ISummable<TSource>
+    public static TSource QAverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default) where TSource : struct, IMeasurable<decimal>
     {
         if (!source.Any()) return @default;
 
-        var result = new TSource();
-        result.QuickAverage(source);
-
-        return result;
+        return new TSource
+        {
+            Value = source.Average(x => x.Value)
+        };
     }
 
-    public static TSource? QAverageOrDefault<TSource>(this IEnumerable<TSource?> source, TSource? @default = default) where TSource : struct, IUnitValue, ISummable<TSource>
+    public static TSource? QAverageOrDefault<TSource>(this IEnumerable<TSource?> source, TSource? @default = default) where TSource : struct, IMeasurable<decimal>
     {
         if (!source.Any(x => x.HasValue)) return @default;
 
-        var result = new TSource();
-        result.QuickAverage(from item in source where item.HasValue select item.Value);
-
-        return result;
+        return new TSource
+        {
+            Value = source.Where(x => x.HasValue).Average(x => x!.Value.Value)
+        };
     }
 
 }

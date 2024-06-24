@@ -28,8 +28,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using LinqSharp.EFCore.Query;
 using LinqSharp.EFCore.Scopes;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Castle.Core;
 
 namespace LinqSharp.EFCore;
 

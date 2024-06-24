@@ -2,9 +2,6 @@
 using LinqSharp.EFCore.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.Data;
-using System.Linq.Expressions;
 
 namespace LinqSharp.EFCore.Translators;
 
