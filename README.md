@@ -73,8 +73,14 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version 7.0.45
+
+- Update **search** extension method.
+- Now, you can use the new syntax to search any field in a table or related tables.
+
 ### Version 7.0.42
 
+- Enable **nullable** checking.
 - Compatibility updates: **NStandard - 0.70.0 - Update**.
 
 ### Version 7.0.41 - EFCore

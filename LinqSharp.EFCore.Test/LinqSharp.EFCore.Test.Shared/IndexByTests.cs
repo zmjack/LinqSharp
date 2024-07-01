@@ -1,7 +1,5 @@
 ﻿using LinqSharp.EFCore.Models.Test;
 using NStandard;
-using System;
-using System.Linq;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test.Shared;

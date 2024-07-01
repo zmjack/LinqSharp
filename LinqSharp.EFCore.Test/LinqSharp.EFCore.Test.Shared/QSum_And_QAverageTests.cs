@@ -1,5 +1,4 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 using static NStandard.Measures.StorageCapacity;
 
 namespace LinqSharp.EFCore.Test;

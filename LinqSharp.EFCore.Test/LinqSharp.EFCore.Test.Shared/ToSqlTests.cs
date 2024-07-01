@@ -1,7 +1,5 @@
 using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 using Xunit;
 using static LinqSharp.EFCore.Test.FilterTests;
 

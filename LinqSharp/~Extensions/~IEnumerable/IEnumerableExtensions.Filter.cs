@@ -4,9 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.Query;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace LinqSharp;
 
@@ -15,14 +12,41 @@ public static partial class IEnumerableExtensions
     public static IEnumerable<TSource> Filter<TSource>(this IEnumerable<TSource> @this, Func<QueryHelper<TSource>, QueryExpression<TSource>> build)
     {
         var helper = new QueryHelper<TSource>();
-        var whereExp = build(helper);
+        var query = build(helper);
 
-        if (whereExp.Expression is not null)
+        var exp = query.Expression;
+        if (exp is null) return @this;
+
+        var predicate = exp.Compile();
+        return @this.Where(predicate);
+    }
+
+    public static IEnumerable<TSource> Filter<TSource>(this IEnumerable<TSource> @this, IFieldFilter<TSource> filter)
+    {
+        var helper = new QueryHelper<TSource>();
+        var query = filter.Filter(helper);
+
+        var exp = query.Expression;
+        if (exp is null) return @this;
+
+        var predicate = exp.Compile();
+        return @this.Where(predicate);
+    }
+
+    public static IEnumerable<TSource> Filter<TSource>(this IEnumerable<TSource> @this, IAdvancedFieldFilter<TSource> filter)
+    {
+        var helper = new QueryHelper<TSource>();
+
+        var ret = @this;
+        foreach (var query in filter.Filter(helper))
         {
-            var predicate = whereExp.Expression.Compile();
-            return @this.Where(predicate);
+            var exp = query.Expression;
+            if (exp is null) continue;
+
+            var predicate = exp.Compile();
+            ret = ret.Where(x => predicate(x));
         }
-        else return @this;
+        return ret;
     }
 
     public static IEnumerable<TSource> Filter<TSource>(this IEnumerable<TSource> @this, params ILocalFilter<TSource>[] filters)
@@ -50,25 +74,27 @@ public static partial class IEnumerableExtensions
         if (filter is null) return @this;
 
         var helper = new QueryHelper<TProperty>();
-        var expression = filter.Filter(helper).Expression;
-        if (expression is null) return @this;
 
-        var predicate = expression.Compile();
+        var query = filter.Filter(helper);
+        var exp = query.Expression;
+        if (exp is null) return @this;
+
+        var predicate = exp.Compile();
         return @this.Where(x => predicate(selector(x)));
     }
 
-    public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> selector, IAdvancedFieldFilter<TProperty> extraFilter)
+    public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> selector, IAdvancedFieldFilter<TProperty> filter)
     {
-        if (extraFilter is null) return @this;
+        if (filter is null) return @this;
 
         var helper = new QueryHelper<TProperty>();
         var ret = @this;
-        foreach (var filter in extraFilter.Filter(helper))
+        foreach (var query in filter.Filter(helper))
         {
-            var expression = filter.Expression;
-            if (expression is null) return ret;
+            var exp = query.Expression;
+            if (exp is null) continue;
 
-            var predicate = expression.Compile();
+            var predicate = exp.Compile();
             ret = FilterBy(ret, selector, predicate);
         }
         return ret;

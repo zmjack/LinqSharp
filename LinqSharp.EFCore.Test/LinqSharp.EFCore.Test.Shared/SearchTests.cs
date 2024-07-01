@@ -1,13 +1,54 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test;
 
 public class SearchTests
 {
-    private class SimpleModel
+    [Fact]
+    public void SearchIntTest()
+    {
+        using var context = ApplicationDbContext.UseMySql();
+        var query = context.Employees
+            .Search(SearchMode.NotEquals, "London", e => new()
+            {
+                e.City,
+                e.Orders
+                    .SelectMany(o => o.OrderDetails)
+                    .Select(x => x.ProductLink.ProductID),
+            })
+            .Select(x => x.FirstName);
+        var sql = query.ToQueryString();
+    }
+
+    [Fact]
+    public void SearchStringTest()
+    {
+        using var context = ApplicationDbContext.UseMySql();
+
+        var sql = (
+            from c in context.Categories.Search(SearchMode.Equals,
+            [
+                "Tofu",
+                "England",
+            ], c => new()
+            {
+                from p in c.Products select new
+                {
+                    p.ProductID,
+                    p.ProductName,
+                    p.SupplierLink.CompanyName,
+                }
+            })
+            select new
+            {
+                c.CategoryName,
+            }
+        ).ToQueryString();
+    }
+
+    public class SimpleModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -19,7 +60,7 @@ public class SearchTests
     {
         var models = new[]
         {
-            new SimpleModel { Id = 1, Subs = new SimpleModel[0] },
+            new SimpleModel { Id = 1, Subs = [] },
             new SimpleModel
             {
                 Id = 2,
@@ -31,11 +72,12 @@ public class SearchTests
             },
         };
 
-        var aa = models.Search("a", model => new
+        var aa = models.Search(SearchMode.Contains, "a", m => new()
         {
-            model.Name,
-            SubNames = model.Subs.Select(x => x.Name),
-        });
+            m.Name,
+            m.Subs.Select(x => x.Name),
+        }).ToArray();
+        Assert.Single(aa);
     }
 
     [Fact]
@@ -44,10 +86,10 @@ public class SearchTests
         using (var mysql = ApplicationDbContext.UseMySql())
         {
             var query = mysql.Employees
-                .Search("London", e => new
+                .Search(SearchMode.Contains, "London", e => new()
                 {
                     e.City,
-                    ProductName = e.Orders
+                    e.Orders
                         .SelectMany(o => o.OrderDetails)
                         .Select(x => x.ProductLink.ProductName),
                 });
@@ -57,15 +99,15 @@ public class SearchTests
         using (var mysql = ApplicationDbContext.UseMySql())
         {
             var query = mysql.Employees
-                .Search("London", e => new
+                .Search(SearchMode.Contains, "London", e => new()
                 {
-                    ProductName = e.Orders
+                    e.Orders
                         .SelectMany(o => o.OrderDetails)
                         .Select(x => x.ProductLink.ProductName),
-                    ShipCountry = e.Orders.Select(x => x.ShipCountry),
-                    ShipRegion = e.Orders.Select(x => x.ShipRegion),
-                    ShipCity = e.Orders.Select(x => x.ShipCity),
-                    ShipAddress = e.Orders.Select(x => x.ShipAddress),
+                    e.Orders.Select(x => x.ShipCountry),
+                    e.Orders.Select(x => x.ShipRegion),
+                    e.Orders.Select(x => x.ShipCity),
+                    e.Orders.Select(x => x.ShipAddress),
                 });
             var sql = query.ToQueryString();
         }
@@ -73,33 +115,32 @@ public class SearchTests
         using (var mysql = ApplicationDbContext.UseMySql())
         {
             var employees_WhoSelled_AllKindsOfTofu = mysql.Employees
-                .Search("Tofu", e => new
+                .Search(SearchMode.Contains, "Tofu", e => new()
                 {
-                    ProductName = e.Orders
+                    e.Orders
                         .SelectMany(o => o.OrderDetails)
                         .Select(x => x.ProductLink.ProductName)
                 });
             var sql1 = employees_WhoSelled_AllKindsOfTofu.ToQueryString();
 
             var employees_WhoSelled_Tofu = mysql.Employees
-                 .Search("Tofu", e => new
+                 .Search(SearchMode.Equals, "Tofu", e => new()
                  {
-                     ProductName = e.Orders
+                     e.Orders
                          .SelectMany(o => o.OrderDetails)
                          .Select(x => x.ProductLink.ProductName)
-                 }, SearchOption.Equals);
+                 });
             var sql2 = employees_WhoSelled_Tofu.ToQueryString();
 
             var employees_WhoSelled_LongLifeTofu = mysql.Employees
-                 .Search("Longlife Tofu", e => new
+                 .Search(SearchMode.Equals, "Longlife Tofu", e => new()
                  {
-                     ProductName = e.Orders
+                     e.Orders
                          .SelectMany(o => o.OrderDetails)
                          .Select(x => x.ProductLink.ProductName)
-                 }, SearchOption.Equals);
+                 });
             var sql3 = employees_WhoSelled_LongLifeTofu.ToQueryString();
         }
         return;
     }
-
 }

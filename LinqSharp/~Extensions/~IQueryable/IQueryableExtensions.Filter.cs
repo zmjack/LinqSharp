@@ -4,8 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.Query;
-using System;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace LinqSharp;
@@ -22,6 +20,31 @@ public static partial class IQueryableExtensions
             return @this.Where(whereExp.Expression);
         }
         else return @this;
+    }
+
+    public static IQueryable<TSource> Filter<TSource>(this IQueryable<TSource> @this, IFieldFilter<TSource> filter)
+    {
+        var helper = new QueryHelper<TSource>();
+        var query = filter.Filter(helper);
+
+        if (query.Expression is null) return @this;
+
+        return @this.Where(query.Expression);
+    }
+
+    public static IQueryable<TSource> Filter<TSource>(this IQueryable<TSource> @this, IAdvancedFieldFilter<TSource> filter)
+    {
+        var helper = new QueryHelper<TSource>();
+
+        var ret = @this;
+        foreach (var query in filter.Filter(helper))
+        {
+            var exp = query.Expression;
+            if (exp is null) continue;
+
+            ret = ret.Where(exp);
+        }
+        return ret;
     }
 
     public static IQueryable<TSource> Filter<TSource>(this IQueryable<TSource> @this, params IQueryFilter<TSource>[] filters)
@@ -64,9 +87,10 @@ public static partial class IQueryableExtensions
         var ret = @this;
         foreach (var filter in extraFilter.Filter(helper))
         {
-            var expression = filter.Expression;
-            if (expression is null) return ret;
-            ret = FilterBy(ret, selector, expression);
+            var exp = filter.Expression;
+            if (exp is null) continue;
+
+            ret = FilterBy(ret, selector, exp);
         }
         return ret;
     }

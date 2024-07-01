@@ -1,5 +1,4 @@
 ﻿using LinqSharp.Numeric;
-using System;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test;

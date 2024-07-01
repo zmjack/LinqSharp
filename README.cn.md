@@ -71,7 +71,17 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
-### 版本 7.0.40.0-alpha
+### 版本 7.0.45
+
+- 更新 **搜索** 扩展方法。
+- 现在，您可以使用新语法来搜索表或相关表中的任何字段。
+
+### 版本 7.0.42
+
+- 启用 **nullable** 检查。
+- 兼容性更新：**NStandard - 0.70.0 - Update**.
+
+### 版本 7.0.41 - EFCore
 
 - 启用 **nullable** 检查。
 - 修复一些 **Bug**。

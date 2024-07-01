@@ -9,6 +9,7 @@
     <Import_RootNamespace>LinqSharp.EFCore.Test.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SearchTests.cs" />
     <Compile Include="..\LinqSharp.EFCore.Test.Shared\RowLockTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AddOrUpdateTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AgentQueryTests.cs" />
@@ -36,7 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ProviderTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QSum_And_QAverageTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SameOrDefaultTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SearchTests.cs" />
+    <Compile Include="..\LinqSharp.EFCore.Test.Shared\Old_SearchTests.cs" />
     <Compile Include="..\LinqSharp.EFCore.Test.Shared\SelectAnyTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PartitionTests.cs" />
     <Compile Include="..\LinqSharp.EFCore.Test.Shared\LayerTests.cs" />

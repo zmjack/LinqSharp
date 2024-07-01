@@ -3,10 +3,8 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;

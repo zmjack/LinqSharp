@@ -1,6 +1,5 @@
 ﻿using LinqSharp.EFCore.Agent;
 using LinqSharp.EFCore.Entities;
-using System;
 
 namespace LinqSharp.EFCore.Data.Test;
 

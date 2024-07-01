@@ -7,10 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Northwnd;
 using Northwnd.Data;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace LinqSharp.EFCore.Data.Test;
 

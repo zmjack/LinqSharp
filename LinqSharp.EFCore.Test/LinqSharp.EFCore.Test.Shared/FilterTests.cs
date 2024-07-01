@@ -4,8 +4,6 @@ using LinqSharp.Query;
 using Microsoft.EntityFrameworkCore;
 using Northwnd.Data;
 using NStandard;
-using System;
-using System.Linq;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test;

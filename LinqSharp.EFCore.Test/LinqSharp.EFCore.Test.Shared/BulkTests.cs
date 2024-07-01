@@ -3,8 +3,6 @@ using LinqSharp.EFCore.MySql;
 using LinqSharp.EFCore.SqlServer;
 using NStandard;
 using NStandard.Flows;
-using System;
-using System.Linq;
 using System.Text;
 using Xunit;
 

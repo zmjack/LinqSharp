@@ -1,10 +1,8 @@
 ﻿using LinqSharp.EFCore.Design;
 using Microsoft.EntityFrameworkCore;
 using NStandard.Caching;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace LinqSharp.EFCore.Data.Test;
 

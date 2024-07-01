@@ -20,7 +20,7 @@
     <Copyright>©2020 linqsharp.net</Copyright>
     <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
-    <Version>0.52.0</Version>
+    <Version>0.53.0</Version>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageType>DotnetCliTool</PackageType>
@@ -31,6 +31,7 @@
     <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <LangVersion>preview</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

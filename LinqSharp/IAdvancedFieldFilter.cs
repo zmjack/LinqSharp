@@ -1,6 +1,4 @@
 ﻿using LinqSharp.Query;
-using System;
-using System.Collections.Generic;
 
 namespace LinqSharp;
 

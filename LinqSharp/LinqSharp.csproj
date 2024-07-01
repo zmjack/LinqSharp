@@ -6,7 +6,7 @@
       netstandard2.0;netstandard2.1
     </TargetFrameworks>
     <LangVersion>preview</LangVersion>
-    <Version>7.0.42</Version>
+    <Version>7.0.45</Version>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
@@ -24,6 +24,7 @@
     <LangVersion>preview</LangVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -47,6 +48,43 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="!Internal\MethodAccessor.Object.tt">
+      <LastGenOutput>MethodAccessor.Object.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="!Internal\MethodAccessor.String.tt">
+      <LastGenOutput>MethodAccessor.String.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="!Internal\MethodAccessor.Enumerable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MethodAccessor.Enumerable.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="!Internal\MethodAccessor.Enumerable.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MethodAccessor.Enumerable.tt</DependentUpon>
+    </Compile>
+    <Compile Update="!Internal\MethodAccessor.Object.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MethodAccessor.Object.tt</DependentUpon>
+    </Compile>
+    <Compile Update="!Internal\MethodAccessor.String.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MethodAccessor.String.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

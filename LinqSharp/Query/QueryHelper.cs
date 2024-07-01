@@ -6,9 +6,6 @@
 using LinqSharp.Strategies;
 using Microsoft.Extensions.Caching.Memory;
 using NStandard;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace LinqSharp.Query;
@@ -103,12 +100,14 @@ public partial class QueryHelper<TSource>
         return new Property<TSource>(PropertyParameter, _exp);
     }
 
+    [Obsolete("Use SearchMode instead.")]
     public QueryExpression<TSource> Search(string searchString, Expression<Func<TSource, object>> searchMembers, SearchOption option = SearchOption.Contains)
     {
         var strategy = new QuerySearchStrategy<TSource>(searchString, searchMembers, option);
         return new QueryExpression<TSource>(strategy.StrategyExpression!);
     }
 
+    [Obsolete("Use SearchMode instead.")]
     public QueryExpression<TSource> Search(string[] searchStrings, Expression<Func<TSource, object>> searchMembers, SearchOption option = SearchOption.Contains)
     {
         return And(searchStrings.Select(searchString =>
@@ -116,6 +115,18 @@ public partial class QueryHelper<TSource>
             var strategy = new QuerySearchStrategy<TSource>(searchString, searchMembers, option);
             return new QueryExpression<TSource>(strategy.StrategyExpression!);
         }));
+    }
+
+    public QueryExpression<TSource> Search(SearchMode mode, string search, Expression<Func<TSource, SearchSelector>> selector)
+    {
+        var filter = new SearchFilter<TSource>(mode, [search], selector);
+        return filter.Filter(this);
+    }
+
+    public QueryExpression<TSource> Search(SearchMode mode, string[] searches, Expression<Func<TSource, SearchSelector>> selector)
+    {
+        var filter = new SearchFilter<TSource>(mode, searches, selector);
+        return filter.Filter(this);
     }
 
     public QueryExpression<TSource> FilterBy<TProperty>(Expression<Func<TSource, TProperty>> fieldSelector, Expression<Func<TProperty, bool>> filter)

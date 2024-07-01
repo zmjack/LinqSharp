@@ -6,9 +6,6 @@
 using DotNetCli;
 using NStandard;
 using NStandard.Runtime;
-using System;
-using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace LinqSharp.Cli

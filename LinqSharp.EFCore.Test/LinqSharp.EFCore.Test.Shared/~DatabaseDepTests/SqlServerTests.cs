@@ -2,8 +2,6 @@
 using LinqSharp.EFCore.Data.Test;
 using LinqSharp.EFCore.Translators;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test;

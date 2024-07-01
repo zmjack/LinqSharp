@@ -4,10 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using NStandard.Collections;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace LinqSharp.Index;
 

@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using NStandard;
-using System;
 using System.Linq.Expressions;
 using System.Reflection;
 

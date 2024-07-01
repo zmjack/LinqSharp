@@ -5,6 +5,7 @@
 
 namespace LinqSharp;
 
+[Obsolete("Use SearchMode instead.")]
 public enum SearchOption
 {
     Contains, NotContains, Equals, NotEquals

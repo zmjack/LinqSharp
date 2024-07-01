@@ -3,24 +3,18 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using NStandard;
-using System;
 using System.Collections;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace LinqSharp.Strategies;
 
+[Obsolete("Use SearchMode instead.")]
 public class QuerySearchStrategy<TEntity> : QueryStringStrategy<TEntity>
 {
-    private static readonly MethodInfo _Method_Enumerable_op_Any = typeof(Enumerable)
-        .GetMethodViaQualifiedName("Boolean Any[TSource](System.Collections.Generic.IEnumerable`1[TSource], System.Func`2[TSource,System.Boolean])")
-        .MakeGenericMethod(typeof(string));
-    private static readonly MethodInfo _Method_String_op_Contains = typeof(string).GetMethod(nameof(string.Contains), [typeof(string)])!;
+    private static readonly MethodInfo _Method_Enumerable_op_Any = MethodAccessor.Enumerable.Any1.MakeGenericMethod(typeof(string));
     private static readonly MethodInfo _Method_String_op_Equals1 = typeof(string).GetMethod(nameof(string.Equals), [typeof(string)])!;
     private static readonly MethodInfo _Method_String_op_Equals2 = typeof(string).GetMethod(nameof(string.Equals), [typeof(string), typeof(string)])!;
-    //private static readonly MethodInfo _Method_String_op_Inequality = typeof(string).GetMethod("op_Inequality");
 
     public QuerySearchStrategy(string searchString, Expression<Func<TEntity, object>> searchMembers, SearchOption option)
     {
@@ -30,7 +24,7 @@ public class QuerySearchStrategy<TEntity> : QueryStringStrategy<TEntity>
         switch (option)
         {
             case SearchOption.Contains:
-            case SearchOption.NotContains: stringMethod = _Method_String_op_Contains; break;
+            case SearchOption.NotContains: stringMethod = MethodAccessor.String.Contains; break;
 
             case SearchOption.Equals:
             case SearchOption.NotEquals: stringMethod = _Method_String_op_Equals1; break;

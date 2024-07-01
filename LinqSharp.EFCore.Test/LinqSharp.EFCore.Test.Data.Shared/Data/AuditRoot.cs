@@ -1,9 +1,6 @@
 ﻿using LinqSharp.EFCore.Design;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace LinqSharp.EFCore.Data.Test;
 

@@ -4,9 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.Strategies;
-using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace LinqSharp;

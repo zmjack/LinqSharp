@@ -3,8 +3,6 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -56,7 +54,7 @@ public class Property<TSource>
 
     public QueryExpression<TSource> Contains(string value)
     {
-        if (PropertyType == typeof(string)) return Invoke(MethodContainer.StringContains, value);
+        if (PropertyType == typeof(string)) return Invoke(MethodAccessor.String.Contains, value);
         else throw new NotSupportedException($"{nameof(Contains)} does not support type {PropertyType?.FullName ?? "null"}.");
     }
 
@@ -65,12 +63,12 @@ public class Property<TSource>
         ConstantExpression constant;
         if (array is object[])
         {
-            var ofType = MethodContainer.GenericOfType.MakeGenericMethod(PropertyType);
+            var ofType = MethodAccessor.Enumerable.OfType1.MakeGenericMethod(PropertyType);
             constant = Expression.Constant(ofType.Invoke(null, [array]));
         }
         else constant = Expression.Constant(array);
 
-        var method = MethodContainer.GenericContains.MakeGenericMethod(PropertyType);
+        var method = MethodAccessor.Enumerable.Contains1.MakeGenericMethod(PropertyType);
         var body = Expression.Call(method, constant, Exp);
         var exp = Expression.Lambda<Func<TSource, bool>>(body, Parameter);
         return new QueryExpression<TSource>(exp);
@@ -103,7 +101,7 @@ public class Property<TSource>
     {
         var operand = GetOperandExpression(value);
         if (PropertyType == typeof(string))
-            return new Property<TSource>(Parameter, typeof(string), Expression.Add(Exp, operand, MethodContainer.StringConcat));
+            return new Property<TSource>(Parameter, typeof(string), Expression.Add(Exp, operand, MethodAccessor.String.Concat_String));
         else return new Property<TSource>(Parameter, PropertyType, Expression.AddChecked(Exp, operand));
     }
 

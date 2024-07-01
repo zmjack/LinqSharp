@@ -5,8 +5,6 @@
 
 using DotNetCli;
 using NStandard;
-using System;
-using System.IO;
 using System.Reflection;
 
 namespace LinqSharp.Cli

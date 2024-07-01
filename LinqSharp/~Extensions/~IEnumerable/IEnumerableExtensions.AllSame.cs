@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace LinqSharp;
+﻿namespace LinqSharp;
 
 public static partial class IEnumerableExtensions
 {

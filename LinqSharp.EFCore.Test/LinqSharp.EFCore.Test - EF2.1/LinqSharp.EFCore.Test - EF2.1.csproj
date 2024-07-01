@@ -5,6 +5,7 @@
     <IsPackable>false</IsPackable>
     <AssemblyName>LinqSharp.EFCore.Test</AssemblyName>
     <LangVersion>preview</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

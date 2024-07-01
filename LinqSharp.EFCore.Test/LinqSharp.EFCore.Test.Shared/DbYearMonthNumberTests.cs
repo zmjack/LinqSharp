@@ -1,7 +1,6 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using LinqSharp.EFCore.Test.DbFuncProviders;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test;

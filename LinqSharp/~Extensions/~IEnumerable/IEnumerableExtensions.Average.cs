@@ -5,9 +5,6 @@
 
 using LinqSharp.Numeric;
 using NStandard.Measures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace LinqSharp;
 

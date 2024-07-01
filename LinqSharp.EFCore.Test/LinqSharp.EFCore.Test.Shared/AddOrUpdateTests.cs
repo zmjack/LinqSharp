@@ -2,8 +2,6 @@
 using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
 using NStandard;
-using System;
-using System.Linq;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test;

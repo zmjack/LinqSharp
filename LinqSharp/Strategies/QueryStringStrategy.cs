@@ -4,9 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using NStandard;
-using System;
 using System.Collections;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
@@ -79,9 +77,7 @@ public class QueryStringStrategy<TEntity> : IQueryStrategy<TEntity, bool>
             {
                 // If the T of IEnumerable<T> is not string,
                 // use System.Linq.Enumerable.Select method to convert it into string
-                var selectMethod = typeof(Enumerable)
-                    .GetMethodViaQualifiedName("System.Collections.Generic.IEnumerable`1[TResult] Select[TSource,TResult](System.Collections.Generic.IEnumerable`1[TSource], System.Func`2[TSource,TResult])")
-                    .MakeGenericMethod(ienumerableGenericType, typeof(string));
+                var selectMethod = MethodAccessor.Enumerable.Select1.MakeGenericMethod(ienumerableGenericType, typeof(string));
 
                 var parameter = Expression.Parameter(ienumerableGenericType);
                 var lambda = Expression.Lambda(

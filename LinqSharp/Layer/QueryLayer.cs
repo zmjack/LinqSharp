@@ -5,9 +5,7 @@
 
 using NStandard;
 using NStandard.Infrastructure;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace LinqSharp.Layer;
 

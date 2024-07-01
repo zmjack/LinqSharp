@@ -4,8 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using NStandard;
-using System;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -15,8 +13,6 @@ public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
 {
     public Expression<Func<TEntity, bool>> StrategyExpression { get; }
 
-    private static readonly MethodInfo _Method_String_Concat = typeof(string).GetMethodViaQualifiedName("System.String Concat(System.Object, System.Object)");
-    private static readonly MethodInfo _Method_String_CompareeTo = typeof(string).GetMethodViaQualifiedName("Int32 CompareTo(System.String)");
     private static readonly MethodInfo _Method_DateTime_op_GreaterThanOrEqual = typeof(DateTime).GetMethodViaQualifiedName("Boolean op_GreaterThanOrEqual(System.DateTime, System.DateTime)");
     private static readonly MethodInfo _Method_DateTime_op_GreaterThan = typeof(DateTime).GetMethodViaQualifiedName("Boolean op_GreaterThan(System.DateTime, System.DateTime)");
     private static readonly PropertyInfo _Property_DateTime_HasValue = typeof(DateTime?).GetProperty(nameof(Nullable<DateTime>.HasValue))!;
@@ -106,7 +102,7 @@ public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
                         Expression.Add(
                             Expression.Constant("0".Repeat(padLength - i)),
                             stringBody,
-                            _Method_String_Concat),
+                            MethodAccessor.String.Concat_Object),
                         _acc is null ? stringBody : _acc);
             })!;
         }
@@ -126,13 +122,13 @@ public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
                         case Expression<Func<TEntity, object>> e when e == yearExp:
                             fullExp = Expression.Add(
                                 GetFilledExpression(exp.Body, 4),
-                                Expression.Constant("-"), _Method_String_Concat);
+                                Expression.Constant("-"), MethodAccessor.String.Concat_Object);
                             break;
 
                         case Expression<Func<TEntity, object>> e when e == monthExp:
                             fullExp = Expression.Add(
                                 GetFilledExpression(exp.Body.RebindParameter(exp.Parameters[0], parameters[0]), 2),
-                                Expression.Constant("-"), _Method_String_Concat);
+                                Expression.Constant("-"), MethodAccessor.String.Concat_Object);
                             break;
 
                         case Expression<Func<TEntity, object>> e when e == dayExp:
@@ -144,9 +140,9 @@ public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
 
                     if (acc is null)
                         return fullExp;
-                    else return Expression.Add(acc, fullExp, _Method_String_Concat);
+                    else return Expression.Add(acc, fullExp, MethodAccessor.String.Concat_Object);
                 }),
-                _Method_String_CompareeTo,
+                MethodAccessor.String.CompareTo,
                 Expression.Constant(before.ToString("yyyy-MM-dd")));
 
         StrategyExpression = Expression.Lambda<Func<TEntity, bool>>(includePoint ?

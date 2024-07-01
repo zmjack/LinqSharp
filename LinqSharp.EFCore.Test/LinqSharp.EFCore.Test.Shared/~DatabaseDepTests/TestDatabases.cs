@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LinqSharp.EFCore.Test;
+﻿namespace LinqSharp.EFCore.Test;
 
 [Flags]
 public enum TestDatabases

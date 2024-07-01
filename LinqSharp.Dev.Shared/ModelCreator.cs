@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace LinqSharp.EFCore;
+﻿namespace LinqSharp.EFCore;
 
 public class ModelCreator
 {
