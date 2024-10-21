@@ -38,25 +38,13 @@
 
 <br/>
 
-#### Supported versions of .NET
+#### Supported versions
 
-| Frameworks        | Versions                                                     |
-| ----------------- | ------------------------------------------------------------ |
-| **.NET**          | ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
-| **.NET Standard** | ![Static Badge](https://img.shields.io/badge/-2.1-orange) ![Static Badge](https://img.shields.io/badge/-2.0-orange) |
-
-#### Supported versions of Entity Framework
-
-| **Entity Framework Core** | Versions                                                     |
-| ------------------------- | ------------------------------------------------------------ |
-| **Supported**             | ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-3.1-8A2BE2) |
-| **Preparing to end**      | ![Static Badge](https://img.shields.io/badge/-2.1-ff0000)    |
-
-> [!WARNING]
-> 
-> We are preparing to discontinue support for **LinqSharp.EFCore - EF2.1** because projects that reference it may encounter the following error when compiling:
-> 
-> System.Runtime.CompilerServices.Unsafe doesn't support **netcoreapp2.1**. Consider updating your TargetFramework to **netcoreapp3.1 or later**.
+|         | Supported                                         | Out of support                                            |
+| ----------------- | ------------------------------------------------------------ | --------------------------------------------------------- |
+| **.NET**                  | ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) | ![Static Badge](https://img.shields.io/badge/-5.0-808080)    |
+| **.NET Standard**         | ![Static Badge](https://img.shields.io/badge/-2.1-orange) ![Static Badge](https://img.shields.io/badge/-2.0-orange) |                                                              |
+| **Entity Framework Core** | ![Static Badge](https://img.shields.io/badge/-8.0-blue) ![Static Badge](https://img.shields.io/badge/-7.0-blue) ![Static Badge](https://img.shields.io/badge/-6.0-blue) | ![Static Badge](https://img.shields.io/badge/-5.0-808080) ![Static Badge](https://img.shields.io/badge/-3.1-808080) ![Static Badge](https://img.shields.io/badge/-2.1-808080) |
 
 <br/>
 
@@ -75,7 +63,7 @@ dotnet add package LinqSharp.EFCore
 
 ### Version 8.0.0
 
-- 
+- Update dependencies.
 
 ### Version 7.0.45
 

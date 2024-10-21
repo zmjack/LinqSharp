@@ -38,23 +38,13 @@
 
 <br/>
 
-#### Supported versions of .NET
+#### 支持版本
 
-| Frameworks        | Versions                                                     |
-| ----------------- | ------------------------------------------------------------ |
-| **.NET**          | ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
-| **.NET Standard** | ![Static Badge](https://img.shields.io/badge/-2.1-orange) ![Static Badge](https://img.shields.io/badge/-2.0-orange) |
-
-#### Supported versions of Entity Framework
-
-| **Entity Framework Core** | Versions                                                     |
-| ------------------------- | ------------------------------------------------------------ |
-| **Supported**             | ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-3.1-8A2BE2) |
-| **Preparing to end**      | ![Static Badge](https://img.shields.io/badge/-2.1-ff0000)    |
-
-我们正在准备停止对 **LinqSharp.EFCore - EF2.1** 支持，因为引用它的项目可能在编译时遇到以下错误：
-
-System.Runtime.CompilerServices.Unsafe doesn't support **netcoreapp2.1**. Consider updating your TargetFramework to **netcoreapp3.1 or later**.
+|                           | 支持版本                                                     | 结束支持                                                     |
+| ------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **.NET**                  | ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) | ![Static Badge](https://img.shields.io/badge/-5.0-808080)    |
+| **.NET Standard**         | ![Static Badge](https://img.shields.io/badge/-2.1-orange) ![Static Badge](https://img.shields.io/badge/-2.0-orange) |                                                              |
+| **Entity Framework Core** | ![Static Badge](https://img.shields.io/badge/-8.0-blue) ![Static Badge](https://img.shields.io/badge/-7.0-blue) ![Static Badge](https://img.shields.io/badge/-6.0-blue) | ![Static Badge](https://img.shields.io/badge/-5.0-808080) ![Static Badge](https://img.shields.io/badge/-3.1-808080) ![Static Badge](https://img.shields.io/badge/-2.1-808080) |
 
 <br/>
 
@@ -70,6 +60,10 @@ dotnet add package LinqSharp.EFCore
 <br/>
 
 ## 最近更新
+
+### 版本 8.0.0
+
+- 更新依赖项。
 
 ### 版本 7.0.45
 
