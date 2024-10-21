@@ -27,12 +27,12 @@ public class QueryBetweenStrategy<TEntity> : IQueryStrategy<TEntity, bool>
         StrategyExpression = Expression.Lambda<Func<TEntity, bool>>(
             Expression.AndAlso(
                 Expression.LessThanOrEqual(
-                    startExp.Body.RebindParameter(startExp.Parameters[0], memberExp.Parameters[0]),
+                    startExp.Body.RebindNode(startExp.Parameters[0], memberExp.Parameters[0]),
                     memberExp.Body,
                     false, _Method_op_LessThanOrEqual),
                 Expression.LessThanOrEqual(
                     memberExp.Body,
-                    endExp.Body.RebindParameter(endExp.Parameters[0], memberExp.Parameters[0]),
+                    endExp.Body.RebindNode(endExp.Parameters[0], memberExp.Parameters[0]),
                     false, _Method_op_LessThanOrEqual)), memberExp.Parameters);
     }
 
@@ -49,7 +49,7 @@ public class QueryBetweenStrategy<TEntity> : IQueryStrategy<TEntity, bool>
                     false, _Method_op_LessThanOrEqual),
                 Expression.LessThanOrEqual(
                     memberExp.Body,
-                    endExp.Body.RebindParameter(endExp.Parameters[0], memberExp.Parameters[0]),
+                    endExp.Body.RebindNode(endExp.Parameters[0], memberExp.Parameters[0]),
                     false, _Method_op_LessThanOrEqual)), memberExp.Parameters);
     }
 
@@ -61,7 +61,7 @@ public class QueryBetweenStrategy<TEntity> : IQueryStrategy<TEntity, bool>
         StrategyExpression = Expression.Lambda<Func<TEntity, bool>>(
             Expression.AndAlso(
                 Expression.LessThanOrEqual(
-                    startExp.Body.RebindParameter(startExp.Parameters[0], memberExp.Parameters[0]),
+                    startExp.Body.RebindNode(startExp.Parameters[0], memberExp.Parameters[0]),
                     memberExp.Body,
                     false, _Method_op_LessThanOrEqual),
                 Expression.LessThanOrEqual(
@@ -97,12 +97,12 @@ public class QueryBetweenStrategy<TEntity> : IQueryStrategy<TEntity, bool>
         StrategyExpression = Expression.Lambda<Func<TEntity, bool>>(
             Expression.AndAlso(
                 Expression.LessThanOrEqual(
-                    startExp.Body.RebindParameter(startExp.Parameters[0], memberExp.Parameters[0]),
+                    startExp.Body.RebindNode(startExp.Parameters[0], memberExp.Parameters[0]),
                     memberExp.Body,
                     false, _Method_op_LessThanOrEqual),
                 Expression.LessThanOrEqual(
                     memberExp.Body,
-                    endExp.Body.RebindParameter(endExp.Parameters[0], memberExp.Parameters[0]),
+                    endExp.Body.RebindNode(endExp.Parameters[0], memberExp.Parameters[0]),
                     false, _Method_op_LessThanOrEqual)), memberExp.Parameters);
     }
 
@@ -121,7 +121,7 @@ public class QueryBetweenStrategy<TEntity> : IQueryStrategy<TEntity, bool>
                         false, _Method_op_LessThanOrEqual),
                     Expression.LessThanOrEqual(
                         memberExp.Body,
-                        endExp.Body.RebindParameter(endExp.Parameters[0], memberExp.Parameters[0]),
+                        endExp.Body.RebindNode(endExp.Parameters[0], memberExp.Parameters[0]),
                         false, _Method_op_LessThanOrEqual)),
                 Expression.Constant(false)),
                 memberExp.Parameters);
@@ -137,7 +137,7 @@ public class QueryBetweenStrategy<TEntity> : IQueryStrategy<TEntity, bool>
                 Expression.Property(memberExp.Body, _Property_DateTime_HasValue),
                 Expression.AndAlso(
                     Expression.LessThanOrEqual(
-                        startExp.Body.RebindParameter(startExp.Parameters[0], memberExp.Parameters[0]),
+                        startExp.Body.RebindNode(startExp.Parameters[0], memberExp.Parameters[0]),
                         memberExp.Body,
                         false, _Method_op_LessThanOrEqual),
                     Expression.LessThanOrEqual(

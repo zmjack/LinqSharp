@@ -38,6 +38,7 @@ public static partial class IEnumerableExtensions
     public static TSource? AverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource? @default = default) where TSource : ISummable => source.Any() ? source.Average() : @default;
 
     public static TSource? AverageOrDefault<TSource>(this IEnumerable<TSource?> source, TSource? @default = default) where TSource : struct, ISummable => source.Any() ? source.Average() : @default;
+
     public static TSource QAverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default) where TSource : struct, IMeasurable<decimal>
     {
         if (!source.Any()) return @default;

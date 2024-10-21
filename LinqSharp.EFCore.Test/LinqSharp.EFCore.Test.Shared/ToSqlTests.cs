@@ -21,7 +21,7 @@ public class ToSqlTests
     {
         using var mysql = ApplicationDbContext.UseMySql();
         var query = mysql.Employees
-            .FilterBy(x => x.BirthDate, new DateTimeFilter
+            .FilterBy(x => x.BirthDate, new DateTimeOffsetFilter
             {
                 End = new DateTime(1960, 5, 31)
             });
@@ -37,11 +37,18 @@ public class ToSqlTests
     {
         using var mysql = ApplicationDbContext.UseMySql();
         var query = mysql.Employees
-            .FilterBy(x => x.BirthDate, new DateTimeFilter
+            .FilterBy(x => x.BirthDate, new DateTimeOffsetFilter
             {
                 Start = new DateTime(1960, 5, 1),
                 End = new DateTime(1960, 5, 31),
             });
+
+        //var query = mysql.Employees
+        //    .FilterBy(x => x.BirthDate, new DateTimeFilter
+        //    {
+        //        Start = new DateTime(1960, 5, 1),
+        //        End = new DateTime(1960, 5, 31),
+        //    });
 
         var query1 = mysql.Employees
             .Where(x => Convert.ToDateTime("1960-05-01") <= x.BirthDate && x.BirthDate <= new DateTime(1960, 5, 31));

@@ -9,6 +9,7 @@ using System.Reflection;
 
 namespace LinqSharp.Strategies;
 
+[Obsolete]
 public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
 {
     public Expression<Func<TEntity, bool>> StrategyExpression { get; }
@@ -24,7 +25,7 @@ public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
         bool includePoint)
     {
         var left = memberExp.Body;
-        var right = afterExp.Body.RebindParameter(afterExp.Parameters[0], memberExp.Parameters[0]);
+        var right = afterExp.Body.RebindNode(afterExp.Parameters[0], memberExp.Parameters[0]);
 
         StrategyExpression = Expression.Lambda<Func<TEntity, bool>>(includePoint ?
             Expression.GreaterThanOrEqual(left, right, false, _Method_DateTime_op_GreaterThanOrEqual)
@@ -50,7 +51,7 @@ public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
         bool liftNullToTrue, bool includePoint)
     {
         var left = memberExp.Body;
-        var right = afterExp.Body.RebindParameter(afterExp.Parameters[0], memberExp.Parameters[0]);
+        var right = afterExp.Body.RebindNode(afterExp.Parameters[0], memberExp.Parameters[0]);
 
         StrategyExpression = Expression.Lambda<Func<TEntity, bool>>(
             Expression.Condition(
@@ -127,12 +128,12 @@ public class QueryAfterStrategy<TEntity> : IQueryStrategy<TEntity, bool>
 
                         case Expression<Func<TEntity, object>> e when e == monthExp:
                             fullExp = Expression.Add(
-                                GetFilledExpression(exp.Body.RebindParameter(exp.Parameters[0], parameters[0]), 2),
+                                GetFilledExpression(exp.Body.RebindNode(exp.Parameters[0], parameters[0]), 2),
                                 Expression.Constant("-"), MethodAccessor.String.Concat_Object);
                             break;
 
                         case Expression<Func<TEntity, object>> e when e == dayExp:
-                            fullExp = GetFilledExpression(exp.Body.RebindParameter(exp.Parameters[0], parameters[0]), 2);
+                            fullExp = GetFilledExpression(exp.Body.RebindNode(exp.Parameters[0], parameters[0]), 2);
                             break;
 
                         default: throw new NotSupportedException();

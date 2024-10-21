@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LinqSharp.EFCore.Annotations;
+﻿namespace LinqSharp.EFCore.Annotations;
 
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class ConcurrencyResolvableAttribute : Attribute

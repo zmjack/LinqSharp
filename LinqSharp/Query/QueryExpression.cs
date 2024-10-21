@@ -3,10 +3,12 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace LinqSharp.Query;
 
+[DebuggerDisplay("{Expression}")]
 public class QueryExpression<TSource>
 {
     internal static readonly Lazy<QueryExpression<TSource>> Empty = new(() => new());
@@ -43,7 +45,7 @@ public class QueryExpression<TSource>
         else if (right.Expression is null) return new QueryExpression<TSource>(left.Expression);
 
         var leftExp = left.Expression.Body;
-        var rightExp = right.Expression.Body.RebindParameter(right.Expression.Parameters[0], left.Parameter);
+        var rightExp = right.Expression.Body.RebindNode(right.Expression.Parameters[0], left.Parameter);
         var exp = System.Linq.Expressions.Expression.Lambda<Func<TSource, bool>>(System.Linq.Expressions.Expression.AndAlso(leftExp, rightExp), left.Parameter);
         return new QueryExpression<TSource>(exp);
     }
@@ -55,7 +57,7 @@ public class QueryExpression<TSource>
         else if (right.Expression is null) return new QueryExpression<TSource>(left.Expression);
 
         var leftExp = left.Expression.Body;
-        var rightExp = right.Expression.Body.RebindParameter(right.Expression.Parameters[0], left.Parameter);
+        var rightExp = right.Expression.Body.RebindNode(right.Expression.Parameters[0], left.Parameter);
         var exp = System.Linq.Expressions.Expression.Lambda<Func<TSource, bool>>(System.Linq.Expressions.Expression.OrElse(leftExp, rightExp), left.Parameter);
         return new QueryExpression<TSource>(exp);
     }

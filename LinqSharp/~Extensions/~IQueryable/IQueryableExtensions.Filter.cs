@@ -64,8 +64,7 @@ public static partial class IQueryableExtensions
     {
         if (filter is null) return @this;
 
-        var visitor = new ExpressionRebindVisitor(filter.Parameters[0], selector.Body);
-        var body = visitor.Visit(filter.Body)!;
+        var body = filter.Body.RebindNode(filter.Parameters[0], selector.Body)!;
         var expression = (Expression.Lambda(body, false, selector.Parameters[0]) as Expression<Func<TSource, bool>>)!;
         return @this.Where(expression);
     }

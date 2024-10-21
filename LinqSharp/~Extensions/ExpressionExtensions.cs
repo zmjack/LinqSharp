@@ -21,13 +21,13 @@ public static class ExpressionExtensions
     /// <param name="origin"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    public static T RebindParameter<T>(this T @this, Expression origin, Expression target)
+    public static T RebindNode<T>(this T @this, Expression origin, Expression target)
         where T : Expression
     {
         if (origin == target) return @this;
         else
         {
-            var visitor = new ExpressionRebindVisitor(origin, target);
+            var visitor = new ExpressionRebinder(origin, target);
             return (visitor.Visit(@this) as T)!;
         }
     }
@@ -70,7 +70,7 @@ public static class ExpressionExtensions
                     T rebindExp = exp;
                     foreach (var (item1, item2) in Any.Zip(exp.Parameters, parameters))
                     {
-                        rebindExp = RebindParameter(rebindExp, item1, item2);
+                        rebindExp = RebindNode(rebindExp, item1, item2);
                     }
                     return binary(acc, rebindExp.Body);
                 }

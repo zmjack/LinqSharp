@@ -4,9 +4,9 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Entities;
+using LinqSharp.EFCore.Infrastructure;
 using LinqSharp.EFCore.Scopes;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.ComponentModel;
 
 namespace LinqSharp.EFCore;
@@ -15,7 +15,7 @@ namespace LinqSharp.EFCore;
 public static class DbContextExtensions
 {
 #pragma warning disable IDE0060 // Remove unused parameter
-    public static DirectQueryScope BeginDirectQuery(this DbContext @this) => new();
+    public static UnsafeQueryScope BeginUnsafeQuery(this DbContext @this) => new();
 #pragma warning restore IDE0060 // Remove unused parameter
 
     public static AgentQueryScope<TEntity> BeginAgentQuery<TContext, TEntity>(this TContext @this, Func<TContext, DbSet<TEntity>> dbSetSelector)
@@ -75,10 +75,19 @@ public static class DbContextExtensions
         };
     }
 
+    public static SqlIdentifiers GetQuotedIdentifiers(this DbContext @this)
+    {
+        return new(GetProviderName(@this));
+    }
+
     public static string GetTableName<TEntity>(this DbContext @this) where TEntity : class
     {
         var entityTypes = @this.Model.GetEntityTypes();
         var entityType = entityTypes.First(x => x.ClrType == typeof(TEntity));
+#if EFCORE6_0_OR_GREATER
         return entityType.GetAnnotation("Relational:TableName").Value!.ToString()!;
+#else
+        return entityType.GetAnnotations().First(x => x.Name == "Relational:TableName").Value!.ToString()!;
+#endif
     }
 }

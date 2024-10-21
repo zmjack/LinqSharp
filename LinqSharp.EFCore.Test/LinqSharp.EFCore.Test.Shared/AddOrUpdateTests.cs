@@ -14,7 +14,7 @@ public class AddOrUpdateTests
         var now = DateTime.Now;
         using var mysql = ApplicationDbContext.UseMySql();
 
-        using (mysql.BeginDirectQuery())
+        using (mysql.BeginUnsafeQuery())
         {
             mysql.LS_Names.Truncate();
         }
@@ -49,7 +49,7 @@ public class AddOrUpdateTests
         Assert.Equal(2, mysql.LS_Names.Count(x => x.Note.Contains("Changed")));
 
         // Clear
-        using (mysql.BeginDirectQuery())
+        using (mysql.BeginUnsafeQuery())
         {
             mysql.LS_Names.Truncate();
         }

@@ -1,10 +1,17 @@
-﻿using Xunit;
-using static NStandard.Measures.StorageCapacity;
+﻿using NStandard.Measures;
+using Xunit;
 
 namespace LinqSharp.EFCore.Test;
 
 public class QSum_And_QAverageTests
 {
+    [Obsolete]
+    public struct b(decimal value) : IMeasurable<decimal>
+    {
+        public decimal Value { get; set; } = value;
+        public static implicit operator b(int n) => new(n);
+    }
+
     [Fact]
     public void ValueTest()
     {

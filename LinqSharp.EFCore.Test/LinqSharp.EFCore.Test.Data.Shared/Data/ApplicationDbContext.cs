@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Northwnd;
 using Northwnd.Data;
+#if USE_POSTGRESQL
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
+#endif
 
 namespace LinqSharp.EFCore.Data.Test;
 
@@ -14,32 +17,51 @@ public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableConte
 {
     public int MaxConcurrencyRetry => 2;
 
-    public const string DatabaseName = "linqsharp";
+    public const string DatabaseName = "LinqSharpTest";
 
-    public static ApplicationDbContext UseMySql(Action<MySqlDbContextOptionsBuilder> mySqlOptionsAction = null)
+#if USE_MYSQL
+    public static ApplicationDbContext UseMySql(Action<MySqlDbContextOptionsBuilder> action = null)
     {
-        var connectionString = $"server=127.0.0.1;port=33306;user=root;pwd=root;database={DatabaseName};AllowLoadLocalInfile=true";
+        var connectionString = $"server=127.0.0.1;port=43306;user=root;pwd=root;database={DatabaseName};AllowLoadLocalInfile=true";
+        var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 #if EFCORE5_0_OR_GREATER
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), mySqlOptionsAction).Options;
+        var options = builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), action).Options;
 #else
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseMySql(connectionString, mySqlOptionsAction).Options;
+        var options = builder.UseMySql(connectionString, action).Options;
 #endif
         return new ApplicationDbContext(options);
     }
+#endif
 
-    public static ApplicationDbContext UseSqlServer(Action<SqlServerDbContextOptionsBuilder> sqlServerOptionsAction = null)
+#if USE_SQLSERVER
+    public static ApplicationDbContext UseSqlServer(Action<SqlServerDbContextOptionsBuilder> action = null)
     {
         var connectionString = $@"Data Source=(localdb)\ProjectModels;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;database={DatabaseName}";
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer(connectionString, sqlServerOptionsAction).Options;
+        var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+        var options = builder.UseSqlServer(connectionString, action).Options;
         return new ApplicationDbContext(options);
     }
+#endif
 
-    public static ApplicationDbContext UseSqlite(Action<SqliteDbContextOptionsBuilder> sqliteOptionsAction = null)
+#if USE_SQLITE
+    public static ApplicationDbContext UseSqlite(Action<SqliteDbContextOptionsBuilder> action = null)
     {
         var connectionString = $"filename={DatabaseName}.db";
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connectionString, sqliteOptionsAction).Options;
+        var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+        var options = builder.UseSqlite(connectionString, action).Options;
         return new ApplicationDbContext(options);
     }
+#endif
+
+#if USE_POSTGRESQL
+    public static ApplicationDbContext UsePostgreSQL(Action<NpgsqlDbContextOptionsBuilder> action = null)
+    {
+        var connectionString = $"server=127.0.0.1;username=postgres;password=root;database={DatabaseName}";
+        var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+        var options = builder.UseNpgsql(connectionString, action).Options;
+        return new ApplicationDbContext(options);
+    }
+#endif
 
     private readonly EntityMonitoringFacade _facade;
     public override DatabaseFacade Database => _facade;

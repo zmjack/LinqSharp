@@ -4,22 +4,22 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.Query;
+using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace LinqSharp;
 
 public static partial class IQueryableExtensions
 {
-    private static readonly MethodInfo method_any_string = MethodAccessor.Enumerable.Any1.MakeGenericMethod(typeof(string));
-
     [Obsolete("Use SearchMode instead.")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static IQueryable<TEntity> Search<TEntity>(this IQueryable<TEntity> @this, string searchString, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
     {
         return @this.Filter(h => h.Search(searchString, searchMembers, option));
     }
 
     [Obsolete("Use SearchMode instead.")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static IQueryable<TEntity> Search<TEntity>(this IQueryable<TEntity> @this, string[] searchStrings, Expression<Func<TEntity, object>> searchMembers, SearchOption option = SearchOption.Contains)
     {
         return @this.Filter(h => h.Search(searchStrings, searchMembers, option));

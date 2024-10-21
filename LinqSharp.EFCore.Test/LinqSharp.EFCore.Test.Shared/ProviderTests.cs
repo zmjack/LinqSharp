@@ -17,7 +17,7 @@ public class ProviderTests
         string GetJsonModel() => db.SqlQuery($"SELECT JsonModel FROM LS_Providers;").First()[nameof(LS_Provider.JsonModel)].ToString();
         string GetDictionaryModel() => db.SqlQuery($"SELECT DictionaryModel FROM LS_Providers;").First()[nameof(LS_Provider.DictionaryModel)].ToString();
 
-        using (context.BeginDirectQuery())
+        using (context.BeginUnsafeQuery())
         {
             context.LS_Providers.Truncate();
         }
@@ -53,7 +53,7 @@ public class ProviderTests
         context.SaveChanges();
         Assert.Equal(@"{""Name"":""Jack"",""NickName"":""zmjack"",""Tag"":""Hi there.""}", GetNameModel());
 
-        using (context.BeginDirectQuery())
+        using (context.BeginUnsafeQuery())
         {
             context.LS_Providers.Truncate();
         }

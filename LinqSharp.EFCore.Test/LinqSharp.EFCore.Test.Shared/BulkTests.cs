@@ -32,7 +32,7 @@ public class BulkTests
             };
         });
 
-        using (context.BeginDirectQuery())
+        using (context.BeginUnsafeQuery())
         {
             context.BulkTestModels.Truncate();
             context.BulkTestModels.BulkInsert(models);

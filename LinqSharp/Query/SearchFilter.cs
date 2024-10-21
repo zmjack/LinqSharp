@@ -7,8 +7,6 @@ namespace LinqSharp.Query;
 
 internal class SearchFilter<T> : IFieldFilter<T>
 {
-    private static readonly MethodInfo method_any_string = MethodAccessor.Enumerable.Any1.MakeGenericMethod(typeof(string));
-
     private readonly string[] _searches;
     private readonly Expression<Func<T, SearchSelector>> _selector;
     private readonly MethodInfo _search;
@@ -50,7 +48,7 @@ internal class SearchFilter<T> : IFieldFilter<T>
         var firstArgument = call.Arguments[0];
         if (firstArgument is MemberExpression member)
         {
-            var leftSub = member.RebindParameter(member.Expression, param);
+            var leftSub = member.RebindNode(member.Expression, param);
             return Expression.Call(call.Method, leftSub, call.Arguments[1]);
         }
         else if (firstArgument is MethodCallExpression subCall)
@@ -85,7 +83,11 @@ internal class SearchFilter<T> : IFieldFilter<T>
                 _ => throw new ArgumentException("Only MemberExpression or ParameterExpression is supported.", nameof(field)),
             };
             var needConvert = type != typeof(string);
-            var nullConstant = !type.IsValueType || type.IsNullable() ? Expression.Constant(null, type) : null;
+            var nullConstant = type switch
+            {
+                Type when type.IsValueType => type.IsNullable() ? Expression.Constant(null, type) : null,
+                _ => Expression.Constant(null, type),
+            };
 
             Expression Clause(ConstantExpression search)
             {
@@ -153,8 +155,19 @@ internal class SearchFilter<T> : IFieldFilter<T>
             {
                 if (member.Expression is not ParameterExpression) throw new ArgumentException($"Only parameter's member can be supported. {expression}");
 
-                var sub = member.RebindParameter(member.Expression, h.PropertyParameter);
+                var sub = member.RebindNode(member.Expression, h.PropertyParameter);
                 list.Add(BuildSearch(sub));
+            }
+            else if (expression is UnaryExpression unary)
+            {
+                if (unary.NodeType == ExpressionType.Convert)
+                {
+                    var _member = (unary.Operand as MemberExpression)!;
+                    if (_member.Expression is not ParameterExpression) throw new ArgumentException($"Only parameter's member can be supported. {expression}");
+
+                    var sub = _member.RebindNode(_member.Expression, h.PropertyParameter);
+                    list.Add(BuildSearch(sub));
+                }
             }
             else if (expression is NewExpression @new)
             {
@@ -162,7 +175,7 @@ internal class SearchFilter<T> : IFieldFilter<T>
                 {
                     if (part.Expression is not ParameterExpression) throw new ArgumentException($"Only parameter's member can be supported. {expression}");
 
-                    var sub = part.RebindParameter(part.Expression, h.PropertyParameter);
+                    var sub = part.RebindNode(part.Expression, h.PropertyParameter);
                     list.Add(BuildSearch(sub));
                 }
             }

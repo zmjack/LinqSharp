@@ -10,12 +10,12 @@ namespace LinqSharp.EFCore.Test;
 
 public class FilterTests
 {
-    public class DateTimeFilter : IFieldFilter<DateTime?>
+    public class DateTimeOffsetFilter : IFieldFilter<DateTimeOffset?>
     {
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public DateTimeOffset Start { get; set; }
+        public DateTimeOffset End { get; set; }
 
-        public QueryExpression<DateTime?> Filter(QueryHelper<DateTime?> h)
+        public QueryExpression<DateTimeOffset?> Filter(QueryHelper<DateTimeOffset?> h)
         {
             return h.Where(x => Start <= x) & h.Where(x => x <= End);
         }
@@ -375,10 +375,10 @@ WHERE `c`.`Address_City` = 'A';
     [Fact]
     public void DateTimeFilterTest()
     {
-        var filter = new DateTimeFilter
+        var filter = new DateTimeOffsetFilter
         {
-            Start = new DateTime(1996, 7, 1),
-            End = new DateTime(1996, 8, 1),
+            Start = new(new DateTime(1996, 7, 1), TimeSpan.Zero),
+            End = new(new DateTime(1996, 8, 1), TimeSpan.Zero),
         };
 
         using var mysql = ApplicationDbContext.UseMySql();

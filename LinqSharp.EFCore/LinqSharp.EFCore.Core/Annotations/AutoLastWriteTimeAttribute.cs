@@ -5,8 +5,6 @@
 
 using LinqSharp.EFCore.Annotations.Params;
 using NStandard;
-using System;
-using System.Linq;
 
 namespace LinqSharp.EFCore.Annotations;
 

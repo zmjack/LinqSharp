@@ -5,7 +5,7 @@
       net6.0
     </TargetFrameworks>
     <AssemblyName>LinqSharp.EFCore</AssemblyName>
-    <Version>6.0.7045</Version>
+    <Version>6.0.8000</Version>
     <LangVersion>preview</LangVersion>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
@@ -24,12 +24,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;EFCORE2_1_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER;EFCORE6_0_OR_GREATER</DefineConstants>
+  <PropertyGroup>
+    <DefineEFCore>EFCORE2_1_OR_GREATER</DefineEFCore>
+    <DefineEFCore>EFCORE3_1_OR_GREATER;$(DefineEFCore)</DefineEFCore>
+    <DefineEFCore>EFCORE5_0_OR_GREATER;$(DefineEFCore)</DefineEFCore>
+    <DefineEFCore>EFCORE6_0_OR_GREATER;$(DefineEFCore)</DefineEFCore>
+    <DefineConstants>$(DefineConstants);$(DefineEFCore)</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>EFCORE2_1_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER;EFCORE6_0_OR_GREATER</DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
@@ -37,9 +40,9 @@
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.0" />
-    <PackageReference Include="NStandard" Version="0.70.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="[6.0.0, 7.0.0)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="[6.0.0, 7.0.0)" />
+    <PackageReference Include="NStandard" Version="0.83.0" />
   </ItemGroup>
 
   <ItemGroup>

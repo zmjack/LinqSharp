@@ -96,7 +96,7 @@ public partial class QueryHelper<TSource>
 
     public Property<TSource> Property<TProperty>(Expression<Func<TSource, TProperty>> exp)
     {
-        var _exp = exp.RebindParameter(exp.Parameters[0], PropertyParameter) as LambdaExpression;
+        var _exp = exp.RebindNode(exp.Parameters[0], PropertyParameter) as LambdaExpression;
         return new Property<TSource>(PropertyParameter, _exp);
     }
 
@@ -131,8 +131,7 @@ public partial class QueryHelper<TSource>
 
     public QueryExpression<TSource> FilterBy<TProperty>(Expression<Func<TSource, TProperty>> fieldSelector, Expression<Func<TProperty, bool>> filter)
     {
-        var visitor = new ExpressionRebindVisitor(filter.Parameters[0], fieldSelector.Body);
-        var body = visitor.Visit(filter.Body)!;
+        var body = filter.Body.RebindNode(filter.Parameters[0], fieldSelector.Body)!;
         var expression = (Expression.Lambda(body, false, fieldSelector.Parameters[0]) as Expression<Func<TSource, bool>>)!;
         return Where(expression);
     }

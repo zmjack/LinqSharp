@@ -1,13 +1,18 @@
 ﻿using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace DbCreator.MySql
+namespace DbCreator;
+
+public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {
-    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    public ApplicationDbContext CreateDbContext(string[] args)
     {
-        public ApplicationDbContext CreateDbContext(string[] args)
-        {
-            return ApplicationDbContext.UseMySql(b => b.MigrationsAssembly("DbCreator.MySql"));
-        }
+        return UseDefault(b => b.MigrationsAssembly("DbCreator.MySql"));
+    }
+
+    public static ApplicationDbContext UseDefault(Action<MySqlDbContextOptionsBuilder>? mySqlOptionsAction = null)
+    {
+        return ApplicationDbContext.UseMySql(mySqlOptionsAction);
     }
 }

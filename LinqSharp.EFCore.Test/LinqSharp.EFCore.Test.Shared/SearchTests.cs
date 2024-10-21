@@ -7,6 +7,29 @@ namespace LinqSharp.EFCore.Test;
 public class SearchTests
 {
     [Fact]
+    public void Test()
+    {
+        using var context = ApplicationDbContext.UseMySql();
+        var query =
+            from e in context.Employees.Search(SearchMode.Contains, "London", e => new()
+            {
+                e.City,
+
+                from x in e.Orders.SelectMany(o => o.OrderDetails)
+                select new
+                {
+                    x.ProductLink.ProductName,
+                    x.ProductLink.SupplierLink.CompanyName,
+                }
+            })
+            select new
+            {
+                e.FirstName
+            };
+        var sql = query.ToQueryString();
+    }
+
+    [Fact]
     public void SearchIntTest()
     {
         using var context = ApplicationDbContext.UseMySql();

@@ -13,7 +13,7 @@ public class RowLockTests
     static RowLockTests()
     {
         using var mysql = ApplicationDbContext.UseMySql();
-        using (mysql.BeginDirectQuery())
+        using (mysql.BeginUnsafeQuery())
         {
             mysql.RowLockModels.Truncate();
         }

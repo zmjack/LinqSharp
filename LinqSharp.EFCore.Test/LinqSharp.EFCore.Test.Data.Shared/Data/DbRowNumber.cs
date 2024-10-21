@@ -43,7 +43,7 @@ public class DbRowNumber : Translator
             var partition = $"{arg0.Name as string}";
             var order = $"{arg1.Name as string}";
             var desc = (bool?)(args[2] as SqlConstantExpression)?.Value ?? false;
-            var identifier = new SqlIdentifier(provider);
+            var identifier = new SqlIdentifiers(provider);
 
             return SqlTranslator.Function<int>(
                 "CONVERT",
@@ -66,7 +66,7 @@ public class DbRowNumber : Translator
             var partition = $"{arg0.Name as string}";
             var order = $"{arg1.Name as string}";
             var desc = (bool?)(args[2] as SqlConstantExpression)?.Value ?? false;
-            var identifier = new SqlIdentifier(provider);
+            var identifier = new SqlIdentifiers(provider);
 
             return SqlTranslator.Function<int>(
                 "CONVERT",

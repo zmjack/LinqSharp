@@ -5,7 +5,7 @@
       netstandard2.0
     </TargetFrameworks>
     <AssemblyName>LinqSharp.EFCore</AssemblyName>
-    <Version>2.1.7045</Version>
+    <Version>2.1.8000</Version>
     <LangVersion>preview</LangVersion>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
@@ -24,23 +24,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;EFCORE2_1_OR_GREATER</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>EFCORE2_1_OR_GREATER</DefineConstants>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+  <PropertyGroup>
+    <DefineEFCore>EFCORE2_1_OR_GREATER</DefineEFCore>
+    <DefineConstants>$(DefineConstants);$(DefineEFCore)</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="[2.1.0, 3.0.0)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="[2.1.0, 3.0.0)" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NStandard" Version="0.70.0" />
+    <PackageReference Include="NStandard" Version="0.83.0" />
   </ItemGroup>
 
   <ItemGroup>

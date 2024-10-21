@@ -12,7 +12,7 @@ public class AgentQueryTests
         var now = DateTime.Now.StartOfSecond();
 
         using (var context = ApplicationDbContext.UseMySql())
-        using (context.BeginDirectQuery())
+        using (context.BeginUnsafeQuery())
         {
             context.AppRegistries.Truncate();
         }

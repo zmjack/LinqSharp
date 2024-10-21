@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Annotations.Params;
-using System;
 
 namespace LinqSharp.EFCore.Annotations;
 

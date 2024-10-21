@@ -73,6 +73,10 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version 8.0.0
+
+- 
+
 ### Version 7.0.45
 
 - Update **search** extension method.

@@ -37,7 +37,7 @@ public static partial class DbSetExtensions
     /// <summary>
     /// Bulk insert into table.
     /// <para>[Warning] This method will not throw any exception.</para>
-    /// <para>( Need <see cref="DirectQueryScope" />. )</para>
+    /// <para>( Need <see cref="UnsafeQueryScope" />. )</para>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="this"></param>
@@ -79,7 +79,7 @@ public static partial class DbSetExtensions
             }
         }
 
-        if (DirectQueryScope.Current is null) throw DirectQueryScope.RunningOutsideScopeException;
+        if (UnsafeQueryScope.Current is null) throw UnsafeQueryScope.Throws.RunningOutsideScopeException();
 
         var context = @this.GetDbContext();
         var name = @this.GetProviderName();
@@ -96,13 +96,13 @@ public static partial class DbSetExtensions
 
     /// <summary>
     /// Truncate table.
-    /// <para>( Need <see cref="DirectQueryScope" />. )</para>
+    /// <para>( Need <see cref="UnsafeQueryScope" />. )</para>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="this"></param>
     public static void Truncate<TEntity>(this DbSet<TEntity> @this) where TEntity : class
     {
-        if (DirectQueryScope.Current is null) throw DirectQueryScope.RunningOutsideScopeException;
+        if (UnsafeQueryScope.Current is null) throw UnsafeQueryScope.Throws.RunningOutsideScopeException();
 
         var context = @this.GetDbContext();
         var table = context.GetTableName<TEntity>();
@@ -123,7 +123,7 @@ public static partial class DbSetExtensions
         }.Contains(providerName);
         if (!hasTruncateMethod) throw new NotSupportedException($"The database does not support the {nameof(Truncate)} method.");
 
-        var identifier = new SqlIdentifier(providerName);
+        var identifier = new SqlIdentifiers(providerName);
 
 #if EFCORE3_1_OR_GREATER
         if (new[] { ProviderName.Sqlite }.Contains(providerName))

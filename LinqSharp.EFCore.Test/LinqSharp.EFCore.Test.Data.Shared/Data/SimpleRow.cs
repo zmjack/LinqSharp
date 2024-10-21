@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace LinqSharp.EFCore.Data.Test;
 
-[ComplexType]
+[Owned]
 public class SimpleRowItemGroup
 {
     [StringLength(255)]

@@ -4,6 +4,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Linq.Expressions;
+#if DEBUG
+//var a = 1;
+#endif
+
 #if EFCORE3_1_OR_GREATER
 using Microsoft.EntityFrameworkCore.Storage;
 using NStandard;

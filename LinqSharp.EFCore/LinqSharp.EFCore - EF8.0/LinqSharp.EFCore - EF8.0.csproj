@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>
+      net8.0
+    </TargetFrameworks>
+    <AssemblyName>LinqSharp.EFCore</AssemblyName>
+    <Version>8.0.0</Version>
+    <LangVersion>preview</LangVersion>
+    <Authors>zmjack</Authors>
+    <Company>linqsharp.net</Company>
+    <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
+    <Copyright>©2020 linqsharp.net</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageId>LinqSharp.EFCore</PackageId>
+    <PackageTags>Linq EntityFramework</PackageTags>
+    <PackageIcon>LinqSharp.png</PackageIcon>
+    <RootNamespace>LinqSharp.EFCore</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineEFCore>EFCORE2_1_OR_GREATER</DefineEFCore>
+    <DefineEFCore>EFCORE3_1_OR_GREATER;$(DefineEFCore)</DefineEFCore>
+    <DefineEFCore>EFCORE5_0_OR_GREATER;$(DefineEFCore)</DefineEFCore>
+    <DefineEFCore>EFCORE6_0_OR_GREATER;$(DefineEFCore)</DefineEFCore>
+    <DefineEFCore>EFCORE7_0_OR_GREATER;$(DefineEFCore)</DefineEFCore>
+    <DefineEFCore>EFCORE8_0_OR_GREATER;$(DefineEFCore)</DefineEFCore>
+    <DefineConstants>$(DefineConstants);$(DefineEFCore)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.4.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="[8.0.0, 9.0.0)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="[8.0.0, 9.0.0)" />
+    <PackageReference Include="NStandard" Version="0.83.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\LinqSharp.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\LinqSharp\LinqSharp.csproj" />
+    <ProjectReference Include="..\LinqSharp.EFCore.Abstractions\LinqSharp.EFCore.Abstractions.csproj" />
+    <ProjectReference Include="..\LinqSharp.EFCore.Core\LinqSharp.EFCore.Core.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\LinqSharp.EFCore.Shared\LinqSharp.EFCore.Shared.projitems" Label="Shared" />
+
+</Project>

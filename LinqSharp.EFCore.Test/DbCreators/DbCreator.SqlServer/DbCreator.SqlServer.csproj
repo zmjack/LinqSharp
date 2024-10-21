@@ -2,36 +2,27 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>DbCreator</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
-  <PropertyGroup>
-    <DefineConstants>DEBUG;TRACE;EFCORE2_1_OR_GREATER;EFCORE3_1_OR_GREATER;EFCORE5_0_OR_GREATER;EFCORE6_0_OR_GREATER</DefineConstants>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
-    <PackageReference Include="Northwnd" Version="7.0.1" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
     <PackageReference Include="SQLib" Version="0.13.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LinqSharp.EFCore\LinqSharp.EFCore - EF7.0\LinqSharp.EFCore - EF7.0.csproj" />
+    <ProjectReference Include="..\..\LinqSharp.EFCore.Test - EF8.0\LinqSharp.EFCore.Test - EF8.0.csproj" />
   </ItemGroup>
 
-  <Import Project="..\..\LinqSharp.EFCore.Test.Data.Shared\LinqSharp.EFCore.Test.Data.Shared.projitems" Label="Shared" />
+  <Import Project="..\DbCreator\DbCreator.projitems" Label="Shared" />
 
 </Project>

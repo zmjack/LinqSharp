@@ -14,7 +14,7 @@ public class MySqlTests
         static void Test(ApplicationDbContext db, TestDatabases databases)
         {
             using var trans = db.Database.BeginTransaction();
-            using var directScope = db.BeginDirectQuery();
+            using var directScope = db.BeginUnsafeQuery();
 
             db.YearMonthModels.Truncate();
 
