@@ -31,7 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IndexByTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IndexingTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JoinTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)NumbericTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NumericTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PagedEnumerableTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProviderNameTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProviderTests.cs" />
