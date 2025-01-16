@@ -79,91 +79,86 @@ public class SearchTests
     }
 
     [Fact]
-    public void Test1()
+    public void ContainsTest()
     {
-        var models = new[]
-        {
-            new SimpleModel { Id = 1, Subs = [] },
-            new SimpleModel
+        using var mysql = ApplicationDbContext.UseMySql();
+        var query =
+            from e in mysql.Employees.Search(SearchMode.Contains, "London", e => new()
             {
-                Id = 2,
-                Subs =
-                [
-                    //new SimpleModel { Id = 3 },
-                    new SimpleModel { Id = 3, Name = "a" },
-                ]
-            },
-        };
+                from x in e.Orders.SelectMany(o => o.OrderDetails)
+                select x.ProductLink.ProductName,
 
-        var aa = models.Search(SearchMode.Contains, "a", m => new()
-        {
-            m.Name,
-            m.Subs.Select(x => x.Name),
-        }).ToArray();
-        Assert.Single(aa);
+                from o in e.Orders select o.ShipCountry,
+                from o in e.Orders select o.ShipRegion,
+                from o in e.Orders select o.ShipCity,
+                from o in e.Orders select o.ShipAddress,
+            })
+            select e.EmployeeID;
+        var sql = query.ToQueryString();
     }
 
     [Fact]
-    public void QueryableTest1()
+    public void ContainsTest_Opt()
     {
-        using (var mysql = ApplicationDbContext.UseMySql())
-        {
-            var query = mysql.Employees
-                .Search(SearchMode.Contains, "London", e => new()
+        using var mysql = ApplicationDbContext.UseMySql();
+        var query =
+            from e in mysql.Employees.Search(SearchMode.Contains, "London", e => new()
+            {
+                from x in e.Orders.SelectMany(o => o.OrderDetails)
+                select x.ProductLink.ProductName,
+
+                from x in e.Orders
+                select new
                 {
-                    e.City,
-                    e.Orders
-                        .SelectMany(o => o.OrderDetails)
-                        .Select(x => x.ProductLink.ProductName),
-                });
-            var sql = query.ToQueryString();
-        }
+                    x.ShipCountry,
+                    x.ShipRegion,
+                    x.ShipCity,
+                    x.ShipAddress,
+                }
+            })
+            select e.EmployeeID;
+        var sql = query.ToQueryString();
+    }
 
-        using (var mysql = ApplicationDbContext.UseMySql())
-        {
-            var query = mysql.Employees
-                .Search(SearchMode.Contains, "London", e => new()
+    [Fact]
+    public void NotContainsTest()
+    {
+        using var mysql = ApplicationDbContext.UseMySql();
+        var query =
+            from e in mysql.Employees.Search(SearchMode.NotContains, "London", e => new()
+            {
+                from x in e.Orders.SelectMany(o => o.OrderDetails)
+                select x.ProductLink.ProductName,
+
+                from o in e.Orders select o.ShipCountry,
+                from o in e.Orders select o.ShipRegion,
+                from o in e.Orders select o.ShipCity,
+                from o in e.Orders select o.ShipAddress,
+            })
+            select e.EmployeeID;
+        var sql = query.ToQueryString();
+    }
+
+    [Fact]
+    public void NotContainsTest_Opt()
+    {
+        using var mysql = ApplicationDbContext.UseMySql();
+        var query =
+            from e in mysql.Employees.Search(SearchMode.NotContains, "London", e => new()
+            {
+                from x in e.Orders.SelectMany(o => o.OrderDetails)
+                select x.ProductLink.ProductName,
+
+                from x in e.Orders
+                select new
                 {
-                    e.Orders
-                        .SelectMany(o => o.OrderDetails)
-                        .Select(x => x.ProductLink.ProductName),
-                    e.Orders.Select(x => x.ShipCountry),
-                    e.Orders.Select(x => x.ShipRegion),
-                    e.Orders.Select(x => x.ShipCity),
-                    e.Orders.Select(x => x.ShipAddress),
-                });
-            var sql = query.ToQueryString();
-        }
-
-        using (var mysql = ApplicationDbContext.UseMySql())
-        {
-            var employees_WhoSelled_AllKindsOfTofu = mysql.Employees
-                .Search(SearchMode.Contains, "Tofu", e => new()
-                {
-                    e.Orders
-                        .SelectMany(o => o.OrderDetails)
-                        .Select(x => x.ProductLink.ProductName)
-                });
-            var sql1 = employees_WhoSelled_AllKindsOfTofu.ToQueryString();
-
-            var employees_WhoSelled_Tofu = mysql.Employees
-                 .Search(SearchMode.Equals, "Tofu", e => new()
-                 {
-                     e.Orders
-                         .SelectMany(o => o.OrderDetails)
-                         .Select(x => x.ProductLink.ProductName)
-                 });
-            var sql2 = employees_WhoSelled_Tofu.ToQueryString();
-
-            var employees_WhoSelled_LongLifeTofu = mysql.Employees
-                 .Search(SearchMode.Equals, "Longlife Tofu", e => new()
-                 {
-                     e.Orders
-                         .SelectMany(o => o.OrderDetails)
-                         .Select(x => x.ProductLink.ProductName)
-                 });
-            var sql3 = employees_WhoSelled_LongLifeTofu.ToQueryString();
-        }
-        return;
+                    x.ShipCountry,
+                    x.ShipRegion,
+                    x.ShipCity,
+                    x.ShipAddress,
+                }
+            })
+            select e.EmployeeID;
+        var sql = query.ToQueryString();
     }
 }

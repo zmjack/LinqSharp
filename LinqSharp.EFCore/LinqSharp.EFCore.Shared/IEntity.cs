@@ -4,7 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Annotations;
-using LinqSharp.Query;
+using LinqSharp.Utils;
 using NStandard;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -88,7 +88,7 @@ public static class IEntityExtensions
     public static TEntity Accept<TEntity>(this TEntity @this, TEntity model, Expression<Func<TEntity, object>> includes)
         where TEntity : class, IEntity
     {
-        var props = IncludesExpression.GetProperties(includes);
+        var props = PropertyExplorer.GetProperties(includes);
         return InnerAccept(@this, model, props);
     }
 

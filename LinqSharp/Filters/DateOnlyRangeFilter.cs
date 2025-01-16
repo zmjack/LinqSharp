@@ -4,7 +4,9 @@
 // See the LICENSE file in the project root for more information.
 
 #if NET6_0_OR_GREATER
+using LinqSharp.Design;
 using LinqSharp.Query;
+using LinqSharp.Utils;
 using NStandard;
 using System;
 using System.Diagnostics;

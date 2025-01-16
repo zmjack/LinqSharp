@@ -3,11 +3,8 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 #if EFCORE3_1_OR_GREATER
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using System.Collections.Generic;
 #else
 using Microsoft.EntityFrameworkCore.Storage;
 using Remotion.Linq.Parsing.Structure;

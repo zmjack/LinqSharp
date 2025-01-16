@@ -6,7 +6,7 @@
       netstandard2.0;netstandard2.1
     </TargetFrameworks>
     <LangVersion>preview</LangVersion>
-    <Version>8.0.0</Version>
+    <Version>8.0.10</Version>
     <Authors>zmjack</Authors>
     <Company>linqsharp.net</Company>
     <Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>
@@ -35,7 +35,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" />
-    <PackageReference Include="NStandard" Version="0.83.0" />
+    <PackageReference Include="NStandard" Version="0.85.0.1" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 

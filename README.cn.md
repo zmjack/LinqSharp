@@ -61,6 +61,15 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
+### * 版本 8.0.10
+
+- 【**中断更新**】调整了许多类型的命名空间，使其更具逻辑性。
+- 【**重要更新**】修复 **Search** 方法中使用 **NOT** 模式生成了错误逻辑 **SQL** 的问题。
+- 移除 ~~QueryLayer~~ 相关方法。**LayerBy** 方法是一项失败的设计。
+- 移除 ~~QuerySearchStrategy~~ 相关方法，使用 **Search + SearchFilter** 代替。
+- 移除 ~~QueryBetweenStrategy~~ 相关方法，使用 **FilterBy + (DateTimeFilter | DateTimeRangeFilter)** 代替。
+- 移除 ~~IExtraFieldFilter~~ / ~~IAdvancedFieldFilter~~，使用 **ICoroutineFieldFilter** 代替。
+
 ### 版本 8.0.0
 
 - 更新依赖项。
@@ -88,8 +97,8 @@ dotnet add package LinqSharp.EFCore
   - **BeginRowLock**
   - **BeginTimestamp**
   - **BeginUserTrace**
-- **中断性变更**：**KeyValueEntity** 中 **Value** 的长度默认设置为 **768**。
-- **中断性变更**：更改一些内部类名称。
+- **中断更新**：**KeyValueEntity** 中 **Value** 的长度默认设置为 **768**。
+- **中断更新**：更改一些内部类名称。
 
 ### 版本：7.0.36
 

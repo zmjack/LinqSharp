@@ -6,10 +6,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-#if EFCORE3_1_OR_GREATER
-using System.Threading;
-using System.Threading.Tasks;
-#endif
+
 
 namespace LinqSharp.EFCore.Infrastructure;
 

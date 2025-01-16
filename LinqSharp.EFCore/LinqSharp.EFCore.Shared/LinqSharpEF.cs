@@ -14,7 +14,6 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 #if EFCORE3_1_OR_GREATER
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 #else
 using Microsoft.EntityFrameworkCore.Query.Expressions;
 #endif

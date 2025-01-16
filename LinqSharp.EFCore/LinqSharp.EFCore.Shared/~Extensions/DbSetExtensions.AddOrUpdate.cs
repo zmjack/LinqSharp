@@ -4,7 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Query;
-using LinqSharp.Query;
+using LinqSharp.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
@@ -97,7 +97,7 @@ public static partial class DbSetExtensions
         var options = new UpdateOptions<TEntity>();
         initOptions?.Invoke(options);
 
-        var propNames = IncludesExpression.GetPropertyNames(keys);
+        var propNames = PropertyExplorer.GetNames(keys);
         var predicate = GetAbsoluteAddOrUpdateLambda(propNames, entity);
 
         var record = @this.SingleOrDefault(predicate);
@@ -139,7 +139,7 @@ public static partial class DbSetExtensions
         var options = new UpdateOptions<TEntity>();
         initOptions?.Invoke(options);
 
-        var propNames = IncludesExpression.GetPropertyNames(keys);
+        var propNames = PropertyExplorer.GetNames(keys);
         var predicateBuilder = GetAddOrUpdateLambda<TEntity>(propNames).Compile();
 
         Expression<Func<TEntity, bool>> predicate;

@@ -4,10 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.EntityFrameworkCore.Storage;
-#if EFCORE3_1_OR_GREATER
-using System.Threading;
-using System.Threading.Tasks;
-#endif
 
 namespace LinqSharp.EFCore.Infrastructure;
 

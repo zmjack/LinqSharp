@@ -16,7 +16,7 @@ public class OrderByCaseStrategy<TEntity, TRet> : IQueryStrategy<TEntity, int>
         Expression<Func<TEntity, TRet>> memberExp,
         TRet[] orderValues)
     {
-        var valueLenth = orderValues.Length;
+        var valueLength = orderValues.Length;
         var lambdaExp = orderValues.Reverse().Pairs().Aggregate(null as Expression, (acc, pair) =>
         {
             var (index, value) = pair;
@@ -27,15 +27,15 @@ public class OrderByCaseStrategy<TEntity, TRet> : IQueryStrategy<TEntity, int>
                 return
                     Expression.Condition(
                         compareExp,
-                        Expression.Constant(valueLenth - 1 - index),
-                        Expression.Constant(valueLenth));
+                        Expression.Constant(valueLength - 1 - index),
+                        Expression.Constant(valueLength));
             }
             else
             {
                 return
                     Expression.Condition(
                         compareExp,
-                        Expression.Constant(valueLenth - 1 - index),
+                        Expression.Constant(valueLength - 1 - index),
                         acc);
             }
         }) ?? Expression.Constant(0);

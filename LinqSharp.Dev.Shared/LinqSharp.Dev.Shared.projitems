@@ -10,12 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)IEnumerableExtensions - Linq.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IEnumerableExtensions - WhereAfter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IEnumerableExtensions - WhereBefore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Partition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IQueryableExtensions - Linq.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IQueryableExtensions - WhereAfter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IQueryableExtensions - WhereBefore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RelatedAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RelatedBehavior.cs" />

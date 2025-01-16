@@ -7,7 +7,6 @@ using LinqSharp.EFCore.Query;
 using Microsoft.EntityFrameworkCore;
 
 #if EFCORE3_1_OR_GREATER
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 #else
 using SqlExpression = System.Linq.Expressions.Expression;
 #endif

@@ -47,7 +47,7 @@ namespace LinqSharp
 
             if (value is not null)
             {
-                dynamic dValue = value.GetType().IsNullable() ? ((dynamic)value).Value : value;
+                dynamic dValue = value.GetType().IsNullableValue() ? ((dynamic)value).Value : value;
 
                 var displayFormatAttrType = exp.Member.GetCustomAttributes(false)
                     .FirstOrDefault(x => x.GetType().FullName == "System.ComponentModel.DataAnnotations") as Attribute;

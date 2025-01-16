@@ -61,6 +61,15 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### * Version 8.0.10
+
+- [**Breaking Change**] Adjusted the namespaces of many types to make them more logical.
+- [**Important Change**] Fixed the problem that the **NOT** mode in the **Search** method generated incorrect logic **SQL**.
+- Remove ~~QueryLayer~~ related methods. The **LayerBy** method is a failed design.
+- Remove ~~QuerySearchStrategy~~ related methods and use **Search + SearchFilter** instead.
+- Remove ~~QueryBetweenStrategy~~ related methods and use **FilterBy + (DateTimeFilter | DateTimeRangeFilter)** instead.
+- Remove ~~IExtraFieldFilter~~ / ~~IAdvancedFieldFilter~~ and use **ICoroutineFieldFilter** instead.
+
 ### Version 8.0.0
 
 - Update dependencies.

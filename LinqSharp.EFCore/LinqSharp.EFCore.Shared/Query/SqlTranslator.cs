@@ -12,7 +12,6 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Storage;
 using NStandard;
 using System.Data;
-using System.Linq;
 #else
 using Microsoft.EntityFrameworkCore.Query.Expressions;
 using Newtonsoft.Json.Linq;

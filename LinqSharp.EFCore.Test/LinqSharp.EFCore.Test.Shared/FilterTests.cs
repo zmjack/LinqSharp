@@ -1,6 +1,6 @@
-﻿using LinqSharp.EFCore.Data;
+﻿using LinqSharp.Design;
+using LinqSharp.EFCore.Data;
 using LinqSharp.EFCore.Data.Test;
-using LinqSharp.Query;
 using Microsoft.EntityFrameworkCore;
 using Northwnd.Data;
 using NStandard;
@@ -37,6 +37,37 @@ public class FilterTests
         {
             return h.Where(x => Ids.Contains(x));
         }
+    }
+
+    public class EntityFieldFilter : IFieldFilter<Employee>, IFieldFilter<Product>
+    {
+        public int[] Ids { get; set; }
+
+        public IQueryable<Employee> Apply(IQueryable<Employee> source) => source.Where(x => Ids.Contains(x.EmployeeID));
+        public IQueryable<Product> Apply(IQueryable<Product> source) => source.Where(x => Ids.Contains(x.ProductID));
+
+        public QueryExpression<Employee> Filter(QueryHelper<Employee> h)
+        {
+            return h.Where(x => Ids.Contains(x.EmployeeID));
+        }
+
+        public QueryExpression<Product> Filter(QueryHelper<Product> h)
+        {
+            return h.Where(x => Ids.Contains(x.ProductID));
+        }
+    }
+
+    [Fact]
+    public void FieldFilterTest()
+    {
+        using var mysql = ApplicationDbContext.UseMySql();
+        var filter = new EntityFieldFilter { Ids = [1] };
+
+        var productIds = mysql.Products.Filter(filter).Select(x => x.ProductID).ToArray();
+        var employeeIds = mysql.Employees.Filter(filter).Select(x => x.EmployeeID).ToArray();
+
+        Assert.Equal([1], productIds);
+        Assert.Equal([1], employeeIds);
     }
 
     [Fact]

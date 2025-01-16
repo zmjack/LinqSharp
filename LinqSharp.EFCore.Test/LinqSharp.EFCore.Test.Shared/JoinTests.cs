@@ -1,4 +1,5 @@
-﻿using NStandard;
+﻿using LinqSharp.Query;
+using NStandard;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test;
