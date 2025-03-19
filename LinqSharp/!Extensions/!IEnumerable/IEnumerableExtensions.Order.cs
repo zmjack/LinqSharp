@@ -11,7 +11,9 @@ public static partial class IEnumerableExtensions
 {
     public static IEnumerable<TSource> Sort<TSource>(this IEnumerable<TSource> @this, ILocalSorter<TSource> sorter)
     {
-        return @this.OrderBy(sorter.Sort());
+        var expression = sorter.Sort();
+        if (expression is null) return @this;
+        else return @this.OrderBy(expression);
     }
 
     public static IEnumerable<TSource> Sort<TSource>(this IEnumerable<TSource> @this, ICoLocalSorter<TSource> sorter)

@@ -11,7 +11,9 @@ public static partial class IQueryableExtensions
 {
     public static IQueryable<TSource> Sort<TSource>(this IQueryable<TSource> @this, IQuerySorter<TSource> sorter)
     {
-        return @this.OrderBy(sorter.Sort());
+        var expression = sorter.Sort();
+        if (expression is null) return @this;
+        else return @this.OrderBy(expression);
     }
 
     public static IQueryable<TSource> Sort<TSource>(this IQueryable<TSource> @this, ICoQuerySorter<TSource> sorter)

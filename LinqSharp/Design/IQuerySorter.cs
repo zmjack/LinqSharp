@@ -9,5 +9,5 @@ namespace LinqSharp.Design;
 
 public interface IQuerySorter<TSource>
 {
-    Expression<Func<TSource, object>> Sort();
+    Expression<Func<TSource, object>>? Sort();
 }
