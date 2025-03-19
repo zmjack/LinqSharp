@@ -9,6 +9,7 @@
     <Import_RootNamespace>LinqSharp.EFCore.Test.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SorterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SearchTests.cs" />
     <Compile Include="..\LinqSharp.EFCore.Test.Shared\RowLockTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AddOrUpdateTests.cs" />

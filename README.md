@@ -61,6 +61,12 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version 8.0.11
+
+- [**Breaking Change**] Rename ~~**ICoroutineFieldFilter**~~ to **ICoFieldFilter**。
+- Add **ILocalSorter** / **ICoLocalSorter** to sort the source by a specified key(s).
+- Add **IQuerySorter** / **ICoQuerySorter** to sort the source by a specified key(s).
+
 ### * Version 8.0.10
 
 - [**Breaking Change**] Adjusted the namespaces of many types to make them more logical.
@@ -68,7 +74,7 @@ dotnet add package LinqSharp.EFCore
 - Remove ~~QueryLayer~~ related methods. The **LayerBy** method is a failed design.
 - Remove ~~QuerySearchStrategy~~ related methods and use **Search + SearchFilter** instead.
 - Remove ~~QueryBetweenStrategy~~ related methods and use **FilterBy + (DateTimeFilter | DateTimeRangeFilter)** instead.
-- Remove ~~IExtraFieldFilter~~ / ~~IAdvancedFieldFilter~~ and use **ICoroutineFieldFilter** instead.
+- Remove ~~IExtraFieldFilter~~ / ~~IAdvancedFieldFilter~~ and use **ICoFieldFilter** instead.
 
 ### Version 8.0.0
 

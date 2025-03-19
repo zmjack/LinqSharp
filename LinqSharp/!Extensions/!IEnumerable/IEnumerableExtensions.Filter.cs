@@ -33,7 +33,7 @@ public static partial class IEnumerableExtensions
         return @this.Where(predicate);
     }
 
-    public static IEnumerable<TSource> Filter<TSource>(this IEnumerable<TSource> @this, ICoroutineFieldFilter<TSource> filter)
+    public static IEnumerable<TSource> Filter<TSource>(this IEnumerable<TSource> @this, ICoFieldFilter<TSource> filter)
     {
         var helper = new QueryHelper<TSource>();
 
@@ -73,7 +73,7 @@ public static partial class IEnumerableExtensions
         return @this.Where(x => predicate(selector(x)));
     }
 
-    public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> selector, ICoroutineFieldFilter<TProperty> filter)
+    public static IEnumerable<TSource> FilterBy<TSource, TProperty>(this IEnumerable<TSource> @this, Func<TSource, TProperty> selector, ICoFieldFilter<TProperty> filter)
     {
         if (filter is null) return @this;
 
@@ -89,5 +89,4 @@ public static partial class IEnumerableExtensions
         }
         return ret;
     }
-
 }

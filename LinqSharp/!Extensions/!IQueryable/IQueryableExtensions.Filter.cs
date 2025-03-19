@@ -28,7 +28,7 @@ public static partial class IQueryableExtensions
         return @this.Where(query.Expression);
     }
 
-    public static IQueryable<TSource> Filter<TSource>(this IQueryable<TSource> @this, ICoroutineFieldFilter<TSource> filter)
+    public static IQueryable<TSource> Filter<TSource>(this IQueryable<TSource> @this, ICoFieldFilter<TSource> filter)
     {
         var helper = new QueryHelper<TSource>();
 
@@ -66,7 +66,7 @@ public static partial class IQueryableExtensions
         return FilterBy(@this, selector, expression);
     }
 
-    public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> selector, ICoroutineFieldFilter<TProperty> filter)
+    public static IQueryable<TSource> FilterBy<TSource, TProperty>(this IQueryable<TSource> @this, Expression<Func<TSource, TProperty>> selector, ICoFieldFilter<TProperty> filter)
     {
         if (filter is null) return @this;
 

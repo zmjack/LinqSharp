@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\SimpleModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SimpleRow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\YearMonthModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Zipper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbFuncProviders\DbYearMonthNumber.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NameModel.cs" />
   </ItemGroup>

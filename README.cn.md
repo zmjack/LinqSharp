@@ -61,6 +61,12 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
+### 版本 8.0.11
+
+- 【**中断更新**】~~**ICoroutineFieldFilter**~~ 重命名为 **ICoFieldFilter**。
+- 添加 **ILocalSorter** / **ICoLocalSorter** 以按指定键对源进行排序。
+- 添加 **IQuerySorter** / **ICoQuerySorter** 以按指定键对源进行排序。
+
 ### * 版本 8.0.10
 
 - 【**中断更新**】调整了许多类型的命名空间，使其更具逻辑性。
