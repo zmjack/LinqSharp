@@ -7,5 +7,5 @@ namespace LinqSharp.Design;
 
 public interface ILocalSorter<TSource>
 {
-    Func<TSource, object>? Sort();
+    LocalSortRule<TSource>? Sort();
 }

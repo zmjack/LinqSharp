@@ -3,28 +3,27 @@ using LinqSharp.EFCore.Data.Test;
 using Microsoft.EntityFrameworkCore;
 using Northwnd.Data;
 using NStandard;
-using System.Linq.Expressions;
 using Xunit;
 
 namespace LinqSharp.EFCore.Test;
 
 public class SorterTests
 {
-    public class QuerySorter : IQuerySorter<Employee>
+    public class QuerySorter(bool descending = false) : IQuerySorter<Employee>
     {
-        public Expression<Func<Employee, object>> Sort()
+        public QuerySortRule<Employee>? Sort()
         {
-            return x => x.Address;
+            return new(x => x.Address, descending);
         }
     }
 
-    public class CoQuerySorter : ICoQuerySorter<Employee>
+    public class CoQuerySorter(bool descending = false) : ICoQuerySorter<Employee>
     {
-        public IEnumerable<Expression<Func<Employee, object>>> Sort()
+        public IEnumerable<QuerySortRule<Employee>> Sort()
         {
-            yield return x => x.Address;
-            yield return x => x.FirstName;
-            yield return x => x.LastName;
+            yield return new(x => x.Address, descending);
+            yield return new(x => x.FirstName, descending);
+            yield return new(x => x.LastName, descending);
         }
     }
 
@@ -52,6 +51,34 @@ ORDER BY `@`.`Address`
 SELECT `@`.`Address`
 FROM `@n.Employees` AS `@`
 ORDER BY `@`.`Address`, `@`.`FirstName`, `@`.`LastName`
+"""
+        , sql);
+    }
+
+    [Fact]
+    public void QuerySorterDescendingTest()
+    {
+        using var mysql = ApplicationDbContext.UseMySql();
+        var sql = mysql.Employees.Sort(new QuerySorter(true)).Select(x => x.Address).ToQueryString();
+        Assert.Equal(
+"""
+SELECT `@`.`Address`
+FROM `@n.Employees` AS `@`
+ORDER BY `@`.`Address` DESC
+"""
+        , sql);
+    }
+
+    [Fact]
+    public void CoQuerySorterDescendingTest()
+    {
+        using var mysql = ApplicationDbContext.UseMySql();
+        var sql = mysql.Employees.Sort(new CoQuerySorter(true)).Select(x => x.Address).ToQueryString();
+        Assert.Equal(
+"""
+SELECT `@`.`Address`
+FROM `@n.Employees` AS `@`
+ORDER BY `@`.`Address` DESC, `@`.`FirstName` DESC, `@`.`LastName` DESC
 """
         , sql);
     }

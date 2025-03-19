@@ -7,5 +7,5 @@ namespace LinqSharp.Design;
 
 public interface ICoLocalSorter<TSource>
 {
-    IEnumerable<Func<TSource, object>> Sort();
+    IEnumerable<LocalSortRule<TSource>> Sort();
 }

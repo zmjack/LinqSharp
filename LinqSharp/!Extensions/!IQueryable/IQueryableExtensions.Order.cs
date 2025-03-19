@@ -11,20 +11,30 @@ public static partial class IQueryableExtensions
 {
     public static IQueryable<TSource> Sort<TSource>(this IQueryable<TSource> @this, IQuerySorter<TSource> sorter)
     {
-        var expression = sorter.Sort();
-        if (expression is null) return @this;
-        else return @this.OrderBy(expression);
-    }
+        var rule = sorter.Sort();
+        if (!rule.HasValue) return @this;
 
+        var value = rule.Value;
+        return value.Descending
+            ? @this.OrderByDescending(value.Selector)
+            : @this.OrderBy(value.Selector);
+    }
     public static IQueryable<TSource> Sort<TSource>(this IQueryable<TSource> @this, ICoQuerySorter<TSource> sorter)
     {
         var enumerator = sorter.Sort().GetEnumerator();
         if (enumerator.MoveNext())
         {
-            var ordered = @this.OrderBy(enumerator.Current);
+            var rule = enumerator.Current;
+            var ordered = rule.Descending
+                ? @this.OrderByDescending(rule.Selector)
+                : @this.OrderBy(rule.Selector);
+
             while (enumerator.MoveNext())
             {
-                ordered = ordered.ThenBy(enumerator.Current);
+                rule = enumerator.Current;
+                ordered = rule.Descending
+                    ? ordered.ThenByDescending(rule.Selector)
+                    : ordered.ThenBy(rule.Selector);
             }
             return ordered;
         }
