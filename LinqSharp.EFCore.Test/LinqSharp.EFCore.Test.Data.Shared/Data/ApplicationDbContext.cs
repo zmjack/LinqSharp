@@ -139,6 +139,7 @@ public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableConte
 
     public DbSet<Client> Clients { get; set; }
     public DbSet<RowLockModel> RowLockModels { get; set; }
+    public DbSet<ZipperModel> ZipperModels { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

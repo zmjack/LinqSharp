@@ -61,6 +61,11 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version 8.0.20
+
+- [**Breaking Change**] Compatibility updates: **NStandard.0.90.0**.
+- Support zipper table entities (preview, the calling syntax will change in a future version.).
+
 ### Version 8.0.11
 
 - [**Breaking Change**] Rename ~~**ICoroutineFieldFilter**~~ to **ICoFieldFilter**。
@@ -88,7 +93,7 @@ dotnet add package LinqSharp.EFCore
 ### Version 7.0.42
 
 - Enable **nullable** checking.
-- Compatibility updates: **NStandard - 0.70.0 - Update**.
+- Compatibility updates: **NStandard.0.70.0**.
 
 ### Version 7.0.41 - EFCore
 
@@ -136,11 +141,11 @@ dotnet add package LinqSharp.EFCore
 
 ### Version: 7.0.32
 
-- Compatibility updates: **NStandard - 0.48.0 - Update**, **Ref**.
+- Compatibility updates: **NStandard.0.48.0**.
 
 ### Version: 7.0.30
 
-- Compatibility updates: **NStandard - 0.45.0 - Update**, **DateOnlyType** and **DateTimeType**.
+- Compatibility updates: **NStandard.0.45.0**.
 
 ### Version: 7.0.27
 

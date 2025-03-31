@@ -5,7 +5,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace LinqSharp.EFCore;
+namespace LinqSharp.EFCore.Design;
 
 public interface IEntityAuditor<TDbContext, TEntity>
     where TDbContext : DbContext

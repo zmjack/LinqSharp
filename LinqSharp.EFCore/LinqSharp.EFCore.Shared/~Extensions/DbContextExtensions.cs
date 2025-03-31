@@ -3,6 +3,7 @@
 // you may not use this file except in compliance with the License.
 // See the LICENSE file in the project root for more information.
 
+using LinqSharp.EFCore.Design;
 using LinqSharp.EFCore.Entities;
 using LinqSharp.EFCore.Infrastructure;
 using LinqSharp.EFCore.Scopes;
@@ -14,6 +15,15 @@ namespace LinqSharp.EFCore;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class DbContextExtensions
 {
+    [Obsolete("Conceptual design. (The calling syntax will change in a future version.)", false)]
+    public static ZipperQueryScope<TEntity> BeginZipperScope<TContext, TEntity>(this TContext @this, Func<TContext, DbSet<TEntity>> dbSetSelector)
+        where TContext : DbContext
+        where TEntity : class, IZipperEntity, new()
+    {
+        var dbSet = dbSetSelector(@this);
+        return new ZipperQueryScope<TEntity>(@this, dbSet);
+    }
+
 #pragma warning disable IDE0060 // Remove unused parameter
     public static UnsafeQueryScope BeginUnsafeQuery(this DbContext @this) => new();
 #pragma warning restore IDE0060 // Remove unused parameter

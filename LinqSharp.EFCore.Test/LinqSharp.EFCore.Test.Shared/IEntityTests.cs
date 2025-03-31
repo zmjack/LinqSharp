@@ -1,3 +1,4 @@
+using LinqSharp.EFCore.Design;
 using NStandard;
 using Xunit;
 

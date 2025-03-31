@@ -4,6 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.EFCore.Annotations;
+using LinqSharp.EFCore.Design;
 using LinqSharp.Utils;
 using NStandard;
 using System.ComponentModel;
@@ -12,18 +13,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 
 namespace LinqSharp.EFCore;
-
-/// <summary>
-/// Use <see cref="IEntity"/> to define entity classes to get some useful extension methods.
-/// </summary>
-public interface IEntity { }
-
-/// <summary>
-/// Use <see cref="IEntity"/> to define entity classes to get some useful extension methods.
-/// </summary>
-public interface IEntity<TSelf> : IEntity where TSelf : class, IEntity<TSelf>, new()
-{
-}
 
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class IEntityExtensions
@@ -178,5 +167,4 @@ public static class IEntityExtensions
     {
         return DataAnnotation.GetDisplay(@this, expression, defaultReturn);
     }
-
 }

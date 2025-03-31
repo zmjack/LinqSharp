@@ -31,37 +31,37 @@ internal static class CompoundQueryScope
     });
 }
 
-public sealed class CompoundQueryScope<TEntity> : Scope<CompoundQueryScope<TEntity>>
-    where TEntity : class
+public sealed class CompoundQueryScope<T> : Scope<CompoundQueryScope<T>>
+    where T : class
 {
-    public IQueryable<TEntity> Queryable { get; }
+    public IQueryable<T> Queryable { get; }
     internal List<List<QueryTarget>> PropertyPathLists { get; } = new();
 
-    internal CompoundQueryScope(IQueryable<TEntity> queryable)
+    internal CompoundQueryScope(IQueryable<T> queryable)
     {
         Queryable = queryable;
     }
 
     [Obsolete("May be removed in the future.")]
-    public IIncludable<TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationPropertyPath) where TProperty : class
+    public IIncludable<T, TProperty> Include<TProperty>(Expression<Func<T, TProperty>> navigationPropertyPath) where TProperty : class
     {
         var targetPath = new List<QueryTarget>();
-        var nav = new IncludeNavigation<TEntity, TProperty>(this, targetPath);
+        var nav = new IncludeNavigation<T, TProperty>(this, targetPath);
         PropertyPathLists.Add(nav.TargetPath);
 
         nav.TargetPath.Add(new QueryTarget
         {
-            PreviousProperty = typeof(TEntity),
+            PreviousProperty = typeof(T),
             Property = typeof(TProperty),
             Expression = navigationPropertyPath,
         });
         return nav;
     }
 
-    private IQueryable<TEntity> GetBaseQuery()
+    private IQueryable<T> GetBaseQuery()
     {
-        var entityType = typeof(TEntity);
-        IQueryable<TEntity> queryable = Queryable;
+        var entityType = typeof(T);
+        IQueryable<T> queryable = Queryable;
 
         foreach (var lists in PropertyPathLists)
         {
@@ -73,7 +73,7 @@ public sealed class CompoundQueryScope<TEntity> : Scope<CompoundQueryScope<TEnti
                 {
                     return CompoundQueryScope.Lazy_IncludeMethod.Value.MakeGenericMethod(entityType, firstNavigation.Property)!;
                 })!;
-                queryable = (includeMethod.Invoke(null, [queryable, firstNavigation.Expression]) as IQueryable<TEntity>)!;
+                queryable = (includeMethod.Invoke(null, [queryable, firstNavigation.Expression]) as IQueryable<T>)!;
 
                 while (enumerator.MoveNext())
                 {
@@ -97,7 +97,7 @@ public sealed class CompoundQueryScope<TEntity> : Scope<CompoundQueryScope<TEnti
                         return thenIncludeMethod.MakeGenericMethod(entityType, lambdaProperty, navigation.Property);
                     })!;
 
-                    queryable = (thenIncludeMethod.Invoke(null, [queryable, navigation.Expression]) as IQueryable<TEntity>)!;
+                    queryable = (thenIncludeMethod.Invoke(null, [queryable, navigation.Expression]) as IQueryable<T>)!;
                 }
             }
         }
@@ -105,9 +105,9 @@ public sealed class CompoundQueryScope<TEntity> : Scope<CompoundQueryScope<TEnti
         return queryable;
     }
 
-    public IQueryable<TEntity> BuildQuery(params QueryDef<TEntity>[] queryDefs)
+    public IQueryable<T> BuildQuery(params QueryDef<T>[] queryDefs)
     {
-        IQueryable<TEntity> queryable = GetBaseQuery();
+        IQueryable<T> queryable = GetBaseQuery();
         if (!queryDefs.Any()) return queryable.Filter(h => h.False);
 
         if (queryDefs.All(x => x.HasFiltered))
@@ -126,14 +126,14 @@ public sealed class CompoundQueryScope<TEntity> : Scope<CompoundQueryScope<TEnti
         return queryable;
     }
 
-    public TEntity[] Feed(params QueryDef<TEntity>[] queryDefs)
+    public T[] Feed(params QueryDef<T>[] queryDefs)
     {
-        if (queryDefs is null) return Array.Empty<TEntity>();
-        if (!queryDefs.Any()) return Array.Empty<TEntity>();
+        if (queryDefs is null) return Array.Empty<T>();
+        if (!queryDefs.Any()) return Array.Empty<T>();
 
         var queryable = BuildQuery(queryDefs);
 
-        TEntity[] entities = queryable.ToArray();
+        T[] entities = queryable.ToArray();
         foreach (var def in queryDefs)
         {
             def.Source = entities;

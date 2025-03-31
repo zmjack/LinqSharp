@@ -1,4 +1,5 @@
 ﻿using LinqSharp.EFCore.Annotations;
+using LinqSharp.EFCore.Design;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

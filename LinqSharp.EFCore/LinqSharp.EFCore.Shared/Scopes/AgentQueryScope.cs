@@ -18,30 +18,30 @@ public static class AgentQueryScope
     public static InvalidOperationException NoScopeException => new("This operation needs to be contained within a AgentQuery scope.");
 }
 
-public sealed class AgentQueryScope<TEntity> : Scope<AgentQueryScope<TEntity>> where TEntity : KeyValueEntity, new()
+public sealed class AgentQueryScope<T> : Scope<AgentQueryScope<T>> where T : KeyValueEntity, new()
 {
     private static readonly MemoryCache _agentProperties = new(new MemoryCacheOptions());
 
     public DbContext Context { get; }
-    public DbSet<TEntity> DbSet { get; }
+    public DbSet<T> DbSet { get; }
 
-    private readonly Dictionary<string, KeyValueAgent<TEntity>> _agentList = new();
+    private readonly Dictionary<string, KeyValueAgent<T>> _agentList = new();
     private readonly List<string> _uncreatedNameList = new();
 
-    internal AgentQueryScope(DbContext context, DbSet<TEntity> dbSet)
+    internal AgentQueryScope(DbContext context, DbSet<T> dbSet)
     {
         Context = context;
         DbSet = dbSet;
     }
 
-    public TAgent GetAgent<TAgent>(string itemName) where TAgent : KeyValueAgent<TEntity>, new()
+    public TAgent GetAgent<TAgent>(string itemName) where TAgent : KeyValueAgent<T>, new()
     {
         if (!_agentList.ContainsKey(itemName))
         {
             _uncreatedNameList.Add(itemName);
         }
 
-        var proxy = new KeyValueAgentProxy<TAgent, TEntity>();
+        var proxy = new KeyValueAgentProxy<TAgent, T>();
         var agent = new ProxyGenerator().CreateClassProxyWithTarget(new TAgent(), proxy);
         agent._itemName = itemName;
 
@@ -69,7 +69,7 @@ public sealed class AgentQueryScope<TEntity> : Scope<AgentQueryScope<TEntity>> w
                 var entities = (
                     from name in itemNames
                     from prop in props
-                    select new TEntity
+                    select new T
                     {
                         Item = name,
                         Key = prop.Name,

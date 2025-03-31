@@ -11,7 +11,9 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgentProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Agent\ZipperAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuditPredictor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Design\IZipperEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scopes\IAutoModeScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scopes\UserTraceScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\RowChangeInfo.cs" />
@@ -19,11 +21,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\KeyValueEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityAudit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Facades\EntityMonitoringFacade.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ICacheable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IEntityAuditor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IIncludableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Design\ICacheable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Design\IEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Design\IEntityAuditor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\IEntityExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\IIncludableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Facade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scopes\ZipperQueryScope.cs" />
     <Compile Include="..\LinqSharp.EFCore.Shared\Infrastructure\SqlIdentifiers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\IFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\IFacadeState.cs" />

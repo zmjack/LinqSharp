@@ -1,4 +1,5 @@
-﻿using LinqSharp.EFCore.Entities;
+﻿using LinqSharp.EFCore.Design;
+using LinqSharp.EFCore.Entities;
 using LinqSharp.EFCore.Providers;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

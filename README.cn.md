@@ -61,6 +61,11 @@ dotnet add package LinqSharp.EFCore
 
 ## 最近更新
 
+### 版本 8.0.20
+
+- 【中断更新】兼容性更新：**NStandard.0.90.0 **。
+- 支持拉链表实体（预览，调用语法在未来版本会改变）。
+
 ### 版本 8.0.11
 
 - 【**中断更新**】~~**ICoroutineFieldFilter**~~ 重命名为 **ICoFieldFilter**。
@@ -88,7 +93,7 @@ dotnet add package LinqSharp.EFCore
 ### 版本 7.0.42
 
 - 启用 **nullable** 检查。
-- 兼容性更新：**NStandard - 0.70.0 - Update**.
+- 兼容性更新：**NStandard.0.70.0**.
 
 ### 版本 7.0.41 - EFCore
 
@@ -130,11 +135,11 @@ dotnet add package LinqSharp.EFCore
 
 ### 版本：7.0.32
 
-- 兼容性更新：**NStandard - 0.48.0 - 更新**，**Ref**。
+- 兼容性更新：**NStandard.0.48.0**。
 
 ### 版本：7.0.30
 
-- 兼容性更新：**NStandard - 0.45.0 - 更新**，**DateOnlyType**、**DateTimeType**。
+- 兼容性更新：**NStandard.0.45.0**。
 
 ### 版本：7.0.27
 

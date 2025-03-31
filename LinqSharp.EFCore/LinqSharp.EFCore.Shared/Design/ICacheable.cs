@@ -9,7 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 using NStandard;
 using System.ComponentModel;
 
-namespace LinqSharp.EFCore;
+namespace LinqSharp.EFCore.Design;
 
 public interface ICacheable<TDataSource> where TDataSource : class, new()
 {

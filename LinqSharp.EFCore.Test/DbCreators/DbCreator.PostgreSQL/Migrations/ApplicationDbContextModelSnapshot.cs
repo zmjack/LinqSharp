@@ -398,6 +398,30 @@ namespace DbCreator.Migrations
                     b.ToTable("SimpleRows");
                 });
 
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.ZipperModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("KeyName")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("ZipperEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ZipperStart")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ZipperModels");
+                });
+
             modelBuilder.Entity("LinqSharp.EFCore.Data.YearMonthModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -551,7 +575,7 @@ namespace DbCreator.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("character varying(60)");
 
-                    b.Property<DateTime?>("BirthDate")
+                    b.Property<DateTimeOffset?>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("City")
@@ -571,7 +595,7 @@ namespace DbCreator.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
-                    b.Property<DateTime?>("HireDate")
+                    b.Property<DateTimeOffset?>("HireDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("HomePhone")
@@ -652,10 +676,10 @@ namespace DbCreator.Migrations
                     b.Property<double?>("Freight")
                         .HasColumnType("double precision");
 
-                    b.Property<DateTime?>("OrderDate")
+                    b.Property<DateTimeOffset?>("OrderDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("RequiredDate")
+                    b.Property<DateTimeOffset?>("RequiredDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ShipAddress")
@@ -685,7 +709,7 @@ namespace DbCreator.Migrations
                     b.Property<int?>("ShipVia")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("ShippedDate")
+                    b.Property<DateTimeOffset?>("ShippedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("OrderID");

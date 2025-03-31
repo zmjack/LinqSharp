@@ -1,5 +1,6 @@
 ﻿using LinqSharp.EFCore.Data;
 using LinqSharp.EFCore.Data.Test;
+using LinqSharp.EFCore.Design;
 using NStandard;
 using Xunit;
 

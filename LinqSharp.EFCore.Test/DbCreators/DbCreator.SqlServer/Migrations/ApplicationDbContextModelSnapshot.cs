@@ -400,6 +400,30 @@ namespace DbCreator.Migrations
                     b.ToTable("SimpleRows");
                 });
 
+            modelBuilder.Entity("LinqSharp.EFCore.Data.Test.ZipperModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("KeyName")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("ZipperEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ZipperStart")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ZipperModels");
+                });
+
             modelBuilder.Entity("LinqSharp.EFCore.Data.YearMonthModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -553,8 +577,8 @@ namespace DbCreator.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.Property<DateTime?>("BirthDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("BirthDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("City")
                         .HasMaxLength(15)
@@ -573,8 +597,8 @@ namespace DbCreator.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<DateTime?>("HireDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("HireDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("HomePhone")
                         .HasMaxLength(24)
@@ -654,11 +678,11 @@ namespace DbCreator.Migrations
                     b.Property<double?>("Freight")
                         .HasColumnType("float");
 
-                    b.Property<DateTime?>("OrderDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("OrderDate")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime?>("RequiredDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("RequiredDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("ShipAddress")
                         .HasMaxLength(60)
@@ -687,8 +711,8 @@ namespace DbCreator.Migrations
                     b.Property<int?>("ShipVia")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("ShippedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("ShippedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("OrderID");
 
