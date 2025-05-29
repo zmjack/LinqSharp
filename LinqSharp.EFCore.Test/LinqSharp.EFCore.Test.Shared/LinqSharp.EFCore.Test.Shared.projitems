@@ -9,6 +9,11 @@
     <Import_RootNamespace>LinqSharp.EFCore.Test.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Comparers\SequenceComparerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)extern\Concurrency.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)extern\TestId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)extern\TestReport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)extern\TestResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SorterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SearchTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ZipperTests.cs" />
@@ -42,12 +47,12 @@
     <Compile Include="..\LinqSharp.EFCore.Test.Shared\SelectAnyTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PartitionTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToSqlTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DatabaseDepTests\MutilContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DatabaseDepTests\MutilContextContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DatabaseDepTests\MySqlTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DatabaseDepTests\SqlServerTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~DatabaseDepTests\TestDatabases.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~extern\~Dawnx\RegexUtility.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Support\EFVersion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!DatabaseDepTests\MutilContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!DatabaseDepTests\MutilContextContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!DatabaseDepTests\MySqlTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!DatabaseDepTests\SqlServerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!DatabaseDepTests\TestDatabases.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!extern\~Dawnx\RegexUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!Support\EFVersion.cs" />
   </ItemGroup>
 </Project>

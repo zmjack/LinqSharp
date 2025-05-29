@@ -9,6 +9,7 @@ using LinqSharp.EFCore.Infrastructure;
 using LinqSharp.EFCore.Scopes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
+using System.Linq.Expressions;
 
 namespace LinqSharp.EFCore;
 
@@ -16,12 +17,12 @@ namespace LinqSharp.EFCore;
 public static class DbContextExtensions
 {
     [Obsolete("Conceptual design. (The calling syntax will change in a future version.)", false)]
-    public static ZipperQueryScope<TEntity> BeginZipperScope<TContext, TEntity>(this TContext @this, Func<TContext, DbSet<TEntity>> dbSetSelector)
+    public static ZipperQueryScope<TEntity, TKey> BeginZipperScope<TContext, TEntity, TKey>(this TContext @this, Func<TContext, DbSet<TEntity>> dbSetSelector, Expression<Func<TEntity, TKey>> keySelector)
         where TContext : DbContext
         where TEntity : class, IZipperEntity, new()
     {
         var dbSet = dbSetSelector(@this);
-        return new ZipperQueryScope<TEntity>(@this, dbSet);
+        return new ZipperQueryScope<TEntity, TKey>(dbSet, keySelector);
     }
 
 #pragma warning disable IDE0060 // Remove unused parameter

@@ -24,8 +24,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Design\ICacheable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Design\IEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Design\IEntityAuditor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\IEntityExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\IIncludableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!Extensions\IEntityExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!Extensions\IIncludableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Facade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scopes\ZipperQueryScope.cs" />
     <Compile Include="..\LinqSharp.EFCore.Shared\Infrastructure\SqlIdentifiers.cs" />
@@ -52,12 +52,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbDateTime.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbDouble.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Translators\DbRandom.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\DbContextExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\DbSetExtensions.AddOrUpdate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\DbSetExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\IQueryableExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\IQueryableExtensions.Random.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)~Extensions\ModelBuilderExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!Extensions\DbContextExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!Extensions\DbSetExtensions.AddOrUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!Extensions\DbSetExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!Extensions\IQueryableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!Extensions\IQueryableExtensions.Random.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)!Extensions\ModelBuilderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropIndex.cs" />
   </ItemGroup>
 </Project>

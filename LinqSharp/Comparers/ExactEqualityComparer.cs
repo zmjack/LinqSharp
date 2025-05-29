@@ -65,7 +65,7 @@ public class ExactEqualityComparer<TEntity> : IEqualityComparer<TEntity>
         var _right = _compare(right);
 
         if (_left is null) return _right is null;
-        else return _left!.Equals(_right);
+        else return _left.Equals(_right);
     }
     public int GetHashCode(TEntity obj)
     {

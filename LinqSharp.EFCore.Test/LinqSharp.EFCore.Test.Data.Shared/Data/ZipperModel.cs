@@ -1,9 +1,11 @@
 ﻿using LinqSharp.EFCore.Design;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 
 namespace LinqSharp.EFCore.Data.Test;
 
+[DebuggerDisplay("{KeyName}: {ZipperStart} ~ {ZipperEnd}")]
 public class ZipperModel : IZipperEntity
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
