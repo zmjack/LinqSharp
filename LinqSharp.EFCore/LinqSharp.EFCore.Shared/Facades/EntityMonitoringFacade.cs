@@ -21,7 +21,7 @@ public class EntityMonitoringFacade : Facade<EntityMonitoringFacade.FacadeState>
         /// <returns></returns>
         public IEnumerable<EntityEntry> Entries<T>(params EntityState[] originEntityStates)
         {
-            if (!originEntityStates.Any()) throw new ArgumentException("The argument can not be empty.", nameof(originEntityStates));
+            if (originEntityStates.Length == 0) throw new ArgumentException("The argument can not be empty.", nameof(originEntityStates));
 
             var type = typeof(T);
             foreach (var state in originEntityStates)

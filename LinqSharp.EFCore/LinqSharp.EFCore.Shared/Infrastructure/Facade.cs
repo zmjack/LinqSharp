@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
-
 namespace LinqSharp.EFCore.Infrastructure;
 
 public abstract class Facade<TState> : DatabaseFacade, IFacade where TState : class, IFacadeState, new()
@@ -21,6 +20,7 @@ public abstract class Facade<TState> : DatabaseFacade, IFacade where TState : cl
 
     public delegate void StateDelegate(TState state);
 
+    public event StateDelegate? OnCommitting;
     public event StateDelegate? OnCommitted;
     public event StateDelegate? OnRollbacked;
     public event StateDelegate? OnDisposing;
@@ -46,6 +46,7 @@ public abstract class Facade<TState> : DatabaseFacade, IFacade where TState : cl
     {
         if (!State.Updated) throw Exception_NotUpdated();
 
+        OnCommitting?.Invoke(State);
         base.CommitTransaction();
         OnCommitted?.Invoke(State);
         End();
@@ -55,6 +56,7 @@ public abstract class Facade<TState> : DatabaseFacade, IFacade where TState : cl
     {
         if (!State.Updated) throw Exception_NotUpdated();
 
+        OnCommitting?.Invoke(State);
         base.RollbackTransaction();
         OnRollbacked?.Invoke(State);
         End();
@@ -65,9 +67,16 @@ public abstract class Facade<TState> : DatabaseFacade, IFacade where TState : cl
         OnDisposing?.Invoke(State);
     }
 
+    public void Trigger_OnCommitting()
+    {
+        OnCommitting?.Invoke(State);
+    }
     public void Trigger_OnCommitted()
     {
         OnCommitted?.Invoke(State);
     }
-
+    public void Trigger_OnRollbacked()
+    {
+        OnRollbacked?.Invoke(State);
+    }
 }

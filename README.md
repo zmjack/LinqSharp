@@ -61,6 +61,10 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version 8.0.21
+
+- **Facade** adds **OnCommitting** event.
+
 ### Version 8.0.20
 
 - [**Breaking Change**] Compatibility updates: **NStandard.0.90.0**.
