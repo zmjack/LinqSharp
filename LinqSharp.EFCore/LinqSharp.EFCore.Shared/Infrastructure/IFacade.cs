@@ -15,5 +15,6 @@ public interface IFacade
     void RollbackTransaction();
     void TransactionDisposing();
 
+    void Trigger_OnCommitting();
     void Trigger_OnCommitted();
 }

@@ -1,7 +1,7 @@
 nuget push "LinqSharp/bin/Release/LinqSharp.8.0.21.nupkg" -source nuget.org
-nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF6.0/bin/Release/LinqSharp.EFCore.6.0.8021.nupkg" -source nuget.org
-nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF7.0/bin/Release/LinqSharp.EFCore.7.0.8021.nupkg" -source nuget.org
-nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF8.0/bin/Release/LinqSharp.EFCore.8.0.21.nupkg" -source nuget.org
+nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF6.0/bin/Release/LinqSharp.EFCore.6.0.8021.1.nupkg" -source nuget.org
+nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF7.0/bin/Release/LinqSharp.EFCore.7.0.8021.1.nupkg" -source nuget.org
+nuget push "LinqSharp.EFCore/LinqSharp.EFCore - EF8.0/bin/Release/LinqSharp.EFCore.8.0.21.1.nupkg" -source nuget.org
 
 nuget push "dotnet-orm/bin/Release/dotnet-orm.0.80.21.nupkg" -source nuget.org
 

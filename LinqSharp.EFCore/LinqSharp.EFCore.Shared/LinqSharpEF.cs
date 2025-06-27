@@ -162,9 +162,16 @@ public static partial class LinqSharpEF
         }
         else ret = base_SaveChanges(acceptAllChangesOnSuccess);
 
-        if (context.Database is IFacade facade && context.Database.CurrentTransaction is null && facade.EnableWithoutTransaction)
+        if (context.Database is IFacade facade)
         {
-            facade.Trigger_OnCommitted();
+            if (facade.EnableWithoutTransaction)
+            {
+                if (context.Database.CurrentTransaction is null)
+                {
+                    facade.Trigger_OnCommitting();
+                    facade.Trigger_OnCommitted();
+                }
+            }
         }
 
         return ret;
@@ -190,14 +197,19 @@ public static partial class LinqSharpEF
         }
         else ret = base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
 
-        var result = await ret;
-
-        if (context.Database is IFacade facade && facade.EnableWithoutTransaction && context.Database.CurrentTransaction is null)
+        if (context.Database is IFacade facade)
         {
-            facade.Trigger_OnCommitted();
+            if (facade.EnableWithoutTransaction)
+            {
+                if (context.Database.CurrentTransaction is null)
+                {
+                    facade.Trigger_OnCommitting();
+                    facade.Trigger_OnCommitted();
+                }
+            }
         }
 
-        return result;
+        return await ret;
     }
 
     public static void UseTranslator<TDbFuncProvider>(DbContext context, ModelBuilder modelBuilder) where TDbFuncProvider : Translator, new()

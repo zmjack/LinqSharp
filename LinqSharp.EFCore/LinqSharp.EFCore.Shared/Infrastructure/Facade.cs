@@ -75,8 +75,4 @@ public abstract class Facade<TState> : DatabaseFacade, IFacade where TState : cl
     {
         OnCommitted?.Invoke(State);
     }
-    public void Trigger_OnRollbacked()
-    {
-        OnRollbacked?.Invoke(State);
-    }
 }
