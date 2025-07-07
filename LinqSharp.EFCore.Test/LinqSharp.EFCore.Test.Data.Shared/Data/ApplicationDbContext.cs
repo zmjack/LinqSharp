@@ -71,12 +71,18 @@ public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableConte
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options, "@n")
     {
         _facade = new EntityMonitoringFacade(this, true);
+        _facade.OnCommitting += Facade_OnCommitting;
         _facade.OnCommitted += Facade_OnCommitted;
         _facade.OnRollbacked += Facade_OnRollbacked;
         _facade.OnDisposing += Facade_OnDisposing;
     }
 
     public string LastChanged;
+    private void Facade_OnCommitting(EntityMonitoringFacade.FacadeState state)
+    {
+        LastChanged = "Committing";
+    }
+
     private void Facade_OnCommitted(EntityMonitoringFacade.FacadeState state)
     {
         var addedOrUpdatedEntries = state.Entries<FacadeModel>(EntityState.Added, EntityState.Modified);

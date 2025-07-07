@@ -147,7 +147,16 @@ public static partial class LinqSharpEF
         int ret;
 
         IntelliTrack(context, acceptAllChangesOnSuccess);
-        (context.Database as IFacade)?.UpdateState();
+
+        var facade = context.Database as IFacade;
+        if (facade is not null)
+        {
+            facade.UpdateState();
+            if (context.Database.CurrentTransaction is null && facade.EnableWithoutTransaction)
+            {
+                facade.Trigger_OnCommitting();
+            }
+        }
 
         if (context is IConcurrencyResolvableContext resolvable)
         {
@@ -162,15 +171,11 @@ public static partial class LinqSharpEF
         }
         else ret = base_SaveChanges(acceptAllChangesOnSuccess);
 
-        if (context.Database is IFacade facade)
+        if (facade is not null)
         {
-            if (facade.EnableWithoutTransaction)
+            if (context.Database.CurrentTransaction is null && facade.EnableWithoutTransaction)
             {
-                if (context.Database.CurrentTransaction is null)
-                {
-                    facade.Trigger_OnCommitting();
-                    facade.Trigger_OnCommitted();
-                }
+                facade.Trigger_OnCommitted();
             }
         }
 
@@ -182,7 +187,16 @@ public static partial class LinqSharpEF
         Task<int> ret;
 
         IntelliTrack(context, acceptAllChangesOnSuccess);
-        (context.Database as IFacade)?.UpdateState();
+
+        var facade = context.Database as IFacade;
+        if (facade is not null)
+        {
+            facade.UpdateState();
+            if (context.Database.CurrentTransaction is null && facade.EnableWithoutTransaction)
+            {
+                facade.Trigger_OnCommitting();
+            }
+        }
 
         if (context is IConcurrencyResolvableContext resolvable)
         {
@@ -197,15 +211,11 @@ public static partial class LinqSharpEF
         }
         else ret = base_SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
 
-        if (context.Database is IFacade facade)
+        if (facade is not null)
         {
-            if (facade.EnableWithoutTransaction)
+            if (context.Database.CurrentTransaction is null && facade.EnableWithoutTransaction)
             {
-                if (context.Database.CurrentTransaction is null)
-                {
-                    facade.Trigger_OnCommitting();
-                    facade.Trigger_OnCommitted();
-                }
+                facade.Trigger_OnCommitted();
             }
         }
 
