@@ -1,4 +1,5 @@
 ﻿using LinqSharp.EFCore.Design;
+using LinqSharp.EFCore.Scopes;
 using Microsoft.EntityFrameworkCore;
 using NStandard;
 using NStandard.Static.Linq.Expressions;
@@ -7,8 +8,9 @@ using System.Linq.Expressions;
 namespace LinqSharp.EFCore.Shared.Agent;
 
 [Obsolete("Conceptual design.", false)]
-public class ZipperAgent<T, TKey>
-    where T : class, IZipperEntity, new()
+public class ZipperAgent<T, TKey, TPoint>
+    where T : class, IZipperEntity<TPoint>, new()
+    where TPoint : struct, IEquatable<TPoint>
 {
     public DbSet<T> Source { get; }
     public Expression<Func<T, TKey>> KeySelector { get; }
@@ -18,9 +20,18 @@ public class ZipperAgent<T, TKey>
     public Func<T, bool> WhereFunc { get; }
     public Func<T, TKey> KeySelectorFunc { get; }
     public Action<T, TKey> KeySelectorSetterFunc { get; }
+    public Type PointType { get; }
+    private readonly TPoint _maxPoint;
 
     internal ZipperAgent(DbSet<T> source, Expression<Func<T, TKey>> keySelector, Func<T, TKey> keySelectorFunc, TKey key)
     {
+        PointType = typeof(TPoint);
+        if (PointType != typeof(DateTime) && PointType != typeof(DateOnly)) throw new ArgumentException("TPoint must be DateTime or DateOnly.");
+
+        if (PointType == typeof(DateTime)) _maxPoint = (TPoint)(object)DateTime.MaxValue;
+        else if (PointType == typeof(DateOnly)) _maxPoint = (TPoint)(object)DateOnly.MaxValue;
+        else throw new ArgumentException("TPoint must be DateTime or DateOnly.");
+
         Source = source;
         KeySelector = keySelector;
         KeySelectorFunc = keySelectorFunc;
@@ -28,12 +39,13 @@ public class ZipperAgent<T, TKey>
 
         WhereExpression = Expression.Lambda<Func<T, bool>>(
             Expression.Equal(keySelector.Body, Expression.Constant(key)),
-            keySelector.Parameters[0]);
+            keySelector.Parameters[0]
+        );
         WhereFunc = WhereExpression.Compile();
         KeySelectorSetterFunc = ExpressionEx.GetSetterExpression(KeySelector).Compile();
     }
 
-    public void AddOrUpdate(DateTime point, T value)
+    public void AddOrUpdate(TPoint point, T value)
     {
         var source = View(point);
         var record = source.FirstOrDefault(WhereFunc)
@@ -46,7 +58,7 @@ public class ZipperAgent<T, TKey>
             value.ZipperEnd = record.ZipperEnd;
             record.ZipperEnd = point;
 
-            if (record.ZipperStart == record.ZipperEnd)
+            if (record.ZipperStart.Equals(record.ZipperEnd))
             {
                 Source.Remove(record);
             }
@@ -54,16 +66,16 @@ public class ZipperAgent<T, TKey>
         else
         {
             value.ZipperStart = point;
-            value.ZipperEnd = DateTime.MaxValue;
+            value.ZipperEnd = _maxPoint;
         }
         Source.Add(value);
     }
 
-    public void Remove(DateTime point)
+    public void Remove(TPoint point)
     {
         var x = Expression.Parameter(typeof(T), "x");
         var exp = Expression.Invoke(KeySelector, x);
-        var startExp = Expression.Property(x, nameof(IZipperEntity.ZipperStart));
+        var startExp = Expression.Property(x, nameof(IZipperEntity<TPoint>.ZipperStart));
 
         var predicate = Expression.Lambda<Func<T, bool>>(
             Expression.AndAlso(
@@ -75,18 +87,20 @@ public class ZipperAgent<T, TKey>
         Source.Remove(record);
     }
 
-    public IEnumerable<T> View(DateTime point)
+    public IEnumerable<T> View(TPoint point)
     {
+        var parameter = Expression.Parameter(typeof(T), "x");
+        var filterExp = ZipperQueryScope<T, TKey, TPoint>.GetPointWhereExpression(point);
+        var filter = filterExp.Compile();
+
         T[] source =
         [
             ..
-            from x in Source.Where(WhereExpression)
-            where x.ZipperStart <= point && point < x.ZipperEnd
+            from x in Source.Where(WhereExpression).Where(filterExp)
             select x,
 
             ..
-            from x in Source.Local.Where(WhereFunc)
-            where x.ZipperStart <= point && point < x.ZipperEnd
+            from x in Source.Local.Where(WhereFunc).Where(filter)
             select x,
         ];
 

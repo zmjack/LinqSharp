@@ -408,11 +408,11 @@ namespace DbCreator.Migrations
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<DateTime>("ZipperEnd")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("ZipperEnd")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("ZipperStart")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("ZipperStart")
+                        .HasColumnType("date");
 
                     b.HasKey("Id");
 

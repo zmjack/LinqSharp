@@ -17,12 +17,13 @@ namespace LinqSharp.EFCore;
 public static class DbContextExtensions
 {
     [Obsolete("Conceptual design. (The calling syntax will change in a future version.)", false)]
-    public static ZipperQueryScope<TEntity, TKey> BeginZipperScope<TContext, TEntity, TKey>(this TContext @this, Func<TContext, DbSet<TEntity>> dbSetSelector, Expression<Func<TEntity, TKey>> keySelector)
+    public static ZipperQueryScope<TEntity, TKey, TPoint> BeginZipperScope<TContext, TEntity, TKey, TPoint>(this TContext @this, Func<TContext, DbSet<TEntity>> dbSetSelector, Expression<Func<TEntity, TKey>> keySelector, Expression<Func<TEntity, IZipperEntity<TPoint>>> zipperSelector)
         where TContext : DbContext
-        where TEntity : class, IZipperEntity, new()
+        where TEntity : class, IZipperEntity<TPoint>, new()
+        where TPoint : struct, IEquatable<TPoint>
     {
         var dbSet = dbSetSelector(@this);
-        return new ZipperQueryScope<TEntity, TKey>(dbSet, keySelector);
+        return new ZipperQueryScope<TEntity, TKey, TPoint>(dbSet, keySelector);
     }
 
 #pragma warning disable IDE0060 // Remove unused parameter

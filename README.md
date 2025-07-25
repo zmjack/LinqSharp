@@ -68,7 +68,7 @@ dotnet add package LinqSharp.EFCore
 ### Version 8.0.20
 
 - [**Breaking Change**] Compatibility updates: **NStandard.0.90.0**.
-- Support zipper table entities (preview, the calling syntax will change in a future version.).
+- Support zipper table entities (**preview**, the calling syntax will change in a future version.).
 
 ### Version 8.0.11
 

@@ -1,7 +1,9 @@
-﻿namespace LinqSharp.EFCore.Design;
+﻿using System.Numerics;
 
-public interface IZipperEntity
+namespace LinqSharp.EFCore.Design;
+
+public interface IZipperEntity<TPoint> where TPoint : struct, IEquatable<TPoint>
 {
-    public DateTime ZipperStart { get; set; }
-    public DateTime ZipperEnd { get; set; }
+    public TPoint ZipperStart { get; set; }
+    public TPoint ZipperEnd { get; set; }
 }

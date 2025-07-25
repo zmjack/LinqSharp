@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace LinqSharp.EFCore.Data.Test;
 
 [DebuggerDisplay("{KeyName}: {ZipperStart} ~ {ZipperEnd}")]
-public class ZipperModel : IZipperEntity
+public class ZipperModel : IZipperEntity<DateOnly>
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
@@ -15,6 +15,6 @@ public class ZipperModel : IZipperEntity
     public string KeyName { get; set; }
 
     public decimal? Price { get; set; }
-    public DateTime ZipperStart { get; set; }
-    public DateTime ZipperEnd { get; set; }
+    public DateOnly ZipperStart { get; set; }
+    public DateOnly ZipperEnd { get; set; }
 }

@@ -27,7 +27,7 @@ public class ZipperTests
     {
         using var context = ApplicationDbContext.UseMySql();
 
-        using (var zipper = context.BeginZipperScope(x => x.ZipperModels, x => x.KeyName))
+        using (var zipper = context.BeginZipperScope(x => x.ZipperModels, x => x.KeyName, x => x))
         {
             var a = zipper.GetAgent("A");
             var b = zipper.GetAgent("B");
@@ -45,9 +45,9 @@ public class ZipperTests
             context.SaveChanges();
         }
 
-        using (var zipper = context.BeginZipperScope(x => x.ZipperModels, x => x.KeyName))
+        using (var zipper = context.BeginZipperScope(x => x.ZipperModels, x => x.KeyName, x => x))
         {
-            var dict = new Dictionary<DateTime, (string, decimal?)[]>()
+            var dict = new Dictionary<DateOnly, (string, decimal?)[]>()
             {
                 [new(2000, 1, 1)] =
                 [
@@ -100,7 +100,7 @@ public class ZipperTests
     {
         using var context = ApplicationDbContext.UseMySql();
 
-        using (var zipper = context.BeginZipperScope(x => x.ZipperModels, x => x.KeyName))
+        using (var zipper = context.BeginZipperScope(x => x.ZipperModels, x => x.KeyName, x => x))
         {
             var a = zipper.GetAgent("A");
             Assert.ThrowsAny<Exception>(() => a.Remove(new(2000, 1, 2)));
@@ -108,9 +108,9 @@ public class ZipperTests
             context.SaveChanges();
         }
 
-        using (var zipper = context.BeginZipperScope(x => x.ZipperModels, x => x.KeyName))
+        using (var zipper = context.BeginZipperScope(x => x.ZipperModels, x => x.KeyName, x => x))
         {
-            var dict = new Dictionary<DateTime, (string, decimal?)[]>()
+            var dict = new Dictionary<DateOnly, (string, decimal?)[]>()
             {
                 [new(2000, 1, 1)] =
                 [

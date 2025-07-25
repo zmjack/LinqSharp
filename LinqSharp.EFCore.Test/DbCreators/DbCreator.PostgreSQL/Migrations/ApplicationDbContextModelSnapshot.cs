@@ -411,11 +411,11 @@ namespace DbCreator.Migrations
                     b.Property<decimal?>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTime>("ZipperEnd")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("ZipperEnd")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("ZipperStart")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("ZipperStart")
+                        .HasColumnType("date");
 
                     b.HasKey("Id");
 

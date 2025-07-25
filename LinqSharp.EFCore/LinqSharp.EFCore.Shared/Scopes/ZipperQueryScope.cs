@@ -12,8 +12,9 @@ using System.Linq.Expressions;
 namespace LinqSharp.EFCore.Scopes;
 
 [Obsolete("Conceptual design.", false)]
-public sealed class ZipperQueryScope<T, TKey> : Scope<ZipperQueryScope<T, TKey>>
-    where T : class, IZipperEntity, new()
+public sealed class ZipperQueryScope<T, TKey, TPoint> : Scope<ZipperQueryScope<T, TKey, TPoint>>
+    where T : class, IZipperEntity<TPoint>, new()
+    where TPoint : struct, IEquatable<TPoint>
 {
     private static readonly object _zipperlock = new();
 
@@ -29,23 +30,44 @@ public sealed class ZipperQueryScope<T, TKey> : Scope<ZipperQueryScope<T, TKey>>
         KeySelectorFunc = keySelector.Compile();
     }
 
-    public ZipperAgent<T, TKey> GetAgent(TKey key)
+    public ZipperAgent<T, TKey, TPoint> GetAgent(TKey key)
     {
-        return new ZipperAgent<T, TKey>(Source, KeySelector, KeySelectorFunc, key);
+        return new ZipperAgent<T, TKey, TPoint>(Source, KeySelector, KeySelectorFunc, key);
     }
 
-    public IEnumerable<T> View(DateTime point)
+    public static Expression<Func<T, bool>> GetPointWhereExpression(TPoint point)
     {
+        var parameter = Expression.Parameter(typeof(T), "x");
+        var pointExp = Expression.Constant(point);
+        var exp = Expression.Lambda<Func<T, bool>>(
+            Expression.And(
+                Expression.LessThanOrEqual(
+                    Expression.Property(parameter, nameof(IZipperEntity<TPoint>.ZipperStart)),
+                    pointExp
+                ),
+                Expression.LessThan(
+                    pointExp,
+                    Expression.Property(parameter, nameof(IZipperEntity<TPoint>.ZipperEnd))
+                )
+            ), parameter
+        );
+        return exp;
+    }
+
+    public IEnumerable<T> View(TPoint point)
+    {
+        var parameter = Expression.Parameter(typeof(T), "x");
+        var filterExp = ZipperQueryScope<T, TKey, TPoint>.GetPointWhereExpression(point);
+        var filter = filterExp.Compile();
+
         T[] source =
         [
             ..
-            from x in Source
-            where x.ZipperStart <= point && point < x.ZipperEnd
+            from x in Source.Where(filterExp)
             select x,
 
             ..
-            from x in Source.Local
-            where x.ZipperStart <= point && point < x.ZipperEnd
+            from x in Source.Local.Where(filter)
             select x,
         ];
 
