@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.Design;
-using NStandard.Measures;
 
 namespace LinqSharp;
 
@@ -42,24 +41,4 @@ public static partial class IEnumerableExtensions
     }
     public static TSource Average<TSource>(this IEnumerable<TSource> source) where TSource : ISummable => Average(source, x => x);
     public static TSource? Average<TSource>(this IEnumerable<TSource?> source) where TSource : struct, ISummable => Average(source, x => x);
-
-    public static TSource QAverage<TSource>(this IEnumerable<TSource> source) where TSource : struct, IMeasurable<decimal>
-    {
-        if (!source.Any()) throw new InvalidOperationException("Sequence contains no elements");
-
-        return new TSource
-        {
-            Value = source.Average(x => x.Value)
-        };
-    }
-
-    public static TSource? QAverage<TSource>(this IEnumerable<TSource?> source) where TSource : struct, IMeasurable<decimal>
-    {
-        if (!source.Any(x => x.HasValue)) return null;
-
-        return new TSource
-        {
-            Value = source.Where(x => x.HasValue).Average(x => x!.Value.Value)
-        };
-    }
 }

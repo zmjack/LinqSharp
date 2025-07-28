@@ -41,13 +41,6 @@ public class BulkTests
     }
 
     [Fact]
-    public void BulkInsert_SqlServerTest()
-    {
-        using var context = ApplicationDbContext.UseSqlServer();
-        BulkInsertTest(context);
-    }
-
-    [Fact]
     public void BulkInsert_MySqlTest()
     {
         using var context = ApplicationDbContext.UseMySql();

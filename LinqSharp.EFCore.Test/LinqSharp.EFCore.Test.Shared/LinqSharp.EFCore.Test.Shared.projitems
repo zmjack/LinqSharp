@@ -42,7 +42,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)PagedEnumerableTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProviderNameTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProviderTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)QSum_And_QAverageTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SameOrDefaultTests.cs" />
     <Compile Include="..\LinqSharp.EFCore.Test.Shared\SelectAnyTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PartitionTests.cs" />
@@ -50,7 +49,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)!DatabaseDepTests\MutilContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)!DatabaseDepTests\MutilContextContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)!DatabaseDepTests\MySqlTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)!DatabaseDepTests\SqlServerTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)!DatabaseDepTests\TestDatabases.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)!extern\~Dawnx\RegexUtility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)!Support\EFVersion.cs" />

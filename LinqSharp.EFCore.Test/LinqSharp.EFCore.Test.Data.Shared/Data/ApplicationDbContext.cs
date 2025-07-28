@@ -33,16 +33,6 @@ public class ApplicationDbContext : NorthwndContext, IConcurrencyResolvableConte
     }
 #endif
 
-#if USE_SQLSERVER
-    public static ApplicationDbContext UseSqlServer(Action<SqlServerDbContextOptionsBuilder> action = null)
-    {
-        var connectionString = $@"Data Source=(localdb)\ProjectModels;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;database={DatabaseName}";
-        var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        var options = builder.UseSqlServer(connectionString, action).Options;
-        return new ApplicationDbContext(options);
-    }
-#endif
-
 #if USE_SQLITE
     public static ApplicationDbContext UseSqlite(Action<SqliteDbContextOptionsBuilder> action = null)
     {

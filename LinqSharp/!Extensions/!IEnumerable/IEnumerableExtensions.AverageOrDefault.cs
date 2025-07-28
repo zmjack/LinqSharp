@@ -4,7 +4,6 @@
 // See the LICENSE file in the project root for more information.
 
 using LinqSharp.Design;
-using NStandard.Measures;
 
 namespace LinqSharp;
 
@@ -38,25 +37,4 @@ public static partial class IEnumerableExtensions
     public static TSource? AverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource? @default = default) where TSource : ISummable => source.Any() ? source.Average() : @default;
 
     public static TSource? AverageOrDefault<TSource>(this IEnumerable<TSource?> source, TSource? @default = default) where TSource : struct, ISummable => source.Any() ? source.Average() : @default;
-
-    public static TSource QAverageOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default) where TSource : struct, IMeasurable<decimal>
-    {
-        if (!source.Any()) return @default;
-
-        return new TSource
-        {
-            Value = source.Average(x => x.Value)
-        };
-    }
-
-    public static TSource? QAverageOrDefault<TSource>(this IEnumerable<TSource?> source, TSource? @default = default) where TSource : struct, IMeasurable<decimal>
-    {
-        if (!source.Any(x => x.HasValue)) return @default;
-
-        return new TSource
-        {
-            Value = source.Where(x => x.HasValue).Average(x => x!.Value.Value)
-        };
-    }
-
 }

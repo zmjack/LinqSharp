@@ -258,7 +258,7 @@ public static partial class LinqSharpEF
                 var fields = prop.Where(x => x.CanRead && x.CanWrite && !x.PropertyType.IsBasicType(true));
                 foreach (var field in fields)
                 {
-                    var type = field.PropertyType.Pipe(p => p.IsNullable() ? p.GetGenericArguments()[0] : p);
+                    var type = field.PropertyType.Pipe(p => p.IsNullableValue() ? p.GetGenericArguments()[0] : p);
                     if (type.GetCustomAttributes().Any(x => x.GetType().FullName == "System.ComponentModel.DataAnnotations.Schema.ComplexTypeAttribute"))
                     {
                         typeList.Add(type);

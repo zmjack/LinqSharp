@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace LinqSharp.EFCore.Design;
+﻿namespace LinqSharp.EFCore.Design;
 
 public interface IZipperEntity<TPoint> where TPoint : struct, IEquatable<TPoint>
 {

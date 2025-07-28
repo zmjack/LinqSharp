@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF3.1", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbCreator.MySql", "LinqSharp.EFCore.Test\DbCreators\DbCreator.MySql\DbCreator.MySql.csproj", "{ABA8683F-B5CE-4AE5-BC35-7AE81C7127EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbCreator.SqlServer", "LinqSharp.EFCore.Test\DbCreators\DbCreator.SqlServer\DbCreator.SqlServer.csproj", "{00CADDF9-B8F8-43EF-92A4-542823B5F919}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF5.0", "LinqSharp.EFCore\LinqSharp.EFCore - EF5.0\LinqSharp.EFCore - EF5.0.csproj", "{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqSharp.EFCore - EF2.1", "LinqSharp.EFCore\LinqSharp.EFCore - EF2.1\LinqSharp.EFCore - EF2.1.csproj", "{92E992F1-D231-4F26-9835-57050ECE9A69}"
@@ -97,10 +95,6 @@ Global
 		{ABA8683F-B5CE-4AE5-BC35-7AE81C7127EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABA8683F-B5CE-4AE5-BC35-7AE81C7127EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABA8683F-B5CE-4AE5-BC35-7AE81C7127EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00CADDF9-B8F8-43EF-92A4-542823B5F919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00CADDF9-B8F8-43EF-92A4-542823B5F919}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00CADDF9-B8F8-43EF-92A4-542823B5F919}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00CADDF9-B8F8-43EF-92A4-542823B5F919}.Release|Any CPU.Build.0 = Release|Any CPU
 		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -169,7 +163,6 @@ Global
 		{2DA2AA16-9266-48CE-8EDE-088BBF83A70C} = {6519DE43-5391-45BE-9436-5366955616B1}
 		{DBE972EB-A93A-4242-A5F3-5432BFC4A315} = {948432EF-A459-4666-9B44-A80523C2B255}
 		{ABA8683F-B5CE-4AE5-BC35-7AE81C7127EE} = {2DA2AA16-9266-48CE-8EDE-088BBF83A70C}
-		{00CADDF9-B8F8-43EF-92A4-542823B5F919} = {2DA2AA16-9266-48CE-8EDE-088BBF83A70C}
 		{67630EAA-89D2-4771-8B6E-E9A2B05E14B2} = {948432EF-A459-4666-9B44-A80523C2B255}
 		{92E992F1-D231-4F26-9835-57050ECE9A69} = {948432EF-A459-4666-9B44-A80523C2B255}
 		{DAE82F55-3477-46A4-881F-3230D975B113} = {6519DE43-5391-45BE-9436-5366955616B1}
@@ -196,7 +189,6 @@ Global
 		SolutionGuid = {AE8FFA56-A385-4D18-8E81-93227E276884}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		LinqSharp.EFCore.Test\DbCreators\DbCreator\DbCreator.projitems*{00caddf9-b8f8-43ef-92a4-542823b5f919}*SharedItemsImports = 5
 		LinqSharp.EFCore.SqlServer\LinqSharp.EFCore.SqlServer.Shared\LinqSharp.EFCore.SqlServer.Shared.projitems*{0b855805-fb29-444e-a0b4-fa472b7bf748}*SharedItemsImports = 5
 		LinqSharp.EFCore.Test\LinqSharp.EFCore.Test.Shared\LinqSharp.EFCore.Test.Shared.projitems*{0b9e78ed-ec9e-4ed2-be97-5cf09b0b429d}*SharedItemsImports = 13
 		LinqSharp.EFCore\LinqSharp.EFCore.Shared\LinqSharp.EFCore.Shared.projitems*{0c7ef0b9-dbdc-4bc0-9ceb-b5099ad175a5}*SharedItemsImports = 5

@@ -61,8 +61,6 @@ LIMIT 2;
         var sql = query.ToQueryString();
 
         var results = query.ToArray();
-
-        string expectedSql;
     }
 
 }
