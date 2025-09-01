@@ -10,11 +10,19 @@ namespace LinqSharp;
 
 public static partial class IQueryableExtensions
 {
+    public static IQueryable<T> Search<T>(this IQueryable<T> @this, string search, Expression<Func<T, SearchSelector>> selector)
+    {
+        return Search(@this, SearchMode.Default, [search], selector);
+    }
+    public static IQueryable<TEntity> Search<TEntity>(this IQueryable<TEntity> @this, string[] searches, Expression<Func<TEntity, SearchSelector>> selector)
+    {
+        return @this.Filter(new SearchFilter<TEntity>(SearchMode.Default, searches, selector));
+    }
+
     public static IQueryable<T> Search<T>(this IQueryable<T> @this, SearchMode mode, string search, Expression<Func<T, SearchSelector>> selector)
     {
         return Search(@this, mode, [search], selector);
     }
-
     public static IQueryable<TEntity> Search<TEntity>(this IQueryable<TEntity> @this, SearchMode mode, string[] searches, Expression<Func<TEntity, SearchSelector>> selector)
     {
         return @this.Filter(new SearchFilter<TEntity>(mode, searches, selector));

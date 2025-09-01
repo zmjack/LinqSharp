@@ -4,7 +4,7 @@
     <TargetFrameworks>
       net5.0;net6.0;net7.0
     </TargetFrameworks>
-    <LangVersion>preview</LangVersion>
+		<LangVersion>13.0</LangVersion>
     <PackageId>LinqSharp.EFCore.MySql</PackageId>
     <Authors>zmjack</Authors>
     <Product>LinqSharp.EFCore.MySql</Product>

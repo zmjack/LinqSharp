@@ -5,8 +5,8 @@
 			net5.0;net6.0;net7.0;net8.0;
 			netstandard2.0;netstandard2.1
 		</TargetFrameworks>
-		<LangVersion>preview</LangVersion>
-		<Version>0.8.22</Version>
+		<LangVersion>13.0</LangVersion>
+		<Version>0.8.23</Version>
 		<Authors>zmjack</Authors>
 		<Company>linqsharp.net</Company>
 		<Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>

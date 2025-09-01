@@ -20,7 +20,7 @@
 		<Copyright>©2020 linqsharp.net</Copyright>
 		<PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
 		<PackageIconUrl></PackageIconUrl>
-		<Version>0.80.22</Version>
+		<Version>0.80.23</Version>
 		<PackageLicenseUrl></PackageLicenseUrl>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageType>DotnetCliTool</PackageType>
@@ -30,7 +30,7 @@
 		<RootNamespace>LinqSharp.Cli</RootNamespace>
 		<RepositoryUrl>https://github.com/zmjack/LinqSharp</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<LangVersion>preview</LangVersion>
+		<LangVersion>13.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 

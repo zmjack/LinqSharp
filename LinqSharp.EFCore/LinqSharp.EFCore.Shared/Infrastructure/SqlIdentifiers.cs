@@ -39,7 +39,8 @@ public readonly struct SqlIdentifiers
             case ProviderName.Unknown: break;
 
             default: throw new InvalidOperationException($"unsupported provider ({name}).");
-        };
+        }
+        ;
     }
 
     public string QuoteName(string content) => $"{LeftChar}{content}{RightChar}";

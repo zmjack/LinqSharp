@@ -5,8 +5,8 @@
 			net6.0
 		</TargetFrameworks>
 		<AssemblyName>LinqSharp.EFCore</AssemblyName>
-		<Version>7.0.8022</Version>
-		<LangVersion>preview</LangVersion>
+		<Version>7.0.8023</Version>
+		<LangVersion>13.0</LangVersion>
 		<Authors>zmjack</Authors>
 		<Company>linqsharp.net</Company>
 		<Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>

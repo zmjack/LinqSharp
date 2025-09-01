@@ -4,7 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<AssemblyName>LinqSharp.EFCore.Test</AssemblyName>
-		<LangVersion>preview</LangVersion>
+		<LangVersion>13.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 

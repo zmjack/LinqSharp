@@ -2,11 +2,18 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>
-			net6.0;net7.0;net8.0;
-			netstandard2.0;netstandard2.1
+			net8.0;net7.0;net6.0;
+			netstandard2.1;netstandard2.0
 		</TargetFrameworks>
-		<LangVersion>preview</LangVersion>
-		<Version>8.0.22</Version>
+		<LangVersion Condition="'$(TargetFramework)'=='net8.0'">13.0</LangVersion>
+		<LangVersion Condition="'$(TargetFramework)'=='net7.0'">13.0</LangVersion>
+		<LangVersion Condition="'$(TargetFramework)'=='net6.0'">13.0</LangVersion>
+		<LangVersion Condition="'$(TargetFramework)'=='netstandard2.1'">13.0</LangVersion>
+		<LangVersion Condition="'$(TargetFramework)'=='netstandard2.0'">13.0</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Version>8.0.23</Version>
 		<Authors>zmjack</Authors>
 		<Company>linqsharp.net</Company>
 		<Description>LinqSharp is a smarter linq extension. It allows you to write simpler code to generate complex queries.</Description>

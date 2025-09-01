@@ -10,11 +10,19 @@ namespace LinqSharp;
 
 public static partial class IEnumerableExtensions
 {
+    public static IEnumerable<TEntity> Search<TEntity>(this IEnumerable<TEntity> @this, string search, Expression<Func<TEntity, SearchSelector>> selector)
+    {
+        return @this.Filter(new SearchFilter<TEntity>(SearchMode.Default, [search], selector));
+    }
+    public static IEnumerable<TEntity> Search<TEntity>(this IEnumerable<TEntity> @this, string[] searches, Expression<Func<TEntity, SearchSelector>> selector)
+    {
+        return @this.Filter(new SearchFilter<TEntity>(SearchMode.Default, searches, selector));
+    }
+
     public static IEnumerable<TEntity> Search<TEntity>(this IEnumerable<TEntity> @this, SearchMode mode, string search, Expression<Func<TEntity, SearchSelector>> selector)
     {
         return @this.Filter(new SearchFilter<TEntity>(mode, [search], selector));
     }
-
     public static IEnumerable<TEntity> Search<TEntity>(this IEnumerable<TEntity> @this, SearchMode mode, string[] searches, Expression<Func<TEntity, SearchSelector>> selector)
     {
         return @this.Filter(new SearchFilter<TEntity>(mode, searches, selector));
