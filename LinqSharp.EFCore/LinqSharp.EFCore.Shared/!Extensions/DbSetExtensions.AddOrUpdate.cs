@@ -134,41 +134,45 @@ public static partial class DbSetExtensions
     public static void AddOrUpdateRange<TEntity>(this DbSet<TEntity> @this, Expression<Func<TEntity, object>> keys, TEntity[] entities, Action<UpdateOptions<TEntity>>? initOptions)
         where TEntity : class
     {
-        if (!entities.Any()) return;
+        if (entities.Length == 0) return;
 
+        var propNames = PropertyExplorer.GetNames(keys);
         var options = new UpdateOptions<TEntity>();
         initOptions?.Invoke(options);
 
-        var propNames = PropertyExplorer.GetNames(keys);
-        var predicateBuilder = GetAddOrUpdateLambda<TEntity>(propNames).Compile();
-
-        Expression<Func<TEntity, bool>> predicate;
+        var recordlist = new List<TEntity>();
         if (options.Predicate is null)
         {
-            var parts = entities.Select(x => new
+            foreach (var chunk in entities.Chunk(LinqSharpEF.UpdateRangeChunk))
             {
-                Entity = x,
-                Predicate = GetAbsoluteAddOrUpdateLambda(propNames, x),
-            }).ToArray();
-            var lambdas = parts.Select(x => x.Predicate!).ToArray();
-            predicate = lambdas.LambdaJoin(Expression.OrElse)!;
+                var parts = chunk.Select(x => new
+                {
+                    Entity = x,
+                    Predicate = GetAbsoluteAddOrUpdateLambda(propNames, x),
+                }).ToArray();
+                var lambdas = parts.Select(x => x.Predicate!).ToArray();
+                var predicate = lambdas.LambdaJoin(Expression.OrElse)!;
+                recordlist.AddRange(@this.Where(predicate));
+            }
         }
-        else predicate = options.Predicate;
+        else
+        {
+            recordlist.AddRange(@this.Where(options.Predicate));
+        }
 
+        var predicateBuilder = GetAddOrUpdateLambda<TEntity>(propNames).Compile();
         var update = options.Update;
-        var recordlist = @this.Where(predicate).ToList();
         foreach (ref var entity in entities.AsSpan())
         {
             var _entity = entity;
             var record = recordlist.SingleOrDefault(x => predicateBuilder(x, _entity));
-            if (record is null) @this.Add(entity);
-            else
+            if (record is not null)
             {
                 update?.Invoke(record, entity);
                 entity = record;
                 recordlist.Remove(record);
             }
+            else @this.Add(entity);
         }
     }
-
 }

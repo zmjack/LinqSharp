@@ -53,10 +53,24 @@ public class AutoTests
         using (var context = ApplicationDbContext.UseMySql())
         {
             context.CurrentUser = "User B";
+
+            var model = context.AutoModels.Find(id);
+            model.CreatedBy = "User B";
+            context.SaveChanges();
+
+            Assert.True(model.LastWriteTime > model.CreationTime);
+            Assert.Equal("User A", model.CreatedBy);
+            Assert.Equal("User B", model.UpdatedBy);
+        }
+        Thread.Sleep(10);
+
+        using (var context = ApplicationDbContext.UseMySql())
+        {
+            context.CurrentUser = "User B";
             var model = new AutoModel
             {
                 Id = id,
-                Trim = "   127.0.0.1 ",
+                Trim = "   127.0.0.2 ",
                 Lower = "LinqSharp",
                 Upper = "LinqSharp",
                 Condensed = "  Welcome to  use   LinqSharp  ",
@@ -64,6 +78,8 @@ public class AutoTests
             };
             context.AutoModels.Update(model);
             context.SaveChanges();
+            context.Entry(model).Reload();
+
             Assert.True(model.LastWriteTime > model.CreationTime);
             Assert.Equal("User A", model.CreatedBy);
             Assert.Equal("User B", model.UpdatedBy);
@@ -131,6 +147,7 @@ public class AutoTests
 
                 context.AutoModels.Update(model);
                 context.SaveChanges();
+                context.Entry(model).Reload();
 
                 Assert.Equal(time.StartOfSecond(), model.LastWriteTime.StartOfSecond());
 

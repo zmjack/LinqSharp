@@ -31,7 +31,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.LS_Name", b =>
@@ -56,7 +56,7 @@ namespace DbCreator.Migrations
                     b.HasIndex("Name", "CreationTime")
                         .IsUnique();
 
-                    b.ToTable("LS_Names");
+                    b.ToTable("LS_Names", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.RowLockModel", b =>
@@ -73,7 +73,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RowLockModels");
+                    b.ToTable("RowLockModels", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AppRegistryEntity", b =>
@@ -101,7 +101,7 @@ namespace DbCreator.Migrations
                     b.HasIndex("Item", "Key")
                         .IsUnique();
 
-                    b.ToTable("AppRegistries");
+                    b.ToTable("AppRegistries", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditLevel", b =>
@@ -121,7 +121,7 @@ namespace DbCreator.Migrations
 
                     b.HasIndex("Root");
 
-                    b.ToTable("AuditLevels");
+                    b.ToTable("AuditLevels", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditRoot", b =>
@@ -144,7 +144,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuditRoots");
+                    b.ToTable("AuditRoots", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AuditValue", b =>
@@ -164,7 +164,7 @@ namespace DbCreator.Migrations
 
                     b.HasIndex("Level");
 
-                    b.ToTable("AuditValues");
+                    b.ToTable("AuditValues", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.AutoModel", b =>
@@ -214,7 +214,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AutoModels");
+                    b.ToTable("AutoModels", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.BulkTestModel", b =>
@@ -237,7 +237,7 @@ namespace DbCreator.Migrations
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.ToTable("BulkTestModels");
+                    b.ToTable("BulkTestModels", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.CPKeyModel", b =>
@@ -250,7 +250,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id1", "Id2");
 
-                    b.ToTable("CompositeKeyModels");
+                    b.ToTable("CompositeKeyModels", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.ConcurrencyModel", b =>
@@ -274,7 +274,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ConcurrencyModels");
+                    b.ToTable("ConcurrencyModels", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.EntityMonitorModel", b =>
@@ -300,7 +300,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EntityMonitorModels");
+                    b.ToTable("EntityMonitorModels", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.LS_Index", b =>
@@ -331,7 +331,7 @@ namespace DbCreator.Migrations
                     b.HasIndex("Int2_G1", "Int3_G1")
                         .IsUnique();
 
-                    b.ToTable("LS_Indices");
+                    b.ToTable("LS_Indices", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.LS_Provider", b =>
@@ -358,7 +358,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LS_Providers");
+                    b.ToTable("LS_Providers", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleModel", b =>
@@ -381,7 +381,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SimpleModels");
+                    b.ToTable("SimpleModels", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleRow", b =>
@@ -392,7 +392,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SimpleRows");
+                    b.ToTable("SimpleRows", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.ZipperModel", b =>
@@ -416,7 +416,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ZipperModels");
+                    b.ToTable("ZipperModels", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.YearMonthModel", b =>
@@ -439,7 +439,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("YearMonthModels");
+                    b.ToTable("YearMonthModels", (string)null);
                 });
 
             modelBuilder.Entity("LinqSharp.EFCore.Test.FacadeModel", b =>
@@ -454,7 +454,7 @@ namespace DbCreator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FacadeModels");
+                    b.ToTable("FacadeModels", (string)null);
                 });
 
             modelBuilder.Entity("Northwnd.Data.Category", b =>
@@ -901,7 +901,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Client", b =>
                 {
-                    b.OwnsOne("LinqSharp.EFCore.Data.Address", "Address", b1 =>
+                    b.OwnsOne("LinqSharp.EFCore.Data.Client.Address#LinqSharp.EFCore.Data.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("ClientId")
                                 .HasColumnType("char(36)");
@@ -916,7 +916,7 @@ namespace DbCreator.Migrations
 
                             b1.HasKey("ClientId");
 
-                            b1.ToTable("Clients");
+                            b1.ToTable("Clients", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ClientId");
@@ -949,7 +949,7 @@ namespace DbCreator.Migrations
 
             modelBuilder.Entity("LinqSharp.EFCore.Data.Test.SimpleRow", b =>
                 {
-                    b.OwnsOne("LinqSharp.EFCore.Data.Test.SimpleRowItemGroup", "Group", b1 =>
+                    b.OwnsOne("LinqSharp.EFCore.Data.Test.SimpleRow.Group#LinqSharp.EFCore.Data.Test.SimpleRowItemGroup", "Group", b1 =>
                         {
                             b1.Property<Guid>("SimpleRowId")
                                 .HasColumnType("char(36)");
@@ -963,7 +963,7 @@ namespace DbCreator.Migrations
 
                             b1.HasKey("SimpleRowId");
 
-                            b1.ToTable("SimpleRows");
+                            b1.ToTable("SimpleRows", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("SimpleRowId");

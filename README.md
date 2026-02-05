@@ -61,6 +61,13 @@ dotnet add package LinqSharp.EFCore
 
 ## Recent
 
+### Version 8.0.30
+
+- Updated the algorithm logic for **AddOrUpdateRange**.
+- Updated the algorithm logic for **LinqSharpEF.IntelliTrack**, fixing potential performance issues. 
+  - Now, when using the **[Entities].Update(entity)** method, **IntelliTrack** will not automatically synchronize with the latest values in the database. 
+  - If needed, please manually call **context.Entry(entity).Reload()** to synchronize the entity.
+
 ### Version 8.0.23
 
 - Add a new extension method for **Search**.

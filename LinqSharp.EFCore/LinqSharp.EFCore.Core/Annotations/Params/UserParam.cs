@@ -5,7 +5,7 @@
 
 namespace LinqSharp.EFCore.Annotations.Params;
 
-public sealed class UserParam : IAutoParam
+public struct UserParam : IAutoParam
 {
     public string? CurrentUser { get; set; }
 }

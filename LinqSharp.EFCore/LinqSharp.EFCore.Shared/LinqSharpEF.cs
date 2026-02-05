@@ -32,6 +32,8 @@ namespace LinqSharp.EFCore;
 
 public static partial class LinqSharpEF
 {
+    public static int UpdateRangeChunk { get; set; } = 1000;
+
     private static readonly MemoryCache _complexTypesCache = new(new MemoryCacheOptions());
     private static readonly MemoryCache _fieldOptionScopeCache = new(new MemoryCacheOptions());
     private static readonly MemoryCache _concurrencyResolvingCache = new(new MemoryCacheOptions());
@@ -297,27 +299,33 @@ public static partial class LinqSharpEF
         {
             entries =
             [
-                .. from x in context.ChangeTracker.Entries()
-                   where new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(x.State)
-                   select x
+                ..
+                from x in context.ChangeTracker.Entries()
+                where new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(x.State)
+                select x
             ];
 
             entriesByType =
             [
-                .. from x in entries
-                   group x by x.Entity.GetType() into g
-                   select g
+                ..
+                from x in entries
+                group x by x.Entity.GetType() into g
+                select g
             ];
 
             auditEntriesByType =
             [
-                .. from g in entriesByType
-                   where g.Key.HasAttribute<EntityAuditAttribute>()
-                   select g
+                ..
+                from g in entriesByType
+                where g.Key.HasAttribute<EntityAuditAttribute>()
+                select g
             ];
         }
 
-        var auditorCaches = new CacheSet<Type, Reflector>(auditType => () => Activator.CreateInstance(auditType).GetReflector());
+        var auditorCaches = new CacheSet<Type, Reflector>(auditType =>
+        {
+            return () => Activator.CreateInstance(auditType).GetReflector();
+        });
 
         RefreshEntries();
         foreach (var entriesOfType in entriesByType)
@@ -328,24 +336,26 @@ public static partial class LinqSharpEF
             if (properties.Any(x => x.GetCustomAttribute<RowLockAttribute>() is not null))
             {
                 var propDict = properties.ToDictionary(x => x.Name, x => x);
-
                 rowLockItems =
                 [
-                    .. from prop in properties
-                       let attr = prop.GetCustomAttribute<RowLockAttribute>()
-                       where attr is not null
-                       orderby attr.Order
-                       select new RowLockItem
-                       {
-                           Property = prop,
-                           LockedProperties = attr.Columns is not null ?
-                           [
-                               .. from column in attr.Columns select propDict[column]
-                           ] : null,
-                       }
+                    ..
+                    from prop in properties
+                    let attr = prop.GetCustomAttribute<RowLockAttribute>()
+                    where attr is not null
+                    orderby attr.Order
+                    select new RowLockItem
+                    {
+                        Property = prop,
+                        LockedProperties = attr.Columns is not null ?
+                        [
+                            .. from column in attr.Columns select propDict[column]
+                        ] : null,
+                    }
                 ];
             }
 
+            var entityProperties = entriesOfType.First().Properties.Select(x => x.Metadata.Name);
+            properties = [.. from p in properties where entityProperties.Contains(p.Name) select p];
             foreach (var entry in entriesOfType)
             {
                 if (rowLockItems is not null)
@@ -353,7 +363,12 @@ public static partial class LinqSharpEF
                     ResolveRowLock(context, entry, rowLockItems);
                 }
 
-                ResolveAutoAttributes(context, entry, properties);
+                var timestampParam = new TimestampParam
+                {
+                    Now = DateTime.Now,
+                    NowOffset = DateTimeOffset.Now,
+                };
+                ResolveAutoAttributes(context, entry, properties, timestampParam);
             }
         }
 
@@ -623,17 +638,15 @@ public static partial class LinqSharpEF
         }
     }
 
-    private static void ResolveAutoAttributes(DbContext context, EntityEntry entry, PropertyInfo[] properties)
+    private static void ResolveAutoAttributes(DbContext context, EntityEntry entry, PropertyInfo[] properties, TimestampParam timestampParam)
     {
-        if (!new[] { EntityState.Added, EntityState.Modified, EntityState.Deleted }.Contains(entry.State)) return;
-
-        var timestampParam = new TimestampParam
+        if (!new[]
         {
-            Now = DateTime.Now,
-            NowOffset = DateTimeOffset.Now,
-        };
+            EntityState.Added,
+            EntityState.Modified,
+            EntityState.Deleted
+        }.Contains(entry.State)) return;
 
-        var userTrace = context as IUserTraceable;
         var userTraceOption = new Lazy<AutoMode>(() =>
         {
             return GetFieldMode(context, typeof(UserTraceScope<>), nameof(UserTraceScope<DbContext>));
@@ -643,15 +656,15 @@ public static partial class LinqSharpEF
             return GetFieldMode(context, typeof(TimestampScope<>), nameof(TimestampScope<DbContext>));
         });
 
-        var originValues = entry.GetDatabaseValues();
+        var restoreList = new List<PropertyEntry>();
         foreach (var prop in properties)
         {
             var propertyType = prop.PropertyType;
             var currentValue = prop.GetValue(entry.Entity);
-            var attrs = prop.GetCustomAttributes<AutoAttribute>();
-            var finalValue = currentValue;
+            var attributes = prop.GetCustomAttributes<AutoAttribute>();
+            var entryProperty = entry.Property(prop.Name);
 
-            foreach (var attr in attrs)
+            foreach (var attr in attributes)
             {
                 if (attr is ISpecialAutoAttribute)
                 {
@@ -659,28 +672,27 @@ public static partial class LinqSharpEF
                     {
                         if (entry.State == EntityState.Modified)
                         {
-                            finalValue = originValues?[prop.Name] ?? default;
+                            restoreList.Add(entryProperty);
                         }
                         continue;
                     }
 
                     AutoMode mode;
-                    if (attr is SpecialAutoAttribute<TimestampParam> attr_now)
+                    if (attr is SpecialAutoAttribute<TimestampParam> attr_timestamp)
                     {
                         mode = timestampOption.Value;
                         if (mode == AutoMode.Auto)
                         {
-                            finalValue = attr_now.Format(entry.Entity, propertyType, timestampParam);
+                            entryProperty.CurrentValue = attr_timestamp.Format(entry.Entity, propertyType, timestampParam);
                         }
                     }
                     else if (attr is SpecialAutoAttribute<UserParam> attr_user)
                     {
-                        if (userTrace is null) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
-
+                        if (context is not IUserTraceable userTrace) throw new InvalidOperationException($"The context needs to implement {nameof(IUserTraceable)}.");
                         mode = userTraceOption.Value;
                         if (mode == AutoMode.Auto)
                         {
-                            finalValue = attr_user.Format(entry.Entity, propertyType, new UserParam
+                            entryProperty.CurrentValue = attr_user.Format(entry.Entity, propertyType, new UserParam
                             {
                                 CurrentUser = userTrace.CurrentUser,
                             });
@@ -688,30 +700,21 @@ public static partial class LinqSharpEF
                     }
                     else throw new NotImplementedException($"{attr.GetType()} is not processed.");
 
-                    if (mode == AutoMode.Auto) { }
-                    else if (mode == AutoMode.Suppress)
+                    if (mode == AutoMode.Suppress)
                     {
-                        finalValue = originValues?[prop.Name] ?? default;
+                        restoreList.Add(entryProperty);
                     }
-                    else if (mode == AutoMode.Free)
-                    {
-                        finalValue = currentValue;
-                    }
-                    else throw new NotImplementedException($"The option is not supported. ({mode}).");
                 }
                 else
                 {
                     if (!attr.States.Contains((AutoState)entry.State)) continue;
-
-                    finalValue = attr.Format(entry.Entity, propertyType, currentValue);
+                    entryProperty.CurrentValue = attr.Format(entry.Entity, propertyType, currentValue);
                 }
             }
-
-            if (currentValue != finalValue)
-            {
-                prop.SetValue(entry.Entity, finalValue);
-            }
+        }
+        foreach (var prop in restoreList)
+        {
+            prop.IsModified = false;
         }
     }
-
 }

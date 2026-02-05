@@ -23,7 +23,6 @@
 		<Version>0.80.23</Version>
 		<PackageLicenseUrl></PackageLicenseUrl>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageType>DotnetCliTool</PackageType>
 		<PackAsTool>true</PackAsTool>
 		<PackageIcon>LinqSharp.png</PackageIcon>
 		<NoWin32Manifest>true</NoWin32Manifest>

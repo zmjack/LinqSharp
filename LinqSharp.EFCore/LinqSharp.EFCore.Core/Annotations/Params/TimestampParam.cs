@@ -5,7 +5,7 @@
 
 namespace LinqSharp.EFCore.Annotations.Params;
 
-public sealed class TimestampParam : IAutoParam
+public struct TimestampParam : IAutoParam
 {
     public DateTime Now { get; set; }
     public DateTimeOffset NowOffset { get; set; }

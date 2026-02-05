@@ -5,7 +5,7 @@
 			net8.0
 		</TargetFrameworks>
 		<AssemblyName>LinqSharp.EFCore</AssemblyName>
-		<Version>8.0.23</Version>
+		<Version>8.0.30</Version>
 		<LangVersion>13.0</LangVersion>
 		<Authors>zmjack</Authors>
 		<Company>linqsharp.net</Company>
