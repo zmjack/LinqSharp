@@ -20,7 +20,7 @@
 		<Copyright>©2020 linqsharp.net</Copyright>
 		<PackageProjectUrl>https://github.com/zmjack/LinqSharp</PackageProjectUrl>
 		<PackageIconUrl></PackageIconUrl>
-		<Version>0.80.23</Version>
+		<Version>0.80.31</Version>
 		<PackageLicenseUrl></PackageLicenseUrl>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackAsTool>true</PackAsTool>
