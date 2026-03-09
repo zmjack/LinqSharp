@@ -1,0 +1,44 @@
+<Solution>
+  <Folder Name="/!Lagacy/">
+    <Project Path="LinqSharp.EFCore.MySql/LinqSharp.EFCore.MySql.Compatible/LinqSharp.EFCore.MySql.Compatible.csproj" />
+    <Project Path="LinqSharp.EFCore.MySql/LinqSharp.EFCore.MySql.Shared/LinqSharp.EFCore.MySql.Shared.shproj" />
+    <Project Path="LinqSharp.EFCore.MySql/LinqSharp.EFCore.MySql/LinqSharp.EFCore.MySql.csproj" />
+    <Project Path="LinqSharp.EFCore.SqlServer/LinqSharp.EFCore.SqlServer.Compatible/LinqSharp.EFCore.SqlServer.Compatible.csproj" />
+    <Project Path="LinqSharp.EFCore.SqlServer/LinqSharp.EFCore.SqlServer.Shared/LinqSharp.EFCore.SqlServer.Shared.shproj" />
+    <Project Path="LinqSharp.EFCore.SqlServer/LinqSharp.EFCore.SqlServer/LinqSharp.EFCore.SqlServer.csproj" />
+    <Project Path="LinqSharp.EFCore/LinqSharp.EFCore - EF2.1/LinqSharp.EFCore - EF2.1.csproj" />
+    <Project Path="LinqSharp.EFCore/LinqSharp.EFCore - EF3.1/LinqSharp.EFCore - EF3.1.csproj" />
+    <Project Path="LinqSharp.EFCore/LinqSharp.EFCore - EF5.0/LinqSharp.EFCore - EF5.0.csproj" />
+  </Folder>
+  <Folder Name="/EFCore/">
+    <Project Path="LinqSharp.EFCore/LinqSharp.EFCore - EF6.0/LinqSharp.EFCore - EF6.0.csproj" />
+    <Project Path="LinqSharp.EFCore/LinqSharp.EFCore - EF7.0/LinqSharp.EFCore - EF7.0.csproj" />
+    <Project Path="LinqSharp.EFCore/LinqSharp.EFCore - EF8.0/LinqSharp.EFCore - EF8.0.csproj" />
+    <Project Path="LinqSharp.EFCore/LinqSharp.EFCore.Abstractions/LinqSharp.EFCore.Abstractions.csproj" />
+    <Project Path="LinqSharp.EFCore/LinqSharp.EFCore.Core/LinqSharp.EFCore.Core.csproj" />
+    <Project Path="LinqSharp.EFCore/LinqSharp.EFCore.Shared/LinqSharp.EFCore.Shared.shproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Issues.md" />
+    <File Path="LICENSE" />
+    <File Path="push.cmd" />
+    <File Path="README.cn.md" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="LinqSharp.EFCore.Test/LinqSharp.EFCore.Test - EF6.0/LinqSharp.EFCore.Test - EF6.0.csproj" />
+    <Project Path="LinqSharp.EFCore.Test/LinqSharp.EFCore.Test - EF7.0/LinqSharp.EFCore.Test - EF7.0.csproj" />
+    <Project Path="LinqSharp.EFCore.Test/LinqSharp.EFCore.Test - EF8.0/LinqSharp.EFCore.Test - EF8.0.csproj" />
+    <Project Path="LinqSharp.EFCore.Test/LinqSharp.EFCore.Test.Data.Shared/LinqSharp.EFCore.Test.Data.Shared.shproj" />
+    <Project Path="LinqSharp.EFCore.Test/LinqSharp.EFCore.Test.Shared/LinqSharp.EFCore.Test.Shared.shproj" />
+  </Folder>
+  <Folder Name="/Tests/DbCreators/">
+    <Project Path="LinqSharp.EFCore.Test/DbCreators/DbCreator.MySql/DbCreator.MySql.csproj" />
+    <Project Path="LinqSharp.EFCore.Test/DbCreators/DbCreator.PostgreSQL/DbCreator.PostgreSQL.csproj" />
+    <Project Path="LinqSharp.EFCore.Test/DbCreators/DbCreator/DbCreator.shproj" />
+  </Folder>
+  <Project Path="dotnet-orm/dotnet-orm.csproj" />
+  <Project Path="LinqSharp.Dev.Shared/LinqSharp.Dev.Shared.shproj" />
+  <Project Path="LinqSharp/LinqSharp.csproj" />
+</Solution>
