@@ -1,11 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>
-			net6.0
-		</TargetFrameworks>
+		<TargetFrameworks>net6.0</TargetFrameworks>
 		<AssemblyName>LinqSharp.EFCore</AssemblyName>
-		<Version>6.0.8031</Version>
+		<Version>6.0.8031.1</Version>
 		<LangVersion>13.0</LangVersion>
 		<Authors>zmjack</Authors>
 		<Company>linqsharp.net</Company>

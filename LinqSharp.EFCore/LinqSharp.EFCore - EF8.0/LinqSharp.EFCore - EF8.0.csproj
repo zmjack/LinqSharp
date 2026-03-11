@@ -1,11 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>
-			net8.0
-		</TargetFrameworks>
+		<TargetFrameworks>net8.0</TargetFrameworks>
 		<AssemblyName>LinqSharp.EFCore</AssemblyName>
-		<Version>8.0.31</Version>
+		<Version>8.0.31.1</Version>
 		<LangVersion>13.0</LangVersion>
 		<Authors>zmjack</Authors>
 		<Company>linqsharp.net</Company>

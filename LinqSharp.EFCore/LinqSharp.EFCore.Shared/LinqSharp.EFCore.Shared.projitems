@@ -13,6 +13,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Agent\KeyValueAgentProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Agent\ZipperAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AuditPredictor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\DateTimeUtcConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\DateTimeOffsetUtcConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Design\IZipperEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scopes\IAutoModeScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scopes\UserTraceScope.cs" />
