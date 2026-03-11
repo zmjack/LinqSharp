@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net8.0</TargetFrameworks>
 		<AssemblyName>LinqSharp.EFCore</AssemblyName>
-		<Version>8.0.31.1</Version>
+		<Version>8.0.31.2</Version>
 		<LangVersion>13.0</LangVersion>
 		<Authors>zmjack</Authors>
 		<Company>linqsharp.net</Company>
