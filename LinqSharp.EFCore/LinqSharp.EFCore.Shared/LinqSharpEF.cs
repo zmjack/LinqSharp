@@ -385,7 +385,9 @@ public static partial class LinqSharpEF
                 audits.SetValue(EntityAudit.Parse(value), index);
             }
 
-            auditorCaches[attr.EntityAuditorType].Value.DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.BeforeAudit)).Call(context, audits);
+            auditorCaches[attr.EntityAuditorType].Value!
+                .DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.BeforeAudit))
+                .Call(context, audits);
         }
 
         // Resolve OnAuditing
@@ -402,7 +404,9 @@ public static partial class LinqSharpEF
                 audits.SetValue(EntityAudit.Parse(value), index);
             }
 
-            auditorCaches[attr.EntityAuditorType].Value.DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.OnAuditing)).Call(context, audits);
+            auditorCaches[attr.EntityAuditorType].Value!
+                .DeclaredMethod(nameof(IEntityAuditor<DbContext, object>.OnAuditing))
+                .Call(context, audits);
         }
 
         // Resolve OnAudited

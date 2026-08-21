@@ -8,11 +8,13 @@ namespace LinqSharp.EFCore.Design;
 /// <summary>
 /// Use <see cref="IEntity"/> to define entity classes to get some useful extension methods.
 /// </summary>
+[Obsolete("Use IAcceptable instead.")]
 public interface IEntity { }
 
 /// <summary>
 /// Use <see cref="IEntity"/> to define entity classes to get some useful extension methods.
 /// </summary>
-public interface IEntity<TSelf> : IEntity where TSelf : class, IEntity<TSelf>, new()
+[Obsolete("Use IAcceptable instead.")]
+public interface IEntity<TSelf> : IEntity where TSelf : class, IEntity<TSelf>
 {
 }

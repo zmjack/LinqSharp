@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LinqSharp.EFCore.Data;
 
-public class LS_Name : IEntity
+public class LS_Name : IAcceptable
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }

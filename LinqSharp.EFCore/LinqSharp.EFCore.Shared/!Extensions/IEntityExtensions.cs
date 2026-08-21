@@ -15,6 +15,7 @@ using System.Reflection;
 namespace LinqSharp.EFCore;
 
 [EditorBrowsable(EditorBrowsableState.Never)]
+[Obsolete("Deprecated and scheduled for removal.")]
 public static class IEntityExtensions
 {
     private static readonly Type AutoAttributeType = typeof(AutoAttribute);
@@ -101,7 +102,9 @@ public static class IEntityExtensions
         return InnerAccept(@this, model, properties);
     }
 
+    [Obsolete("Deprecated and scheduled for removal.")]
     public static void SetValue(this IEntity @this, string propName, object value) => @this.GetType().GetProperty(propName)!.SetValue(@this, value);
+    [Obsolete("Deprecated and scheduled for removal.")]
     public static object? GetValue(this IEntity @this, string propName) => @this.GetType().GetProperty(propName)!.GetValue(@this);
 
     public static Dictionary<string, string?> ToDisplayDictionary(this IEntity @this)
@@ -115,7 +118,6 @@ public static class IEntityExtensions
             var parameter = Expression.Parameter(type);
             var property = Expression.Property(parameter, prop.Name);
             var lambda = Expression.Lambda(property, parameter);
-
             dict.Add(prop.Name, DataAnnotation.GetDisplay(@this, lambda));
         }
 

@@ -6,7 +6,7 @@ namespace LinqSharp.EFCore.Test;
 
 public class IEntityTests
 {
-    public class Entity : IEntity
+    public class Entity : IAcceptable
     {
         public string String { get; set; }
         public int Int { get; set; }
@@ -26,7 +26,7 @@ public class IEntityTests
         Assert.Equal(0, c.Int);
     }
 
-    public class MyEntity : IEntity<MyEntity>
+    public class MyEntity : IAcceptable
     {
         public string Class { get; set; }
         public string Name { get; set; }
@@ -56,18 +56,4 @@ public class IEntityTests
         Assert.NotEqual(entity2.Name, entity1.Name);
         Assert.Null(entity2.RegisterDate);
     }
-
-    [Fact]
-    public void Test3()
-    {
-        var entity1 = new MyEntity
-        {
-            Class = "123",
-            Name = "aaa",
-        };
-
-        var dict = entity1.ToDisplayDictionary(nameof(MyEntity.Name));
-        Assert.Equal("aaa", dict[nameof(MyEntity.Name)]);
-    }
-
 }
