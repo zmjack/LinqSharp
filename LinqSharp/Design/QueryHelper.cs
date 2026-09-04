@@ -106,6 +106,18 @@ public partial class QueryHelper<TSource>
         return new Property<TSource>(PropertyParameter, _exp);
     }
 
+    public QueryExpression<TSource> Search(string search, Expression<Func<TSource, SearchSelector>> selector)
+    {
+        var filter = new SearchFilter<TSource>(SearchMode.Default, [search], selector);
+        return filter.Filter(this);
+    }
+
+    public QueryExpression<TSource> Search(string[] searches, Expression<Func<TSource, SearchSelector>> selector)
+    {
+        var filter = new SearchFilter<TSource>(SearchMode.Default, searches, selector);
+        return filter.Filter(this);
+    }
+
     public QueryExpression<TSource> Search(SearchMode mode, string search, Expression<Func<TSource, SearchSelector>> selector)
     {
         var filter = new SearchFilter<TSource>(mode, [search], selector);

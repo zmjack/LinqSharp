@@ -32,8 +32,7 @@ public static class EntityAudit
     }
 }
 
-public class EntityAudit<TEntity>
-    where TEntity : class, new()
+public class EntityAudit<TEntity> where TEntity : class
 {
     public EntityState State { get; set; }
     public TEntity? Origin { get; set; }

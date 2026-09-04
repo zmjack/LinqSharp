@@ -138,32 +138,6 @@ public static class IEntityExtensions
         return dict;
     }
 
-#pragma warning disable IDE0060 // Remove unused parameter
-    public static string? DisplayName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
-        where TEntity : class, IEntity<TEntity>, new()
-    {
-        return DataAnnotation.GetDisplayName(expression);
-    }
-
-    public static string? DisplayName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
-        where TEntity : class, IEntity<TEntity>, new()
-    {
-        return DataAnnotation.GetDisplayName(expression);
-    }
-
-    public static string? DisplayShortName<TEntity, TRet>(this IEnumerable<IEntity<TEntity>> @this, Expression<Func<TEntity, TRet>> expression)
-        where TEntity : class, IEntity<TEntity>, new()
-    {
-        return DataAnnotation.GetDisplayShortName(expression);
-    }
-
-    public static string? DisplayShortName<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression)
-        where TEntity : class, IEntity<TEntity>, new()
-    {
-        return DataAnnotation.GetDisplayShortName(expression);
-    }
-#pragma warning restore IDE0060 // Remove unused parameter
-
     public static string? Display<TEntity, TRet>(this IEntity<TEntity> @this, Expression<Func<TEntity, TRet>> expression, string defaultReturn = "")
         where TEntity : class, IEntity<TEntity>, new()
     {

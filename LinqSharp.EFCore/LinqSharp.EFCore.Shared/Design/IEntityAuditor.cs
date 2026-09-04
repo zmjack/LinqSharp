@@ -9,7 +9,7 @@ namespace LinqSharp.EFCore.Design;
 
 public interface IEntityAuditor<TDbContext, TEntity>
     where TDbContext : DbContext
-    where TEntity : class, new()
+    where TEntity : class
 {
     void BeforeAudit(TDbContext context, EntityAudit<TEntity>[] audits);
     void OnAuditing(TDbContext context, EntityAudit<TEntity>[] audits);

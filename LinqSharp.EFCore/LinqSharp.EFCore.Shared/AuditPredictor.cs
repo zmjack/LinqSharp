@@ -14,7 +14,7 @@ public class AuditPredictor
     private List<object> List { get; } = new List<object>();
     internal void Add(object auditUnit) => List.Add(auditUnit);
 
-    public IEnumerable<EntityAudit<TEntity>> Pick<TEntity>() where TEntity : class, new()
+    public IEnumerable<EntityAudit<TEntity>> Pick<TEntity>() where TEntity : class
     {
         return List.OfType<EntityAudit<TEntity>>();
     }
